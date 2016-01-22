@@ -1,0 +1,14 @@
+{
+  "name": "iqms",
+  "version": "0.0.0",
+  "descritption": "interview question management system",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jackmeagher/iqms"
+  },
+  "license" : "UNLICENSED",
+  "dependencies": {
+    "express": "^4.13.4",
+    "use-strict": "^1.0.1"
+  }
+}
