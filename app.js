@@ -10,19 +10,20 @@ let fun = function(argument, callback) {
     callback(err, argument);
 };
 
-var helloworld = function(req, res) {
-
-    fun("Hello, world!", (err, arg) => {
-        if (err) {
-            console.error("Error occurred!", err);
-            res.json({success: false, error: err});
-            return;
+var hw_resource = new Resource('hello_world', '/',
+    {
+        get : (req, res) => {
+            fun("Hello, world!", (err, arg) => {
+                if (err) {
+                    console.error("Error occurred!", err);
+                    res.json({success: false, error: err});
+                    return;
+                }
+                res.json({success: true, msg: arg});
+            });
         }
-        res.json({success: true, msg: arg});
     });
-};
 
-var hw_resource = new Resource('hello_world', {get : helloworld});
 hw_resource.register(app, '');
 
 module.exports = app;
