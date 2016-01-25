@@ -11,6 +11,7 @@ let fun = function(argument, callback) {
 };
 
 var helloworld = function(req, res) {
+
     fun("Hello, world!", (err, arg) => {
         if (err) {
             console.error("Error occurred!", err);
@@ -21,7 +22,7 @@ var helloworld = function(req, res) {
     });
 };
 
-var hw_resource = new Resource('hello_world', app, '/', helloworld);
-hw_resource.register();
+var hw_resource = new Resource('hello_world', {get : helloworld});
+hw_resource.register(app, '');
 
 module.exports = app;
