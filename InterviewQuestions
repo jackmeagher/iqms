@@ -6,3 +6,7 @@ DESCRIPTION:
   gap between graphical design and technical implementation, taking an active role on both sides and 
   defining how the application looks as well as how it works.
 EXAMPLE QUESTIONS:
+  QUESTION 1:
+    Have you worked with javascript libraries? 
+    FOLLOW-UP: Which, and why those over others?
+    FAVORABLE RESPONSES: Bootstrap, Angular, Ember, React, Backbone, JQuery
