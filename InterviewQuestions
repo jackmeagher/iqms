@@ -10,3 +10,13 @@ EXAMPLE QUESTIONS:
     Have you worked with javascript libraries? 
     FOLLOW-UP: Which, and why those over others?
     FAVORABLE RESPONSES: Bootstrap, Angular, Ember, React, Backbone, JQuery
+  QUESTION 2:
+    Explain the difference between the JavaScript call and apply functions.
+    ANSWER: 
+      Apply lets you invoke the function with arguments as an array. 
+      Call requires the parameters be listed explicitly.
+  QUESTION 3:
+    Identify two ways in which you can clear a floated element with HTML/CSS.
+    ANSWER:
+      Method 1: Use a "clearer" div
+      Method 2: Alsett Clearing Method (better bc adds nothing to HTML)
