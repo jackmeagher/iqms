@@ -13,7 +13,7 @@ let fun = function(argument, callback) {
 var hw_resource = new Resource('hello_world', '/',
     {
         get : (req, res) => {
-            fun("Hello, world!", (err, arg) => {
+            fun("Goodbye, world!", (err, arg) => {
                 if (err) {
                     console.error("Error occurred!", err);
                     res.json({success: false, error: err});
