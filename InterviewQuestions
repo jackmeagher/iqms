@@ -1,22 +1,30 @@
 JOB: Front-End Application Developer
-EXPERIENCE LEVEL: Entry/Associate
 DESCRIPTION:
   Responsibilities include translation of UI/UX design wireframes to actual code that 
   will produce visual elements of the application. You will work with the UI/UX designer and bridge the 
   gap between graphical design and technical implementation, taking an active role on both sides and 
   defining how the application looks as well as how it works.
 EXAMPLE QUESTIONS:
-  QUESTION 1:
+  QUESTION 1 (Easy):
     Have you worked with javascript libraries? 
     FOLLOW-UP: Which, and why those over others?
     FAVORABLE RESPONSES: Bootstrap, Angular, Ember, React, Backbone, JQuery
-  QUESTION 2:
+  QUESTION 2 (Easy):
     Explain the difference between the JavaScript call and apply functions.
     ANSWER: 
       Apply lets you invoke the function with arguments as an array. 
       Call requires the parameters be listed explicitly.
-  QUESTION 3:
+  QUESTION 3 (Easy-Intermediate):
     Identify two ways in which you can clear a floated element with HTML/CSS.
     ANSWER:
       Method 1: Use a "clearer" div
       Method 2: Alsett Clearing Method (better bc adds nothing to HTML)
+  QUESTION 4 (Intermediate):
+    What is the difference between event bubbling and event capture?
+    ANSWER:
+      Event bubbling and capturing are two ways of event propagation in the HTML DOM API, when an event occurs in an 
+      element inside another element, and both elements have registered a handle for that event. 
+      The event propagation mode determines in which order the elements receive the event.
+      With bubbling, the event is first captured and handled by the innermost element and then propagated to outer elements.
+      With capturing, the event is first captured by the outermost element and propagated to the inner elements.
+    
