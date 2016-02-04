@@ -14,12 +14,19 @@ EXAMPLE QUESTIONS:
     ANSWER: 
       Apply lets you invoke the function with arguments as an array. 
       Call requires the parameters be listed explicitly.
-  QUESTION 3 (Easy-Intermediate):
+  QUESTION 3 (EASY):
+    Define the term 'closure' and give an example of it in JavaScript.
+    ANSWER: 
+      A closure is the local variables for a function - kept alive after the function has returned.
+      OR
+      A closure is a stack-frame which is not deallocated when the function returns 
+      (as if a 'stack-frame' were malloc'ed instead of being on the stack).
+  QUESTION 4 (Easy-Intermediate):
     Identify two ways in which you can clear a floated element with HTML/CSS.
     ANSWER:
       Method 1: Use a "clearer" div
       Method 2: Alsett Clearing Method (better bc adds nothing to HTML)
-  QUESTION 4 (Intermediate):
+  QUESTION 5 (Intermediate):
     What is the difference between event bubbling and event capture?
     ANSWER:
       Event bubbling and capturing are two ways of event propagation in the HTML DOM API, when an event occurs in an 
@@ -27,4 +34,4 @@ EXAMPLE QUESTIONS:
       The event propagation mode determines in which order the elements receive the event.
       With bubbling, the event is first captured and handled by the innermost element and then propagated to outer elements.
       With capturing, the event is first captured by the outermost element and propagated to the inner elements.
-    
+            
