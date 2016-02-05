@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "iqms",
-    "password": "secret",
+    "username": "postgres",
+    "password": "123456",
     "database": "iqms_development",
     "host": "127.0.0.1",
     "dialect": "postgres",

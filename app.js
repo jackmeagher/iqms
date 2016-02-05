@@ -3,6 +3,11 @@ var express = require('express');
 var app = express();
 var Resource = require('./lib/Resource');
 
+var routes = require('./routes/index');
+
+app.use('/', routes);
+
+
 let fun = function(argument, callback) {
     var err = new Error('ERROR!');  // This is how to create an error most of the time
     err = null;                     // But I don't actually want an error so set it to null, which is the
@@ -10,20 +15,28 @@ let fun = function(argument, callback) {
     callback(err, argument);
 };
 
-var hw_resource = new Resource('hello_world', '/',
-    {
-        get : (req, res) => {
-            fun("Hello, world!", (err, arg) => {
-                if (err) {
-                    console.error("Error occurred!", err);
-                    res.json({success: false, error: err});
-                    return;
-                }
-                res.json({success: true, msg: arg});
-            });
-        }
-    });
+//var u = models.User.Build({
+//    username : "milkman55",
+//    first_name : "jesus",
+//    last_name : "jesus",
+//    pw_hash : "1293i1ediojwj"
+//});
+//
+//
+//
+//u.save().catch(function(error) {
+//    // mhhh, wth!
+//});
+//
+//x = models.User.findAll();
 
-hw_resource.register(app, '');
+// GET method route
+
+
+
+
+
+
+//hw_resource.register(app, '');
 
 module.exports = app;
