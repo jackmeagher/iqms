@@ -1,0 +1,86 @@
+JOB: Front-End Application Developer
+DESCRIPTION:
+  Responsibilities include translation of UI/UX design wireframes to actual code that 
+  will produce visual elements of the application. You will work with the UI/UX designer and bridge the 
+  gap between graphical design and technical implementation, taking an active role on both sides and 
+  defining how the application looks as well as how it works.
+  
+EXAMPLE QUESTIONS:
+  QUESTION 1 (Easy):
+    Have you worked with javascript libraries? 
+    FOLLOW-UP: Which, and why those over others?
+    FAVORABLE RESPONSES: Bootstrap, Angular, Ember, React, Backbone, JQuery
+    
+  QUESTION 2 (Easy):
+    Explain the difference between the JavaScript call and apply functions.
+    ANSWER: 
+      Apply lets you invoke the function with arguments as an array. 
+      Call requires the parameters be listed explicitly.
+      
+  QUESTION 3 (Easy):
+    Define the term 'closure' and give an example of it in JavaScript.
+    ANSWER: 
+      A closure is the local variables for a function - kept alive after the function has returned.
+      OR
+      A closure is a stack-frame which is not deallocated when the function returns 
+      (as if a 'stack-frame' were malloc'ed instead of being on the stack).
+      
+  QUESTION 4 (Easy-Intermediate):
+    Identify two ways in which you can clear a floated element with HTML/CSS.
+    ANSWER:
+      Method 1: Use a "clearer" div
+      Method 2: Alsett Clearing Method (better bc adds nothing to HTML)
+      
+  QUESTION 5 (Intermediate):
+    What is the difference between event bubbling and event capture?
+    ANSWER:
+      Event bubbling and capturing are two ways of event propagation in the HTML DOM API, when an event occurs in an 
+      element inside another element, and both elements have registered a handle for that event. 
+      The event propagation mode determines in which order the elements receive the event.
+      With bubbling, the event is first captured and handled by the innermost element and then propagated to outer elements.
+      With capturing, the event is first captured by the outermost element and propagated to the inner elements.
+      
+      
+JOB: Back-End Developer
+  DESCRIPTION:
+    Responsibilities include translation of UI/UX design wireframes to actual code that 
+    will produce visual elements of the application. You will work with the UI/UX designer and bridge the 
+    gap between graphical design and technical implementation, taking an active role on both sides and 
+    defining how the application looks as well as how it works.
+EXAMPLE QUESTIONS:
+  QUESTION 1 (Easy): 
+    Talk about the 3 worse defects of your preferred language.
+    
+  QUESTION 2 (Easy):
+    Why are first-party cookies and third-party cookies treated so differently?
+    ANSWER: 
+      A third-party cookie is a cookie set by (and on) a domain name that is not the domain name that appears in the browser 
+      address bar. It might be set as part of a side resource load(image, JS, iframe, etc. from a different hostname) 
+      or an AJAX HTTP request to a third-party server.
+      A first-party cookie, on the other hand, is a cookie set by the domain name that appears in the browser address bar.
+      
+  QUESTION 3 (Intermediate):
+    How would you manage the migration of a project from MySQL to PostgreSQL?
+    ANSWER: 
+      The easiest method would be to use the open-source project 'mysql2postgres'. It simply requires that one have Ruby
+      installed. However, there are many other methods that are perfectly acceptable.
+      
+  QUESTION 4 (Easy-Intermediate):
+    How would you backup and restore data using mysqldump from the command line?
+    ANSWER:
+      BACKUP:
+        $ mysqldump --opt -u [uname] -p[pass] [dbname] > [backupfile.sql]
+        [uname] Your database username
+        [pass] The password for your database (note there is no space between -p and the password)
+        [dbname] The name of your database
+        [backupfile.sql] The filename for your database backup
+        [--opt] The mysqldump option
+      RESTORE:
+        Create an appropriately named database on the target machine
+        Load the file using the mysql command:
+        $ mysql -u [uname] -p[pass] [db_to_restore] < [backupfile.sql]
+        
+  QUESTION 5 (Intermediate):
+    
+    ANSWER:
+        
