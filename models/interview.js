@@ -2,22 +2,20 @@
 
 module.exports = function(sequelize, DataTypes) {
     var Interview = sequelize.define("Interview", {
-        id: {
-            type : DataTypes.UUID,
-            field: 'id',
-            primaryKey: true
-
-        }
 
 
-    }, {
+    },
+
+        {
         classMethods: {
+            associate: function(models) {
+                Interview.hasMany(models.Question, {as: 'Questions'});
 
-        }
+            }
+            }
     });
 
 
-    //Interview.hasMany(Question,{as  : 'Questions'});
 
     return Interview;
 };

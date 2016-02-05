@@ -2,11 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
     var InterviewQuestionReceipt = sequelize.define("InterviewQuestionReceipt", { // this defines the table name
-        id: {
-            type : DataTypes.UUID,
-            field: 'id',
-            primaryKey: true
-        },
+
 
         feedback : DataTypes.STRING,
         rating : DataTypes.INTEGER // needs to be 1-5 (stars)
@@ -14,8 +10,11 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {
         classMethods: {
-            //   InterviewQuestionReceipt.hasOne(Interview, {as: 'Interview'});
-            //   InterviewQuestionReceipt.hasOne(Question, {as: 'Question'});
+            associate: function(models) {
+                InterviewQuestionReceipt.hasOne(models.Interview, {as: 'Interview'});
+                InterviewQuestionReceipt.hasOne(models.Question, {as: 'Question'});
+            }
+
 
         }
 

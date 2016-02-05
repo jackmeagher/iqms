@@ -15,22 +15,6 @@ let fun = function(argument, callback) {
     callback(err, argument);
 };
 
-//var u = models.User.Build({
-//    username : "milkman55",
-//    first_name : "jesus",
-//    last_name : "jesus",
-//    pw_hash : "1293i1ediojwj"
-//});
-//
-//
-//
-//u.save().catch(function(error) {
-//    // mhhh, wth!
-//});
-//
-//x = models.User.findAll();
-
-// GET method route
 
 
 

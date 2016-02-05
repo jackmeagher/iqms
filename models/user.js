@@ -2,12 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
     var User = sequelize.define("User", {
-        //id: {
-        //        type : DataTypes.UUID,
-        //        field: 'id',
-        //        primaryKey: true
-        //
-        //    },
+
             username: DataTypes.STRING,
             first_name: DataTypes.STRING,
         last_name: DataTypes.STRING,
@@ -18,6 +13,9 @@ module.exports = function(sequelize, DataTypes) {
 
     , {
         classMethods: {
+            associate: function(models) {
+                User.hasMany(models.Interview, {as: 'Interviews'});
+            }
         }
     });
 
