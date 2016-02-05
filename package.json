@@ -8,6 +8,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "body-parser": "^1.14.2",
     "express": "^4.13.4",
     "gulp": "^3.9.0",
     "pg": "^4.4.3",

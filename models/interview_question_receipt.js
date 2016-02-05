@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var InterviewQuestionReceipt = sequelize.define("InterviewQuestionRecipt", { // this defines the table name
+    var InterviewQuestionReceipt = sequelize.define("InterviewQuestionReceipt", { // this defines the table name
         id: {
             type : DataTypes.UUID,
             field: 'id',
@@ -14,10 +14,10 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {
         classMethods: {
-         //   InterviewQuestionReceipt.hasOne(Interview, {as: 'Interview'});
-         //   InterviewQuestionReceipt.hasOne(Question, {as: 'Question'});
+            //   InterviewQuestionReceipt.hasOne(Interview, {as: 'Interview'});
+            //   InterviewQuestionReceipt.hasOne(Question, {as: 'Question'});
 
-}
+        }
 
     });
 
