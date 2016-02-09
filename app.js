@@ -15,12 +15,22 @@ let fun = function(argument, callback) {
     callback(err, argument);
 };
 
+var hw_resource = new Resource('hello_world', '/',
+    {
+        get : (req, res) => {
+            fun("Goodbye, world!", (err, arg) => {
+                if (err) {
+                    console.error("Error occurred!", err);
+                    res.json({success: false, error: err});
+                    return;
+                }
+                res.json({success: true, msg: arg});
+            });
+        }
+    });
 
-
-
-
-
-
-//hw_resource.register(app, '');
+hw_resource.register(app, '');
+users_resource = require('users_resource');
+users_resource.register(app);
 
 module.exports = app;
