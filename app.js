@@ -30,7 +30,5 @@ var hw_resource = new Resource('hello_world', '/',
     });
 
 hw_resource.register(app, '');
-users_resource = require('users_resource');
-users_resource.register(app);
 
 module.exports = app;
