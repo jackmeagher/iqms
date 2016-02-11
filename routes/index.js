@@ -34,7 +34,8 @@ exports.question = new Resource('question', '/question',
                 res.json('index', {
                     title: 'Express',
                     questions: questions
-                });})},
+                });})
+        },
         post: (req,res) => {
             models.Question.create({
                 question_text: req.body.question_text, // SHOCKLEY : <input type="text", name="question_text">
@@ -46,7 +47,36 @@ exports.question = new Resource('question', '/question',
         },
         delete: (req,res) => {
             models.Question.destroy({
-                id: req.params.question_id //
+                id: req.params.question_id  // TODO : where do we pull this from?
+            }).then(function() {
+                res.redirect('/'); //TODO :  this should probably redirect to the same page...
+            });
+
+
+        }
+
+
+    });
+
+
+exports.interview = new Resource('interview', '/interview',
+    {
+        get : (req, res) => {
+                res.json('interviews', {
+                    title: 'Express',
+                    interviews : "interviews go here"
+                });
+        },
+        post: (req,res) => {
+            res.json('interviews', {
+                title: 'Express',
+                interviews : "you created an interview"
+            });
+
+        },
+        delete: (req,res) => {
+            models.Question.destroy({
+                id: req.params.interview_id // TODO : where do we pull this from?
             }).then(function() {
                 res.redirect('/'); //TODO :  this should probably redirect to the same page...
             });
