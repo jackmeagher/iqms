@@ -1,54 +1,58 @@
-/**
- * Created by nick on 2/5/16.
- */
-var models  = require('../models');
-var express = require('express');
-var router  = express.Router();
-var bodyParser = require('body-parser'); // for req attrs
-// parse application/x-www-form-urlencoded
-router.use(bodyParser.urlencoded({ extended: false }));
+var models = require('../models');
+var Resource = require('../lib/Resource');
 
-// parse application/json
-router.use(bodyParser.json());
+var exports = module.exports = {};
 
 
-router.get('/', function(req, res) {
-    models.Question.findAll(
-    ).then(function(questions) {
-        res.render('index', {
-            title: 'Express',
-            questions: questions
-        });
-    });
-});
+let fun = function(argument, callback) {
+    var err = new Error('ERROR!');  // This is how to create an error most of the time
+    err = null;                     // But I don't actually want an error so set it to null, which is the
+                                    // error-free behavior.
+    callback(err, argument);
+};
 
 
-router.post('/create', function(req, res) {
-    models.Question.create({
-        question_text: req.body.question_text,
-        difficulty: req.body.difficulty
-    }).then(function() {
-        res.redirect('/');
-    });
-});
-
-
-router.get('/questions/:question_id/delete', function(req, res) {
-    models.Question.destroy({
-        where: {
-            id: req.params.question_id
+exports.hw_resource = new Resource('hello_world', '/',
+    {
+        get : (req, res) => {
+            fun("IqMs", (err, arg) => {
+                if (err) {
+                    console.error("Error occurred!", err);
+                    res.json({success: false, error: err});
+                    return;
+                }
+                res.json({success: true, msg: arg});
+            });
         }
-    }).then(function() {
-        res.redirect('/');
     });
-});
+
+exports.question = new Resource('question', '/question',
+    {
+        get : (req, res) => {
+            models.Question.findAll(
+            ).then(function(questions) {
+                res.json('index', {
+                    title: 'Express',
+                    questions: questions
+                });})},
+        post: (req,res) => {
+            models.Question.create({
+                question_text: req.body.question_text, // SHOCKLEY : <input type="text", name="question_text">
+                difficulty: req.body.difficulty        //            <input type="number" name="difficulty">
+            }).then(function() {
+                res.redirect('/'); //TODO :  this should probably redirect to the same page...
+            });
+
+        },
+        delete: (req,res) => {
+            models.Question.destroy({
+                id: req.params.question_id //
+            }).then(function() {
+                res.redirect('/'); //TODO :  this should probably redirect to the same page...
+            });
 
 
+        }
 
 
-
-
-
-
-
-module.exports = router;
+    });

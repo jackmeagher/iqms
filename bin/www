@@ -2,7 +2,6 @@
 require("use-strict");
 var app = require('../app');
 var models = require('../models');
-
 app.set('view engine', 'jade');
 
 app.set('port', process.env.PORT || 3000);

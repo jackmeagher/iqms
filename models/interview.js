@@ -10,9 +10,11 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 Interview.hasMany(models.Question, {as: 'Questions'});
+                //Interview.hasOne(models.User,{as: 'Interviewee'});
 
             }
-            }
+
+        }
     });
 
 
