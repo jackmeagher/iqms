@@ -2,19 +2,14 @@
 
 module.exports = function(sequelize, DataTypes) {
     var User = sequelize.define("User", {
-
-            username: DataTypes.STRING,
-            first_name: DataTypes.STRING,
+        first_name: DataTypes.STRING,
+        middle_name: DataTypes.STRING,
         last_name: DataTypes.STRING,
-        pw_hash: DataTypes.STRING
-
-    }
-
-
-    , {
+        birth_date: DataTypes.DATE,
+    }, {
         classMethods: {
             associate: function(models) {
-                User.hasMany(models.Interview, {as: 'Interviews'});
+
             }
         }
     });
