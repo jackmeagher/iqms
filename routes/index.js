@@ -89,3 +89,35 @@ exports.interview = new Resource('interview', '/interview',
 
 
     });
+
+
+
+exports.interviewQuestionReceipts = new Resource('interviewQuestionReceipt', '/InterviewQuestionReceipt',
+    {
+        get : (req, res) => {
+            res.json('interviewQuestionReceipts', {
+                title: 'Express',
+                interviews : "interviewQuestionReceipts go here"
+            });
+        },
+        post: (req,res) => {
+            res.json('interviews', {
+                title: 'Express',
+                interviews : "you created an interviewQuestionReceipt"
+            });
+
+        },
+        delete: (req,res) => {
+            models.Question.destroy({
+                id: req.params.interviewQuestionReceipt// TODO : where do we pull this from?
+            })
+            //    .then(function() {
+            //    res.redirect('/'); //TODO :  this should probably redirect to the same page...
+            //});
+
+
+        }
+
+
+    });
+
