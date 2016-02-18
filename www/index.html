@@ -5,10 +5,14 @@
     <script data-require="angular.js@*" data-semver="1.2.0-rc2" src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
     <link rel="stylesheet" href="../CSS/styleSheetDoe.css" />
     <script src="exampleData.js"></script>
+    <script src="helloQuestion.js"></script>
 </head>
 
 <body ng-app="">
 <h1>Interviews and Questions</h1>
+<div ng-controller="helloQuestion">
+    <p>The ID is {{question.question_text}}</p>
+</div>
 <font>Click the plus sign to view associated questions</font>
 <div ng-controller="repeatTest" style="margin-top:20px;">
     <table>
