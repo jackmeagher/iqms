@@ -3,8 +3,8 @@
  */
 
 function helloQuestion($scope, $http) {
-    $http.get('127.0.0.1:3000/question').
+    $http.get('http://127.0.0.1:3000/question').
     success(function(data) {
-        $scope.greeting = data;
+        $scope.questions = data;
     });
 }
