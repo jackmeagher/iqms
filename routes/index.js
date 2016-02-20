@@ -58,6 +58,19 @@ exports.question = new Resource('question', '/question',
 
     });
 
+exports.user = new Resource('user', '/user',
+    {
+        get : (req, res) => {
+            models.User.findAll().then(
+                function(questions) {
+                    res.json( { 
+                        success : true,
+                        data : questions
+                    } )
+                })
+        }
+    });
+
 
 exports.interview = new Resource('interview', '/interview',
     {
