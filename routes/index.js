@@ -31,10 +31,11 @@ exports.question = new Resource('question', '/question',
         get : (req, res) => {
             models.Question.findAll(
             ).then(function(questions) {
-                res.json('index', {
-                    title: 'Express',
+                res.status(200).json({
+                    success: true,
                     questions: questions
-                });})
+                });
+            })
         },
         post: (req,res) => {
             models.Question.create({
