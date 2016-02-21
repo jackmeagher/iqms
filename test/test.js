@@ -28,11 +28,12 @@ describe('App', function() {
                             },
                             done
                         );
+<<<<<<< Updated upstream
                 });
             });
         });
 
-        /*describe('#POST', function() {
+        describe('#POST', function() {
             it('should insert a question', function(done) {
                 server_promise.then( (server) => {
                     var payload = {
@@ -45,7 +46,7 @@ describe('App', function() {
                         .expect(200, payload, done);
                 });
             });
-        });*/
+        });
     });
 });
 
