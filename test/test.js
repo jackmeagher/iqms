@@ -28,7 +28,6 @@ describe('App', function() {
                             },
                             done
                         );
-<<<<<<< HEAD
                 });
             });
         });
@@ -48,12 +47,6 @@ describe('App', function() {
             });
         });
     });
-=======
-                })
-            })
-        })
-    })
->>>>>>> 094b7fd8aadc71e28c2cf22b1a0e72ba6fc7ccab
 });
 
 /*describe('/question', function() {
