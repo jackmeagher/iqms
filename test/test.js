@@ -8,7 +8,9 @@ describe('App', function() {
         server_promise = require('../bin/www');
     });
     describe('/question', function() {
+        var url = '/question';
         describe('#GET', function() {
+
             it('should return response code 200', function(done) {
                 server_promise.then( (server) => {
                     request(server)
@@ -26,10 +28,25 @@ describe('App', function() {
                             },
                             done
                         );
-                })
-            })
-        })
-    })
+                });
+            });
+        });
+
+        /*describe('#POST', function() {
+            it('should insert a question', function(done) {
+                server_promise.then( (server) => {
+                    var payload = {
+                        'title' : 'Test Question #1',
+                        'difficulty' : 1
+                    };
+                    request(server)
+                        .post(url)
+                        .send(payload)
+                        .expect(200, payload, done);
+                });
+            });
+        });*/
+    });
 });
 
 /*describe('/question', function() {
