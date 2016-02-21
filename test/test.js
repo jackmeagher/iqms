@@ -28,7 +28,6 @@ describe('App', function() {
                             },
                             done
                         );
-<<<<<<< Updated upstream
                 });
             });
         });
