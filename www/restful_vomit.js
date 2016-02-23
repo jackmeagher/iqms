@@ -9,7 +9,7 @@ function restful_vomit($scope, $http) {
     });
     $http.get('http://127.0.0.1:3000/interview').
     success(function(data) {
-        $scope.interview = data;
+        $scope.interviews = data;
     });
     $http.get('http://127.0.0.1:3000/answer').
     success(function(data) {
