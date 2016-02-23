@@ -16,5 +16,6 @@ app.all('/*', function(req, res, next) {
 routes.hw_resource.register(app, '');
 routes.question.register(app,'');
 routes.interview.register(app,'');
+routes.answer.register(app,'');
 
 module.exports = app;
