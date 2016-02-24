@@ -24,13 +24,13 @@ Interview Question Management System for CSCI 462
 * **GET**    : gets an interview by id
 * **DELETE** : deletes an interview by id
 
-
 ####/interview/:id/questions
 * **GET** : returns all questions in interview[id]
 	
 ####/interview/:id/questions/:question_id
 * **POST** : adds question[question_id] to interview [id]
-# Answer
+
+## Answer
 ####/answer
 * **GET**  : returns all answers
 * **POST** : creates new answer (params : 'feedback', 'rating')
@@ -38,6 +38,7 @@ Interview Question Management System for CSCI 462
 ####/answer/:id
 * **GET**    : gets answer by id
 * **DELETE** : deletes an answer by id
+
 ## User
 ####/user
 * **GET**  : returns all users
