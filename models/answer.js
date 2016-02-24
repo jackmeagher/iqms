@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var answer = sequelize.define("answer", { // this defines the table name
+    var Answer = sequelize.define("Answer", { // this defines the table name
 
 
         feedback : DataTypes.STRING,
@@ -11,8 +11,8 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                answer.hasOne(models.Interview, {as: 'Interview'});
-                answer.hasOne(models.Question, {as: 'Question'});
+                Answer.hasOne(models.Interview, {as: 'Interview'});
+                Answer.hasOne(models.Question, {as: 'Question'});
             }
 
 
@@ -23,5 +23,5 @@ module.exports = function(sequelize, DataTypes) {
 
 // interview : interview
 // question : question
-    return answer;
+    return Answer;
 };

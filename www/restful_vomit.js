@@ -19,5 +19,22 @@ function restful_vomit($scope, $http) {
     success(function(data) {
         $scope.users = data;
     });
+
+
+    $http.get('http://127.0.0.1:3000/question/3').
+    success(function(data) {
+        $scope.question3 = data;
+    });
+
+    $http.get('http://127.0.0.1:3000/interview/1').
+    success(function(data) {
+        $scope.answer1 = data;
+    });
+
+    $http.get('http://127.0.0.1:3000/answer/1').
+    success(function(data) {
+        $scope.answer1 = data;
+    });
+
 }
 
