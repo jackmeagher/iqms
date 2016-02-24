@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var Question = sequelize.define("Question", {
+    var question = sequelize.define("question", {
         question_text: DataTypes.STRING,
 
         difficulty: DataTypes.INTEGER // E.G. junior = 0, intermediate = 1, senior = 2
@@ -16,5 +16,5 @@ module.exports = function(sequelize, DataTypes) {
 
 
 
-    return Question;
+    return question;
 };

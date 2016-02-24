@@ -11,13 +11,16 @@ let fun = function(argument, callback) {
     callback(err, argument);
 };
 
+
+
+
 exports.hw_resource = new Resource('home', '/',
     {
         get : (req, res) => {
             fun("IqMs", (err, arg) => {
                 if (err) {
                     console.error("Error occurred!", err);
-                    res.json();
+                    res.status(200).json();
                     return;
                 }
                 res.redirect('/www/index.html');
@@ -37,8 +40,11 @@ exports.hw_resource = new Resource('home', '/',
 exports.question = new Resource('question', '/question',
     {
         get : (req, res) => { // get all questions
-            models.sequelize.query('SELECT * FROM "Questions";'
-            ).then(function(questions) {
+            models.question.findAll({
+                where:{
+                    id : req.params.id
+                }
+            }).then(function(questions) {
                 res.status(200).json({
                     questions: questions
                 })
@@ -47,7 +53,7 @@ exports.question = new Resource('question', '/question',
         },
         post: (req,res) => { // make a new question
             console.log(req);
-            models.Question.create({
+            models.question.create({
                 question_text: req.body.question_text, // SHOCKLEY : <input type="text", name="question_text">
                 difficulty: req.body.difficulty        //            <input type="number" name="difficulty">
             }).then(function(created) {
@@ -62,7 +68,11 @@ exports.question = new Resource('question', '/question',
     },[new Resource('get_question_by_id','/:id',
         {
             get: (req,res) => { //get question by id
-                models.sequelize.query('SELECT * FROM "Questions" WHERE id = ' + req.params.id + ';')
+                models.question.findAll({
+                        where:{
+                            id : req.params.id
+                        }
+                    })
                     .then(function(question) {
                         res.status(200).json(
                         {
@@ -72,7 +82,7 @@ exports.question = new Resource('question', '/question',
                     }
     )},
             delete: (req,res) => {
-                models.Question.destroy({
+                models.question.destroy({
                     where: {
                         id : req.params.id
                     },
@@ -93,23 +103,19 @@ exports.question = new Resource('question', '/question',
 
 );
 
-// GET all interviews
-// GET interview by id
-// GET interview by user
-// POST add question to interview
 exports.interview = new Resource('interview', '/interview',
     {
         get : (req, res) => {
 
-            models.sequelize.query('SELECT * FROM "Interviews"'
-            ).then(function(interviews) {
-                res.json({
+            models.interview.findAll()
+                .then(function(interviews) {
+                res.status(200).json({
                     interviews: interviews
                 });})
         },
         post: (req,res) => { // make a new interview
             console.log(req);
-            models.Interview.create({
+            models.interview.create({
             }).then(function(created) {
                 res.status(200).json({
                         interview: created.dataValues
@@ -123,8 +129,11 @@ exports.interview = new Resource('interview', '/interview',
     },[new Resource('get_interview_by_id','/:id',
         {
             get: (req,res) => { //get interview by id
-                models.sequelize.query('SELECT * FROM "Interviews" WHERE id = ' + req.params.id + ';')
-                    .then(function(interview) {
+                models.interview.findAll({
+                    where:{
+                        id : req.params.id
+                    }
+                })                    .then(function(interview) {
                             res.status(200).json(
                                 {
                                     interview: interview[0]
@@ -132,8 +141,11 @@ exports.interview = new Resource('interview', '/interview',
                             );
                         }
                     )},
+
+
+
             delete: (req,res) => {
-                models.Interview.destroy({
+                models.interview.destroy({
                     where: {
                         id : req.params.id
                     },
@@ -149,7 +161,67 @@ exports.interview = new Resource('interview', '/interview',
 
 
 
-        }
+        }),new Resource('get_interview_by_id','/:id/questions',
+            {
+                get: (req,res) => { //get interview by id
+                    models.interview.findOne({
+                        where: {
+                                id : req.params.id
+                                }
+                    }).then(function(interview) {
+                        interview.getQuestions()
+                    .then(function(questions) {
+                            res.status(200).json(questions);
+                    })})
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+            },
+        [new Resource('add_question_to_interview','/:question_id',
+                {
+                    post: (req,res) => { //get interview by id
+                        models.interview.findOne({
+                            where: {
+                                id : req.params.id
+                            }
+                        }).then(function(interview)
+                        {
+                            models.question.findOne({
+                                where: {
+                                    id : req.params.question_id
+                                        }
+                            }).then(function(question)
+                            {
+                                interview.addQuestion(question).then(
+                                    function(added){
+                                        res.status(200).json(added);
+                                    }
+                                )
+
+
+                            })
+                        });
+
+                    }
+
+
+
+
+                })
+
+
+        ]
 
     )]
 
@@ -164,16 +236,15 @@ exports.interview = new Resource('interview', '/interview',
 exports.answer = new Resource('answer', '/answer',
     {
         get : (req, res) => {
-
-            models.sequelize.query('SELECT * FROM "Answers"'
-            ).then(function(answers) {
-                res.json({
-                    interviews: answers
+            models.answer.findAll()
+                .then(function(answers) {
+                res.status(200).json({
+                    answers: answers
                 });})
         },
         post: (req,res) => { // make a new question
             console.log(req);
-            models.Answer.create({
+            models.answer.create({
                 feeedback: req.body.feedback, // SHOCKLEY : <input type="text", name="question_text">
                 rating: req.body.rating        //            <input type="number" name="difficulty">
             }).then(function(created) {
@@ -189,17 +260,21 @@ exports.answer = new Resource('answer', '/answer',
     },[new Resource('get_answer_by_id','/:id',
         {
             get: (req,res) => { //get answer by id
-                models.sequelize.query('SELECT * FROM "Answers" WHERE id = ' + req.params.id + ';')
+                models.answer.findAll({
+                    where:{
+                        id : req.params.id
+                    }
+                })
                     .then(function(answer) {
                             res.status(200).json(
                                 {
-                                    answer: answer[0]
+                                    answer: answer
                                 }
                             );
                         }
                     )},
             delete: (req,res) => {
-                models.Answer.destroy({
+                models.answer.destroy({
                     where: {
                         id : req.params.id
                     },
@@ -225,15 +300,16 @@ exports.user = new Resource('user', '/user',
     {
         get : (req, res) => {
 
-            models.sequelize.query('SELECT * FROM "Users";'
-            ).then(function(users) {
-                res.json({
+            //models.sequelize.query('SELECT * FROM "Users";')
+            models.user.findAll()
+                .then(function(users) {
+                res.status(200).json({
                     users: users[0]
                 });})
         },
         post: (req,res) => { // make a new question
             console.log(req);
-            models.User.create({
+            models.user.create({
                 //TODO: user fields
 
             }).then(function(created) {
@@ -249,8 +325,11 @@ exports.user = new Resource('user', '/user',
     },[new Resource('get_user_by_id','/:id',
         {
             get: (req,res) => { //get answer by id
-                models.sequelize.query('SELECT * FROM "Users" WHERE id = ' + req.params.id + ';')
-                    .then(function(user) {
+                models.user.findAll({
+                    where:{
+                        id : req.params.id
+                    }
+                })                    .then(function(user) {
                             res.status(200).json(
                                 {
                                     answer: user[0]
@@ -259,7 +338,7 @@ exports.user = new Resource('user', '/user',
                         }
                     )},
             delete: (req,res) => {
-                models.Users.destroy({
+                models.user.destroy({
                     where: {
                         id : req.params.id
                     },

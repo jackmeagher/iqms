@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var User = sequelize.define("User", {
+    var user = sequelize.define("user", {
 
             username: DataTypes.STRING,
             first_name: DataTypes.STRING,
@@ -14,10 +14,10 @@ module.exports = function(sequelize, DataTypes) {
     , {
         classMethods: {
             associate: function(models) {
-                User.hasMany(models.Interview, {as: 'Interviews'});
+                user.hasMany(models.interview);
             }
         }
     });
 
-    return User;
+    return user;
 };

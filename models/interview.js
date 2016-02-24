@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var Interview = sequelize.define("Interview", {
+    var interview = sequelize.define("interview", {
             interviewee: DataTypes.STRING,
 
         },
@@ -9,8 +9,8 @@ module.exports = function(sequelize, DataTypes) {
         {
         classMethods: {
             associate: function(models) {
-                Interview.hasMany(models.Question, {as: 'Questions'});
-                //Interview.hasOne(models.User,{as: 'Interviewee'});
+                interview.hasMany(models.question);
+                //Interview.hasOne(models.User,{as): 'Interviewee'});
 
             }
 
@@ -19,6 +19,6 @@ module.exports = function(sequelize, DataTypes) {
 
 
 
-    return Interview;
+    return interview;
 };
 
