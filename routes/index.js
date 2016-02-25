@@ -35,7 +35,13 @@ exports.hw_resource = new Resource('home', '/', {
 
 exports.question = new Resource('question', '/question', {
         get: (req, res) => { // get all questions
-            models.question.findAll(
+            var query_doc;
+            if(req.query.difficulty) {
+                query_doc = {difficulty: req.query.difficulty};
+            } else {
+                query_doc = {};
+            }
+            models.question.findAll({where: query_doc}
             ).then(function(questions) {
                 res.status(200).json({
                     questions: questions
