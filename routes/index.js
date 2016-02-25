@@ -281,7 +281,7 @@ exports.user = new Resource('user', '/user', {
             models.user.findAll()
                 .then(function(users) {
                     res.status(200).json({
-                        users: users[0]
+                        users: users
                     });
                 })
         },
@@ -306,7 +306,7 @@ exports.user = new Resource('user', '/user', {
                 }
             }).then(function(user) {
                 res.status(200).json({
-                    answer: user[0]
+                    user: user
                 });
             })
         },
@@ -319,6 +319,66 @@ exports.user = new Resource('user', '/user', {
             }).then(function(destroyed) {
                 res.status(200).json({
                     answer: destroyed.dataValues
+                });
+            });
+
+        }
+
+
+
+
+    }
+
+    )]
+
+);
+
+
+
+exports.role = new Resource('role', '/role', {
+        get: (req, res) => {
+
+            //models.sequelize.query('SELECT * FROM "Users";')
+            models.role.findAll()
+                .then(function(role) {
+                    res.status(200).json({
+                        role : role
+                    });
+                })
+        },
+        post: (req, res) => { // make a new question
+            models.role.create({
+                //TODO: user fields
+
+            }).then(function(created) {
+                res.status(200).json({
+                    role: created.dataValues
+                });
+            })
+        }
+
+
+
+    }, [new Resource('get_role_by_id', '/:id', {
+        get: (req, res) => { //get answer by id
+            models.role.findAll({
+                where: {
+                    id: req.params.id
+                }
+            }).then(function(role) {
+                res.status(200).json({
+                    role: role
+                });
+            })
+        },
+        delete: (req, res) => {
+            models.role.destroy({
+                where: {
+                    id: req.params.id
+                }
+            }).then(function(destroyed) {
+                res.status(200).json({
+                    role: destroyed.dataValues
                 });
             });
 

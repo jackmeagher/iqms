@@ -2,7 +2,6 @@
 
 module.exports = function(sequelize, DataTypes) {
     var user = sequelize.define("user", {
-        role : { type: DataTypes.INTEGER, required : true},
         // TODO: figure out what val means what role
         username: DataTypes.STRING,
         first_name: DataTypes.STRING,
@@ -16,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 user.hasMany(models.interview);
-                user.hasOne(models.role);
+                user.hasOne(models.role,{as : 'user_role'});
             }
         }
     });

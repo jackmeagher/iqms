@@ -25,5 +25,6 @@ routes.question.register(app,'');
 routes.interview.register(app,'');
 routes.answer.register(app,'');
 routes.user.register(app,'');
+routes.role.register(app,'');
 
 module.exports = app;
