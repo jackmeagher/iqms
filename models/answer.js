@@ -1,8 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var InterviewQuestionReceipt = sequelize.define("InterviewQuestionReceipt", { // this defines the table name
-
+    var answer = sequelize.define("answer", { // this defines the table name
 
         feedback : DataTypes.STRING,
         rating : DataTypes.INTEGER // needs to be 1-5 (stars)
@@ -11,8 +10,9 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                InterviewQuestionReceipt.hasOne(models.Interview, {as: 'Interview'});
-                InterviewQuestionReceipt.hasOne(models.Question, {as: 'Question'});
+                answer.hasOne(models.interview);
+                answer.hasOne(models.question);
+                answer.hasOne(models.user); // user who submitted the answer
             }
 
 
@@ -23,5 +23,5 @@ module.exports = function(sequelize, DataTypes) {
 
 // interview : interview
 // question : question
-    return InterviewQuestionReceipt;
+    return answer;
 };

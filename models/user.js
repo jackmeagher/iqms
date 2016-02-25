@@ -1,10 +1,10 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var User = sequelize.define("User", {
-
-            username: DataTypes.STRING,
-            first_name: DataTypes.STRING,
+    var user = sequelize.define("user", {
+        // TODO: figure out what val means what role
+        username: DataTypes.STRING,
+        first_name: DataTypes.STRING,
         last_name: DataTypes.STRING,
         pw_hash: DataTypes.STRING
 
@@ -14,10 +14,11 @@ module.exports = function(sequelize, DataTypes) {
     , {
         classMethods: {
             associate: function(models) {
-                User.hasMany(models.Interview, {as: 'Interviews'});
+                user.hasMany(models.interview);
+                user.hasOne(models.role,{as : 'user_role'});
             }
         }
     });
 
-    return User;
+    return user;
 };
