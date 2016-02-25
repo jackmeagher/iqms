@@ -35,12 +35,15 @@ exports.hw_resource = new Resource('home', '/', {
 
 exports.question = new Resource('question', '/question', {
         get: (req, res) => { // get all questions
-            var query_doc;
+            var query_doc = {};
             if(req.query.difficulty) {
-                query_doc = {difficulty: req.query.difficulty};
-            } else {
-                query_doc = {};
+                query_doc.difficulty = req.query.difficulty;
             }
+            if(req.query.target_text){
+                query_doc.question_text = {like :  "%"  + req.query.target_text + "%"};
+                console.log(query_doc.question_text);
+            }
+
             models.question.findAll({where: query_doc}
             ).then(function(questions) {
                 res.status(200).json({
