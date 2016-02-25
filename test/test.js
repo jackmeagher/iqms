@@ -14,14 +14,14 @@ describe('App', function() {
             it('should return response code 200', function(done) {
                 server_promise.then( (server) => {
                     request(server)
-                        .get('/question')
+                        .get(url)
                         .expect(200, done);
                 });
             });
             it('should return success true and no data', function(done) {
                 server_promise.then( (server) => {
                     request(server)
-                        .get('/question')
+                        .get(url)
                         .expect(200, {
                                 success: true,
                                 questions: []
