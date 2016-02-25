@@ -54,3 +54,13 @@ Interview Question Management System for CSCI 462
 ####/user/:id
 * **GET**    : gets user by id
 ***DELETE** : deletes an user by id
+
+
+## Role
+####/role
+* **GET**  : returns all roles
+* **POST** : creates new role
+
+####/role/:id
+* **GET**    : gets role by id
+* **DELETE** : deletes an role by id
