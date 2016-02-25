@@ -8,8 +8,14 @@ Interview Question Management System for CSCI 462
 
 ##Question
 ####/question
-* **GET**  : returns all questions (params : 'question_text' , 'difficulty')
+* **GET**  : returns all questions 
+ * query_strings:
+   * target_text : searches question text
+    * difficulty : returns only questions with this difficulty
 * **POST** : insert new question
+ * params: 
+   * question_text   
+    * difficulty
 
 ####/question/:id
 * **GET**    : gets a question by id
@@ -48,3 +54,13 @@ Interview Question Management System for CSCI 462
 ####/user/:id
 * **GET**    : gets user by id
 ***DELETE** : deletes an user by id
+
+
+## Role
+####/role
+* **GET**  : returns all roles
+* **POST** : creates new role
+
+####/role/:id
+* **GET**    : gets role by id
+* **DELETE** : deletes an role by id

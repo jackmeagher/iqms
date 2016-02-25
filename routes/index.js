@@ -48,9 +48,7 @@ exports.question = new Resource('question', '/question', {
             ).then(function(questions) {
                 res.status(200).json({
                     questions: questions
-                })
-
-                ;
+                });
             })
         },
         post: (req, res) => { // make a new question
