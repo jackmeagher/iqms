@@ -35,11 +35,8 @@ exports.hw_resource = new Resource('home', '/', {
 
 exports.question = new Resource('question', '/question', {
         get: (req, res) => { // get all questions
-            models.question.findAll({
-                where: {
-                    id: req.params.id
-                }
-            }).then(function(questions) {
+            models.question.findAll(
+            ).then(function(questions) {
                 res.status(200).json({
                     questions: questions
                 })
@@ -76,12 +73,11 @@ exports.question = new Resource('question', '/question', {
             models.question.destroy({
                     where: {
                         id: req.params.id
-                    },
-                    truncate: true /* this will ignore where and truncate the table instead */
+                    }
                 })
                 .then(function(destroyed) {
                     res.status(200).json({
-                        answer: destroyed.dataValues
+                        return : 'success'
                     });
                 })
 
@@ -132,8 +128,7 @@ exports.interview = new Resource('interview', '/interview', {
             models.interview.destroy({
                 where: {
                     id: req.params.id
-                },
-                truncate: true /* this will ignore where and truncate the table instead */
+                }
             }).then(function(destroyed) {
                 res.status(200).json({
                     answer: destroyed.dataValues
@@ -201,8 +196,8 @@ exports.interview = new Resource('interview', '/interview', {
                         .then(function(question) {
                             interview.removeQuestion(question)
                                 .then(
-                                    function(added) {
-                                        res.status(200).json(added);
+                                    function(removed) {
+                                        res.status(200).json(removed);
                                     })
                         })
                 });

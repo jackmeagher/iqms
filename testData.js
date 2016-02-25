@@ -4,7 +4,7 @@
  * This is messy but will insert our questions into the DB
  */
 
-var models  = require('../models');
+var models  = require('./models');
 
 //FRONT END DEVELOPER SAMPLE QUESTIONS
 models.question.create({
