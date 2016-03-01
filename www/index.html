@@ -3,19 +3,17 @@
 <html>
 
 <head>
-    <script data-require="angular.js@*" data-semver="1.2.0-rc2" src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
-    <link rel="stylesheet" href="../CSS/styleSheetDoe.css" />
+    <script data-require="angular.js@*" data-semver="1.2.0-rc2"
+            src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
+    <link rel="stylesheet" href="../CSS/styleSheetDoe.css"/>
     <script src="exampleData.js"></script>
-    <script src="helloQuestion.js"></script>
+    <script src="restful_vomit.js"></script>
 </head>
 
 <body ng-app="">
 <h1>Interviews and Questions</h1>
-<div ng-controller="helloQuestion">
-    <p>The ID is {{questions}}</p>
-</div>
 <font>Click the plus sign to view associated questions</font>
-<div ng-controller="repeatTest" style="margin-top:20px;">
+<div ng-controller="restful_vomit" style="margin-top:20px;">
     <table>
         <thead style="background-color: lightgray;">
         <tr>
@@ -26,88 +24,30 @@
             <td>Level</td>
         </tr>
         </thead>
-        <tbody>
-        <tr ng-repeat-start="interview in interviews">
-            <td>
-                <button ng-if="interview.expanded" ng-click="interview.expanded = false">-</button>
-                <button ng-if="!interview.expanded" ng-click="interview.expanded = true">+</button>
-            </td>
-            <td>{{interview.interview}}</td>
-            <td>{{interview.level}}</td>
-        </tr>
-        <tr ng-if="interview.expanded">
-            <td colspan="3">{{interview.question1}}
-                <div class="progress-box" ng-app>
-                    Question 1 response suitability:
-                    <div class="percentage-cur" ng-init="selectedRange=0">
-                        <span class="num">{{ selectedRange }}%</span>
+        <tbody ng-repeat-start="question in questions.questions">
+            <tr >
+                <td>
+                    <button ng-if="question.expanded" ng-click="question.expanded = false">-</button>
+                    <button ng-if="!question.expanded" ng-click="question.expanded = true">+</button>
+                </td>
+            </tr>
+            <tr ng-if="question.expanded">
+                <td colspan="3">
+                    {{question.question_text}}
+                    <div class="progress-box" ng-app>
+                        Question 1 response suitability:
+                        <div class="percentage-cur" ng-init="selectedRange=0">
+                            <span class="num">{{ selectedRange }}%</span>
+                        </div>
+                        <div  class="progress-bar progress-bar-slider">
+                            <input class="progress-slider" type="range" min="0" max="100" ng-model="selectedRange">
+                            <div class="inner" ng-style="{ width: selectedRange + '%' || '0%' }"></div>
+                        </div>
                     </div>
-                    <div class="progress-bar progress-bar-slider">
-                        <input class="progress-slider" type="range" min="0" max="100" ng-model="selectedRange">
-                        <div class="inner" ng-style="{ width: selectedRange + '%' || '0%' }"></div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr ng-if="interview.expanded">
-            <td colspan="3">{{interview.question2}}
-
-                <div class="progress-box" ng-app>
-                    Question 2 response suitability:
-                    <div class="percentage-cur" ng-init="selectedRange=0">
-                        <span class="num">{{ selectedRange }}%</span>
-                    </div>
-                    <div class="progress-bar progress-bar-slider">
-                        <input class="progress-slider" type="range" min="0" max="5" ng-model="selectedRange">
-                        <div class="inner" ng-style="{ width: selectedRange + '%' || '0%' }"></div>
-                    </div>
-                </div>
-            </td>
-
-        </tr>
-        <tr ng-if="interview.expanded">
-            <td colspan="3">{{interview.question3}}
-                <div class="progress-box" ng-app>
-                    Question 3 response suitability:
-                    <div class="percentage-cur" ng-init="selectedRange=0">
-                        <span class="num">{{ selectedRange }}%</span>
-                    </div>
-                    <div class="progress-bar progress-bar-slider">
-                        <input class="progress-slider" type="range" min="0" max="100" ng-model="selectedRange">
-                        <div class="inner" ng-style="{ width: selectedRange + '%' || '0%' }"></div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr ng-if="interview.expanded">
-            <td colspan="3">{{interview.question4}}
-                <div class="progress-box" ng-app>
-                    Question 4 response suitability:
-                    <div class="percentage-cur" ng-init="selectedRange=0">
-                        <span class="num">{{ selectedRange }}%</span>
-                    </div>
-                    <div class="progress-bar progress-bar-slider">
-                        <input class="progress-slider" type="range" min="0" max="100" ng-model="selectedRange">
-                        <div class="inner" ng-style="{ width: selectedRange + '%' || '0%' }"></div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr ng-if="interview.expanded" ng-repeat-end="">
-            <td colspan="3">{{interview.question5}}
-                <div class="progress-box" ng-app>
-                    Question 5 response suitability:
-                    <div class="percentage-cur" ng-init="selectedRange=0">
-                        <span class="num">{{ selectedRange }}%</span>
-                    </div>
-                    <div class="progress-bar progress-bar-slider">
-                        <input class="progress-slider" type="range" min="0" max="100" ng-model="selectedRange">
-                        <div class="inner" ng-style="{ width: selectedRange + '%' || '0%' }"></div>
-                    </div>
-                </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
         </tbody>
+        <tfoot ng-repeat-end=""></tfoot>
     </table>
 </div>
 </body>
