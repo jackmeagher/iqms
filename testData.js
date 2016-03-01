@@ -5,8 +5,9 @@
  */
 
 var models  = require('./models');
-
 //FRONT END DEVELOPER SAMPLE QUESTIONS
+
+
 models.question.create({
     question_text : 'Have you worked with javascript libraries?',
     difficulty : 1

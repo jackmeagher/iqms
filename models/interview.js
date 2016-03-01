@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes) {
     var interview = sequelize.define("interview", {
             interviewee: DataTypes.STRING,
-
+            interview: DataTypes.STRING
         },
 
         {

@@ -5,38 +5,12 @@
 <head>
     <script data-require="angular.js@*" data-semver="1.2.0-rc2" src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
     <link rel="stylesheet" href="../CSS/styleSheetDoe.css" />
-    <script src="exampleData.js"></script>
     <script src="restful_vomit.js"></script>
 </head>
 
 <body ng-app="">
-<h1>HERE IS UR VOMIT BEN</h1>
-<h3>plz refer to restful_vomit.js to see how to make calls very ez</h3>
 <div ng-controller="restful_vomit">
-    <h2> SELECT * FROM Questions</h2>
-    {{questions}}
-    <br><br><br><br><br><br>
-    <h2> SELECT * FROM Interviews</h2>
-    {{interviews}}
-    <br><br><br><br><br><br>
-    <h2> SELECT * FROM Answers</h2>
-    {{answers}}
-    <br><br><br><br><br><br>
-    <h2> SELECT * FROM Users</h2>
-    {{users}}
-    <br><br><br><br><br><br>
-    <h2> SELECT * FROM Question WHERE id = 3</h2>
-    {{question3}}
-    <br><br><br><br><br><br>
-    <h2> SELECT * FROM Interview WHERE id = 1</h2>
-    {{interview1}}
-    <br><br><br><br><br><br>
-    <h2> SELECT * FROM Answer WHERE id = 1</h2>
-    {{answer1}}
-
-
-
-
+    {{questions.questions[1].question_text}}
 </div>
 </body>
 
