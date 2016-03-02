@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Interview Creation</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="../app.js"></script>
+</head>
+
+<body style="text-align:center;">
+<h1>CREATE AN INTERVIEW</h1>
+<table style="margin-left:auto; margin-right:auto;">
+    <tr>
+        <td>
+            <label for="singleSelect"> Interviewer: </label><br>
+            <select name="singleSelect" id="singleSelect" ng-model="data.singleSelect">
+                <option value="">---Please select---</option> <!-- not selected / blank option -->
+                <option value="{{data.option1}}">Option 1</option> <!-- interpolation -->
+                <option value="option-2">Option 2</option>
+            </select><br>
+            <br>
+        </td>
+        <td style="width:25px;"></td>
+        <td>
+            <label for="singleSelect"> Interviewee: </label><br>
+            <select name="singleSelect" id="singleSelect" ng-model="data.singleSelect">
+                <option value="">---Please select---</option> <!-- not selected / blank option -->
+                <option value="{{data.option1}}">Option 1</option> <!-- interpolation -->
+                <option value="option-2">Option 2</option>
+            </select><br>
+            <br>
+        </td>
+    </tr>
+    <br>
+    <tr>
+        <td>
+            <select name="singleSelect" id="singleSelect" ng-model="data.singleSelect">
+                <option value="Question 1">Question 1</option> <!-- interpolation -->
+            </select><br>
+            <br>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button>+</button>
+        </td>
+    </tr>
+    <tr>
+        <td style="width:100px;"></td>
+        <td>
+            <button>Create</button>
+        </td>
+    </tr>
+</table>
+</body>
+
+</html>
