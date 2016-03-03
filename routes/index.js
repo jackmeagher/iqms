@@ -53,8 +53,8 @@ exports.question = new Resource('question', '/question', {
         },
         post: (req, res) => { // make a new question
             models.question.create({
-                question_text: req.body.question_text, // SHOCKLEY : <input type="text", name="question_text">
-                difficulty: req.body.difficulty //            <input type="number" name="difficulty">
+                question_text: req.body.question_text,
+                difficulty: req.body.difficulty
             }).then(function(created) {
                 res.status(200).json({
                     question: created.dataValues
@@ -306,7 +306,10 @@ exports.user = new Resource('user', '/user', {
 
 
     }, [new Resource('get_user_by_id', '/:id', {
+
         get: (req, res) => { //get answer by id
+            console.log("MESSAGE \n\n\n" + req.params.id + "\nMESSAGE \n\n\n");
+
             models.user.findAll({
                 where: {
                     id: req.params.id
@@ -334,9 +337,43 @@ exports.user = new Resource('user', '/user', {
 
 
 
-    }
+    }),
+    new Resource('user_interviews', '/:id/interviews/', {
+
+        get: (req, res) => { //get answer by id
+            models.interview.findAll({
+                where : {
+                    userId : req.params.id
+                }
+            }).then(function(gotten_interviews) {
+                    res.status(200).json({
+                        interviews: gotten_interviews
+                    });
+                })
+            },
+            delete: (req, res) => {
+                models.user.destroy({
+                    where: {
+                        id: req.params.id
+                    },
+                    truncate: true /* this will ignore where and truncate the table instead */
+                }).then(function(destroyed) {
+                    res.status(200).json({
+                        answer: destroyed.dataValues
+                    });
+                });
+
+            }
+
+
+
+
+        }
 
     )]
+
+
+
 
 );
 

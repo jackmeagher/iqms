@@ -6,7 +6,6 @@ module.exports = function(sequelize, DataTypes) {
         username: DataTypes.STRING,
         first_name: DataTypes.STRING,
         last_name: DataTypes.STRING,
-        pw_hash: DataTypes.STRING
 
     }
 
@@ -15,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 user.hasMany(models.interview);
-                user.hasOne(models.role,{as : 'user_role'});
+                user.hasOne(models.role, {as :'Role'});
             }
         }
     });
