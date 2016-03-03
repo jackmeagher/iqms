@@ -12,44 +12,39 @@
 <body ng-app="">
 
 <h1>Interviews and Questions</h1>
-Click the plus sign to view associated questions
 <div ng-controller="data_insertion">
     <table>
         <thead style="background-color: lightgray;">
         <tr>
             <td style="width: 30px;"></td>
             <td>
-                Interview
+                Sample Questions
             </td>
-            <td>Level</td>
         </tr>
         </thead>
         <tbody ng-repeat-start="question in questions.questions">
-            <tr >
-                <td>
-                    <button ng-if="question.expanded" ng-click="question.expanded = false">-</button>
-                    <button ng-if="!question.expanded" ng-click="question.expanded = true">+</button>
-                </td>
-            </tr>
-            <tr ng-if="question.expanded">
-                <td colspan="3">
-                    {{question.question_text}}
-                    <div class="progress-box" ng-app>
-                        Question 1 response suitability:
-                        <div class="percentage-cur" ng-init="selectedRange=0">
-                            <span class="num">{{ selectedRange }}%</span>
-                        </div>
-                        <div  class="progress-bar progress-bar-slider">
-                            <input class="progress-slider" type="range" min="0" max="100" ng-model="selectedRange">
-                            <div class="inner" ng-style="{ width: selectedRange + '%' || '0%' }"></div>
-                        </div>
+        <tr>
+            <td colspan="3">
+                {{question.question_text}}
+                <div class="progress-box" ng-app>
+                    Question 1 response suitability:
+                    <div class="percentage-cur" ng-init="selectedRange=0">
+                        <span class="num">{{ selectedRange }}%</span>
                     </div>
-                </td>
-            </tr>
+                    <div  class="progress-bar progress-bar-slider">
+                        <input class="progress-slider" type="range" min="0" max="100" ng-model="selectedRange">
+                        <div class="inner" ng-style="{ width: selectedRange + '%' || '0%' }"></div>
+                    </div>
+                </div>
+                <input type="text" value="Additional Feedback"><br><br><br><br>
+            </td>
+        </tr>
         </tbody>
         <tfoot ng-repeat-end=""></tfoot>
     </table>
 </div>
+<button>Submit Interview</button>
 </body>
-
+<a href="usersList.html">List of users</a>
+<a href="createInterview.html">Create interview</a>
 </html>

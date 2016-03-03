@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <script data-require="angular.js@*" data-semver="1.2.0-rc2"
+            src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
+    <script src="registerController.js"></script>
+</head>
 
-<div class="col-md-6 col-md-offset-3">
+<div class="col-md-6 col-md-offset-3" ng-controller="registerController">
     <h2>Register</h2>
     <form name="form" ng-submit="vm.register()" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
@@ -31,4 +36,8 @@
         </div>
     </form>
 </div>
+
+<a href="../../index.html">List of questions</a>
+<a href="../../usersList.html">List of users</a>
+<a href="../../createInterview.html">Create interview</a>
 

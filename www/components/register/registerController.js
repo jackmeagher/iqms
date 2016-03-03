@@ -1,13 +1,6 @@
 /**
  * Created by James on 3/2/2016.
  */
-
-'use strict';
-
-angular
-    .module('app')
-    .controller('registerController', registerController);
-
 registerController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
 function registerController(UserService, $location, $rootScope, FlashService) {
     var vm = this;

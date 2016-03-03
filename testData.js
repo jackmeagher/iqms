@@ -6,6 +6,8 @@
 
 var models  = require('./models');
 
+models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users;')
+
 //FRONT END DEVELOPER SAMPLE QUESTIONS
 models.question.create({
     question_text : 'Have you worked with javascript libraries?',
