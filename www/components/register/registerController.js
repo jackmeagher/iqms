@@ -1,32 +1,31 @@
 /**
  * Created by James on 3/2/2016.
  */
-(function () {
-    'use strict';
 
-    angular
-        .module('app')
-        .controller('registerController', registerController);
+'use strict';
 
-    registerController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
-    function registerController(UserService, $location, $rootScope, FlashService) {
-        var vm = this;
+angular
+    .module('app')
+    .controller('registerController', registerController);
 
-        vm.register = register;
+registerController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
+function registerController(UserService, $location, $rootScope, FlashService) {
+    var vm = this;
 
-        function register() {
-            vm.dataLoading = true;
-            UserService.create(vm.user)
-                .then(function (response) {
-                    if (response.success) {
-                        FlashService.Success('Registration successful', true);
-                        $location.path('/index');
-                    } else {
-                        FlashService.Error(response.message);
-                        vm.dataLoading = false;
-                    }
-                });
-        }
+    vm.register = register;
+
+    function register() {
+        vm.dataLoading = true;
+        UserService.create(vm.user)
+            .then(function (response) {
+                if (response.success) {
+                    FlashService.Success('Registration successful', true);
+                    $location.path('/index');
+                } else {
+                    FlashService.Error(response.message);
+                    vm.dataLoading = false;
+                }
+            });
     }
+}
 
-})();
