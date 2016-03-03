@@ -7,6 +7,23 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
     <script src="../app.js"></script>
+    <script src="data_insertion.js"></script>
+    <script type="text/javascript">
+        /* Define questionsFields for dynamic form */
+        $scope.questionFields = [{id: 'questionField1'}, {id: 'questionField2'}, {id: 'questionField3'}, {id: 'questionField4'},
+            {id: 'questionField5'}];
+
+        /* Define a new field to be created */
+        $scope.addNewQuestionField = function () {
+            var newItemNo = $scope.questionFields.length + 1;
+            $scope.questionFields.push({'id': 'questionField' + newItemNo});
+        };
+
+        /* Function to add new question field */
+        $scope.showAddQuestionFields = function (questionField) {
+            return questionField.id === $scope.questionFields[$scope.questionFields.length - 1].id;
+        };
+    </script>
 </head>
 
 <body style="text-align:center;">
@@ -14,8 +31,8 @@
 <table style="margin-left:auto; margin-right:auto;">
     <tr>
         <td>
-            <label for="singleSelect"> Interviewer: </label><br>
-            <select name="singleSelect" id="singleSelect" ng-model="data.singleSelect">
+            <label for="singleSelect1"> Interviewer: </label><br>
+            <select name="singleSelect1" id="singleSelect1" ng-model="data.singleSelect">
                 <option value="">---Please select---</option> <!-- not selected / blank option -->
                 <option value="{{data.option1}}">Option 1</option> <!-- interpolation -->
                 <option value="option-2">Option 2</option>
@@ -24,8 +41,8 @@
         </td>
         <td style="width:25px;"></td>
         <td>
-            <label for="singleSelect"> Interviewee: </label><br>
-            <select name="singleSelect" id="singleSelect" ng-model="data.singleSelect">
+            <label for="singleSelect2"> Interviewee: </label><br>
+            <select name="singleSelect2" id="singleSelect2" ng-model="data.singleSelect">
                 <option value="">---Please select---</option> <!-- not selected / blank option -->
                 <option value="{{data.option1}}">Option 1</option> <!-- interpolation -->
                 <option value="option-2">Option 2</option>
@@ -36,15 +53,13 @@
     <br>
     <tr>
         <td>
-            <select name="singleSelect" id="singleSelect" ng-model="data.singleSelect">
-                <option value="Question 1">Question 1</option> <!-- interpolation -->
-            </select><br>
-            <br>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <button>+</button>
+            <div class="form-group" data-ng-repeat="questionField in questionFields">
+                <label for="questionField" ng-show="questionField(questionField)">Interview Questions</label>
+                <input type="text" ng-model="questionField.name" name="" placeholder="Enter a question">
+                <button ng-show="showAddQuestionField(questionField)" ng-click="questionField()">
+                    Add another field
+                </button>
+            </div>
         </td>
     </tr>
     <tr>
