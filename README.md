@@ -4,7 +4,7 @@ Interview Question Management System for CSCI 462
 
 
 
-# (incredibly sexy) REST API DOCUMENTATION
+# REST API DOCS
 
 ##Question
 ####/question
