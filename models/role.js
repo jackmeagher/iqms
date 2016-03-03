@@ -11,6 +11,7 @@ module.exports = function(sequelize, DataTypes) {
         , {
             classMethods: {
                 associate: function(models) {
+                    role.belongsTo(models.user);
 
                 }
             }

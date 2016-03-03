@@ -1,3 +1,7 @@
+
+
+
+
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
@@ -9,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-
+                question.belongsTo(models.interview);
             }
         }
     });
@@ -18,3 +22,10 @@ module.exports = function(sequelize, DataTypes) {
 
     return question;
 };
+
+
+
+
+
+
+
