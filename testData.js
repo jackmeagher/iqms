@@ -5,9 +5,8 @@
  */
 
 var models  = require('./models');
+
 //FRONT END DEVELOPER SAMPLE QUESTIONS
-
-
 models.question.create({
     question_text : 'Have you worked with javascript libraries?',
     difficulty : 1
@@ -57,4 +56,34 @@ models.question.create({
 models.question.create({
     question_text : 'How you contribute to the open source community (Github, Bitbucket, IRC, forums)?',
     difficulty : 1
+});
+
+
+/* USERS */
+models.user.create({
+    username: 'mbbyrd',
+    first_name: 'ben',
+    last_name: 'byrd',
+    pw_hash: 'geocent'
+});
+
+models.user.create({
+    username: 'jackm',
+    first_name: 'jack',
+    last_name: 'meagher',
+    pw_hash: 'geocent'
+});
+
+models.user.create({
+    username: 'nickd',
+    first_name: 'nick',
+    last_name: 'desisto',
+    pw_hash: 'geocent'
+});
+
+models.user.create({
+    username: 'jamess',
+    first_name: 'james',
+    last_name: 'shockley',
+    pw_hash: 'geocent'
 });

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+
+<head>
+    <script data-require="angular.js@*" data-semver="1.2.0-rc2"
+            src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
+    <link rel="stylesheet" href="../CSS/styleSheetDoe.css"/>
+    <script src="data_insertion.js"></script>
+</head>
+
+<body ng-app="">
+
+<h1>Users</h1>
+<div ng-controller="data_insertion">
+    <table>
+        <thead style="background-color: lightgray;">
+        <tr>
+            <td>
+                Username
+            </td>
+            <td>First name</td>
+            <td>Last name</td>
+        </tr>
+        </thead>
+        <tbody ng-repeat-start="user in users.users">
+        <tr>
+            <td colspan="1">
+                {{user.username}}
+            </td>
+            <td colspan="1">
+                {{user.first_name}}
+            </td>
+            <td colspan="1">
+                {{user.last_name}}
+            </td>
+        </tr>
+        </tbody>
+        <tfoot ng-repeat-end=""></tfoot>
+    </table>
+</div>
+</body>
+
+</html>
