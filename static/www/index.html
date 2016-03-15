@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>IQMS Dashboard</title>
 
-    <!-- Angular -->
-    <script data-require="angular.js@*" data-semver="1.2.0-rc2"
-            src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
-
-    <!-- Our styles -->
-    <link rel="stylesheet" href="../CSS/styleSheetDoe.css"/>
-
-    <!-- Script for data -->
-    <script src="data_insertion.js"></script>
-
     <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet"/>
 
@@ -29,8 +19,18 @@
 
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+
+    <!-- Angular -->
+    <script data-require="angular.js@*" data-semver="1.2.0-rc2"
+            src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
+
+    <!-- Our styles -->
+    <link rel="stylesheet" href="../CSS/styleSheetDoe.css"/>
+
+    <!-- Script for data -->
+    <script src="data_insertion.js"></script>
 </head>
-<body>
+<body ng-app="">
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -240,12 +240,12 @@
                                     </tr>
                                     </thead>
                                     <tbody ng-repeat-start="user in users.users">
-                                    <tr>
-                                        <td>{{user.first_name}}</td>
-                                        <td>{{user.last_name}}</td>
-                                        <td>{{user.username}}</td>
-                                        <td><span class="label label-info">{{user.id}}</span></td>
-                                    </tr>
+                                        <tr>
+                                            <td>{{user.first_name}}</td>
+                                            <td>{{user.last_name}}</td>
+                                            <td>{{user.username}}</td>
+                                            <td><span class="label label-info">{{user.id}}</span></td>
+                                        </tr>
                                     </tbody>
                                     <tfoot ng-repeat-end=""></tfoot>
                                 </table>
