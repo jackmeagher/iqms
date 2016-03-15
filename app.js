@@ -3,7 +3,21 @@ var express = require('express');
 var app = express();
 var Resource = require('./lib/Resource');
 var models = require('./models');
-var routes = require('./routes');
+
+
+var answer_routes = require('./routes/answer');
+var role_routes = require('./routes/role');
+var interview_routes = require('./routes/interview');
+var question_routes = require('./routes/question');
+var user_routes = require('./routes/user');
+
+question_routes.register(app,'');
+interview_routes.register(app,'');
+answer_routes.register(app,'');
+user_routes.register(app,'');
+role_routes.register(app,'');
+
+
 var bodyParser  = require('body-parser');
 var testq = require('./testData');
 
@@ -20,11 +34,6 @@ app.all('/*', function(req, res, next) {
     next();
 });
 
-routes.hw_resource.register(app, '');
-routes.question.register(app,'');
-routes.interview.register(app,'');
-routes.answer.register(app,'');
-routes.user.register(app,'');
-routes.role.register(app,'');
+
 
 module.exports = app;
