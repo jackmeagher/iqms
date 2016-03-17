@@ -8,7 +8,8 @@ var exports = module.exports = {};
 
 
 exports = module.exports = new Resource('question', '/question', {
-        get: (req, res) => { // get all questions
+        // get all questions
+        get: (req, res) => {
             var query_doc = {};
             if(req.query.difficulty) {
                 query_doc.difficulty = req.query.difficulty;
@@ -25,6 +26,7 @@ exports = module.exports = new Resource('question', '/question', {
                 });
             })
         },
+        // create new question
         post: (req, res) => { // make a new question
             models.question.create({
                 question_text: req.body.question_text,
@@ -38,7 +40,8 @@ exports = module.exports = new Resource('question', '/question', {
 
 
     }, [new Resource('get_question_by_id', '/:id', {
-        get: (req, res) => { //get question by id
+        //get question by id
+        get: (req, res) => {
             models.question.findAll({
                     where: {
                         id: req.params.id
@@ -50,6 +53,7 @@ exports = module.exports = new Resource('question', '/question', {
                     });
                 })
         },
+        //delete question by id
         delete: (req, res) => {
             models.question.destroy({
                     where: {

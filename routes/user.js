@@ -9,6 +9,7 @@ var exports = module.exports = {};
 
 
 exports = module.exports = new Resource('user', '/user', {
+        // get all users
         get: (req, res) => {
 
             //models.sequelize.query('SELECT * FROM "Users";')
@@ -19,6 +20,7 @@ exports = module.exports = new Resource('user', '/user', {
                     });
                 })
         },
+        // create new user
         post: (req, res) => { // make a new question
             models.user.create({
                 //TODO: user fields
@@ -33,7 +35,7 @@ exports = module.exports = new Resource('user', '/user', {
 
 
     }, [new Resource('get_user_by_id', '/:id', {
-
+        // get user by id
         get: (req, res) => { //get answer by id
             console.log("MESSAGE \n\n\n" + req.params.id + "\nMESSAGE \n\n\n");
 
@@ -47,6 +49,7 @@ exports = module.exports = new Resource('user', '/user', {
                 });
             })
         },
+        // delete user by id
         delete: (req, res) => {
             models.user.destroy({
                 where: {
@@ -66,7 +69,7 @@ exports = module.exports = new Resource('user', '/user', {
 
     }),
         new Resource('user_interviews', '/:id/interviews/', {
-
+                // get all interviews by user
                 get: (req, res) => { //get answer by id
                     models.userInterview.findAll(
                         //where : {
@@ -84,6 +87,7 @@ exports = module.exports = new Resource('user', '/user', {
                         });
                     })
                 },
+                // remove interview from user
                 delete: (req, res) => {
                     models.user.destroy({
                         where: {
