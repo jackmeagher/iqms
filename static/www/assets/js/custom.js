@@ -1,14 +1,13 @@
-﻿
-/*=============================================================
-    Authour URI: www.binarytheme.com
-    License: Commons Attribution 3.0
+﻿/*=============================================================
+ Authour URI: www.binarytheme.com
+ License: Commons Attribution 3.0
 
-    http://creativecommons.org/licenses/by/3.0/
+ http://creativecommons.org/licenses/by/3.0/
 
-    100% To use For Personal And Commercial Use.
-    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
-   
-    ========================================================  */
+ 100% To use For Personal And Commercial Use.
+ IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+
+ ========================================================  */
 
 
 (function ($) {
@@ -18,8 +17,8 @@
         metisMenu: function () {
 
             /*====================================
-            METIS MENU 
-            ======================================*/
+             METIS MENU
+             ======================================*/
 
             $('#main-menu').metisMenu();
 
@@ -29,8 +28,8 @@
         loadMenu: function () {
 
             /*====================================
-            LOAD APPROPRIATE MENU BAR
-         ======================================*/
+             LOAD APPROPRIATE MENU BAR
+             ======================================*/
 
             $(window).bind("load resize", function () {
                 if ($(this).width() < 768) {
@@ -43,8 +42,8 @@
         slide_show: function () {
 
             /*====================================
-           SLIDESHOW SCRIPTS
-        ======================================*/
+             SLIDESHOW SCRIPTS
+             ======================================*/
 
             $('#carousel-example').carousel({
                 interval: 3000 // THIS TIME IS IN MILLI SECONDS
@@ -52,15 +51,15 @@
         },
         reviews_fun: function () {
             /*====================================
-         REWIEW SLIDE SCRIPTS
-      ======================================*/
+             REWIEW SLIDE SCRIPTS
+             ======================================*/
             $('#reviews').carousel({
                 interval: 2000 //TIME IN MILLI SECONDS
             })
         },
         wizard_fun: function () {
             /*====================================
-            //horizontal wizrd code section
+             //horizontal wizrd code section
              ======================================*/
             $(function () {
                 $("#wizard").steps({
@@ -70,8 +69,8 @@
                 });
             });
             /*====================================
-            //vertical wizrd  code section
-            ======================================*/
+             //vertical wizrd  code section
+             ======================================*/
             $(function () {
                 $("#wizardV").steps({
                     headerTag: "h2",
@@ -81,8 +80,8 @@
                 });
             });
         },
-       
-        
+
+
     };
     $(document).ready(function () {
         mainApp.metisMenu();
@@ -90,6 +89,6 @@
         mainApp.slide_show();
         mainApp.reviews_fun();
         mainApp.wizard_fun();
-       
+
     });
 }(jQuery));
