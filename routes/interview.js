@@ -85,7 +85,7 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
 
         },
         /// delete all questions from interview
-        delete: (req, res) => { //get interview by id
+        delete: (req, res) => {
             models.interviewQuestion.destroy({
                 where: {
                 interview_id : req.params.id
@@ -143,7 +143,48 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
 
         }
 
-    })
+    }),
+
+        new Resource('get_answers_from_interview', '/:id/answers', {
+            /// get all answers from interview
+            get: (req, res) => {
+                models.sequelize.query('SELECT * FROM answers WHERE interview_id =' + req.params.id
+                      ,{ type: models.sequelize.QueryTypes.SELECT} )
+                    .then(function (answers) {
+                        res.status(200).json(answers);
+                    })
+
+            },
+            /// delete all answers from interview
+            delete: (req, res) => {
+                models.answer.destroy({
+                        where: {
+                            interview_id : req.params.id
+                        }}
+                    )
+                    .then(function (destroyed) {
+                        res.status(200).json(destroyed);
+                    })
+
+            }
+
+
+
+        }),
+
+        new Resource('get_answers_from_interview', '/:id/next', {
+            /// get remaining questions
+            get: (req, res) => {
+                models.sequelize.query('SELECT * FROM questions WHERE id IN (select question_id from "interviewQuestions" WHERE interview_id =' + req.params.id + ') AND id NOT IN(select question_id from answers WHERE interview_id =' + req.params.id + ')'
+                    ,{ type: models.sequelize.QueryTypes.SELECT} )
+                    .then(function (answers) {
+                        res.status(200).json(answers);
+                    })
+
+            }
+
+
+        })
 
     ]
 

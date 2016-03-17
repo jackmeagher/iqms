@@ -5,8 +5,8 @@
 
 module.exports = function(sequelize, DataTypes) {
     var interviewQuestion = sequelize.define("interviewQuestion", {
-            interview_id: {type : DataTypes.INTEGER, unique : true},
-            question_id:  {type :DataTypes.INTEGER, unique : true}
+            interview_id: {type : DataTypes.INTEGER, key : true},
+            question_id:  {type :DataTypes.INTEGER, key : true}
 
 
         },
