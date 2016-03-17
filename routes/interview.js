@@ -7,27 +7,40 @@ var exports = module.exports = {};
 
 
 
-exports = module.exports = new Resource('interview', '/interview', {
-        get: (req, res) => {
+exports = module.exports = new Resource('interview', '/interview',
+    {
+        get: (req, res) =>
+        {
 
             models.interview.findAll()
-                .then(function(interviews) {
-                    res.status(200).json({
+                .then(function(interviews)
+                {
+                    res.status(200).json
+                    ({
                         interviews: interviews
                     });
                 })
         },
-        post: (req, res) => { // make a new interview
-            models.interview.create({}).then(function(created) {
-                res.status(200).json({
+        post: (req, res) =>
+        { // make a new interview
+            models.interview.create({}).then
+            (
+                function(created)
+            {
+                res.status(200).json
+                ({
                     interview: created.dataValues
                 });
-            })
+            }
+            )
         },
 
 
-
-    }, [new Resource('get_interview_by_id', '/:id', {
+        // interview/id
+    },
+    [
+        new Resource('get_interview_by_id', '/:id',
+            {
         get: (req, res) => { //get interview by id
             models.interview.findAll({
                 where: {
@@ -57,78 +70,101 @@ exports = module.exports = new Resource('interview', '/interview', {
 
 
 
-    }), new Resource('get_interview_by_id', '/:id/questions', {
+    }),
+
+        new Resource('get_questions_from_interview', '/:id/questions', {
         get: (req, res) => { //get interview by id
-            models.interview.findOne({
-                    where: {
-                        id: req.params.id
-                    }
-                })
-                .then(function(interview) {
-                    interview.getQuestions()
-                        .then(function(questions) {
-                            res.status(200).json(questions);
-                        })
+            models.sequelize.query('SELECT * FROM questions WHERE id in ( SELECT question_id FROM "interviewQuestions"' +
+                    'WHERE interview_id =' + req.params.id + ')',{ type: models.sequelize.QueryTypes.SELECT} )
+                .then(function (questions) {
+                    res.status(200).json(questions);
                 })
 
-        }
+        }}),
+
+        //    models.interview.findOne({
+        //            where: {
+        //                id: req.params.id
+        //            }
+        //        })
+        //        .then(function(interview) {
+        //            models.interviewQuestion.findAll({
+        //                where :
+        //                {
+        //                    //interview_id : interview.id
+        //                }
+        //            })
+        //                .then(function(iqs) {
+        //                    res.status(200).json(iqs);
+        //                })
+        //        })
+        //
+        //}
 
 
 
 
-    }, [new Resource('add_question_to_interview', '/:question_id', {
+
+        new Resource('add_question_to_interview', '/:id/questions/:question_id', {
         post: (req, res) => { // add question to interview
-            models.interview.findOne({
-                    where: {
-                        id: req.params.id
-                    }
-                })
-                .then(function(interview) {
-                    models.question.findOne({
-                            where: {
-                                id: req.params.question_id
-                            }
-                        })
-                        .then(function(question) {
-                            interview.addQuestion(question)
+
+                            models.interviewQuestion.create(
+                                {
+                                    interview_id : req.params.id,
+                                    question_id : req.params.question_id
+                                }
+                            )
                                 .then(
-                                    function(added) {
-                                        res.status(200).json(added);
+                                    function(iq) {
+                                        res.status(200).json(iq);
                                     })
-                        })
-                });
 
         },
-        delete: (req, res) => { //remove question from interview
-            models.interview.findOne({
+            //models.interview.findOne({
+            //        where: {
+            //            id: req.params.id
+            //        }
+            //    })
+            //    .then(function(interview) {
+            //        models.question.findOne({
+            //                where: {
+            //                    id: req.params.question_id
+            //                }
+            //            })
+            //            .then(function(question) {
+            //                console.log(interview);
+            //
+            //                models.interviewQuestion.create(
+            //                    {
+            //                        interview_id : interview.id,
+            //                        question_id : question.id
+            //                    }
+            //                )
+            //                    .then(
+            //                        function(iq) {
+            //                            res.status(200).json(iq);
+            //                        })
+            //            })
+
+
+
+            delete: (req, res) => {
+                models.interviewQuestion.destroy({
                     where: {
-                        id: req.params.id
+                        interview_id: req.params.id,
+                        question_id : req.params.question_id
                     }
-                })
-                .then(function(interview) {
-                    models.question.findOne({
-                            where: {
-                                id: req.params.question_id
-                            }
-                        })
-                        .then(function(question) {
-                            interview.removeQuestion(question)
-                                .then(
-                                    function(removed) {
-                                        res.status(200).json(removed);
-                                    })
-                        })
+                }).then(function(destroyed) {
+                    res.status(200).json({
+                        success : destroyed
+                    });
                 });
 
-        }
-
-
+            }
 
     })
 
-
     ]
 
-    )]
 
 );
