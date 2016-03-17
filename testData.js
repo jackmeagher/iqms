@@ -89,3 +89,10 @@ models.user.create({
     last_name: 'shockley',
     pw_hash: 'geocent'
 });
+
+
+models.interviewQuestion.create({
+    interview_id : 71,
+    question_id : 711
+});
+

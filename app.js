@@ -24,6 +24,7 @@ var testq = require('./testData');
 app.use(bodyParser.urlencoded()); // TODO: THIS IS DEPRECATED FIGURE OUT HOW TO FIX THAT
 
 app.use(bodyParser.json());
+app.use('/static', express.static('../static'));
 
 
 // middleware to add headers for cross origin requests

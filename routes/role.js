@@ -8,9 +8,9 @@ var exports = module.exports = {};
 
 
 exports = module.exports = new Resource('role', '/role', {
+        // get all roles
         get: (req, res) => {
 
-            //models.sequelize.query('SELECT * FROM "Users";')
             models.role.findAll()
                 .then(function(role) {
                     res.status(200).json({
@@ -18,7 +18,8 @@ exports = module.exports = new Resource('role', '/role', {
                     });
                 })
         },
-        post: (req, res) => { // make a new question
+        // make new role
+        post: (req, res) => {
             models.role.create({
                 //TODO: user fields
 
@@ -32,7 +33,8 @@ exports = module.exports = new Resource('role', '/role', {
 
 
     }, [new Resource('get_role_by_id', '/:id', {
-        get: (req, res) => { //get answer by id
+        // get answer by id
+        get: (req, res) => {
             models.role.findAll({
                 where: {
                     id: req.params.id
@@ -43,6 +45,7 @@ exports = module.exports = new Resource('role', '/role', {
                 });
             })
         },
+        // delete answer by id
         delete: (req, res) => {
             models.role.destroy({
                 where: {
