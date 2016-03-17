@@ -29,7 +29,7 @@ exports = module.exports = new Resource('answer', '/answer', {
                     answer: created
                 });
             })
-        },
+        }
 
 
 
@@ -52,7 +52,7 @@ exports = module.exports = new Resource('answer', '/answer', {
             models.answer.destroy({
                 where: {
                     id: req.params.id
-                },
+                }
             }).then(function(destroyed) {
                 res.status(200).json({
                     answer: destroyed.dataValues
