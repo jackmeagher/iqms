@@ -93,32 +93,3 @@ describe('App', function() {
         });
     });
 });
-
-
-
-
-/*describe('/question', function() {
-    describe('#POST', function() {
-        it('should create a question without error', function(done) {
-            var req = {
-                body : {
-                    question_text: "Test Question 1",
-                    difficulty: 1
-                }
-            };
-            var res =
-            user.save(function(err) {
-                if (err) throw err;
-                done();
-            });
-        });
-        it('should error on bad data', function(done) {
-            var user = new User(null, '', 123);
-            user.save(function(err) {
-                if (!err) throw new Error("No error!");
-                done();
-            });
-        });
-    });
-
-});*/
