@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
         , {
             classMethods: {
                 associate: function(models) {
-                    role.belongsTo(models.user);
+                    role.belongsToMany(models.user, {through: 'userRole', onDelete : 'SET NULL', onUpdate : 'CASCADE' });
 
                 }
             }

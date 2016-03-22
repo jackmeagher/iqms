@@ -7,15 +7,12 @@ module.exports = function(sequelize, DataTypes) {
         rating : DataTypes.INTEGER, // needs to be 1-5 (stars)
         interview_id : DataTypes.INTEGER,
         question_id : DataTypes.INTEGER
-
-
     }, {
         classMethods: {
             associate: function(models) {
-
+                answer.belongsTo(models.interview);
+                answer.belongsTo(models.question);
             }
-
-
         }
 
     });
