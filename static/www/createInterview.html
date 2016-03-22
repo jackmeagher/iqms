@@ -26,6 +26,17 @@
 
     <!-- Script for data -->
     <script src="data_insertion.js"></script>
+
+    <!--- Formatting additional form fields --->
+    <style>
+        .entry:not(:first-of-type) {
+            margin-top: 10px;
+        }
+
+        .glyphicon {
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body ng-app="">
 <div id="wrapper">
@@ -89,24 +100,37 @@
 
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12" style="width:100%;">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         Interview
                     </div>
-                    <div class="panel-body">
-                        <form role="form">
-                            <div class="form-group">
-                                <label>Job Title</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label>Question:</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <button type="submit" class="btn btn-info">Submit Interview</button>
-
-                        </form>
+                    <div class="control-group" id="fields">
+                        <div class="controls">
+                            <form role="form" autocomplete="on" style="margin-left:5%;">
+                                <div class="form-group" style="margin-top:2%; text-align:center">
+                                    <label>Job Title</label>
+                                    <input class="form-control" type="text" style="width:35%;
+                                     margin-left:auto; margin-right:auto;">
+                                </div>
+                                <br>
+                                <div class="entry input-group col-xs-3">
+                                    <input class="form-control" name="fields[]" type="text"
+                                           placeholder="Enter an interview question" style="min-width:750px;"/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success btn-add" type="button">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
+                            <br><br>
+                            <button type="button" class="btn btn-lg btn-success"
+                                    style="margin-left:43%; margin-bottom:2%;">
+                                Submit Interview
+                            </button>
+                            <br>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -127,6 +151,29 @@
     <script src="assets/js/jquery.metisMenu.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
+    <!--- FUNCTION FOR ADDING MORE FORM FIELDS --->
+    <script type="text/javascript">
+        $(function () {
+            $(document).on('click', '.btn-add', function (e) {
+                e.preventDefault();
+
+                var controlForm = $('.controls form:first'),
+                        currentEntry = $(this).parents('.entry:first'),
+                        newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+                newEntry.find('input').val('');
+                controlForm.find('.entry:not(:last) .btn-add')
+                        .removeClass('btn-add').addClass('btn-remove')
+                        .removeClass('btn-success').addClass('btn-danger')
+                        .html('<span class="glyphicon glyphicon-minus"></span>');
+            }).on('click', '.btn-remove', function (e) {
+                $(this).parents('.entry:first').remove();
+
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>
 </div>
 </body>
 </html>
