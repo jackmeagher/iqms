@@ -35,7 +35,7 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
                 });
             }
             )
-        },
+        }
 
 
     },
@@ -77,8 +77,8 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
         new Resource('get_questions_from_interview', '/:id/questions', {
         /// get all questions from interview
         get: (req, res) => {
-            models.sequelize.query('SELECT * FROM questions WHERE id in ( SELECT question_id FROM "interviewQuestions"' +
-                    'WHERE interview_id =' + req.params.id + ')',{ type: models.sequelize.QueryTypes.SELECT} )
+            models.sequelize.query('SELECT * FROM questions WHERE id in ( SELECT "questionId" FROM "interviewQuestions"' +
+                    'WHERE "interviewId" =' + req.params.id + ')',{ type: models.sequelize.QueryTypes.SELECT} )
                 .then(function (questions) {
                     res.status(200).json(questions);
                 })
@@ -149,7 +149,8 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
             /// get all answers from interview
             get: (req, res) => {
                 models.sequelize.query('SELECT * FROM answers WHERE interview_id =' + req.params.id
-                      ,{ type: models.sequelize.QueryTypes.SELECT} )
+                      ,{ type: models.sequelize.QueryTypes.SELECT}
+                )
                     .then(function (answers) {
                         res.status(200).json(answers);
                     })
@@ -173,10 +174,20 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
         }),
 
         new Resource('get_answers_from_interview', '/:id/next', {
-            /// get remaining questions
+            /// get questions that haven't been answered
             get: (req, res) => {
-                models.sequelize.query('SELECT * FROM questions WHERE id IN (select question_id from "interviewQuestions" WHERE interview_id =' + req.params.id + ') AND id NOT IN(select question_id from answers WHERE interview_id =' + req.params.id + ')'
-                    ,{ type: models.sequelize.QueryTypes.SELECT} )
+                models.sequelize.query(
+                    'SELECT * FROM questions ' +
+                    'WHERE id IN (' +
+                        'SELECT question_id ' +
+                        'FROM "interviewQuestions" ' +
+                        'WHERE interview_id =' + req.params.id + ') ' +
+                        'AND id NOT IN(' +
+                            'SELECT question_id ' +
+                            'FROM answers ' +
+                            'WHERE interview_id =' + req.params.id + ')'
+                    , { type: models.sequelize.QueryTypes.SELECT}
+                )
                     .then(function (answers) {
                         res.status(200).json(answers);
                     })

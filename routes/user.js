@@ -37,8 +37,6 @@ exports = module.exports = new Resource('user', '/user', {
     }, [new Resource('get_user_by_id', '/:id', {
         // get user by id
         get: (req, res) => { //get answer by id
-            console.log("MESSAGE \n\n\n" + req.params.id + "\nMESSAGE \n\n\n");
-
             models.user.findAll({
                 where: {
                     id: req.params.id
@@ -69,6 +67,7 @@ exports = module.exports = new Resource('user', '/user', {
 
     }),
         new Resource('user_interviews', '/:id/interviews/', {
+                //TODO : make this work
                 // get all interviews by user
                 get: (req, res) => { //get answer by id
                     models.userInterview.findAll(
@@ -88,6 +87,7 @@ exports = module.exports = new Resource('user', '/user', {
                     })
                 },
                 // remove interview from user
+                // TODO: does this work
                 delete: (req, res) => {
                     models.user.destroy({
                         where: {

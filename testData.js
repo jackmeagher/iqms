@@ -6,7 +6,7 @@
 
 var models  = require('./models');
 
-models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users;')
+//models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestions" CASCADE;')
 
 //FRONT END DEVELOPER SAMPLE QUESTIONS
 models.question.create({
@@ -92,7 +92,7 @@ models.user.create({
 
 
 models.interviewQuestion.create({
-    interview_id : 71,
-    question_id : 711
+    interviewId : 3,
+    questionId : 41
 });
 
