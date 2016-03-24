@@ -13,19 +13,10 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-
+                question.belongsToMany(models.interview, {through : "interviewQuestion"});
             }
         }
     });
 
-
-
     return question;
 };
-
-
-
-
-
-
-

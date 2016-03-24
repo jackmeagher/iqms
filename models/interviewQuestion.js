@@ -5,17 +5,12 @@
 
 module.exports = function(sequelize, DataTypes) {
     var interviewQuestion = sequelize.define("interviewQuestion", {
-            interview_id: {type : DataTypes.INTEGER, key : true},
-            question_id:  {type :DataTypes.INTEGER, key : true}
-
 
         },
 
         {
             classMethods: {
                 associate: function(models) {
-
-
 
                 }
 
@@ -26,4 +21,3 @@ module.exports = function(sequelize, DataTypes) {
 
     return interviewQuestion;
 };
-
