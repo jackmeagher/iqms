@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 require("use-strict");
+require("daemon")();
 var app = require('../app');
 var models = require('../models');
 app.set('view engine', 'jade');
