@@ -78,7 +78,7 @@
                         Interview</a>
                 </li>
                 <li>
-                    <a href="editInterview.html"><i class="fa fa-edit "></i>Edit Interview</a>
+                    <a href="listInterviews.html"><i class="fa fa-edit "></i>List Interviews</a>
                 </li>
                 <li>
                     <a href="conductInterview.html"><i class="fa fa-briefcase "></i>Conduct
@@ -108,20 +108,20 @@
                     <div class="control-group" id="fields">
                         <div class="controls">
                             <form role="form" autocomplete="on" style="margin-left:5%;">
-                                <div class="form-group" style="margin-top:2%; text-align:center">
+                                <div class="form-group" style="margin-top:2%; text-align:left;">
                                     <label>Job Title</label>
                                     <input class="form-control" type="text" style="width:35%;
-                                     margin-left:auto; margin-right:auto;">
+                                     text-align:left;">
                                 </div>
                                 <br>
-                                <div class="entry input-group col-xs-3">
+                                <div class="entry input-group col-xs-3" style="display:inline-flex; width:85%;">
                                     <input class="form-control" name="fields[]" type="text"
-                                           placeholder="Enter an interview question" style="min-width:750px;"/>
-                                    <span class="input-group-btn">
+                                           placeholder="Enter an interview question"/>
+                                    <div class="input-group-btn">
                                         <button class="btn btn-success btn-add" type="button">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
-                                    </span>
+                                    </div>
                                 </div>
                             </form>
                             <br><br>
