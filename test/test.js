@@ -1,11 +1,11 @@
 require('use-strict');
 "use strict";
 var request = require('supertest');
-var server_promise = require('../bin/www');
+var server_promise = require('../bin/www_test');
 
 describe('App', function() {
     before( function() {
-        server_promise = require('../bin/www');
+        server_promise = require('../bin/www_test');
     });
     describe('/question', function() {
         var url = '/question';

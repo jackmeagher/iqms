@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+"use strict";
+require("use-strict");
+var app = require('../app');
+var models = require('../models');
+app.set('view engine', 'jade');
+
+app.set('port', process.env.PORT || 3000);
+var prom = models.sequelize.sync().then( (modelInstance) => {
+    var server = app.listen(app.get('port'), () => {
+        var port = server.address().port;
+        console.log('Express server listening on port ' + server.address().port);
+    });
+    return server;
+});
+module.exports = prom;
