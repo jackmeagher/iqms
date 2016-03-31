@@ -6,19 +6,34 @@
 
 var models  = require('./models');
 
-//models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestions" CASCADE;')
+models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestions" CASCADE;')
 
 //FRONT END DEVELOPER SAMPLE QUESTIONS
 
 models.interview.create({
-    label : 'Front-End Developer'
+    label : 'Front-End Developer',
+    interviewee : 'Ben Byrd'
 });
+
+
+
+
 models.interview.create({
-    label : 'Back-end Developer'
+    label : 'Back-end Developer',
+    interviewee : 'Jack Meagher'
 });
 
 models.interview.create({
-    label : 'Data Scientist'
+    label : 'Data Scientist',
+    interviewee : 'Nick DeSisto'
+
+});
+
+
+models.interview.create({
+    label : 'Janitorial Technician',
+    interviewee : 'James Shockley'
+
 });
 
 models.question.create({

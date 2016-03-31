@@ -27,7 +27,7 @@
     <script src="data_insertion.js"></script>
 </head>
 <body ng-app="">
--<div ng-controller="data_insertion"> <!-- NICK-->
+<div ng-controller="data_insertion"> <!-- NICK-->
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -99,21 +99,26 @@
                                         <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Interviewee</th>
                                             <th>Job Title</th>
                                             <th></th>
                                             <th></th>
                                         </tr>
                                         </thead>
-                                        <tbody ng-repeat="int in interview.interviews">
+                                        <tbody ng-repeat="interview in _interview.interviews">
                                         <tr class="success">
                                             <td>{{$index}}</td>
-                                            <td>  {{int.label}} </td>
+                                            <td>{{interview.interviewee}}</td>
+
+                                            <td>  {{interview.label}} </td>
                                             <td><a href="editInteriew.html?interview=Front-End Developer">
                                                 <button class="btn btn-warning">Edit Interview</button>
                                             </a>
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger">Delete Interview</button>
+                                                <button class="btn btn-danger" ng-click="DeleteInterview($index,interview)">Delete</button>
+
+                                                <!--<button class="btn btn-danger" type="submit" formaction="/interview/{{interview.id}}" formmethod="DELETE">Delete Interview</button>-->
                                             </td>
                                         </tr>
                                         </div>

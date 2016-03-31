@@ -3,21 +3,35 @@
  */
 
 function data_insertion($scope, $http) {
+
     $http.get('/question').success(function (data) {
-        $scope.questions = data;
+        $scope._question = data;
     });
 
     $http.get('/interview').success(function (data) {
-        $scope.interview = data;
+        $scope._interview = data;
     });
 
     $http.get('/answer').success(function (data) {
-        $scope.answers = data;
+        $scope._answer = data;
     });
 
     $http.get('/user').success(function (data) {
-        $scope.users = data;
+        $scope._user = data;
     });
+
+
+
+
+    $scope.DeleteInterview = function (index,interview) {
+        $http.delete('/interview/' + interview.id)
+            .success( function(){
+                $http.get('/interview').success(function(data){
+                    $scope._interview = data;
+            })}
+            )};
+
+
 
     /* Define questionsFields for dynamic form */
     $scope.questionFields = [{id: 'questionField1'}, {id: 'questionField2'}, {id: 'questionField3'}, {id: 'questionField4'},
