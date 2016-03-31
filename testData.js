@@ -9,6 +9,18 @@ var models  = require('./models');
 //models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestions" CASCADE;')
 
 //FRONT END DEVELOPER SAMPLE QUESTIONS
+
+models.interview.create({
+    label : 'Front-End Developer'
+});
+models.interview.create({
+    label : 'Back-end Developer'
+});
+
+models.interview.create({
+    label : 'Data Scientist'
+});
+
 models.question.create({
     question_text : 'Have you worked with javascript libraries?',
     difficulty : 1
@@ -90,9 +102,9 @@ models.user.create({
     pw_hash: 'geocent'
 });
 
-
-models.interviewQuestion.create({
-    interviewId : 3,
-    questionId : 41
-});
+//
+//models.interviewQuestion.create({
+//    interviewId : 3,
+//    questionId : 41
+//});
 
