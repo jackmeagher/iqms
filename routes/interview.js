@@ -29,7 +29,7 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
             (
                 function(created)
             {
-                res.status(200).json
+                res.status(201).json
                 ({
                     interview: created.dataValues
                 });
@@ -136,8 +136,7 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
                     question_id : req.params.question_id
                 }
             }).then(function(destroyed) {
-                res.status(200).json({
-                    success : destroyed
+                res.status(203).json({
                 });
             });
 
@@ -164,7 +163,7 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
                         }}
                     )
                     .then(function (destroyed) {
-                        res.status(200).json(destroyed);
+                        res.status(204).json({});
                     })
 
             }

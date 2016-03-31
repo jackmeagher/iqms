@@ -29,10 +29,10 @@ exports = module.exports = new Resource('question', '/question', {
         // create new question
         post: (req, res) => { // make a new question
             models.question.create({
-                question_text: req.body.question_text,
-                difficulty: req.body.difficulty
+                //question_text: req.body.question_text,
+                //difficulty: req.body.difficulty
             }).then(function(created) {
-                res.status(200).json({
+                res.status(201).json({
                     question: created.dataValues
                 });
             })
@@ -61,8 +61,7 @@ exports = module.exports = new Resource('question', '/question', {
                     }
                 })
                 .then(function(destroyed) {
-                    res.status(200).json({
-                        return : 'success'
+                    res.status(204).json({
                     });
                 })
 

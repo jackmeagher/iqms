@@ -24,7 +24,7 @@ exports = module.exports = new Resource('role', '/role', {
                 //TODO: user fields
 
             }).then(function(created) {
-                res.status(200).json({
+                res.status(201).json({
                     role: created.dataValues
                 });
             })
@@ -52,8 +52,8 @@ exports = module.exports = new Resource('role', '/role', {
                     id: req.params.id
                 }
             }).then(function(destroyed) {
-                res.status(200).json({
-                    role: destroyed.dataValues
+                res.status(204).json({
+                    //role: destroyed.dataValues
                 });
             });
 

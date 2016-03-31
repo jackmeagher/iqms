@@ -26,7 +26,7 @@ exports = module.exports = new Resource('user', '/user', {
                 //TODO: user fields
 
             }).then(function(created) {
-                res.status(200).json({
+                res.status(201).json({
                     answer: created.dataValues
                 });
             })
@@ -55,8 +55,7 @@ exports = module.exports = new Resource('user', '/user', {
                 },
                 //truncate: true /* this will ignore where and truncate the table instead */
             }).then(function(destroyed) {
-                res.status(200).json({
-                    answer: destroyed.dataValues
+                res.status(204).json({
                 });
             });
 

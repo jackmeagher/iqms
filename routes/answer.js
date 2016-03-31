@@ -25,7 +25,7 @@ exports = module.exports = new Resource('answer', '/answer', {
                 //interview_id : req.body.interview_id,
                 //question_id : req.body.question_id
             }).then(function(created) {
-                res.status(200).json({
+                res.status(201).json({
                     answer: created
                 });
             })
@@ -54,8 +54,8 @@ exports = module.exports = new Resource('answer', '/answer', {
                     id: req.params.id
                 }
             }).then(function(destroyed) {
-                res.status(200).json({
-                    answer: destroyed.dataValues
+                res.status(204).json({
+
                 });
             });
 
