@@ -8,9 +8,6 @@ function data_insertion($scope, $http) {
         $scope._question = data;
     });
 
-    $http.get('/interview').success(function (data) {
-        $scope._interview = data;
-    });
 
     $http.get('/answer').success(function (data) {
         $scope._answer = data;
@@ -21,15 +18,6 @@ function data_insertion($scope, $http) {
     });
 
 
-
-
-    $scope.DeleteInterview = function (index,interview) {
-        $http.delete('/interview/' + interview.id)
-            .success( function(){
-                $http.get('/interview').success(function(data){
-                    $scope._interview = data;
-            })}
-            )};
 
 
 
