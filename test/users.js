@@ -3,6 +3,12 @@ require('use-strict');
 var request = require('supertest');
 var server_promise = require('../bin/www_test');
 
+var expectedUsersData = {
+'username' : 'testman username',
+'first_name' : 'testman first',
+'last_name' : 'testman last'
+};
+
 describe('App', function() {
     before( function() {
         server_promise = require('../bin/www_test');
@@ -18,7 +24,7 @@ describe('App', function() {
                         .expect('Content-Type', /json/)
                         .expect(200, done)
                         .end(function (err, res) {
-                          done();
+                          if (err) return done(err);
                         });
                         done();
                 });
@@ -57,25 +63,23 @@ describe('App', function() {
         describe('#POST', function() {
             it('should add a user', function(done) {
                 server_promise.then( (server) => {
-                    var payload = {
-                    //TODO: Add user fields since not defined in routes/user.js
-                    };
+                    var payload = expectedUsersData;
+
                     request(server)
                         .post(url)
                         .send(payload)
                         .expect('Content-Type', /json/)
-                        .expect(200)
+                        .expect(function(res) {
+                          if (!res.body == payload) throw new error("Didn't get expected data back")
+                        })
                         .end(function (err, res) {
-                          //TODO: Define test data and adjust since not defined in routes/user.js
-                          var expectedUsersData = 'add data';
-                          var users= res.body;
-
-                          error(err, 'No error');
-                          same(res.body, expectedUsersData, 'User created data values as expected');
-                          end();
+                            if (err) return done(err);
+                          done();
                         });
                 });
             });
         });
+
+
     });
 });
