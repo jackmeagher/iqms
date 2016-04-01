@@ -3,6 +3,10 @@ var express = require('express');
 var app = express();
 var Resource = require('./lib/Resource');
 var models = require('./models');
+var bodyParser  = require('body-parser');
+
+app.use(bodyParser.json());
+
 
 
 var answer_routes = require('./routes/answer');
@@ -18,11 +22,9 @@ user_routes.register(app,'');
 role_routes.register(app,'');
 
 
-var bodyParser  = require('body-parser');
 
 app.use(bodyParser.urlencoded()); // TODO: THIS IS DEPRECATED FIGURE OUT HOW TO FIX THAT
 
-app.use(bodyParser.json());
 app.use('/static', express.static('../static'));
 
 
@@ -36,6 +38,6 @@ app.all('/*', function(req, res, next) {
 
 
 
-var testq = require('./testData');
+//var testq = require('./testData');
 
 module.exports = app;
