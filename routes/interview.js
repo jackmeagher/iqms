@@ -25,7 +25,12 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
         // make a new interview
         post: (req, res) =>
         {
-            models.interview.create({}).then
+            console.log(req.body);
+            models.interview.create({
+                label : req.body.label,
+                interviewee : req.body.interviewee
+
+            }).then
             (
                 function(created)
             {

@@ -37,8 +37,12 @@
             font-size: 12px;
         }
     </style>
+    <script src="control/create_interview_controller.js"></script>
+
 </head>
 <body ng-app="">
+<div ng-controller="create_interview_controller"> <!-- NICK-->
+
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -110,7 +114,10 @@
                             <form role="form" autocomplete="on" style="margin-left:5%;">
                                 <div class="form-group" style="margin-top:2%; text-align:left;">
                                     <label>Job Title</label>
-                                    <input class="form-control" type="text" style="width:35%;
+                                    <input id='job_title' class="form-control" type="text" style="width:35%;
+                                     text-align:left;">
+                                    <label>Interviewee</label>
+                                    <input id='interviewee' class="form-control" type="text" style="width:35%;
                                      text-align:left;">
                                 </div>
                                 <br>
@@ -125,7 +132,8 @@
                                 </div>
                             </form>
                             <br><br>
-                            <button type="button" class="btn btn-lg btn-success"
+
+                            <button type="button" class="btn btn-lg btn-success" ng-click="CreateInterview()"
                                     style="margin-left:43%; margin-bottom:2%;">
                                 Submit Interview
                             </button>
