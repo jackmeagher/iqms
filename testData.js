@@ -36,6 +36,13 @@ models.interview.create({
 
 });
 
+
+models.interview.create({
+    label : 'Sith Lord',
+    interviewee : 'Sebastian van Delden'
+
+});
+
 models.question.create({
     question_text : 'Have you worked with javascript libraries?',
     difficulty : 1

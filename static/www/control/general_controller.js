@@ -1,8 +1,16 @@
 /**
- * Created by malcolmbyrd on 2/18/16.
+ * Created by nick on 3/31/16.
  */
 
-function data_insertion($scope, $http) {
+
+
+/// basically just shit that will have a home but doesn't yet. ///
+
+
+
+
+// the function formerly known as data_insertion
+function general_controller($scope, $http) {
 
     $http.get('/question').success(function (data) {
         $scope._question = data;
