@@ -112,13 +112,13 @@ models.user.create({
 
 models.user.create({
     username: 'nickd',
-    first_name: 'nick',
-    last_name: 'desisto',
+    first_name: 'Nick',
+    last_name: 'DeSisto',
     pw_hash: 'geocent'
 });
 
 models.user.create({
-    username: 'pony555',
+    username: 'PusillanimousPony22',
     first_name: 'James',
     last_name: 'Shockley',
     pw_hash: 'geocent'
@@ -127,7 +127,7 @@ models.user.create({
 models.user.create({
     username: 'BigBoss123',
     first_name: 'Sebastian',
-    last_name: 'Van Delden',
+    last_name: 'van delden',
     pw_hash: 'geocent'
 });
 
