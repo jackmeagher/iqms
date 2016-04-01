@@ -97,16 +97,16 @@ models.question.create({
 
 /* USERS */
 models.user.create({
-    username: 'mbbyrd',
-    first_name: 'ben',
-    last_name: 'byrd',
+    username: 'byrdman419',
+    first_name: 'Ben',
+    last_name: 'Byrd',
     pw_hash: 'geocent'
 });
 
 models.user.create({
-    username: 'jackm',
-    first_name: 'jack',
-    last_name: 'meagher',
+    username: 'jackalope',
+    first_name: 'Jack',
+    last_name: 'Meagher',
     pw_hash: 'geocent'
 });
 
@@ -118,9 +118,16 @@ models.user.create({
 });
 
 models.user.create({
-    username: 'jamess',
-    first_name: 'james',
-    last_name: 'shockley',
+    username: 'pony555',
+    first_name: 'James',
+    last_name: 'Shockley',
+    pw_hash: 'geocent'
+});
+
+models.user.create({
+    username: 'BigBoss123',
+    first_name: 'Sebastian',
+    last_name: 'Van Delden',
     pw_hash: 'geocent'
 });
 
