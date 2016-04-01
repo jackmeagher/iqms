@@ -2,10 +2,11 @@
  * Created by nick on 3/31/16.
  */
 
+
 function create_interview_controller($scope, $http, $window) {
 
     $scope.CreateInterview = function () {
-        inter = document.getElementById("interviewee").value;
+        inter = document.getElementById("input-0").value;
         job_title = document.getElementById("job_title").value;
 
         console.log(job_title);
@@ -15,5 +16,5 @@ function create_interview_controller($scope, $http, $window) {
         $window.location.href = './listInterviews.html';
 
     }
-};
+}
 
