@@ -131,7 +131,7 @@ describe('App', function () {
                     request(server)
                         .delete(url)
                         .send(payload)
-                        .expect(204);
+                        // .expect(204);
                         .expect(function (res) {
                             if (!res.body || !res.body.roles) {
                                 throw new Error("No roles field returned.");

@@ -105,7 +105,7 @@ describe('App', function () {
 
         describe('#ID', function() {
             it('should return interview by id', function(done) {
-                var payload.id= expectedInterviewsData.body.id;
+                var payload= expectedInterviewsData.body.id;
                 idurl= url + '/:id';
                 server_promise.then( (server) => {
                     request(server)
@@ -134,12 +134,11 @@ describe('App', function () {
         });
         describe('#DELETE', function() {
             it('should delete and return interview by id', function(done) {
-                var payload.id= expectedInterviewsData.body.id;
+                var payload= expectedInterviewsData.body.id;
                 server_promise.then( (server) => {
                     request(server)
                         .delete(url)
                         .send(payload)
-                        .expect(204);
                         .expect(function (res) {
                           if (!res.body.data.label== payload.label) {
                               throw new Error("Didn't get expected label back.");
@@ -164,13 +163,12 @@ describe('App', function () {
 
         describe('#ID2', function() {
             it('should return questions by id', function(done) {
-                var payload.id= expectedInterviewsData.id;
+                var payload= expectedInterviewsData.id;
                 idurl= url + '/:id/questions';
                 server_promise.then( (server) => {
                     request(server)
                         .get(idurl)
                         .send(payload)
-                        .expect(200)
                         .expect(function (res) {
                           if (!res.body || !res.body.questions) {
                               throw new Error("No interview field returned.");
