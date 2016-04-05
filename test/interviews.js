@@ -134,7 +134,7 @@ describe('App', function () {
         });
         describe('#DELETE', function() {
             it('should delete and return interview by id', function(done) {
-                var payload= expectedInterviewsData.id;
+                var payload.id= expectedInterviewsData.body.id;
                 server_promise.then( (server) => {
                     request(server)
                         .delete(url)
@@ -149,6 +149,31 @@ describe('App', function () {
                           }
                           if (!res.body.data.interviewee== payload.interviewee) {
                               throw new Error("Didn't get expected interviewee back.");
+                          }
+                        }).end(function (err, res) {
+                        if (err) {
+                            done(err);
+                        } else {
+                            done();
+                        }
+
+                    });
+                });
+            });
+        });
+
+        describe('#ID2', function() {
+            it('should return questions by id', function(done) {
+                var payload.id= expectedInterviewsData.id;
+                idurl= url + '/:id/questions';
+                server_promise.then( (server) => {
+                    request(server)
+                        .get(idurl)
+                        .send(payload)
+                        .expect(200)
+                        .expect(function (res) {
+                          if (!res.body || !res.body.questions) {
+                              throw new Error("No interview field returned.");
                           }
                         }).end(function (err, res) {
                         if (err) {
