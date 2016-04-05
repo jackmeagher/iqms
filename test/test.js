@@ -36,13 +36,15 @@ describe('App', function() {
             it('should insert a question', function(done) {
                 server_promise.then( (server) => {
                     var payload = {
-                        'title' : 'Test Question #1',
-                        'difficulty' : 1
+                        question_text : 'Test Question #1',
+                        difficulty : 1
                     };
                     request(server)
                         .post(url)
                         .send(payload)
-                        .expect(200, payload, done);
+                        .expect(function(res) {
+                            if (!res.question) throw new error(url + "#POST did not return a question");
+                        });
                 });
             });
         });

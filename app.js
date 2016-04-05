@@ -21,10 +21,6 @@ answer_routes.register(app,'');
 user_routes.register(app,'');
 role_routes.register(app,'');
 
-
-
-app.use(bodyParser.urlencoded()); // TODO: THIS IS DEPRECATED FIGURE OUT HOW TO FIX THAT
-
 app.use('/static', express.static('../static'));
 
 

@@ -16,6 +16,7 @@ exports = module.exports = new Resource('user', '/user', {
             models.user.findAll()
                 .then(function(users) {
                     res.status(200).json({
+                        success: true,
                         users: users
                     });
                 })
@@ -27,7 +28,8 @@ exports = module.exports = new Resource('user', '/user', {
 
             }).then(function(created) {
                 res.status(201).json({
-                    answer: created.dataValues
+                    success: true,
+                    data: created.dataValues
                 });
             })
         }

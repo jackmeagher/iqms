@@ -6,21 +6,20 @@ var Resource = require('../lib/Resource');
 var exports = module.exports = {};
 
 
-
 exports = module.exports = new Resource('question', '/question', {
         // get all questions
         get: (req, res) => {
             var query_doc = {};
-            if(req.query.difficulty) {
+            if (req.query.difficulty) {
                 query_doc.difficulty = req.query.difficulty;
             }
-            if(req.query.target_text){
-                query_doc.question_text = {like :  "%"  + req.query.target_text + "%"};
+            if (req.query.target_text) {
+                query_doc.question_text = {like: "%" + req.query.target_text + "%"};
                 console.log(query_doc.question_text);
             }
 
             models.question.findAll({where: query_doc}
-            ).then(function(questions) {
+            ).then(function (questions) {
                 res.status(200).json({
                     questions: questions
                 });
@@ -31,7 +30,7 @@ exports = module.exports = new Resource('question', '/question', {
             models.question.create({
                 //question_text: req.body.question_text,
                 //difficulty: req.body.difficulty
-            }).then(function(created) {
+            }).then(function (created) {
                 res.status(201).json({
                     question: created.dataValues
                 });
@@ -47,7 +46,7 @@ exports = module.exports = new Resource('question', '/question', {
                         id: req.params.id
                     }
                 })
-                .then(function(question) {
+                .then(function (question) {
                     res.status(200).json({
                         question: question[0]
                     });
@@ -60,15 +59,12 @@ exports = module.exports = new Resource('question', '/question', {
                         id: req.params.id
                     }
                 })
-                .then(function(destroyed) {
-                    res.status(204).json({
-                    });
+                .then(function (destroyed) {
+                    res.status(204).json({});
                 })
 
 
         }
     }
-
     )]
-
 );
