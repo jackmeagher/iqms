@@ -13,7 +13,7 @@ function list_interview_controller($scope, $http) {
         $http.delete('/question/' + question.id)
             .success( function(){
                 $http.get('/question').success(function(data){
-                    $scope._interview = data;
+                    $scope._question = data;
                 })}
             )};
 
