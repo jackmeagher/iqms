@@ -3,7 +3,6 @@ require('use-strict');
 var request = require('supertest');
 var server_promise = require('../bin/www_test');
 var expectedInterviewsData = {
-  'id' : '0',
   'label': 'test_label',
   'interviewee': 'test_interviewee',
   'interview': 'test_interview'
@@ -65,7 +64,7 @@ describe('App', function () {
                                 throw new Error("Didn't get expected interviewee back.");
                             }
                             //lets us get the JSON with the id in it too
-                            expectedInterviewsData.id= res.body.interviews.id;
+                            expectedInterviewsData.id= res.body.interviews[0].id;
                         })
                         .end(function (err, res) {
                             if (err) {
@@ -101,87 +100,6 @@ describe('App', function () {
                 });
             });
 
-        })
-
-        describe('#ID', function() {
-            it('should return interview by id', function(done) {
-                // var payload= expectedInterviewsData.id;
-                var idurl= url + '/:' + expectedInterviewsData.id;
-                server_promise.then( (server) => {
-                    request(server)
-                        .get(idurl)
-                        //.send(payload)
-                        .expect(function (res) {
-                          if (!res.body.data.label== payload.label) {
-                              throw new Error("Didn't get expected label back.");
-                          }
-                          if (!res.body.data.interview== payload.interview) {
-                              throw new Error("Didn't get expected interview back.");
-                          }
-                          if (!res.body.data.interviewee== payload.interviewee) {
-                              throw new Error("Didn't get expected interviewee back.");
-                          }
-                        }).end(function (err, res) {
-                        if (err) {
-                            done(err);
-                        } else {
-                            done();
-                        }
-
-                    });
-                });
-            });
-        });
-        describe('#DELETE', function() {
-            it('should delete and return interview by id', function(done) {
-                var idurl= url + '/' + expectedInterviewsData.id;
-                server_promise.then( (server) => {
-                    request(server)
-                        .delete(idurl)
-                        .expect(function (res) {
-                          if (!res.body.data.label== expecteInterviewsData.label) {
-                              throw new Error("Didn't get expected label back.");
-                          }
-                          if (!res.body.data.interview== expecteInterviewsData.interview) {
-                              throw new Error("Didn't get expected interview back.");
-                          }
-                          if (!res.body.data.interviewee== expecteInterviewsData.interviewee) {
-                              throw new Error("Didn't get expected interviewee back.");
-                          }
-                        }).end(function (err, res) {
-                        if (err) {
-                            done(err);
-                        } else {
-                            done();
-                        }
-
-                    });
-                });
-            });
-        });
-
-        describe('#ID2', function() {
-            it('should return questions by id', function(done) {
-                var payload= expectedInterviewsData.id;
-                var idurl= url + '/:id/questions';
-                server_promise.then( (server) => {
-                    request(server)
-                        .get(idurl)
-                        .send(payload)
-                        .expect(function (res) {
-                          if (!res.body || !res.body.questions) {
-                              throw new Error("No interview field returned.");
-                          }
-                        }).end(function (err, res) {
-                        if (err) {
-                            done(err);
-                        } else {
-                            done();
-                        }
-
-                    });
-                });
-            });
         });
 
     });
