@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>IQMS - Create Interview</title>
+
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet"/>
+
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet"/>
+
+    <!--CUSTOM BASIC STYLES-->
+    <link href="assets/css/basic.css" rel="stylesheet"/>
+
+    <!--CUSTOM MAIN STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet"/>
+
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+
+    <!-- Angular -->
+    <script src="control/create_interview_controller.js"></script>
+    <script src="control/name_auto_complete_controller.js"></script>
+    <script src="control/question_auto_complete_controller.js"></script>
+
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+    <script>
+
+        var app = angular.module("create_interview", ['ngMaterial']);
+        app.controller("create_interview_controller", create_interview_controller);
+        app.controller("name_auto_complete_controller", name_auto_complete_controller);
+        app.controller("question_auto_complete_controller", question_auto_complete_controller);
+
+
+    </script>
+
+    <!--- Formatting additional form fields --->
+    <style>
+        .entry:not(:first-of-type) {
+            margin-top: 10px;
+        }
+
+        .glyphicon {
+            font-size: 12px;
+        }
+    </style>
+    <script src="control/create_interview_controller.js"></script>
+
+</head>
+<body ng-app="create_interview" ng-cloak>
+<div ng-controller="create_interview_controller"> <!-- NICK-->
+
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">IQMS</a>
+            </div>
+
+            <div class="header-right">
+                <a href="login.html" class="btn btn-danger" title="Logout"><i
+                        class="fa fa-exclamation-circle fa-2x"></i></a>
+            </div>
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <div class="user-img-div">
+                            <div class="inner-text">
+                                Byrd
+                                <br/>
+                                <small>Last Login : Now</small>
+                            </div>
+                        </div>
+                    </li>
+                    <!--- NAV BODY --->
+                    <li>
+                        <a href="index.html"><i class="fa fa-dashboard "></i>Welcome to IQMS</a>
+                    </li>
+                    <li>
+                        <a class="active-menu" href="createInterview.html"><i class="fa fa-plus "></i>Create
+                            Interview</a>
+                    </li>
+                    <li>
+                        <a href="listInterviews.html"><i class="fa fa-edit "></i>List Interviews</a>
+                    </li>
+                    <li>
+                        <a href="conductInterview.html"><i class="fa fa-briefcase "></i>Conduct
+                            Interview</a>
+                    </li>
+                    <li>
+                        <a href="questionManager.html"><i class="fa-question"></i>Question Manager</a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-head-line">Create an interview</h1>
+                        <h1 class="page-subhead-line">Define a job and add questions </h1>
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12" style="width:100%;">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Interview
+                        </div>
+                        <div class="control-group" id="fields">
+                            <div class="controls">
+                                <form role="form" autocomplete="on" style="margin-left:5%;">
+                                    <div class="form-group" style="margin-top:2%; text-align:left;">
+                                        <label>Job Title</label>
+                                        <input id='job_title' class="form-control" type="text" style="width:35%;
+                                     text-align:left;">
+                                        <label>Interviewee</label>
+
+
+                                        <div ng-controller="name_auto_complete_controller as ctrl" layout="column"
+                                             ng-cloak>
+                                            <md-content class="md-padding">
+                                                <!--<form ng-submit="$event.preventDefault()">-->
+                                                <md-autocomplete
+                                                        ng-disabled="ctrl.isDisabled"
+                                                        md-no-cache="ctrl.noCache"
+                                                        md-selected-item="ctrl.selectedItem"
+                                                        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                                                        md-search-text="ctrl.searchText"
+                                                        md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                        md-items="item in ctrl.querySearch(ctrl.searchText)"
+                                                        md-item-text="item.display"
+                                                        md-min-length="0"
+                                                        placeholder="Search for user">
+                                                    <md-item-template>
+                                                        <span md-highlight-text="ctrl.searchText"
+                                                              md-highlight-flags="^i">{{item.display}}</span>
+                                                    </md-item-template>
+                                                    <md-not-found>
+                                                        No users matching "{{ctrl.searchText}}" were found.
+                                                        <a ng-click="ctrl.newName(ctrl.searchText)">Create a new
+                                                            one!</a>
+                                                    </md-not-found>
+                                                </md-autocomplete>
+                                                <br/>
+                                                <!--</form>-->
+                                            </md-content>
+                                        </div>
+
+
+                                    </div>
+                                    <br>
+                                    <div class="entry input-group col-xs-3" style="display:inline-flex; width:85%;">
+
+
+                                        <div ng-controller="question_auto_complete_controller as ctrl" layout="column"
+                                             ng-cloak style='width : 500px;'>
+                                            <md-content class="md-padding">
+                                                <!--<form ng-submit="$event.preventDefault()">-->
+                                                <md-autocomplete
+                                                        ng-disabled="ctrl.isDisabled"
+                                                        md-no-cache="ctrl.noCache"
+                                                        md-selected-item="ctrl.selectedItem"
+                                                        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                                                        md-search-text="ctrl.searchText"
+                                                        md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                        md-items="item in ctrl.querySearch(ctrl.searchText)"
+                                                        md-item-text="item.display"
+                                                        md-min-length="0"
+                                                        placeholder="Add Question">
+                                                    <md-item-template>
+                                                        <span md-highlight-text="ctrl.searchText"
+                                                              md-highlight-flags="^i">{{item.display}}</span>
+                                                    </md-item-template>
+                                                    <md-not-found>
+                                                        No users matching "{{ctrl.searchText}}" were found.
+                                                        <a ng-click="ctrl.newName(ctrl.searchText)">Create a new
+                                                            one!</a>
+                                                    </md-not-found>
+                                                </md-autocomplete>
+                                                <br/>
+                                                <!--</form>-->
+                                            </md-content>
+                                        </div>
+
+
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-success btn-add" type="button">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <br><br>
+                                <button type="button" class="btn btn-lg btn-success" ng-click="CreateInterview()"
+                                        style="margin-left:43%; margin-bottom:2%;">
+                                    Submit Interview
+                                </button>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /. PAGE INNER  -->
+            </div>
+
+            <!-- /. PAGE WRAPPER  -->
+        </div>
+        <!-- /. WRAPPER  -->
+        <!-- /. FOOTER  -->
+        <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+        <!-- JQUERY SCRIPTS -->
+        <script src="assets/js/jquery-1.10.2.js"></script>
+        <!-- BOOTSTRAP SCRIPTS -->
+        <script src="assets/js/bootstrap.js"></script>
+        <!-- METISMENU SCRIPTS -->
+        <script src="assets/js/jquery.metisMenu.js"></script>
+        <!-- CUSTOM SCRIPTS -->
+        <script src="assets/js/custom.js"></script>
+        <!--- FUNCTION FOR ADDING MORE FORM FIELDS --->
+        <script type="text/javascript">
+            $(function () {
+                $(document).on('click', '.btn-add', function (e) {
+                    e.preventDefault();
+
+                    var controlForm = $('.controls form:first'),
+                            currentEntry = $(this).parents('.entry:first'),
+                            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+                    newEntry.find('input').val('');
+                    controlForm.find('.entry:not(:last) .btn-add')
+                            .removeClass('btn-add').addClass('btn-remove')
+                            .removeClass('btn-success').addClass('btn-danger')
+                            .html('<span class="glyphicon glyphicon-minus"></span>');
+                }).on('click', '.btn-remove', function (e) {
+                    $(this).parents('.entry:first').remove();
+
+                    e.preventDefault();
+                    return false;
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
