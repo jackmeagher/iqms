@@ -28,7 +28,7 @@ describe('App', function () {
                     request(server)
                         .get(url)
                         .expect(function(res) {
-                            if (!res.body || !res.body.roles) {
+                            if (!res.body || !res.body.role) {
                                 throw new Error("No roles field returned.");
                             }
                         })
@@ -53,7 +53,7 @@ describe('App', function () {
                         .post(url)
                         .send(payload)
                         .expect(function (res) {
-                            if (!res.body.data.type== payload.type) {
+                            if (!res.body.role.type== payload.type) {
                                 throw new Error("Didn't get expected role back.");
                             }
                             //lets us get the JSON with the id in it
@@ -76,10 +76,10 @@ describe('App', function () {
                     request(server)
                         .get(url)
                         .expect(function (res) {
-                            if (!res.body || !res.body.roles) {
+                            if (!res.body || !res.body.role) {
                                 throw new Error("No roles field returned.");
                             }
-                            if (!res.body.roles[0]) {
+                            if (!res.body.role[0]) {
                                 throw new Error("No roles returned, even though one was just added.");
                             }
                         }).end(function (err, res) {
@@ -97,12 +97,10 @@ describe('App', function () {
 
         describe('#ID', function() {
             it('should return interview by id', function(done) {
-                var payload= expectedRolesData.body.id;
-                idurl= url + '/:id';
+                var idurl= url + '/' + expectedRolesData.id;
                 server_promise.then( (server) => {
                     request(server)
                         .get(idurl)
-                        .send(payload)
                         .expect(function (res) {
                             if (!res.body || !res.body.roles) {
                                 throw new Error("No roles field returned.");
@@ -110,7 +108,7 @@ describe('App', function () {
                             if (!res.body.roles) {
                                 throw new Error("No roles returned, even though one was just added.");
                             }
-                            if (!res.body.data.type== expectedRolesData.body.type) {
+                            if (!res.body.data.type== expectedRolesData.type) {
                                 throw new Error("Didn't get expected role back.");
                             }
                         }).end(function (err, res) {
@@ -126,11 +124,10 @@ describe('App', function () {
         });
         describe('#DELETE', function() {
             it('should return role by id', function(done) {
-                var payload= expectedRolesData.body.id;
+                var idurl= url + '/' + expectedRolesData.id;
                 server_promise.then( (server) => {
                     request(server)
-                        .delete(url)
-                        .send(payload)
+                        .delete(idurl)
                         // .expect(204);
                         .expect(function (res) {
                             if (!res.body || !res.body.roles) {
