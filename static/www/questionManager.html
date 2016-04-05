@@ -24,7 +24,7 @@
     <script data-require="angular.js@*" data-semver="1.2.0-rc2"
             src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
     <!-- Script for data -->
-    <script src="control/list_interview_controller.js"></script>
+    <script src="control/question_manager_controller.js"></script>
 </head>
 <body ng-app="">
 <div ng-controller="list_interview_controller"> <!-- NICK-->
@@ -108,17 +108,17 @@
                                                 <th>Tags</th>
                                                 <th></th>
                                             </tr>
-                                            </thead>
-                                            <tbody ng-repeat="">
+                                            <tbody ng-repeat="question in _question.questions">
                                             <tr class="success">
-                                                <td>{{}}</td>
-                                                <td>{{}}</td>
-
-                                                <td> {{}}</td>
-                                                </td>
+                                                <td>{{question.id}}</td>
+                                                <td>{{question.question_text}}</td>
+                                                <td>  {{question.difficulty}} </td>
+                                                <td> Pizza, Pasta, Bagel, Moose</td>
                                                 <td>
-                                                    <button class="btn btn-danger" ng-click="">Delete Question</button>
+                                                    <button class="btn btn-danger" ng-click="DeleteQuestion($index,question)">Delete</button>
                                                 </td>
+                                            </tr>
+                                            </thead>
                                             </tr>
                                             </tbody>
                                         </table>
