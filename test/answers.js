@@ -2,19 +2,20 @@ require('use-strict');
 "use strict";
 var request = require('supertest');
 var server_promise = require('../bin/www_test');
-var expectedInterviewsData = {
-  'label': 'test_label',
-  'interviewee': 'test_interviewee',
-  'interview': 'test_interview'
+var expectedAnswersData = {
+  'feedback': 'test_feedback',
+  'rating': 'test,_rating',
+  'interview_id' : 'test_interview_id',
+  'question_id' : 'test_question_id'
 };
 
 describe('App', function () {
     before(function () {
         server_promise = require('../bin/www_test');
     });
-    describe('/interview', function () {
-        var url = '/interview';
-        describe('#GET /interview ', function () {
+    describe('/answer', function () {
+        var url = '/answer';
+        describe('#GET /answer ', function () {
 
             it('should return content as type json', function (done) {
                 server_promise.then((server) => {
@@ -25,13 +26,13 @@ describe('App', function () {
                         .expect(200, done);
                 });
             });
-            it('should have a property interview, interviewee, and label', function (done) {
+            it('should have a property answers', function (done) {
                 server_promise.then((server) => {
                     request(server)
                         .get(url)
                         .expect(function(res) {
-                            if (!res.body || !res.body.interviews) {
-                                throw new Error("No interview field returned.");
+                            if (!res.body || !res.body.answers) {
+                                throw new Error("No answers field returned.");
                             }
                         })
                         .end(function (err, res) {
@@ -47,22 +48,28 @@ describe('App', function () {
         });
 
         describe('#POST', function () {
-            it('should add an interview', function (done) {
+            it('should add an answer', function (done) {
                 server_promise.then((server) => {
-                    var payload = expectedInterviewsData;
+                    var payload = expectedAnswersData;
                     request(server)
                         .post(url)
                         .send(payload)
                         .set('Accept', 'application/json')
                         .expect(function (res) {
-                            if (!res.body.interview.label== payload.label) {
-                                throw new Error("Didn't get expected label back.");
+                            if (!res.body.answer.feedback== payload.feedback) {
+                                throw new Error("Didn't get expected feedback back.");
                             }
-                            if (!res.body.interview.interviewee== payload.interviewee) {
-                                throw new Error("Didn't get expected interviewee back.");
+                            if (!res.body.answer.rating== payload.rating) {
+                                throw new Error("Didn't get expected rating back.");
+                            }
+                            if (!res.body.answer.interview_id== payload.interview_id) {
+                                throw new Error("Didn't get expected feedback back.");
+                            }
+                            if (!res.body.answer.question_id== payload.question_id) {
+                                throw new Error("Didn't get expected rating back.");
                             }
                             //lets us get the JSON with the id in it too
-                            expectedInterviewsData.id= res.body.id;
+                            expectedAnswersData.id= res.body.id;
                         })
                         .end(function (err, res) {
                             if (err) {
@@ -77,16 +84,22 @@ describe('App', function () {
 
         describe('#ID', function() {
             it('should return interview by id', function(done) {
-                var idurl= url + '/' + expectedInterviewsData.id;
+                var idurl= url + '/' + expectedAnswersData.id;
                 server_promise.then( (server) => {
                     request(server)
                         .get(idurl)
                         .expect(function (res) {
-                          if (!res.body.interview.label== expectedInterviewsData.label) {
-                              throw new Error("Didn't get expected label back.");
+                          if (!res.body.answer.feedback== expectedAnswersData.feedback) {
+                              throw new Error("Didn't get expected feedback back.");
                           }
-                          if (!res.body.interview.interviewee== expectedInterviewsData.interviewee) {
-                              throw new Error("Didn't get expected interviewee back.");
+                          if (!res.body.answer.rating== expectedAnswersData.rating) {
+                              throw new Error("Didn't get expected rating back.");
+                          }
+                          if (!res.body.answer.interview_id== expectedAnswersData.interview_id) {
+                              throw new Error("Didn't get expected feedback back.");
+                          }
+                          if (!res.body.answer.question_id== expectedAnswersData.question_id) {
+                              throw new Error("Didn't get expected rating back.");
                           }
                         }).end(function (err, res) {
                         if (err) {
@@ -100,39 +113,23 @@ describe('App', function () {
             });
         });
         describe('#DELETE', function() {
-            it('should delete and return interview by id', function(done) {
-                var idurl= url + '/' + expectedInterviewsData.id;
+            it('should delete and return answer by id', function(done) {
+                var idurl= url + '/' + expectedAnswersData.id;
                 server_promise.then( (server) => {
                     request(server)
                         .delete(idurl)
                         .expect(function (res) {
-                          if (!res.body.interview.label== expecteInterviewsData.label) {
-                              throw new Error("Didn't get expected label back.");
+                          if (!res.body.answer.feedback== expectedAnswersData.feedback) {
+                              throw new Error("Didn't get expected feedback back.");
                           }
-                          if (!res.body.interview.interviewee== expecteInterviewsData.interviewee) {
-                              throw new Error("Didn't get expected interviewee back.");
+                          if (!res.body.answer.rating== expectedAnswersData.rating) {
+                              throw new Error("Didn't get expected rating back.");
                           }
-                        }).end(function (err, res) {
-                        if (err) {
-                            done(err);
-                        } else {
-                            done();
-                        }
-
-                    });
-                });
-            });
-        });
-
-        describe('#ID2', function() {
-            it('should return questions by id', function(done) {
-                var idurl= url + expectedInterviewsData.id + '/questions';
-                server_promise.then( (server) => {
-                    request(server)
-                        .get(idurl)
-                        .expect(function (res) {
-                          if (!res.body || !res.body.questions) {
-                              throw new Error("No questions field returned.");
+                          if (!res.body.answer.interview_id== expectedAnswersData.interview_id) {
+                              throw new Error("Didn't get expected feedback back.");
+                          }
+                          if (!res.body.answer.question_id== expectedAnswersData.question_id) {
+                              throw new Error("Didn't get expected rating back.");
                           }
                         }).end(function (err, res) {
                         if (err) {
@@ -145,6 +142,5 @@ describe('App', function () {
                 });
             });
         });
-
-    });
-});
+      });
+  });
