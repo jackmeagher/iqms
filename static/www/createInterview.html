@@ -142,7 +142,6 @@
                                             <md-content class="md-padding">
                                                 <!--<form ng-submit="$event.preventDefault()">-->
                                                 <md-autocomplete
-                                                        ng-disabled="ctrl.isDisabled"
                                                         md-no-cache="ctrl.noCache"
                                                         md-selected-item="ctrl.selectedItem"
                                                         md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
@@ -176,7 +175,6 @@
                                             <md-content class="md-padding">
                                                 <!--<form ng-submit="$event.preventDefault()">-->
                                                 <md-autocomplete
-                                                        ng-disabled="ctrl.isDisabled"
                                                         md-no-cache="ctrl.noCache"
                                                         md-selected-item="ctrl.selectedItem"
                                                         md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
@@ -192,7 +190,7 @@
                                                     </md-item-template>
                                                     <md-not-found>
                                                         No users matching "{{ctrl.searchText}}" were found.
-                                                        <a ng-click="ctrl.newName(ctrl.searchText)">Create a new
+                                                        <a ng-click="ctrl.newQuestion(ctrl.searchText)">Create a new
                                                             one!</a>
                                                     </md-not-found>
                                                 </md-autocomplete>

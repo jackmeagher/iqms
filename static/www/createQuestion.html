@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <!--<base href="./" />-->
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>IQMS - Create Question</title>
@@ -21,9 +22,8 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
 
     <!-- Angular -->
-    <script src="control/create_interview_controller.js"></script>
-    <script src="control/name_auto_complete_controller.js"></script>
-    <script src="control/question_auto_complete_controller.js"></script>
+    <script src="control/create_question_controller.js"></script>
+
 
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
 
@@ -35,11 +35,8 @@
 
     <script>
 
-        var app = angular.module("create_interview", ['ngMaterial']);
-        app.controller("create_interview_controller", create_interview_controller);
-        app.controller("name_auto_complete_controller", name_auto_complete_controller);
-        app.controller("question_auto_complete_controller", question_auto_complete_controller);
-
+        var app = angular.module("create_question",[]);
+        app.controller("create_question_controller", create_question_controller);
 
     </script>
 
@@ -56,8 +53,8 @@
     <script src="control/create_interview_controller.js"></script>
 
 </head>
-<body ng-app="create_interview" ng-cloak>
-<div ng-controller="create_interview_controller"> <!-- NICK-->
+<body ng-app="create_question" ng-cloak>
+<div ng-controller="create_question_controller"> <!-- NICK-->
 
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
@@ -133,7 +130,7 @@
                                     <div class="form-group" style="margin-top:2%; text-align:left;">
                                         <label>Question</label>
                                         <input id='job_title' class="form-control" type="text" style="width:95%;
-                                     text-align:left;" placeholder="Enter question">
+                                     text-align:left;" placeholder="{{qt}}">
                                     </div>
                                     <br>
                                 </form>

@@ -2,7 +2,7 @@
  * Created by nick on 4/1/16.
  */
 
-function name_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
+function name_auto_complete_controller ($scope,$http,$timeout, $q, $log,$window) {
     var self = this;
     // list of names to be displayed
     $scope.names = [];

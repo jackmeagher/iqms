@@ -3,7 +3,7 @@
  */
 
 
-function question_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
+function question_auto_complete_controller ($scope,$http,$timeout, $q, $log,$window) {
     var self = this;
     // list of questions to be displayed
     $scope.names = [];
@@ -15,7 +15,7 @@ function question_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
     self.searchTextChange   = searchTextChange;
     self.newQuestion = newQuestion;
     function newQuestion(question) {
-        alert("This functionality is yet to be implemented!");
+        $window.open("./createQuestion.html#?qt=" + question, "", "width=640, height=480");
     }
     function querySearch (query) {
         var results = query ? $scope.questions.filter( createFilterFor(query) ) : $scope.questions;//, deferred;
