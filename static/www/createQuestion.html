@@ -129,8 +129,16 @@
                                 <form role="form" autocomplete="on" style="margin-left:5%;">
                                     <div class="form-group" style="margin-top:2%; text-align:left;">
                                         <label>Question</label>
-                                        <input id='job_title' class="form-control" type="text" style="width:95%;
-                                     text-align:left;" placeholder="{{qt}}">
+                                        <input id='question_text' class="form-control" type="text" style="width:95%;
+                                     text-align:left;" value="{{qt}}">
+                                    </div>
+                                    <div class="form-group" style="margin-top:2%; text-align:left;">
+
+                                        <label>Difficulty</label>
+                                        <div class="percentage-cur" ng-init="selectedRange=0">
+                                            <span class="num">{{ selectedRange }}/5</span>
+                                        <input id='difficulty' class="form-control" type="range" min="1" max="5" value="1" style="width:95%;
+                                     text-align:left;" ng-model="selectedRange">
                                     </div>
                                     <br>
                                 </form>
@@ -147,7 +155,7 @@
                             </span>
                             </div>
                                 <br><br>
-                            <button type="button" class="btn btn-lg btn-success" ng-click=""
+                            <button type="button" class="btn btn-lg btn-success" ng-click="CreateQuestion()"
                                     style="margin-left:43%; margin-bottom:2%;">
                                 Submit Question
                                 </button>

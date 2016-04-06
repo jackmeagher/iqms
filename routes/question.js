@@ -27,9 +27,15 @@ exports = module.exports = new Resource('question', '/question', {
         },
         // create new question
         post: (req, res) => { // make a new question
+            if (!req.body.question_text){
+                req.body.question_text = 'DEFAULT VAL';
+            }
+            if(!req.body.difficulty){
+                req.body.difficulty = -1;
+            }
             models.question.create({
-                //question_text: req.body.question_text,
-                //difficulty: req.body.difficulty
+                question_text: req.body.question_text,
+                difficulty: req.body.difficulty
             }).then(function (created) {
                 res.status(201).json({
                     question: created.dataValues
