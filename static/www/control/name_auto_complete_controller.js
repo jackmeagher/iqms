@@ -70,7 +70,9 @@ function name_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
         return function filterFn(name) {
-            return (name.value.indexOf(lowercaseQuery) === 0);
+            return (name.value.indexOf(lowercaseQuery) > -1)
+
+            //return (name.value.indexOf(lowercaseQuery) === 0);
         };
     }
 }

@@ -5,8 +5,6 @@
 
 function question_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
     var self = this;
-    self.simulateQuery = false;
-    self.isDisabled    = false;
     // list of questions to be displayed
     $scope.names = [];
     loadQuestions();
@@ -18,18 +16,10 @@ function question_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
         alert("This functionality is yet to be implemented!");
     }
     function querySearch (query) {
-        var results = query ? $scope.questions.filter( createFilterFor(query) ) : $scope.questions, deferred;
-        if (self.simulateQuery) {
-            deferred = $q.defer();
-            $timeout(function () {
-                deferred.resolve( results );
-            },
-                Math.random() * 1000, false);
-            return deferred.promise;
-        } else {
-            return results;
+        var results = query ? $scope.questions.filter( createFilterFor(query) ) : $scope.questions;//, deferred;
+        return results;
         }
-    }
+
     function searchTextChange(text) {
         $log.info('Text changed to ' + text);
     }
@@ -67,7 +57,8 @@ function question_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
         return function filterFn(question) {
-            return (question.value.indexOf(lowercaseQuery) === 0);
+            return (question.value.indexOf(lowercaseQuery) > -1)
+            //return (question.value.indexOf(lowercaseQuery) === 0);
         };
     }
 }
