@@ -8,6 +8,8 @@ function question_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
     // list of questions to be displayed
     $scope.names = [];
     loadQuestions();
+
+
     self.querySearch   = querySearch;
     self.selectedItemChange = selectedItemChange;
     self.searchTextChange   = searchTextChange;

@@ -4,8 +4,6 @@
 
 function name_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
     var self = this;
-    self.simulateQuery = false;
-    self.isDisabled    = false;
     // list of names to be displayed
     $scope.names = [];
     loadNames();
@@ -18,17 +16,9 @@ function name_auto_complete_controller ($scope,$http,$timeout, $q, $log) {
         alert("This functionality is yet to be implemented!");
     }
     function querySearch (query) {
-        var results = query ? $scope.names.filter( createFilterFor(query) ) : $scope.names, deferred;
-        if (self.simulateQuery) {
-            deferred = $q.defer();
-            $timeout(function () {
-                deferred.resolve( results );
-            },
-                Math.random() * 1000, false);
-            return deferred.promise;
-        } else {
-            return results;
-        }
+        var results = query ? $scope.names.filter( createFilterFor(query) ) : $scope.names;
+        return results;
+
     }
     function searchTextChange(text) {
         $log.info('Text changed to ' + text);

@@ -91,6 +91,18 @@
                 <div class="col-md-12">
                     <h1 class="page-head-line">List of interviews</h1>
                     <h1 class="page-subhead-line">Add, remove, and rewrite questions ; Delete Interview</h1>
+
+                    <form>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                                <input type="text" class="form-control" placeholder="Search Interviews" ng-model="searchInterview">
+
+                            </div>
+                        </div>
+                    </form>
+
                     <div class="col-md-6" style="width:100%;">
                         <!--    Context Classes  -->
                         <div class="panel panel-default">
@@ -104,14 +116,23 @@
                                     <table class="table">
                                         <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Interviewee</th>
-                                            <th>Job Title</th>
+                                            <td>#</td>
+                                            <th>
+                                            <a href="#" ng-click="sortType = 'interviewee'; sortReverse = !sortReverse">
+                                                Interviewee
+                                                <span ng-show="sortType == 'interviewee' && !sortReverse" class="fa fa-caret-down"></span>
+                                            </th>
+                                            <th>
+                                                <a href="#" ng-click="sortType = 'label'; sortReverse = !sortReverse">
+                                                    Position
+                                                    <span ng-show="sortType == 'label' && !sortReverse" class="fa fa-caret-down"></span>
+                                            </th>
                                             <th></th>
                                             <th></th>
                                         </tr>
                                         </thead>
-                                        <tbody ng-repeat="interview in _interview.interviews">
+                                        <tbody ng-repeat="interview in _interview.interviews | orderBy:sortType:sortReverse | filter:searchInterview">
+
                                         <tr class="success">
                                             <td>{{$index}}</td>
                                             <td>{{interview.interviewee}}</td>

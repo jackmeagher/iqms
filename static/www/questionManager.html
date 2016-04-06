@@ -89,6 +89,18 @@
                     <div class="col-md-12">
                         <h1 class="page-head-line">Question Manager</h1>
                         <h1 class="page-subhead-line">Add, remove, and rewrite questions</h1>
+
+                        <form>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                                    <input type="text" class="form-control" placeholder="Search Question" ng-model="searchQuestion">
+
+                                </div>
+                            </div>
+                        </form>
+
                         <div class="col-md-6" style="width:100%;">
                             <!--    Context Classes  -->
                             <div class="panel panel-default">
@@ -102,13 +114,25 @@
                                         <table class="table">
                                             <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Question</th>
-                                                <th>Difficulty</th>
+                                                <th>
+                                                <a href="#" ng-click="sortType = 'id'; sortReverse = !sortReverse">
+                                                    #
+                                                    <span ng-show="sortType == 'id' && !sortReverse" class="fa fa-caret-down"></span>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'question_text'; sortReverse = !sortReverse">
+                                                        Question
+                                                        <span ng-show="sortType == 'question_text' && !sortReverse" class="fa fa-caret-down"></span>
+                                                </th>
+                                                <th>
+                                                    <a href="#" ng-click="sortType = 'difficulty'; sortReverse = !sortReverse">
+                                                        Difficulty
+                                                        <span ng-show="sortType == 'difficulty' && !sortReverse" class="fa fa-caret-down"></span>
+                                                </th>
                                                 <th>Tags</th>
                                                 <th></th>
                                             </tr>
-                                            <tbody ng-repeat="question in _question.questions">
+                                            <tbody ng-repeat="question in _question.questions | orderBy:sortType:sortReverse | filter:searchQuestion">
                                             <tr class="success">
                                                 <td>{{question.id}}</td>
                                                 <td>{{question.question_text}}</td>
