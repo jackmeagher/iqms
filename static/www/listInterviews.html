@@ -145,7 +145,7 @@
                                         <tbody ng-repeat="interview in _interview.interviews | orderBy:sortType:sortReverse | filter:searchInterview">
 
                                         <tr class="success">
-                                            <td>{{$index}}</td>
+                                            <td>{{interview.id}}</td>
                                             <td>{{interview.interviewee}}</td>
 
                                             <td>  {{interview.label}} </td>
@@ -154,7 +154,9 @@
                                             </a>
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger" ng-click="DeleteInterview($index,interview)">Delete</button>
+                                                <button class="btn btn-danger"
+                                                        ng-click="DeleteInterview($index,interview)">Delete Interview
+                                                </button>
 
                                                 <!--<button class="btn btn-danger" type="submit" formaction="/interview/{{interview.id}}" formmethod="DELETE">Delete Interview</button>-->
                                             </td>
