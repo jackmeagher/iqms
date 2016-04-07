@@ -169,10 +169,11 @@
 
                                     </div>
                                     <br>
-                                    <div class="entry input-group col-xs-3" style="float:left; width:85%;">
+                                    <div class="entry input-group col-xs-3"
+                                         style="float:left; width:85%; display:inline-flex">
                                         <div ng-controller="question_auto_complete_controller as ctrl"
                                              ng-cloak style='width : 90%;'>
-                                            <md-content class="md-padding">
+                                            <md-content class="md-padding" style="display:inline-flex;">
                                                 <!--<form ng-submit="$event.preventDefault()">-->
                                                 <md-autocomplete
                                                         md-no-cache="ctrl.noCache"
@@ -194,12 +195,13 @@
                                                             one!</a>
                                                     </md-not-found>
                                                 </md-autocomplete>
-                                                <br/>
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-success btn-add" type="button">
                                                         <span class="glyphicon glyphicon-plus"></span>
                                                     </button>
-                                    </span>
+                                                </span>
+                                                <br/>
+
                                                 <!--</form>-->
                                             </md-content>
                                         </div>
