@@ -35,7 +35,7 @@
 
     <script>
 
-        var app = angular.module("create_question",[]);
+        var app = angular.module("create_question", []);
         app.controller("create_question_controller", create_question_controller);
 
     </script>
@@ -137,28 +137,31 @@
                                         <label>Difficulty</label>
                                         <div class="percentage-cur" ng-init="selectedRange=1">
                                             <span class="num">{{ selectedRange }}/5</span>
-                                        <input id='difficulty' class="form-control" type="range" min="1" max="5" value="1" style="width:95%;
+                                            <input id='difficulty' class="form-control" type="range" min="1" max="5"
+                                                   value="1" style="width:95%;
                                      text-align:left;" ng-model="selectedRange">
+                                        </div>
+                                        <br>
+
                                     </div>
                                     <br>
-
-                            </div>
-                            <br>
-                                    <label>Add tags</label><br>
-                                    <div class="entry input-group col-xs-3" style="display:inline-flex; width:35%;">
-                                <input id="tag" class="form-control" type="text"
-                                       style="width:95%; text-align:left;" placeholder="Enter tag">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-success btn-add" type="button">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </span>
-                            </div>
+                                    <div>
+                                        <label>Add tags</label><br>
+                                        <div class="entry input-group col-xs-3" style="display:inline-flex; width:55%;">
+                                            <input id="tag" class="form-control" type="text"
+                                                   style="width:95%; text-align:left;" placeholder="Enter tag">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success btn-add" type="button">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </span>
+                                        </div>
+                                    </div>
                                 </form>
-                                <br><br>
-                            <button type="button" class="btn btn-lg btn-success" ng-click="CreateQuestion()"
-                                    style="margin-left:43%; margin-bottom:2%;">
-                                Submit Question
+                                <br>
+                                <button type="button" class="btn btn-lg btn-success" ng-click="CreateQuestion()"
+                                        style="margin-left:43%; margin-bottom:2%;">
+                                    Submit Question
                                 </button>
                                 <br>
                             </div>
