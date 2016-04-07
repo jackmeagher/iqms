@@ -41,7 +41,6 @@ describe('App', function () {
                         });
                 });
             });
-
         });
 
         describe('#POST', function () {
@@ -92,8 +91,7 @@ describe('App', function () {
                     });
                 });
             });
-
-        })
+        });
 
         describe('#ID', function() {
             it('should return interview by id', function(done) {
@@ -145,11 +143,9 @@ describe('App', function () {
                         } else {
                             done();
                         }
-
                     });
                 });
             });
         });
-
     });
 });
