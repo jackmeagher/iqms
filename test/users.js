@@ -115,11 +115,9 @@ describe('App', function () {
                     });
                 });
             });
-
-        })
-
-
+        });
     });
+
     describe('/question', function() {
         var url ='/question';
         var question_data = {

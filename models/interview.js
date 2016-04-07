@@ -10,9 +10,9 @@ module.exports = function(sequelize, DataTypes) {
         {
         classMethods: {
             associate: function(models) {
-                interview.hasMany(models.user, {as : 'interviewOwners'});
+                interview.belongsToMany(models.user, {through: 'interviewOwner', as: 'Owners'});
+                interview.belongsToMany(models.question, {through: 'interviewQuestion', as: 'Questions'});
             }
-
         }
     });
 
@@ -20,4 +20,3 @@ module.exports = function(sequelize, DataTypes) {
 
     return interview;
 };
-

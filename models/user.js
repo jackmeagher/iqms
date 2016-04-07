@@ -13,6 +13,9 @@ module.exports = function(sequelize, DataTypes) {
     , {
         classMethods: {
             associate: function(models) {
+                user.belongsToMany(models.interview, {through: "interviewOwner", as: "OwnedInterviews"});
+                user.belongsToMany(models.interview, {through: "interviewee", as: "ReceivingInterviews"});
+                user.belongsToMany(models.role, {through: "userRole", as: "Roles"});
             }
         }
     });
