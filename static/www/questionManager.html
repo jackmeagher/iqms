@@ -1,90 +1,7 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>IQMS Question Manager</title>
 
-    <!-- BOOTSTRAP STYLES-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet"/>
+<div ng-controller="question_manager_controller"> <!-- NICK-->
 
-    <!-- FONTAWESOME STYLES-->
-    <link href="assets/css/font-awesome.css" rel="stylesheet"/>
 
-    <!--CUSTOM BASIC STYLES-->
-    <link href="assets/css/basic.css" rel="stylesheet"/>
-
-    <!--CUSTOM MAIN STYLES-->
-    <link href="assets/css/custom.css" rel="stylesheet"/>
-
-    <!-- GOOGLE FONTS-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
-
-    <!-- Angular -->
-    <script data-require="angular.js@*" data-semver="1.2.0-rc2"
-            src="http://code.angularjs.org/1.2.0-rc.2/angular.js"></script>
-    <!-- Script for data -->
-    <script src="control/question_manager_controller.js"></script>
-</head>
-<body ng-app="">
-<div ng-controller="list_interview_controller"> <!-- NICK-->
-    <div id="wrapper">
-        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">IQMS</a>
-            </div>
-
-            <div class="header-right">
-                <a href="login.html" class="btn btn-danger" title="Logout"><i
-                        class="fa fa-exclamation-circle fa-2x"></i></a>
-            </div>
-        </nav>
-        <!-- /. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-                    <li>
-                        <div class="user-img-div">
-                            <div class="inner-text">
-                                Byrd
-                                <br/>
-                                <small>Last Login : Now</small>
-                            </div>
-                        </div>
-
-                    </li>
-                    <li>
-                        <a href="index.html"><i class="fa fa-dashboard "></i>Welcome to IQMS</a>
-                    </li>
-                    <li>
-                        <a href="createInterview.html"><i class="fa fa-plus "></i>Create Interview</a>
-                    </li>
-                    <li>
-                        <a href="listInterviews.html"><i class="fa fa-edit "></i>List
-                            Interviews</a>
-                    </li>
-                    <li>
-                        <a href="conductInterview.html"><i class="fa fa-briefcase "></i>Conduct
-                            Interview</a>
-                    </li>
-                    <li>
-                        <a class="active-menu" href="questionManager.html"><i class="fa-question-circle"></i>Question
-                            Manager</a>
-                    </li>
-                </ul>
-
-            </div>
-
-        </nav>
-        <!-- /. NAV SIDE  -->
-        <div id="page-wrapper">
-            <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-head-line">Question Manager</h1>
@@ -129,7 +46,7 @@
 
                                                 </th>
                                                 <th>
-                                                    <a ng-click="sortType = 'difficulty'; sortReverse = !sortReverse" style="cursor:pointer;">
+                                                    <a ng-click="sortType = 'difficulty'; sortReverse = !sortReverse">
                                                         Difficulty
                                                         <span ng-show="sortType == 'difficulty' && !sortReverse" class="fa fa-caret-down"></span>
                                                         <span ng-show="sortType == 'difficulty' && sortReverse" class="fa fa-caret-up"></span>                                                </th>
@@ -141,7 +58,7 @@
                                                 <td>{{question.id}}</td>
                                                 <td>{{question.question_text}}</td>
                                                 <td>  {{question.difficulty}} </td>
-                                                <td>Pizza, Pasta, Bagel, Moose</td>
+                                                <td> Pizza, Pasta, Bagel, Moose</td>
                                                 <td>
                                                     <button class="btn btn-danger" ng-click="DeleteQuestion($index,question)">Delete</button>
                                                 </td>
@@ -150,10 +67,10 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <a href="createQuestion.html">
-                                            <button type="button" class="btn btn-lg btn-success"
-                                                    ng-click="CreateQuestion()"
-                                                    style="margin-left:auto; margin-right:auto;">
+                                        <a href="#cq">
+                                            <button type="button" class="btn btn-lg btn-success"   style="margin-left:auto; margin-right:auto;">
+
+                                            <!--ng-click="CreateQuestion()"-->
                                                 Create New Question
                                             </button>
                                         </a>
@@ -165,20 +82,3 @@
                 </div>
             </div>
             <!-- /. PAGE INNER  -->
-        </div>
-        <!-- /. PAGE WRAPPER  -->
-    </div>
-    <!-- /. WRAPPER  -->
-    <!-- /. FOOTER  -->
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <!-- JQUERY SCRIPTS -->
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS -->
-    <script src="assets/js/bootstrap.js"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="assets/js/jquery.metisMenu.js"></script>
-    <!-- CUSTOM SCRIPTS -->
-    <script src="assets/js/custom.js"></script>
-</div>
-</body>
-</html>

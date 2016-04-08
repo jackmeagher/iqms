@@ -13,7 +13,7 @@ function create_question_controller ($scope,$location,$http,$window) {
         var par1 = {question_text: qt,difficulty : diff};
 
         $http.post('/question',par1);
-        $window.location.href = './questionManager.html';
+        $window.location.href = './#qm';
 
     }
 

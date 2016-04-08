@@ -13,7 +13,7 @@ function create_interview_controller($scope, $http, $window) {
         var par1 = {interviewee: inter, label: job_title};
 
         $http.post('/interview',par1);
-        $window.location.href = './listInterviews.html';
+        $window.location.href = './#li';
 
     }
 }
