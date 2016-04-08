@@ -85,7 +85,7 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
             models.sequelize.query('SELECT * FROM questions WHERE id in ( SELECT "questionId" FROM "interviewQuestions"' +
                     'WHERE "interviewId" =' + req.params.id + ')',{ type: models.sequelize.QueryTypes.SELECT} )
                 .then(function (questions) {
-                    res.status(200).json(questions);
+                    res.status(200).json({success: true, questions: questions});
                 })
 
         },

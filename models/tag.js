@@ -1,23 +1,18 @@
-/**
- * Created by nick on 3/17/16.
- */
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var interviewQuestion = sequelize.define("interviewQuestion", {
-
+    var tag = sequelize.define("tag", {
+            label: DataTypes.STRING,
         },
 
         {
             classMethods: {
                 associate: function(models) {
-
+                    tag.belongsToMany(models.question, {through : "questionTag", as : "Questions"});
                 }
-
             }
         });
 
-
-
-    return interviewQuestion;
+    return tag;
 };
+

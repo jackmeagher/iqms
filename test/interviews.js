@@ -62,7 +62,7 @@ describe('App', function () {
                                 throw new Error("Didn't get expected interviewee back.");
                             }
                             //lets us get the JSON with the id in it too
-                            expectedInterviewsData.id= res.body.id;
+                            expectedInterviewsData.id= res.body.interviews[0].id;
                         })
                         .end(function (err, res) {
                             if (err) {
@@ -75,6 +75,7 @@ describe('App', function () {
             });
         });
 
+<<<<<<< HEAD
         describe('#ID', function() {
             it('should return interview by id', function(done) {
                 var idurl= url + '/' + expectedInterviewsData.id;
@@ -88,6 +89,20 @@ describe('App', function () {
                           if (!res.body.interview.interviewee== expectedInterviewsData.interviewee) {
                               throw new Error("Didn't get expected interviewee back.");
                           }
+=======
+        describe('#GET2', function () {
+            it('should return the interview we added earlier', function (done) {
+                server_promise.then((server) => {
+                    request(server)
+                        .get(url)
+                        .expect(function (res) {
+                            if (!res.body || !res.body.interviews) {
+                                throw new Error("No interview field returned.");
+                            }
+                            if (!res.body.interviews[0]) {
+                                throw new Error("No interview returned, even though one was just added.");
+                            }
+>>>>>>> new_tests
                         }).end(function (err, res) {
                         if (err) {
                             done(err);
@@ -98,6 +113,7 @@ describe('App', function () {
                     });
                 });
             });
+<<<<<<< HEAD
         });
         describe('#DELETE', function() {
             it('should delete and return interview by id', function(done) {
@@ -144,6 +160,9 @@ describe('App', function () {
                     });
                 });
             });
+=======
+
+>>>>>>> new_tests
         });
 
     });
