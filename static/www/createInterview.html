@@ -75,7 +75,7 @@
                                                     </md-item-template>
                                                     <md-not-found>
                                                         No questions matching "{{ctrl.searchText}}" were found.
-                                                        <a ng-click="ctrl.newQuestion(ctrl.searchText)">Create a new
+                                                        <a ng-click="showDialog($event)" ng-controller="AppCtrl">Create a new
                                                             one!</a>
                                                     </md-not-found>
                                                 </md-autocomplete>
@@ -106,39 +106,3 @@
             </div>
 
             <!-- /. PAGE WRAPPER  -->
-        </div>
-        <!-- /. WRAPPER  -->
-        <!-- /. FOOTER  -->
-        <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-        <!-- JQUERY SCRIPTS -->
-        <script src="assets/js/jquery-1.10.2.js"></script>
-        <!-- BOOTSTRAP SCRIPTS -->
-        <script src="assets/js/bootstrap.js"></script>
-        <!-- METISMENU SCRIPTS -->
-        <script src="assets/js/jquery.metisMenu.js"></script>
-        <!-- CUSTOM SCRIPTS -->
-        <script src="assets/js/custom.js"></script>
-        <!--- FUNCTION FOR ADDING MORE FORM FIELDS --->
-        <!--<script type="text/javascript">-->
-            <!--$(function () {-->
-                <!--$(document).on('click', '.btn-add', function (e) {-->
-                    <!--e.preventDefault();-->
-
-                    <!--var controlForm = $('.controls form:first'),-->
-                            <!--currentEntry = $(this).parents('.entry:first'),-->
-                            <!--newEntry = $(currentEntry.clone()).appendTo(controlForm);-->
-
-                    <!--newEntry.find('input').val('');-->
-                    <!--controlForm.find('.entry:not(:last) .btn-add')-->
-                            <!--.removeClass('btn-add').addClass('btn-remove')-->
-                            <!--.removeClass('btn-success').addClass('btn-danger')-->
-                            <!--.html('<span class="glyphicon glyphicon-minus"></span>');-->
-                <!--}).on('click', '.btn-remove', function (e) {-->
-                    <!--$(this).parents('.entry:first').remove();-->
-
-                    <!--e.preventDefault();-->
-                    <!--return false;-->
-                <!--});-->
-            <!--});-->
-        <!--</script>-->
-    </div>

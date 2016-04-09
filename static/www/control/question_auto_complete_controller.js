@@ -15,7 +15,7 @@ function question_auto_complete_controller ($scope,$http,$timeout, $q, $log,$win
     self.searchTextChange   = searchTextChange;
     self.newQuestion = newQuestion;
     function newQuestion(question) {
-        $window.location.href = '#cq';
+        $window.location.href = '#';
 
     }
     function querySearch (query) {

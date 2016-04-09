@@ -1,14 +1,12 @@
-
-<div ng-controller="create_question_controller"> <!-- NICK-->
-
-                <div class="row">
+<div class="row" style="width:100%;">
                     <div class="col-md-12">
                         <h1 class="page-head-line">Create a question</h1>
                         <h1 class="page-subhead-line">Write a question and add tags</h1>
 
                     </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12" style="width:100%;">
+</div>
+
+<div class="col-md-6 col-sm-6 col-xs-12 row" style="width:100%;" ng-controller="create_question_controller">
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             Question
@@ -46,7 +44,7 @@
                                     </div>
                                 </form>
                                 <br>
-                                <button type="button" class="btn btn-lg btn-success" ng-click="CreateQuestion()"
+                                <button type="button" class="btn btn-lg btn-success" ng-click="CreateQuestion();ctrl.closeDialog()"
                                         style="margin-left:43%; margin-bottom:2%;">
                                     Submit Question
                                 </button>
@@ -54,47 +52,5 @@
                             </div>
                         </div>
                     </div>
-                </div>
+</div>
 
-                <!-- /. PAGE INNER  -->
-            </div>
-
-            <!-- /. PAGE WRAPPER  -->
-        </div>
-        <!-- /. WRAPPER  -->
-        <!-- /. FOOTER  -->
-        <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-        <!-- JQUERY SCRIPTS -->
-        <script src="assets/js/jquery-1.10.2.js"></script>
-        <!-- BOOTSTRAP SCRIPTS -->
-        <script src="assets/js/bootstrap.js"></script>
-        <!-- METISMENU SCRIPTS -->
-        <script src="assets/js/jquery.metisMenu.js"></script>
-        <!-- CUSTOM SCRIPTS -->
-        <script src="assets/js/custom.js"></script>
-        <!--- FUNCTION FOR ADDING MORE FORM FIELDS --->
-        <script type="text/javascript">
-            $(function () {
-                $(document).on('click', '.btn-add', function (e) {
-                    e.preventDefault();
-
-                    var controlForm = $('.controls form:first'),
-                            currentEntry = $(this).parents('.entry:first'),
-                            newEntry = $(currentEntry.clone()).appendTo(controlForm);
-
-                    newEntry.find('input').val('');
-                    controlForm.find('.entry:not(:last) .btn-add')
-                            .removeClass('btn-add').addClass('btn-remove')
-                            .removeClass('btn-success').addClass('btn-danger')
-                            .html('<span class="glyphicon glyphicon-minus"></span>');
-                }).on('click', '.btn-remove', function (e) {
-                    $(this).parents('.entry:first').remove();
-
-                    e.preventDefault();
-                    return false;
-                });
-            });
-        </script>
-    </div>
-</body>
-</html>
