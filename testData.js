@@ -6,7 +6,7 @@
 
 var models  = require('./models');
 
-models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestions" CASCADE;')
+models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestions",tags CASCADE;')
 
 //FRONT END DEVELOPER SAMPLE QUESTIONS
 
@@ -131,6 +131,25 @@ models.user.create({
     pw_hash: 'geocent'
 });
 
+models.tag.create({
+    label : 'Java'
+});
+
+models.tag.create({
+    label : 'Front-end'
+});
+
+models.tag.create({
+    label : 'Javascript'
+});
+
+models.tag.create({
+    label : 'Python'
+});
+
+models.tag.create({
+    label : 'Math'
+});
 //
 //models.interviewQuestion.create({
 //    interviewId : 3,
