@@ -6,7 +6,7 @@
 
 var models  = require('./models');
 
-models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestions",tags CASCADE;')
+models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestions",tags,positions CASCADE;')
 
 //FRONT END DEVELOPER SAMPLE QUESTIONS
 
@@ -149,6 +149,23 @@ models.tag.create({
 
 models.tag.create({
     label : 'Math'
+});
+
+
+models.position.create({
+    title : 'CEO'
+});
+models.position.create({
+    title : 'Junior Software Engineer'
+});
+models.position.create({
+    title : 'Senior Software Engineer'
+});
+models.position.create({
+    title : 'QA Engineer'
+});
+models.position.create({
+    title : 'Janitor'
 });
 //
 //models.interviewQuestion.create({
