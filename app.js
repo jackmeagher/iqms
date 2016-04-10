@@ -15,6 +15,7 @@ var interview_routes = require('./routes/interview');
 var question_routes = require('./routes/question');
 var user_routes = require('./routes/user');
 var tag_routes = require('./routes/tag');
+var position_routes = require('./routes/position');
 
 
 question_routes.register(app,'');
@@ -23,6 +24,7 @@ answer_routes.register(app,'');
 user_routes.register(app,'');
 role_routes.register(app,'');
 tag_routes.register(app,'');
+position_routes.register(app,'');
 
 
 

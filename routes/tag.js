@@ -2,9 +2,6 @@
  * Created by nick on 4/10/16.
  */
 
-/**
- * Created by nick on 3/15/16.
- */
 
 var models = require('../models');
 var Resource = require('../lib/Resource');
