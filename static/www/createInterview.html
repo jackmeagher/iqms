@@ -1,4 +1,4 @@
-<div ng-controller="create_interview_controller"> <!-- NICK-->
+<div ng-controller="create_interview_controller as cic"> <!-- NICK-->
 
                 <div class="row">
                     <div class="col-md-12">
@@ -79,6 +79,51 @@
 
 
                                     </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>
+                                                    <a ng-click="sortType = 'id'; sortReverse = !sortReverse" style="cursor:pointer;">
+                                                        #
+                                                        <span ng-show="sortType == 'id' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'id' && sortReverse" class="fa fa-caret-up"></span>                                                </th>
+
+                                                </th>
+                                                <th>
+                                                    <a ng-click="sortType = 'question_text'; sortReverse = !sortReverse" style="cursor:pointer;">
+                                                        Question
+                                                        <span ng-show="sortType == 'question_text' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'question_text' && sortReverse" class="fa fa-caret-up"></span>                                                </th>
+
+                                                </th>
+                                                <th>
+                                                    <h3> Current Questions</h3>
+                                                    <a ng-click="sortType = 'difficulty'; sortReverse = !sortReverse"/>
+                                                        Difficulty
+                                                        <span ng-show="sortType == 'difficulty' && !sortReverse" class="fa fa-caret-down"></span>
+                                                        <span ng-show="sortType == 'difficulty' && sortReverse" class="fa fa-caret-up"></span>                                                </th>
+                                                <th>Tags</th>
+                                                <th></th>
+                                            </tr>
+                                            <tbody ng-repeat="question in current_questions | orderBy:sortType:sortReverse | filter:searchQuestion">
+                                            <tr class="success">
+                                                <td>{{question.id}}</td>
+                                                <td>{{question.question_text}}</td>
+                                                <td>  {{question.difficulty}} </td>
+                                                <td> Pizza, Pasta, Bagel, Moose</td>
+                                                <td>
+                                                    <!--TODO: FUNC FOR ADDING QUESTION BACK GOES HERE-->
+                                                    <button class="btn btn-danger" ng-click="current_questions.splice($index,1);">Delete</button>
+                                                </td>
+                                            </tr>
+                                            </thead>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
                                     <br>
                                     <div class="entry input-group col-xs-3"
                                          style="float:left; width:80%; display:inline">
@@ -103,13 +148,13 @@
                                                     </md-item-template>
                                                     <md-not-found>
                                                         No questions matching "{{ctrl.searchText}}" were found.
-                                                        <a ng-click="showDialog($event)" ng-controller="AppCtrl">Create a new
+                                                        <a ng-click="showDialog($event)" ng-controller="create_question_dialog_controller">Create a new
                                                             one!</a>
                                                     </md-not-found>
                                                 </md-autocomplete>
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-success btn-add" type="button">
-                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    <button class="btn btn-success btn-add" type="button" ng-click="addQuestion(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
+                                                        <span class="glyphicon glyphicon-plus" ></span>
                                                     </button>
                                                 </span>
                                                 <br/>
