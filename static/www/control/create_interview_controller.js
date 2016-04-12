@@ -2,7 +2,7 @@
  * Created by nick on 3/31/16.
  */
 
-
+// controller
 function create_interview_controller($scope, $http, $window) {
     $scope.current_questions  = [];     // set the default search/filter term
 
