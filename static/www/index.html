@@ -26,12 +26,20 @@
     <!-- Angular -->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-aria.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-messages.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
+
+
+
+    <style>
+        .md-transition-in {width:75%;}
+    </style>
+
+
+    <script src="assets/js/angularjs/1.5.0/angular.min.js"></script>
+    <script src="assets/js/angularjs/1.5.0/angular-animate.min.js"></script>
+    <script src="assets/js/angularjs/1.5.0/angular-aria.min.js"></script>
+    <script src="assets/js/angularjs/1.5.0/angular-messages.min.js"></script>
+    <script src="assets/js/angular_material/1.0.0/angular-material.min.js"></script>
+    <script src="assets/js/angularjs/1.5.0/angular-route.js"></script>
 
     <script src="control/create_interview_controller.js"></script>
     <script src="control/name_auto_complete_controller.js"></script>
@@ -39,20 +47,18 @@
     <script src="control/list_interview_controller.js"></script>
     <script src="control/create_question_controller.js"></script>
     <script src="control/question_manager_controller.js"></script>
+    <script src="control/tag_auto_complete_controller.js"></script>
+    <script src="control/position_auto_complete_controller.js"></script>
 
 
 
     <script>
 
-        // create the module and name it scotchApp
         var app = angular.module('app', ['ngRoute','ngMaterial']);
 
-
-        // configure our routes
         app.config(function($routeProvider) {
             $routeProvider
 
-            // route for the home page
                     .when('/', {
                         templateUrl : 'welcome.html',
                     })
@@ -84,10 +90,41 @@
         app.controller("question_auto_complete_controller", question_auto_complete_controller);
         app.controller("list_interview_controller",list_interview_controller);
         app.controller("create_question_controller",create_question_controller);
+//        app.controller('question_manager_controller', ['$scope', '$mdDialog', question_manager_controller);
         app.controller("question_manager_controller",question_manager_controller);
+        app.controller("tag_auto_complete_controller",tag_auto_complete_controller);
+        app.controller("position_auto_complete_controller",position_auto_complete_controller);
 
 
 
+
+        app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function($scope, $mdDialog){
+                    var alert;
+                    $scope.showDialog = showDialog;
+
+                    function showDialog($event) {
+                        var parentEl = angular.element(document.querySelector('md-content'));
+                        alert = $mdDialog.alert({
+                            parent: parentEl,
+                            targetEvent: $event,
+                            templateUrl: 'createQuestion.html',
+                            locals: {
+                                closeDialog: $scope.closeDialog
+                            },
+                            bindToController: true,
+                            controllerAs: 'ctrl',
+                        });
+
+                        $mdDialog
+                                .show( alert )
+                                .finally(function() {
+                                    alert = undefined;
+                                });
+                    }
+                    $scope.closeDialog = function() {
+                        $mdDialog.hide();
+                    };
+                }]);
 
 
     </script>

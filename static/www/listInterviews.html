@@ -1,28 +1,26 @@
 <div ng-controller="list_interview_controller">
-        <div id="page-inner">
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="page-head-line">List of interviews</h1>
                     <h1 class="page-subhead-line">Add, remove, and rewrite questions ; Delete Interview</h1>
 
-                    <form>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
 
-                                <input type="text" class="form-control" placeholder="Search Interviews" ng-model="searchInterview">
-
-                            </div>
-                        </div>
-                    </form>
 
                     <div class="col-md-6" style="width:100%;">
                         <!--    Context Classes  -->
                         <div class="panel panel-default">
 
                             <div class="panel-heading">
-                                Select an interview to edit
-                            </div>
+                                <form>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                                            <input type="text" class="form-control" placeholder="Search Interviews" ng-model="searchInterview">
+
+                                        </div>
+                                    </div>
+                                </form>                            </div>
 
                             <div class="panel-body">
                                 <div class="table-responsive">
