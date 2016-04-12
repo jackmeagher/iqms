@@ -6,6 +6,9 @@ var models = require('../models');
 var Resource = require('../lib/Resource');
 var exports = module.exports = {};
 const crypto = require('crypto');
+var jwt = require('jsonwebtoken');
+
+const secret = 'tg6bhr5dxddrtcx';
 
 
 
@@ -128,15 +131,32 @@ exports = module.exports = new Resource('user', '/user', {
                 }).then( (data) => {
                     var user = data[0];
                     var salt = user.salt;
-                    crypto.pbkdf2(req.body.password, salt, 100000, 255, 'sha512', function(err, key) {
-                        if (err) throw err;
-                        var hash = key.toString();
-                        if (hash == user.pw_hash) {
-                            res.status(200).json({
-                                // TODO: Put JWT token here
-                            })
-                        }
-                    });
+                    if (!req.body.password) {
+                        res.status(403).json({
+                            success: false,
+                            msg: "Died here"
+                        });
+                    }
+                    //req.body.password = String(req.body.password);
+                    else {
+                        crypto.pbkdf2(req.body.password, user.salt, 100000, 255, 'sha512', function (err, key) {
+                            if (err) throw err;
+                            var hash = key.toString();
+                            if (hash == user.pw_hash) {
+                                jwt.sign({user: user}, secret, {algorithm: 'HS256'}, function (token) {
+                                    res.status(200).json({
+                                        success: true,
+                                        token: token
+                                    })
+                                })
+                            } else {
+                                res.status(403).json({
+                                    success: false,
+                                    msg: "Failed to auth."
+                                })
+                            }
+                        });
+                    }
                 });
             }
         })]
