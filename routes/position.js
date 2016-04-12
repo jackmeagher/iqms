@@ -10,7 +10,7 @@ var exports = module.exports = {};
 
 
 exports = module.exports = new Resource('position', '/position', {
-    // get all users
+    // get all positions
     get: (req, res) => {
 
         //models.sequelize.query('SELECT * FROM "Users";')
@@ -22,8 +22,8 @@ exports = module.exports = new Resource('position', '/position', {
                 });
             })
     },
-    // create new user
-    post: (req, res) => { // make a new question
+    // create new position
+    post: (req, res) => { // make a new position
         if (!req.body.title){
             req.body.title = 'DEFAULT VAL';
         }

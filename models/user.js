@@ -4,13 +4,15 @@ module.exports = function(sequelize, DataTypes) {
     var user = sequelize.define("user", {
         // TODO: figure out what val means what role
         username: DataTypes.STRING,
-        first_name:{
+        pw_hash: DataTypes.STRING,
+        salt: DataTypes.STRING,
+        first_name: {
             type: DataTypes.STRING,
             validate :{
                 isAlpha : true
             }
         },
-        last_name :{
+        last_name : {
                 type: DataTypes.STRING,
                 validate :{
                     isAlpha : true

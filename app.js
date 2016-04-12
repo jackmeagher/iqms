@@ -4,9 +4,31 @@ var app = express();
 var Resource = require('./lib/Resource');
 var models = require('./models');
 var bodyParser  = require('body-parser');
+var jwt = require('jsonwebtoken');
+const secret = 'tg6bhr5dxddrtcx';
 
 app.use(bodyParser.json());
-
+app.use((req, res, next) => {
+    var token = req.get('token');
+    if (token) {
+        jwt.verify(token, secret, (err, decoded) => {
+            if (err) {
+                res.status(403).json({
+                    'success': false,
+                    'msg': "Invalid token (perhaps expired).",
+                    'error' : err
+                });
+            } else {
+                req.user = decoded.user;
+                next();
+            }
+        });
+    } else {
+        req.auth = false;
+        req.user = undefined;
+        next();
+    }
+});
 
 
 var answer_routes = require('./routes/answer');
@@ -41,6 +63,6 @@ app.all('/*', function(req, res, next) {
 
 
 
-var testq = require('./testData');
+//var testq = require('./testData');
 
 module.exports = app;
