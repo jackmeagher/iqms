@@ -1,85 +1,97 @@
 <div ng-controller="question_manager_controller"> <!-- NICK-->
 
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="page-head-line">Question Manager</h1>
-                        <h1 class="page-subhead-line">Add, remove, and rewrite questions</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-head-line">Question Manager</h1>
+            <h1 class="page-subhead-line">Add, remove, and rewrite questions</h1>
 
 
-                        <div class="col-md-6" style="width:100%;">
-                            <!--    Context Classes  -->
-                            <div class="panel panel-default">
+            <div class="col-md-6" style="width:100%;">
+                <!--    Context Classes  -->
+                <div class="panel panel-default">
 
-                                <div class="panel-heading">
+                    <div class="panel-heading">
 
-                                    <form>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                        <form>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
 
-                                                <input type="text" class="form-control" placeholder="Search Question" ng-model="searchQuestion">
+                                    <input type="text" class="form-control" placeholder="Search Question"
+                                           ng-model="searchQuestion">
 
-                                            </div>
-                                        </div>
-                                    </form>
-
-
-
-                                </div>
-
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>
-                                                    <a ng-click="sortType = 'id'; sortReverse = !sortReverse" style="cursor:pointer;">
-                                                    #
-                                                    <span ng-show="sortType == 'id' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'id' && sortReverse" class="fa fa-caret-up"></span>                                                </th>
-
-                                                </th>
-                                                <th>
-                                                    <a ng-click="sortType = 'question_text'; sortReverse = !sortReverse" style="cursor:pointer;">
-                                                        Question
-                                                        <span ng-show="sortType == 'question_text' && !sortReverse" class="fa fa-caret-down"></span>
-                                                        <span ng-show="sortType == 'question_text' && sortReverse" class="fa fa-caret-up"></span>                                                </th>
-
-                                                </th>
-                                                <th>
-                                                    <a ng-click="sortType = 'difficulty'; sortReverse = !sortReverse">
-                                                        Difficulty
-                                                        <span ng-show="sortType == 'difficulty' && !sortReverse" class="fa fa-caret-down"></span>
-                                                        <span ng-show="sortType == 'difficulty' && sortReverse" class="fa fa-caret-up"></span>                                                </th>
-                                                <th>Tags</th>
-                                                <th></th>
-                                            </tr>
-                                            <tbody ng-repeat="question in _question.questions | orderBy:sortType:sortReverse | filter:searchQuestion">
-                                            <tr class="success">
-                                                <td>{{question.id}}</td>
-                                                <td>{{question.question_text}}</td>
-                                                <td>  {{question.difficulty}} </td>
-                                                <td> Pizza, Pasta, Bagel, Moose</td>
-                                                <td>
-                                                    <button class="btn btn-danger" ng-click="DeleteQuestion($index,question)">Delete</button>
-                                                </td>
-                                            </tr>
-                                            </thead>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                            <button type="button" class="btn-lg btn-success" ng-click="showDialog($event)" ng-controller="create_question_dialog_controller"  style="margin-left:auto; margin-right:auto;">
-
-                                            <!--ng-click="CreateQuestion()"-->
-                                                Create New Question
-                                            </button>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
+                        </form>
+
+
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <a ng-click="sortType = 'id'; sortReverse = !sortReverse"
+                                           style="cursor:pointer;">
+                                            #
+                                            <span ng-show="sortType == 'id' && !sortReverse"
+                                                  class="fa fa-caret-down"></span>
+                                            <span ng-show="sortType == 'id' && sortReverse"
+                                                  class="fa fa-caret-up"></span></th>
+
+                                    </th>
+                                    <th>
+                                        <a ng-click="sortType = 'question_text'; sortReverse = !sortReverse"
+                                           style="cursor:pointer;">
+                                            Question
+                                            <span ng-show="sortType == 'question_text' && !sortReverse"
+                                                  class="fa fa-caret-down"></span>
+                                            <span ng-show="sortType == 'question_text' && sortReverse"
+                                                  class="fa fa-caret-up"></span></th>
+
+                                    </th>
+                                    <th>
+                                        <a ng-click="sortType = 'difficulty'; sortReverse = !sortReverse">
+                                            Difficulty
+                                            <span ng-show="sortType == 'difficulty' && !sortReverse"
+                                                  class="fa fa-caret-down"></span>
+                                            <span ng-show="sortType == 'difficulty' && sortReverse"
+                                                  class="fa fa-caret-up"></span></th>
+                                    <th>Tags</th>
+                                    <th></th>
+                                </tr>
+                                <tbody ng-repeat="question in _question.questions | orderBy:sortType:sortReverse | filter:searchQuestion">
+                                <tr class="success">
+                                    <td>{{question.id}}</td>
+                                    <td>{{question.question_text}}</td>
+                                    <td> {{question.difficulty}}</td>
+                                    <td> Pizza, Pasta, Bagel, Moose</td>
+                                    <td>
+                                        <button class="btn btn-danger" ng-click="DeleteQuestion($index,question)">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                </thead>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <button type="button" class="btn-lg btn-success" ng-click="showDialog($event)"
+                                    ng-controller="create_question_dialog_controller"
+                                    style="margin-left:auto; margin-right:auto;">
+
+                                <!--ng-click="CreateQuestion()"-->
+                                Create New Question
+                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /. PAGE INNER  -->
+        </div>
+    </div>
+</div>
+<!-- /. PAGE INNER  -->
