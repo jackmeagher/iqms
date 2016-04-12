@@ -75,21 +75,6 @@ describe('App', function () {
             });
         });
 
-<<<<<<< HEAD
-        describe('#ID', function() {
-            it('should return interview by id', function(done) {
-                var idurl= url + '/' + expectedInterviewsData.id;
-                server_promise.then( (server) => {
-                    request(server)
-                        .get(idurl)
-                        .expect(function (res) {
-                          if (!res.body.interview.label== expectedInterviewsData.label) {
-                              throw new Error("Didn't get expected label back.");
-                          }
-                          if (!res.body.interview.interviewee== expectedInterviewsData.interviewee) {
-                              throw new Error("Didn't get expected interviewee back.");
-                          }
-=======
         describe('#GET2', function () {
             it('should return the interview we added earlier', function (done) {
                 server_promise.then((server) => {
@@ -102,7 +87,6 @@ describe('App', function () {
                             if (!res.body.interviews[0]) {
                                 throw new Error("No interview returned, even though one was just added.");
                             }
->>>>>>> new_tests
                         }).end(function (err, res) {
                         if (err) {
                             done(err);
@@ -113,56 +97,7 @@ describe('App', function () {
                     });
                 });
             });
-<<<<<<< HEAD
-        });
-        describe('#DELETE', function() {
-            it('should delete and return interview by id', function(done) {
-                var idurl= url + '/' + expectedInterviewsData.id;
-                server_promise.then( (server) => {
-                    request(server)
-                        .delete(idurl)
-                        .expect(function (res) {
-                          if (!res.body.interview.label== expecteInterviewsData.label) {
-                              throw new Error("Didn't get expected label back.");
-                          }
-                          if (!res.body.interview.interviewee== expecteInterviewsData.interviewee) {
-                              throw new Error("Didn't get expected interviewee back.");
-                          }
-                        }).end(function (err, res) {
-                        if (err) {
-                            done(err);
-                        } else {
-                            done();
-                        }
 
-                    });
-                });
-            });
-        });
-
-        describe('#ID2', function() {
-            it('should return questions by id', function(done) {
-                var idurl= url + expectedInterviewsData.id + '/questions';
-                server_promise.then( (server) => {
-                    request(server)
-                        .get(idurl)
-                        .expect(function (res) {
-                          if (!res.body || !res.body.questions) {
-                              throw new Error("No questions field returned.");
-                          }
-                        }).end(function (err, res) {
-                        if (err) {
-                            done(err);
-                        } else {
-                            done();
-                        }
-
-                    });
-                });
-            });
-=======
-
->>>>>>> new_tests
         });
 
     });
