@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link rel="icon" href="assets/img/favicon.ico" />
+    <link rel="icon" href="assets/img/favicon.ico"/>
 
     <title>IQMS Dashboard</title>
 
@@ -27,10 +27,10 @@
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
 
 
-
-
     <style>
-        .md-transition-in {width:75%;}
+        .md-transition-in {
+            width: 75%;
+        }
     </style>
 
 
@@ -51,90 +51,97 @@
     <script src="control/position_auto_complete_controller.js"></script>
 
 
-
     <script>
 
-        var app = angular.module('app', ['ngRoute','ngMaterial']);
+        var app = angular.module('app', ['ngRoute', 'ngMaterial']);
 
-        app.config(function($routeProvider) {
+        app.config(function ($routeProvider) {
             $routeProvider
 
                     .when('/', {
-                        templateUrl : 'welcome.html',
+                        templateUrl: 'welcome.html'
                     })
 
-                    // route for the about page
+                    // route for the create interview page
                     .when('/ci', {
-                        templateUrl : 'createInterview.html',
+                        templateUrl: 'createInterview.html'
                     })
 
-                    // route for the contact page
+                    // route for the list interviews page
                     .when('/li', {
-                        templateUrl : 'listInterviews.html',
+                        templateUrl: 'listInterviews.html'
                     })
+
                     .when('/cq', {
-                        templateUrl : 'createQuestion.html',
+                        templateUrl: 'createQuestion.html'
                     })
+
                     .when('/qm', {
-                        templateUrl : 'questionManager.html',
+                        templateUrl: 'questionManager.html'
                     })
+
                     .when('/coni', {
-                        templateUrl : 'conductInterview.html',
+                        templateUrl: 'conductInterview.html'
                     })
+
+                    .when('/conia', {
+                        templateUrl: 'conductActionInterview.html'
+                    })
+
                     .when('/login', {
-                        templateUrl: 'login.html',
+                        templateUrl: 'login.html'
                     })
-                    .otherwise( { redirectTo: '/'} );
+
+                    .otherwise({redirectTo: '/'});
 
         });
 
         app.controller("create_interview_controller", create_interview_controller);
         app.controller("name_auto_complete_controller", name_auto_complete_controller);
         app.controller("question_auto_complete_controller", question_auto_complete_controller);
-        app.controller("list_interview_controller",list_interview_controller);
-        app.controller("create_question_controller",create_question_controller);
-//        app.controller('question_manager_controller', ['$scope', '$mdDialog', question_manager_controller);
-        app.controller("question_manager_controller",question_manager_controller);
-        app.controller("tag_auto_complete_controller",tag_auto_complete_controller);
-        app.controller("position_auto_complete_controller",position_auto_complete_controller);
+        app.controller("list_interview_controller", list_interview_controller);
+        app.controller("create_question_controller", create_question_controller);
+        //        app.controller('question_manager_controller', ['$scope', '$mdDialog', question_manager_controller);
+        app.controller("question_manager_controller", question_manager_controller);
+        app.controller("tag_auto_complete_controller", tag_auto_complete_controller);
+        app.controller("position_auto_complete_controller", position_auto_complete_controller);
 
 
+        app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function ($scope, $mdDialog) {
+            var alert;
+            $scope.showDialog = showDialog;
 
+            function showDialog($event) {
+                var parentEl = angular.element(document.querySelector('md-content'));
+                alert = $mdDialog.alert({
+                    parent: parentEl,
+                    targetEvent: $event,
+                    templateUrl: 'createQuestion.html',
+                    locals: {
+                        closeDialog: $scope.closeDialog
+                    },
+                    bindToController: true,
+                    controllerAs: 'ctrl'
+                });
 
-        app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function($scope, $mdDialog){
-                    var alert;
-                    $scope.showDialog = showDialog;
-
-                    function showDialog($event) {
-                        var parentEl = angular.element(document.querySelector('md-content'));
-                        alert = $mdDialog.alert({
-                            parent: parentEl,
-                            targetEvent: $event,
-                            templateUrl: 'createQuestion.html',
-                            locals: {
-                                closeDialog: $scope.closeDialog
-                            },
-                            bindToController: true,
-                            controllerAs: 'ctrl',
+                $mdDialog
+                        .show(alert)
+                        .finally(function () {
+                            alert = undefined;
                         });
+            }
 
-                        $mdDialog
-                                .show( alert )
-                                .finally(function() {
-                                    alert = undefined;
-                                });
-                    }
-                    $scope.closeDialog = function() {
-                        $mdDialog.hide();
-                    };
-                }]);
+            $scope.closeDialog = function () {
+                $mdDialog.hide();
+            };
+        }]);
 
 
     </script>
 
 </head>
-<body >
-<div id="wrapper" >
+<body>
+<div id="wrapper">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
         <div class="navbar-header" style="height:20%;">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
@@ -190,13 +197,13 @@
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div id="page-inner">
-        <div id="main" >
-            <div ng-view>
-            <!-- /. ROW  -->
-                <!--<div ng-view></div>-->
-                <!-- angular templating -->
-                <!-- this is where content will be injected -->
-            </div>
+            <div id="main">
+                <div ng-view>
+                    <!-- /. ROW  -->
+                    <!--<div ng-view></div>-->
+                    <!-- angular templating -->
+                    <!-- this is where content will be injected -->
+                </div>
             </div>
             <!-- /. WRAPPER  -->
             <!-- /. FOOTER  -->
