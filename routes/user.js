@@ -5,6 +5,7 @@
 var models = require('../models');
 var Resource = require('../lib/Resource');
 var exports = module.exports = {};
+const crypto = require('crypto');
 
 
 
@@ -22,16 +23,25 @@ exports = module.exports = new Resource('user', '/user', {
                 })
         },
         // create new user
-        post: (req, res) => { // make a new question
-            models.user.create({
-                //TODO: user fields
-
-            }).then(function(created) {
-                res.status(201).json({
-                    success: true,
-                    data: created.dataValues
+        post: (req, res) => {
+            crypto.randomBytes(16, function(err, buffer) {
+                var salt = buffer.toString('hex');
+                crypto.pbkdf2(req.body.password, salt, 100000, 255, 'sha512', function(err, key) {
+                    if (err) throw err;
+                    models.user.create({
+                        first_name : req.body.first_name,
+                        last_name : req.body.last_name,
+                        email : req.body.email,
+                        pw_hash : key.toString(),
+                        salt : salt
+                    }).then(function(created) {
+                        res.status(201).json({
+                            success: true,
+                            data: created.dataValues
+                        });
+                    });
                 });
-            })
+            });
         }
 
 
@@ -108,7 +118,28 @@ exports = module.exports = new Resource('user', '/user', {
 
             }
 
-        )]
+        ),
+        new Resource('auth','/auth', {
+            post : (req, res) => {
+                models.user.findAll( {
+                    where: {
+                        id : req.body.user_id
+                    }
+                }).then( (data) => {
+                    var user = data[0];
+                    var salt = user.salt;
+                    crypto.pbkdf2(req.body.password, salt, 100000, 255, 'sha512', function(err, key) {
+                        if (err) throw err;
+                        var hash = key.toString();
+                        if (hash == user.pw_hash) {
+                            res.status(200).json({
+                                // TODO: Put JWT token here
+                            })
+                        }
+                    });
+                });
+            }
+        })]
 
 
 
