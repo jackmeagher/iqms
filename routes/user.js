@@ -21,7 +21,8 @@ exports = module.exports = new Resource('user', '/user', {
                 .then(function(users) {
                     res.status(200).json({
                         success: true,
-                        users: users
+                        users: users,
+                        req_user: req.user
                     });
                 })
         },
@@ -126,11 +127,10 @@ exports = module.exports = new Resource('user', '/user', {
             post : (req, res) => {
                 models.user.findAll( {
                     where: {
-                        id : req.body.user_id
+                        email : req.body.email
                     }
                 }).then( (data) => {
                     var user = data[0];
-                    var salt = user.salt;
                     if (!req.body.password) {
                         res.status(403).json({
                             success: false,
@@ -143,17 +143,17 @@ exports = module.exports = new Resource('user', '/user', {
                             if (err) throw err;
                             var hash = key.toString();
                             if (hash == user.pw_hash) {
-                                jwt.sign({user: user}, secret, {algorithm: 'HS256'}, function (token) {
+                                jwt.sign({user: user}, secret, {algorithm: 'HS256', expiresIn: 84400}, function (token) {
                                     res.status(200).json({
                                         success: true,
                                         token: token
-                                    })
-                                })
+                                    });
+                                });
                             } else {
                                 res.status(403).json({
                                     success: false,
                                     msg: "Failed to auth."
-                                })
+                                });
                             }
                         });
                     }
