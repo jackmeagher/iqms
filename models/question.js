@@ -7,8 +7,14 @@
 module.exports = function(sequelize, DataTypes) {
     var question = sequelize.define("question", {
         question_text: DataTypes.STRING,
-        sample_answer : DataTypes.STRING,
-        difficulty: DataTypes.INTEGER // E.G. junior = 0, intermediate = 1, senior = 2
+        sample_answer: DataTypes.STRING,
+        difficulty: {
+            type: DataTypes.INTEGER,
+            validate:{
+                min : 1,
+                max : 5
+            }
+        }
 
     }, {
         classMethods: {
@@ -21,3 +27,4 @@ module.exports = function(sequelize, DataTypes) {
 
     return question;
 };
+

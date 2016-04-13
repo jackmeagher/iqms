@@ -1,8 +1,11 @@
 /**
+ * Created by nick on 4/12/16.
+ */
+/**
  * Created by nick on 3/31/16.
  */
 
-function list_interview_controller($scope, $http) {
+function conduct_interview_list_controller($scope, $http) {
 
     $scope.sortType     = 'interviewee'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order

@@ -11,6 +11,15 @@ function tag_auto_complete_controller ($scope,$http,$timeout, $q, $log,$window) 
     $scope.tags = [];
     loadTags();
 
+
+    self.clear = function(tag){
+        $scope.tags = $scope.tags.filter(e => e!==tag);
+
+        //console.log(self.selectedItem);
+        self.searchText = undefined;
+        self.selectedItem = undefined;
+    };
+
     self.querySearch   = querySearch;
     self.selectedItemChange = selectedItemChange;
     self.searchTextChange   = searchTextChange;
@@ -38,19 +47,13 @@ function tag_auto_complete_controller ($scope,$http,$timeout, $q, $log,$window) 
     function loadTags() {
         $http.get('/tag').success(function (data) {
             var tags = data.tags;
-            var allTags = '';
-
-            for(var i = 0;i<tags.length;i++){
-                allTags += tags[i].label;
-                allTags += ', '
-            }
-            allTags = allTags.substr(0,allTags.length-2);
 
             //var allNames = 'Nick DeSisto, Jack Meagher, Ben Byrd, Laurene Huang, Claudio Sroka, Sherrill Rockett, Lisette Mora, Carey Orosco, Alvera Sherrell, Isaias Riedel, Russ Powe, Malia Simental, Shawna Spiker, Kathyrn Driver, Chas Defeo, Aileen Volz, Lea Dalke, Myesha Defore, Verlene Lobdell, Raven Wilbur, Weldon Elsworth, Margert Pedrick, Mariette Swart, Dionna Alday, Detra Kerley, Janice Poorman, Alphonso Quesinberry, Louise Whitmire, Rochelle Gorder, Forrest Frankel, Mervin Whipps, Lurlene Burts, Stasia Sakata, Micheal Colorado, Joselyn Littles, Charmaine Brust, Crysta Chartier, Shon Gaynor, Reatha Pinto, Donnetta Mcconn, Shemeka Fredrickson, Kurtis Toomer, Minna Bravo, Marilee Vides, Theola Mungia, Deangelo Dierks, Bao Molina, Nan Hocutt, Claude Kimbrel, Anton Mery, Rod Fricke, Marline Viloria, Mitchell Hensel, Yen Ulm, Reva Huggard, Marylee Kohnke, Julissa Eubank, Gwenn Ciccone, Twyla Holub, Randee Logsdon, Trinity Sibert, Meredith Kiger, Antonetta Plumley, Noma Adam, My Court, Douglas Klenke, Kacy Mccutcheon, Camie Gulotta, Thao Christina, Sharmaine Stallings, Linsey Novy, Donny Doxey, Danette Carnell, Ignacio Thornton, Virgil Broadus, Dorthea Ricker, Everette Botello, Angella Quintanar, Irene Bump, Collin Priolo, Bettina Tousignant, Camellia Esslinger, Steffanie Newbury, Jaimee Guerriero, Melany Rey, Gigi Kjos, Easter Wallner, Carli Wason, Marg Ferrante, Vito Simien, Ira Purtell, Doloris Treece, Corrinne Dy, Vickie Simmons, Kortney Desantis, Debbie Simmon, Dannielle Holt, Karena Rugh, Doretta Slocum, Tynisha Ohm, Isaias Ballou, Machelle Donelson, Milton Foskey';
-            makeTags( allTags.split(/, +/g).map( function (tag) {
+            makeTags( tags.map( function (tag) {
                 return {
-                    value: tag.toLowerCase(),
-                    display: tag
+                    value: tag.label.toLowerCase(),
+                    display: tag.label,
+                    item : tag
                 };
             }));
         });

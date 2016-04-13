@@ -2,7 +2,7 @@
  * Created by nick on 4/1/16.
  */
 
-function name_auto_complete_controller ($scope,$http,$timeout, $q, $log,$window) {
+function name_auto_complete_controller ($rootScope,$scope,$http,$timeout, $q, $log,$window) {
     var self = this;
     // list of names to be displayed
     $scope.names = [];
@@ -25,6 +25,9 @@ function name_auto_complete_controller ($scope,$http,$timeout, $q, $log,$window)
     }
     function selectedItemChange(item) {
         $log.info('Item changed to ' + JSON.stringify(item));
+        $rootScope.$broadcast('current_interviewee', item);
+
+
     }
 
     function makeNames(names){

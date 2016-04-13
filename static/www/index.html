@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
-    <link rel="icon" href="assets/img/favicon.ico" />
+    <link rel="icon" href="assets/img/favicon.ico"/>
 
     <title>IQMS Dashboard</title>
 
@@ -27,10 +28,10 @@
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
 
 
-
-
     <style>
-        .md-transition-in {width:75%;}
+        .md-transition-in {
+            width: 75%;
+        }
     </style>
 
 
@@ -40,7 +41,6 @@
     <script src="assets/js/angularjs/1.5.0/angular-messages.min.js"></script>
     <script src="assets/js/angular_material/1.0.0/angular-material.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-route.js"></script>
-
     <script src="control/create_interview_controller.js"></script>
     <script src="control/name_auto_complete_controller.js"></script>
     <script src="control/question_auto_complete_controller.js"></script>
@@ -49,90 +49,119 @@
     <script src="control/question_manager_controller.js"></script>
     <script src="control/tag_auto_complete_controller.js"></script>
     <script src="control/position_auto_complete_controller.js"></script>
+    <script src="control/conduct_interview_list_controller.js"></script>
+    <script src="control/conduct_interview_controller.js"></script>
 
 
 
     <script>
+        function index_controller($scope){
+            $scope.hide_side = function(){
+                angular.element('#hidethis').css('visibility','hidden');
+            }
+            $scope.show_side = function(){
+                angular.element('#hidethis').css('visibility','visible');
 
-        var app = angular.module('app', ['ngRoute','ngMaterial']);
 
-        app.config(function($routeProvider) {
+
+            }
+        };
+
+        var app = angular.module('app', ['ngRoute', 'ngMaterial']);
+
+        app.config(function ($routeProvider) {
             $routeProvider
 
                     .when('/', {
-                        templateUrl : 'welcome.html',
+                        templateUrl: 'welcome.html'
                     })
 
-                    // route for the about page
+                    // route for the create interview page
                     .when('/ci', {
-                        templateUrl : 'createInterview.html',
+                        templateUrl: 'createInterview.html'
                     })
 
-                    // route for the contact page
+                    // route for the list interviews page
                     .when('/li', {
-                        templateUrl : 'listInterviews.html',
+                        templateUrl: 'listInterviews.html'
                     })
+
                     .when('/cq', {
-                        templateUrl : 'createQuestion.html',
+                        templateUrl: 'createQuestion.html'
                     })
+
                     .when('/qm', {
-                        templateUrl : 'questionManager.html',
+                        templateUrl: 'questionManager.html'
                     })
+
                     .when('/coni', {
-                        templateUrl : 'conductInterview.html',
+                        templateUrl: 'conductInterview.html'
                     })
-                    .otherwise( { redirectTo: '/'} );
+
+                    .when('/conaction/:id/', {
+                        templateUrl: 'conductInterviewAction.html'
+                    })
+
+                    .when('/login', {
+                        templateUrl: 'login.html'
+                    })
+
+                    .otherwise({redirectTo: '/'});
 
         });
 
         app.controller("create_interview_controller", create_interview_controller);
+        app.controller("conduct_interview_list_controller", conduct_interview_list_controller);
+        app.controller("conduct_interview_controller", conduct_interview_controller);
+
         app.controller("name_auto_complete_controller", name_auto_complete_controller);
         app.controller("question_auto_complete_controller", question_auto_complete_controller);
-        app.controller("list_interview_controller",list_interview_controller);
-        app.controller("create_question_controller",create_question_controller);
-//        app.controller('question_manager_controller', ['$scope', '$mdDialog', question_manager_controller);
-        app.controller("question_manager_controller",question_manager_controller);
-        app.controller("tag_auto_complete_controller",tag_auto_complete_controller);
-        app.controller("position_auto_complete_controller",position_auto_complete_controller);
+        app.controller("list_interview_controller", list_interview_controller);
+        app.controller("create_question_controller", create_question_controller);
+        //        app.controller('question_manager_controller', ['$scope', '$mdDialog', question_manager_controller);
+        app.controller("question_manager_controller", question_manager_controller);
+        app.controller("tag_auto_complete_controller", tag_auto_complete_controller);
+        app.controller("position_auto_complete_controller", position_auto_complete_controller);
+        app.controller("index_controller", index_controller);
 
 
+        app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function ($scope, $mdDialog) {
+            var alert;
+            $scope.showDialog = showDialog;
 
 
-        app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function($scope, $mdDialog){
-                    var alert;
-                    $scope.showDialog = showDialog;
+            function showDialog($event) {
+                var parentEl = angular.element(document.querySelector('md-content'));
+                alert = $mdDialog.alert({
+                    parent: parentEl,
+                    targetEvent: $event,
+                    templateUrl: 'createQuestion.html',
+                    locals: {
+                        closeDialog: $scope.closeDialog
+                    },
+                    bindToController: true,
+                    controllerAs: 'ctrl'
+                });
 
-                    function showDialog($event) {
-                        var parentEl = angular.element(document.querySelector('md-content'));
-                        alert = $mdDialog.alert({
-                            parent: parentEl,
-                            targetEvent: $event,
-                            templateUrl: 'createQuestion.html',
-                            locals: {
-                                closeDialog: $scope.closeDialog
-                            },
-                            bindToController: true,
-                            controllerAs: 'ctrl',
+                $mdDialog
+                        .show(alert)
+                        .finally(function () {
+                            alert = undefined;
                         });
+            }
 
-                        $mdDialog
-                                .show( alert )
-                                .finally(function() {
-                                    alert = undefined;
-                                });
-                    }
-                    $scope.closeDialog = function() {
-                        $mdDialog.hide();
-                    };
-                }]);
+            $scope.closeDialog = function () {
+                $mdDialog.hide();
+            };
+        }]);
 
 
     </script>
 
 </head>
-<body >
-<div id="wrapper" >
-    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
+<body>
+<div id="wrapper" ng-controller="index_controller">
+    <nav  class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
         <div class="navbar-header" style="height:20%;">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -143,13 +172,13 @@
             <a class="navbar-brand" href="#/">IQMS</a>
         </div>
 
-        <div class="header-right">
-            <a href="login.html" class="btn btn-danger" title="Logout"><i
+        <div class="header-right" ng-click="hide_side();">
+            <a href="#login" class="btn btn-danger" title="Logout" ><i
                     class="fa fa-exclamation-circle fa-2x"></i></a>
         </div>
     </nav>
     <!-- /. NAV TOP  -->
-    <nav class="navbar-default navbar-side" role="navigation">
+    <nav id='hidethis' class="navbar-default navbar-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
                 <li>
@@ -165,7 +194,7 @@
 
 
                 <li>
-                    <a class="active-menu" href="#/"><i class="fa fa-dashboard "></i>Welcome to IQMS</a>
+                    <a href="#/"><i class="fa fa-dashboard "></i>Welcome to IQMS</a>
                 </li>
                 <li>
                     <a href="#ci"><i class="fa fa-plus"></i>Create Interview</a>
@@ -187,13 +216,13 @@
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div id="page-inner">
-        <div id="main" >
-            <div ng-view>
-            <!-- /. ROW  -->
-                <!--<div ng-view></div>-->
-                <!-- angular templating -->
-                <!-- this is where content will be injected -->
-            </div>
+            <div id="main">
+                <div ng-view>
+                    <!-- /. ROW  -->
+                    <!--<div ng-view></div>-->
+                    <!-- angular templating -->
+                    <!-- this is where content will be injected -->
+                </div>
             </div>
             <!-- /. WRAPPER  -->
             <!-- /. FOOTER  -->

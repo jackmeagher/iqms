@@ -19,12 +19,13 @@ exports = module.exports = new Resource('answer', '/answer', {
         },
         // create new answer
         post: (req, res) => {
-            
+
             models.answer.create({
-                //feedback: req.body.feedback,
-                //rating: req.body.rating,
-                //interview_id : req.body.interview_id,
-                //question_id : req.body.question_id
+                answer_text : req.body.answer_text? req.body.answer_text : null,
+                feedback: req.body.feedback? req.body.feedback : null,
+                rating: req.body.rating ? req.body.feedback : null,
+                interview_id : req.body.interview_id ? req.body.interview_id : null,
+                question_id : req.body.question_id ? req.body.question_id : null
             }).then(function(created) {
                 res.status(201).json({
                     answer: created

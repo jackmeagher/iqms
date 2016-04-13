@@ -1,84 +1,91 @@
 <div class="row" style="width:100%;">
-                    <div class="col-md-12">
-                        <h1 class="page-head-line">Create a question</h1>
-                        <h1 class="page-subhead-line">Write a question and add tags</h1>
+    <div class="col-md-12">
+        <h1 class="page-head-line">Create a question</h1>
+        <h1 class="page-subhead-line">Write a question and add tags</h1>
 
-                    </div>
+    </div>
 </div>
 
 <div class="col-md-6 col-sm-6 col-xs-12 row" style="width:100%;" ng-controller="create_question_controller">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            Question
-                        </div>
-                        <div class="control-group" id="fields">
-                            <div class="controls">
-                                <form role="form" autocomplete="on" style="margin-left:5%;">
-                                    <div class="form-group" style="margin-top:2%; text-align:left;">
-                                        <label>Question</label>
-                                        <input id='question_text' class="form-control" type="text" style="width:95%;
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Question
+        </div>
+        <div class="control-group" id="fields">
+            <div class="controls">
+                <form role="form" autocomplete="on" style="margin-left:5%;">
+                    <div class="form-group" style="margin-top:2%; text-align:left;">
+                        <label>Question</label>
+                        <input id='question_text' class="form-control" type="text" style="width:95%;
                                      text-align:left;" value="{{qt}}">
-                                    </div>
-                                    <div class="form-group" style="margin-top:2%; text-align:left;">
-                                        <label>Difficulty</label>
-                                        <div class="percentage-cur" ng-init="selectedRange=1">
-                                            <span class="num">{{ selectedRange }}/5</span>
-                                            <input id='difficulty' class="form-control" type="range" min="1" max="5"
-                                                   value="1" style="width:95%;
+                    </div>
+                    <div class="form-group" style="margin-top:2%; text-align:left;">
+                        <label>Difficulty</label>
+                        <div class="percentage-cur" ng-init="selectedRange=1">
+                            <span class="num">{{ selectedRange }}/5</span>
+                            <input id='difficulty' class="form-control" type="range" min="1" max="5"
+                                   value="1" style="width:95%;
                                      text-align:left;" ng-model="selectedRange">
-                                        </div>
-                                        <br>
-                                    </div>
-                                    <br>
-                                    <div>
-                                        <label>Add tags</label><br>
-                                        <div class="entry input-group col-xs-3" style="display:inline-flex; width:55%;">
+                        </div>
 
-                                            <div ng-controller="tag_auto_complete_controller as ctrl"
-                                                 ng-cloak style='width : 50%;'>
-                                                <md-content class="md-padding" >
-                                                    <!--<form ng-submit="$event.preventDefault()">-->
-                                                    <md-autocomplete
-                                                            style="width:90%;"
-                                                            md-no-cache="ctrl.noCache"
-                                                            md-selected-item="ctrl.selectedItem"
-                                                            md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                                                            md-search-text="ctrl.searchText"
-                                                            md-selected-item-change="ctrl.selectedItemChange(item)"
-                                                            md-items="item in ctrl.querySearch(ctrl.searchText)"
-                                                            md-item-text="item.display"
-                                                            md-min-length="0"
-                                                            placeholder="Seach for Tag">
-                                                        <md-item-template>
+                        <br>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Add tags</label><br>
+                        <div class="entry input-group col-xs-3" style="display:inline-flex; width:55%;">
+
+                            <div ng-controller="tag_auto_complete_controller as ctrl"
+                                 ng-cloak style='width : 50%;'>
+                                <md-content class="md-padding">
+                                    <!--<form ng-submit="$event.preventDefault()">-->
+                                    <md-autocomplete
+                                            style="width:90%;"
+                                            md-no-cache="ctrl.noCache"
+                                            md-selected-item="ctrl.selectedItem"
+                                            md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                                            md-search-text="ctrl.searchText"
+                                            md-selected-item-change="ctrl.selectedItemChange(item)"
+                                            md-items="item in ctrl.querySearch(ctrl.searchText)"
+                                            md-item-text="item.display"
+                                            md-min-length="0"
+                                            placeholder="Seach for Tag">
+                                        <md-item-template>
                                                         <span md-highlight-text="ctrl.searchText"
                                                               md-highlight-flags="^i">{{item.display}}</span>
-                                                        </md-item-template>
-                                                        <md-not-found>
-                                                            No tags matching "{{ctrl.searchText}}" were found.
-                                                            <a ng-click="ctrl.newTag(ctrl.searchText)">Create a new
-                                                                one!</a>
-                                                        </md-not-found>
-                                                    </md-autocomplete>
-                                                    </md-content>
-                                                    </div>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No tags matching "{{ctrl.searchText}}" were found.
+                                            <a ng-click="ctrl.newTag(ctrl.searchText)">Create a new
+                                                one!</a>
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-content>
+                                <div ng-repeat="tag in current_tags">
+                                    <br>
+                                    {{tag.display}}
+
+                                </div>
 
 
                                         <span class="input-group-btn">
-                                            <button class="btn btn-success btn-add" type="button">
+                                            <button class="btn btn-success btn-add" type="button" ng-click="addTag(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
-                                        </div>
-                                    </div>
-                                </form>
-                                <br>
-                                <button type="button" class="btn btn-lg btn-success" ng-click="CreateQuestion();ctrl.closeDialog()"
-                                        style="margin-left:43%; margin-bottom:2%;">
-                                    Submit Question
-                                </button>
-                                <br>
-                            </div>
                         </div>
+                        </div>
+
                     </div>
+                </form>
+                <br>
+                <button type="button" class="btn btn-lg btn-success" ng-click="CreateQuestion();ctrl.closeDialog()"
+                        style="margin-left:43%; margin-bottom:2%;">
+                    Submit Question
+                </button>
+                <br>
+            </div>
+        </div>
+    </div>
 </div>
 
