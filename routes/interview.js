@@ -153,15 +153,25 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
 
         /// remove question from interview
         delete: (req, res) => {
-            models.interviewQuestion.destroy({
-                where: {
-                    interview_id: req.params.id,
-                    question_id : req.params.question_id
-                }
-            }).then(function(destroyed) {
-                res.status(203).json({
-                });
-            });
+            models.interview.findOne({where:
+            {
+                id : req.params.id
+            }}).then(function(interview){
+                models.question.findOne(
+                    {
+                        where: {
+                            id: req.params.question_id
+                        }
+                    }).then(function(question){
+                    interview.removeQuestion(question).then(
+                        function(added){
+                            res.status(200).json({
+                                removed : removed
+                            });
+                        }
+                    )
+
+                })})
 
         }
 
@@ -195,7 +205,7 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
 
         }),
 
-        new Resource('get_answers_from_interview', '/:id/next', {
+        new Resource('get_questions_not_answered', '/:id/next', {
             /// get questions that haven't been answered
             get: (req, res) => {
                 models.sequelize.query(
