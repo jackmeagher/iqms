@@ -72,5 +72,50 @@ exports = module.exports = new Resource('question', '/question', {
 
         }
     }
-    )]
+    ),
+    new Resource('add tag to question', '/:id/tags/:tag_id', {
+        post: (req, res) => {
+
+            models.question.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then(function (question) {
+                models.tag.findOne(
+                    {
+                        where: {
+                            id: req.params.tag_id
+                        }
+                    }).then(function (tag) {
+                    question.addTag(tag).then(
+                        function (added) {
+                            res.status(200).json({
+                                added: added
+                            });
+                        }
+                    )
+
+                })
+            })
+        }
+    } ),
+        new Resource('get tags by question', '/:id/tags/', {
+            get: (req, res) => {
+                models.question.findOne({where:{
+                    id:req.params.id
+                }}).then(function(question){
+
+                        question.getTags().then(function(tags){
+                            res.status(200).json(
+                                {
+                                    tags: tags
+                                }
+                            )}
+                        )
+                    }
+                )
+
+            }
+        } )
+]
 );

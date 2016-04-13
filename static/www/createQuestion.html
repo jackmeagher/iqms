@@ -1,14 +1,13 @@
-<div class="row" style="width:100%; margin-left:0px; margin-right:0px;">
-    <div class="col-md-12" style="width:100%;>
+<div class="row" style="width:100%;">
+    <div class="col-md-12">
         <h1 class="page-head-line">Create a question</h1>
         <h1 class="page-subhead-line">Write a question and add tags</h1>
 
     </div>
 </div>
 
-<div class="col-md-6 col-sm-6 col-xs-12 row" style="width:100%;"
-     ng-controller="create_question_controller">
-    <div class="panel panel-info" style="margin-left:0px; margin-right:0px;">
+<div class="col-md-6 col-sm-6 col-xs-12 row" style="width:100%;" ng-controller="create_question_controller">
+    <div class="panel panel-info">
         <div class="panel-heading">
             Question
         </div>
@@ -28,6 +27,7 @@
                                    value="1" style="width:95%;
                                      text-align:left;" ng-model="selectedRange">
                         </div>
+
                         <br>
                     </div>
                     <br>
@@ -61,14 +61,21 @@
                                         </md-not-found>
                                     </md-autocomplete>
                                 </md-content>
-                            </div>
+                                <div ng-repeat="tag in current_tags">
+                                    <br>
+                                    {{tag.display}}
 
-                             <span class="input-group-btn">
-                                 <button class="btn btn-success btn-add" type="button">
-                                     <span class="glyphicon glyphicon-plus"></span>
-                                 </button>
-                             </span>
+                                </div>
+
+
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success btn-add" type="button" ng-click="addTag(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </span>
                         </div>
+                        </div>
+
                     </div>
                 </form>
                 <br>

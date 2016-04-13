@@ -3,7 +3,7 @@
  */
 
 
-function position_auto_complete_controller ($scope,$http,$timeout, $q, $log,$window) {
+function position_auto_complete_controller ($rootScope,$scope,$http,$timeout, $q, $log,$window) {
     var self = this;
     // list of names to be displayed
     $scope.positions = [];
@@ -26,6 +26,8 @@ function position_auto_complete_controller ($scope,$http,$timeout, $q, $log,$win
     }
     function selectedItemChange(item) {
         $log.info('Item changed to ' + JSON.stringify(item));
+        $rootScope.$broadcast('current_position', item);
+
     }
 
     function makePositions(positions){
