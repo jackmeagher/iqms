@@ -6,16 +6,13 @@ var Resource = require('../lib/Resource');
 var exports = module.exports = {};
 
 
-
 exports = module.exports = new Resource('get_all_interviews', '/interview',
     {
         // get all interviews
-        get: (req, res) =>
-        {
+        get: (req, res) => {
 
             models.interview.findAll()
-                .then(function(interviews)
-                {
+                .then(function (interviews) {
                     res.status(200).json
                     ({
                         interviews: interviews
