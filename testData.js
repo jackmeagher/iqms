@@ -100,35 +100,35 @@ models.user.create({
     username: 'byrdman419',
     first_name: 'Ben',
     last_name: 'Byrd',
-    pw_hash: 'geocent'
+    //pw_hash: 'geocent'
 });
 
 models.user.create({
     username: 'jackalope',
     first_name: 'Jack',
     last_name: 'Meagher',
-    pw_hash: 'geocent'
+    //pw_hash: 'geocent'
 });
 
 models.user.create({
     username: 'nickd',
     first_name: 'Nick',
     last_name: 'DeSisto',
-    pw_hash: 'geocent'
+    //pw_hash: 'geocent'
 });
 
 models.user.create({
     username: 'PusillanimousPony22',
     first_name: 'James',
     last_name: 'Shockley',
-    pw_hash: 'geocent'
+    //pw_hash: 'geocent'
 });
 
 models.user.create({
     username: 'BigBoss123',
     first_name: 'Sebastian',
     last_name: 'van delden',
-    pw_hash: 'geocent'
+    //pw_hash: 'geocent'
 });
 
 models.tag.create({
