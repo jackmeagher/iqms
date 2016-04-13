@@ -1,4 +1,4 @@
-<div ng-controller="list_interview_controller">
+<div ng-controller="conduct_interview_list_controller">
     <div class="row">
         <div class="col-md-12">
             <h1 class="page-head-line">Conduct an Interview</h1>
@@ -69,7 +69,7 @@
                                     <td>{{interview.id}}</td>
                                     <td>{{interview.interviewee}}</td>
                                     <td> {{interview.label}}</td>
-                                    <td><a href="#conaction">
+                                    <td><a href="#conaction/{{interview.id}}">
                                         <button class="btn btn-warning">Conduct Interview</button>
                                     </a>
                                     </td>

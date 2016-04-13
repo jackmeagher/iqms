@@ -4,7 +4,7 @@
 
 function list_interview_controller($scope, $http) {
 
-    $scope.sortType     = 'question_text'; // set the default sort type
+    $scope.sortType     = 'interviewee'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
     $scope.searchInterview  = '';     // set the default search/filter term
 

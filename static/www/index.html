@@ -49,6 +49,9 @@
     <script src="control/question_manager_controller.js"></script>
     <script src="control/tag_auto_complete_controller.js"></script>
     <script src="control/position_auto_complete_controller.js"></script>
+    <script src="control/conduct_interview_list_controller.js"></script>
+    <script src="control/conduct_interview_controller.js"></script>
+
 
 
     <script>
@@ -95,7 +98,7 @@
                         templateUrl: 'conductInterview.html'
                     })
 
-                    .when('/conaction', {
+                    .when('/conaction/:id/', {
                         templateUrl: 'conductInterviewAction.html'
                     })
 
@@ -108,6 +111,9 @@
         });
 
         app.controller("create_interview_controller", create_interview_controller);
+        app.controller("conduct_interview_list_controller", conduct_interview_list_controller);
+        app.controller("conduct_interview_controller", conduct_interview_controller);
+
         app.controller("name_auto_complete_controller", name_auto_complete_controller);
         app.controller("question_auto_complete_controller", question_auto_complete_controller);
         app.controller("list_interview_controller", list_interview_controller);
