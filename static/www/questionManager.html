@@ -63,12 +63,12 @@
                                     <th>Tags</th>
                                     <th></th>
                                 </tr>
-                                <tbody ng-repeat="question in _question.questions | orderBy:sortType:sortReverse | filter:searchQuestion">
+                                <tbody ng-repeat="question in _question | orderBy:sortType:sortReverse | filter:searchQuestion">
                                 <tr class="success">
                                     <td>{{question.id}}</td>
                                     <td>{{question.question_text}}</td>
                                     <td> {{question.difficulty}}</td>
-                                    <td> Pizza, Pasta, Bagel, Moose</td>
+                                    <td>{{question.tags}}</td>
                                     <td>
                                         <button class="btn btn-danger" ng-click="DeleteQuestion($index,question)">
                                             Delete
