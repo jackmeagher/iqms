@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
     <link rel="icon" href="assets/img/favicon.ico"/>
 
@@ -40,7 +41,6 @@
     <script src="assets/js/angularjs/1.5.0/angular-messages.min.js"></script>
     <script src="assets/js/angular_material/1.0.0/angular-material.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-route.js"></script>
-
     <script src="control/create_interview_controller.js"></script>
     <script src="control/name_auto_complete_controller.js"></script>
     <script src="control/question_auto_complete_controller.js"></script>
@@ -52,6 +52,17 @@
 
 
     <script>
+        function index_controller($scope){
+            $scope.hide_side = function(){
+                angular.element('#hidethis').css('visibility','hidden');
+            }
+            $scope.show_side = function(){
+                angular.element('#hidethis').css('visibility','visible');
+
+
+
+            }
+        };
 
         var app = angular.module('app', ['ngRoute', 'ngMaterial']);
 
@@ -105,11 +116,13 @@
         app.controller("question_manager_controller", question_manager_controller);
         app.controller("tag_auto_complete_controller", tag_auto_complete_controller);
         app.controller("position_auto_complete_controller", position_auto_complete_controller);
+        app.controller("index_controller", index_controller);
 
 
         app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function ($scope, $mdDialog) {
             var alert;
             $scope.showDialog = showDialog;
+
 
             function showDialog($event) {
                 var parentEl = angular.element(document.querySelector('md-content'));
@@ -141,8 +154,8 @@
 
 </head>
 <body>
-<div id="wrapper">
-    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
+<div id="wrapper" ng-controller="index_controller">
+    <nav  class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
         <div class="navbar-header" style="height:20%;">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -153,13 +166,13 @@
             <a class="navbar-brand" href="#/">IQMS</a>
         </div>
 
-        <div class="header-right">
-            <a href="#login" class="btn btn-danger" title="Logout"><i
+        <div class="header-right" ng-click="hide_side();">
+            <a href="#login" class="btn btn-danger" title="Logout" ><i
                     class="fa fa-exclamation-circle fa-2x"></i></a>
         </div>
     </nav>
     <!-- /. NAV TOP  -->
-    <nav class="navbar-default navbar-side" role="navigation">
+    <nav id='hidethis' class="navbar-default navbar-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
                 <li>
