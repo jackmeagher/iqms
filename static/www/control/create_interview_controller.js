@@ -25,6 +25,8 @@ function create_interview_controller($scope, $http, $window) {
 
         $http.post('/interview', par1).success(function (posted) {
             addQuestions(posted.interview.id);
+            $window.location.href = './#li';
+
         })
     };
 
@@ -32,7 +34,6 @@ function create_interview_controller($scope, $http, $window) {
         $scope.current_questions.forEach(q => $http.post('/interview/' + id+ '/questions/' + q.id));
 
     };
-        //$window.location.href = './#li';
 
         //$scope.current_questions.forEach(
         //    $http.post('/interview/')
