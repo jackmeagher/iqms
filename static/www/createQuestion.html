@@ -27,6 +27,7 @@
                                    value="1" style="width:95%;
                                      text-align:left;" ng-model="selectedRange">
                         </div>
+
                         <br>
                     </div>
                     <br>
@@ -60,15 +61,21 @@
                                         </md-not-found>
                                     </md-autocomplete>
                                 </md-content>
-                            </div>
+                                <div ng-repeat="tag in current_tags">
+                                    <br>
+                                    {{tag.display}}
+
+                                </div>
 
 
                                         <span class="input-group-btn">
-                                            <button class="btn btn-success btn-add" type="button">
+                                            <button class="btn btn-success btn-add" type="button" ng-click="addTag(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
                         </div>
+                        </div>
+
                     </div>
                 </form>
                 <br>
