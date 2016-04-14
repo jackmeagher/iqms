@@ -65,6 +65,7 @@
                                     <th>Tags</th>
                                     <th></th>
                                 </tr>
+                                </thead>
                                 <tbody ng-repeat="question in _question | orderBy:sortType:sortReverse | filter:searchQuestion">
                                 <tr class="success">
                                     <td>{{question.id}}</td>
