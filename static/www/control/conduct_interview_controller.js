@@ -12,4 +12,15 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         //if (data.questions.len == 0)
         $scope.questions = data.questions;
     });
+
+    $scope.post_interview = function(answer_text, rating, questionId, interviewId) {
+        $http.post('/answer', {
+            answer_text : answer_text,
+            rating: rating,
+            questionId: questionId,
+            interviewId: interviewId
+        }).success(function (data) => {
+            $scope.lastAnswer = data;
+        });
+    }
 }
