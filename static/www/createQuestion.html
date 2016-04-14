@@ -1,4 +1,4 @@
-<div class="row" style="width:100%;">
+<div class="row" style="width:100%; margin-left:0px; margin-right:0px;">
     <div class="col-md-12">
         <h1 class="page-head-line">Create a question</h1>
         <h1 class="page-subhead-line">Write a question and add tags</h1>
@@ -7,11 +7,11 @@
 </div>
 
 <div class="col-md-6 col-sm-6 col-xs-12 row" style="width:100%;" ng-controller="create_question_controller">
-    <div class="panel panel-info">
+    <div class="panel panel-info" style="margin-left:3%;">
         <div class="panel-heading">
             Question
         </div>
-        <div class="control-group" id="fields">
+        <div class="control-group" id="fields" style="margin-left:5%;">
             <div class="controls">
                 <form role="form" autocomplete="on" style="margin-left:5%;">
                     <div class="form-group" style="margin-top:2%; text-align:left;">
@@ -60,20 +60,18 @@
                                                 one!</a>
                                         </md-not-found>
                                     </md-autocomplete>
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-success btn-add" type="button"
+                                            ng-click="addTag(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </span>
                                 </md-content>
                                 <div ng-repeat="tag in current_tags">
                                     <br>
                                     {{tag.display}}
-
                                 </div>
-
-
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-success btn-add" type="button" ng-click="addTag(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                            </button>
-                                        </span>
-                        </div>
+                            </div>
                         </div>
 
                     </div>
