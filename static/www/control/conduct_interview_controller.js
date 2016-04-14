@@ -35,13 +35,11 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         //console.log(data);
     });
 
-
-
-
     $scope.get_unanswered_questions = function() {
         $http.get('/answer/interview/unanswered_questions/' + interviewId).then(function (data) {
             $scope.unansweredQuestions = data.unansweredQuestions;
             $scope.current_question = $scope.unansweredQuestions[0];
         });
     }
+
 }

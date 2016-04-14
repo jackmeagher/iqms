@@ -7,7 +7,7 @@
 
     <link rel="icon" href="assets/img/favicon.ico"/>
 
-    <title>IQMS Dashboard</title>
+    <title>IQMS</title>
 
     <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet"/>
@@ -53,19 +53,17 @@
     <script src="control/conduct_interview_controller.js"></script>
 
 
-
     <script>
-        function index_controller($scope){
-            $scope.hide_side = function(){
-                angular.element('#hidethis').css('visibility','hidden');
+        function index_controller($scope) {
+            $scope.hide_side = function () {
+                angular.element('#hidethis').css('visibility', 'hidden');
+            };
+            $scope.show_side = function () {
+                angular.element('#hidethis').css('visibility', 'visible');
+
+
             }
-            $scope.show_side = function(){
-                angular.element('#hidethis').css('visibility','visible');
-
-
-
-            }
-        };
+        }
 
         var app = angular.module('app', ['ngRoute', 'ngMaterial']);
 
@@ -161,7 +159,7 @@
 </head>
 <body>
 <div id="wrapper" ng-controller="index_controller">
-    <nav  class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
+    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
         <div class="navbar-header" style="height:20%;">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -173,7 +171,7 @@
         </div>
 
         <div class="header-right" ng-click="hide_side();">
-            <a href="#login" class="btn btn-danger" title="Logout" ><i
+            <a href="#login" class="btn btn-danger" title="Logout"><i
                     class="fa fa-exclamation-circle fa-2x"></i></a>
         </div>
     </nav>
