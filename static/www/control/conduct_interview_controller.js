@@ -19,7 +19,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
             rating: rating,
             questionId: questionId,
             interviewId: interviewId
-        }).success(function (data) => {
+        }).then(function (data) {
             $scope.lastAnswer = data;
         });
     };
