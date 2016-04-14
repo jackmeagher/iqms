@@ -196,26 +196,6 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
                     })
             }
         }),
-
-        new Resource('get_questions_not_answered', '/:id/next', {
-            /// get questions that haven't been answered
-            get: (req, res) => {
-                models.sequelize.query(
-                        'SELECT * FROM questions ' +
-                        'WHERE id IN (' +
-                        'SELECT question_id ' +
-                        'FROM "interviewQuestions" ' +
-                        'WHERE interview_id =' + req.params.id + ') ' +
-                        'AND id NOT IN(' +
-                        'SELECT question_id ' +
-                        'FROM answers ' +
-                        'WHERE interview_id =' + req.params.id + ')'
-                    , {type: models.sequelize.QueryTypes.SELECT}
-                    )
-                    .then(function (answers) {
-                        res.status(200).json(answers);
-                    });
-            }
-        })
+        
     ]
 );
