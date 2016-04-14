@@ -21,8 +21,12 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     };
     $scope.click_answer_update = function()
     {
-        currentQuestion.answer = document.getElementById('response').data;
+        $scope.currentQuestion.answer = document.getElementById('response').data;
     };
+
+    $( "#response" ).change(function() {
+        $scope.click_answer_update();
+    });
 
 
     $http.get('/interview/' + interviewId).success(function (data) {
