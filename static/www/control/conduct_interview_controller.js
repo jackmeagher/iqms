@@ -4,8 +4,27 @@
 
 function conduct_interview_controller ($scope,$location,$http,$window,$routeParams) {
     var interviewId = $routeParams.id;
-    $scope.unansweredQuestions = [];
+    $scope.questions = [];
     $scope.currentQuestion = {};
+    $scope.currentQuestionIndex = 1;
+    self.n_questions = 0;
+
+    $scope.updateCurrentQuestion = function(i){
+        console.log($scope.currentQuestionIndex);
+        if ( $scope.currentQuestionIndex < self.n_questions -1 ) {
+            $scope.currentQuestionIndex = ($scope.currentQuestionIndex + i);
+            $scope.currentQuestion = $scope.questions[$scope.currentQuestionIndex];
+        }
+        else{
+            $scope.currentQuestionIndex = 0;
+        }
+    };
+    $scope.click_answer_update = function()
+    {
+        currentQuestion.answer = document.getElementById('response').data;
+    };
+
+
     $http.get('/interview/' + interviewId).success(function (data) {
         $scope.interview = data.interview;
         $http.get('/interview/' + interviewId + '/questions').success(function (data) {
@@ -35,11 +54,12 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         //console.log(data);
     });
 
-    $scope.get_unanswered_questions = function() {
-        $http.get('/answer/interview/unanswered_questions/' + interviewId).then(function (data) {
-            $scope.unansweredQuestions = data.unansweredQuestions;
-            $scope.current_question = $scope.unansweredQuestions[0];
+
+        $http.get('/interview/' + interviewId +'/questions/').then(function (data) {
+            $scope.questions = data.data.questions;
+            $scope.currentQuestion = $scope.questions[0];
+            self.n_questions = $scope.questions.length;
+            $scope.questions.forEach(q => q.answer = '');
         });
-    }
 
 }
