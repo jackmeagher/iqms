@@ -12,9 +12,9 @@ describe('App', function () {
     before(function () {
         server_promise = require('../bin/www_test');
     });
-    describe('/user', function () {
-        var url = '/user';
-        describe('#GET /user ', function () {
+    describe('/question', function () {
+        var url = '/question';
+        describe('#GET /question ', function () {
 
             it('should return content as type json', function (done) {
                 server_promise.then((server) => {
@@ -25,13 +25,13 @@ describe('App', function () {
                         .expect(200, done);
                 });
             });
-            it('should have a property users', function (done) {
+            it('should have a property questions', function (done) {
                 server_promise.then((server) => {
                     request(server)
                         .get(url)
                         .expect(function(res) {
-                            if (!res.body || !res.body.users) {
-                                throw new Error("No users field returned.");
+                            if (!res.body || !res.body.questions) {
+                                throw new Error("No questions field returned.");
                             }
                         })
                         .end(function (err, res) {
@@ -47,23 +47,21 @@ describe('App', function () {
         });
 
         describe('#POST', function () {
-            it('should add a user', function (done) {
+            it('should add a question', function (done) {
                 server_promise.then((server) => {
-                    var payload = expectedUsersData;
+                    var payload = expectedQuestionData;
 
                     request(server)
                         .post(url)
                         .send(payload)
                         .expect(function (res) {
-                            if (!res.body.data.username == payload.username) {
-                                throw new Error("Didn't get expected username back.");
+                            if (!res.body.question.difficulty == payload.difficulty) {
+                                throw new Error("Didn't get expected difficulty back.");
                             }
-                            if (!res.body.data.first_name == payload.first_name) {
-                                throw new Error("Didn't get expected last name back.")
+                            if (!res.body.question.question_text == payload.question_text) {
+                                throw new Error("Didn't get expected question_text back.")
                             }
-                            if (!res.body.data.last_name == payload.last_name) {
-                                throw new Error("Didn't get expected last name")
-                            }
+                            expectedQuestionData.id= res.body.question.id;
                         })
                         .end(function (err, res) {
                             if (err) {
@@ -76,43 +74,7 @@ describe('App', function () {
             });
         });
 
-        describe('#GET2', function () {
-            it('should return the user we added earlier', function (done) {
-                server_promise.then((server) => {
-                    request(server)
-                        .get(url)
-                        .expect(function (res) {
-                            if (!res.body || !res.body.users) {
-                                throw new Error("No users field returned.");
-                            }
-                            if (!res.body.users[0]) {
-                                throw new Error("No users returned, even though one was just added.");
-                            }
-                            if (!res.body.users[0].email == expectedUsersData.email) {
-                                throw new Error("Wrong email returned.");
-                            }
-                            if (!res.body.users[0].username == expectedUsersData.username) {
-                                throw new Error("Wrong username returned.");
-                            }
-                            if (!res.body.users[0].first_name == expectedUsersData.first_name) {
-                                throw new Error("Wrong first name returned.");
-                            }
-                            if (!res.body.users[0].last_name == expectedUsersData.last_name) {
-                                throw new Error("Wrong last name returned.");
-                            }
-                        }).end(function (err, res) {
-                        if (err) {
-                            done(err);
-                        } else {
-                            done();
-                        }
-
-                    });
-                });
-            });
-
-        })
-
-
+        //add more tests below
+        //end tests
     });
 });

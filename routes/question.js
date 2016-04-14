@@ -34,8 +34,11 @@ exports = module.exports = new Resource('question', '/question', {
                 req.body.difficulty = -1;
             }
             models.question.create({
-                question_text: req.body.question_text,
-                difficulty: req.body.difficulty
+              question_text: req.body.question_text ? req.body.question_text : null,
+              difficulty: req.body.difficulty ? req.body.difficulty : null
+              // previous
+              // question_text: req.body.question_text,
+              // difficulty: req.body.difficulty
             }).then(function (created) {
                 res.status(201).json({
                     question: created.dataValues

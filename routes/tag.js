@@ -28,7 +28,9 @@ exports = module.exports = new Resource('tag', '/tag', {
                 req.body.label = 'DEFAULT VAL';
             }
             models.tag.create({
-                label : req.body.label
+                label : req.body.label ? req.body.label : null
+                //previously
+                //label : req.body.label
 
             }).then(function(created) {
                 res.status(201).json({

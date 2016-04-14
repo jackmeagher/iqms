@@ -27,8 +27,11 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
         {
             console.log(req.body);
             models.interview.create({
-                label : req.body.label,
-                interviewee : req.body.interviewee
+                label : req.body.label ? req.body.label : null,
+                interviewee : req.body.interviewee ? req.body.label : null
+                //previously
+                // label : req.body.label,
+                // interviewee : req.body.interviewee
 
             }).then
             (

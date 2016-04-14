@@ -28,7 +28,9 @@ exports = module.exports = new Resource('position', '/position', {
             req.body.title = 'DEFAULT VAL';
         }
         models.position.create({
-            title : req.body.title
+            title : req.body.title ? req.body.title : null
+            // previous to validation
+            //title : req.body.title
 
         }).then(function(created) {
             res.status(201).json({
