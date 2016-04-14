@@ -6,7 +6,7 @@
 
 var models  = require('./models');
 
-models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestions",tags,positions CASCADE;')
+models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"interviewQuestion",tags,positions CASCADE;')
 
 //FRONT END DEVELOPER SAMPLE QUESTIONS
 

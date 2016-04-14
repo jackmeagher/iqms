@@ -10,8 +10,8 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                answer.belongsTo(models.interview, {as: "Interview"});
-                answer.belongsTo(models.question, {as: "Interview"});
+                answer.belongsTo(models.interview, {as: "Interview", foreignKey: "interviewId"});
+                answer.belongsTo(models.question, {as: "Question", foreignKey: "questionId"});
             }
         }
 

@@ -1,21 +1,10 @@
-
-
-
-
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
     var question = sequelize.define("question", {
         question_text: DataTypes.STRING,
         sample_answer: DataTypes.STRING,
-        difficulty: {
-            type: DataTypes.INTEGER,
-            validate:{
-                min : 1,
-                max : 5
-            }
-        }
-
+        difficulty: DataTypes.INTEGER
     }, {
         classMethods: {
             associate: function(models) {

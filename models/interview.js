@@ -12,6 +12,7 @@ module.exports = function(sequelize, DataTypes) {
                 interview.belongsTo(models.user, {as: 'interviewee'});
                 interview.belongsToMany(models.user, {through: 'interviewOwner', as: 'Owners'});
                 interview.belongsToMany(models.question, {through: 'interviewQuestion', as: 'Questions'});
+                interview.hasMany(models.answer, {as : "Answers"});
             }
         }
     });
