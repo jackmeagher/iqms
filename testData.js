@@ -10,6 +10,7 @@ models.sequelize.query('TRUNCATE answers, interviews, questions, roles, users,"i
 
 //FRONT END DEVELOPER SAMPLE QUESTIONS
 
+
 models.interview.create({
     label : 'Front-End Developer',
     interviewee : 'Ben Byrd'
