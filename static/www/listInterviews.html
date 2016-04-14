@@ -67,10 +67,11 @@
 
                                 <tr class="success">
                                     <!--begin dropdown button code-->
-                                    <td>
+                                    <!--TODO: fix  -->
+                                    <!-- <td>
                                       <button ng-if="interview.expanded" ng-click="interview.expanded = false">-</button>
                                       <button ng-if="!interview.expanded" ng-click="interview.expanded = true">+</button>
-                                    </td>
+                                    </td> -->
                                     <!--end dropdown button code-->
 
                                     <td>{{interview.id}}</td>
@@ -89,12 +90,13 @@
                                         <!--<button class="btn btn-danger" type="submit" formaction="/interview/{{interview.id}}" formmethod="DELETE">Delete Interview</button>-->
                                     </td>
                                     <!--begin dropdown code-->
-                                    <tr ng-if="interview.expanded" ng-repeat-end="">
+                                    <!--TODO: fix  -->
+                                    <!-- <tr ng-if="interview.expanded" ng-repeat-end="">
                                       <tr ng-repeat-start="question in interview.questions">
                                         <td colspan="2">{{interview.question.question_text}}
                                         </td>
                                       </tr>
-                                    </tr>
+                                    </tr> -->
                                     <!--end dropdown code-->
                                 </tr>
                         </div>
