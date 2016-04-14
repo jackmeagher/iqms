@@ -6,25 +6,35 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     var interviewId = $routeParams.id;
     $scope.questions = [];
     $scope.currentQuestion = {};
+    $scope.currentAnswer  = '';
     $scope.currentQuestionIndex = 1;
     self.n_questions = 0;
 
+    function mod(n, m) {
+        return ((n % m) + m) % m;
+    }
+
     $scope.updateCurrentQuestion = function(i){
+        $scope.currentQuestionIndex = mod(($scope.currentQuestionIndex + i) ,self.n_questions);
         console.log($scope.currentQuestionIndex);
-        if ( $scope.currentQuestionIndex < self.n_questions -1 ) {
-            $scope.currentQuestionIndex = ($scope.currentQuestionIndex + i);
-            $scope.currentQuestion = $scope.questions[$scope.currentQuestionIndex];
-        }
-        else{
-            $scope.currentQuestionIndex = 0;
-        }
+
+        $scope.currentQuestion = $scope.questions[$scope.currentQuestionIndex];
+
+
+
+            document.getElementById('response').value = $scope.currentQuestion.answer ? $scope.currentQuestion.answer : '';
+
+
+
     };
     $scope.click_answer_update = function()
     {
-        $scope.currentQuestion.answer = document.getElementById('response').data;
+        $scope.currentQuestion.answer = document.getElementById('response').value;
+        console.log('answer updated to ' + $scope.currentQuestion.answer);
     };
 
-    $( "#response" ).change(function() {
+    $('#response').bind('input propertychange', function() {
+
         $scope.click_answer_update();
     });
 
