@@ -196,6 +196,6 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
                     })
             }
         }),
-        
+
     ]
 );

@@ -3,7 +3,7 @@
  */
 
 function create_question_controller ($scope,$location,$http,$window) {
-        $scope.qt = $location.search().qt;
+    $scope.qt = $location.search().qt;
     $scope.current_tags = [];
 
     $scope.addTag = function(tag){
