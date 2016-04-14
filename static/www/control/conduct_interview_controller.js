@@ -22,5 +22,5 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         }).success(function (data) => {
             $scope.lastAnswer = data;
         });
-    }
+    };
 }
