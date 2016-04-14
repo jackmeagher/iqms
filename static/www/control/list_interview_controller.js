@@ -28,6 +28,7 @@ function list_interview_controller($scope, $http) {
             }
 
         }));
+        //end get all question_text associated with the interviews
     });
 
 
