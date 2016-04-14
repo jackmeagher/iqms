@@ -16,7 +16,7 @@ function question_manager_controller($scope, $http) {
             if (the_tags.length > 1){
                 for(var i = 0;i < the_tags.length-1;i++){
                     q.tags += the_tags[0].label;
-                    q.tags += ','
+                    q.tags += ', '
                 }
                 q.tags += the_tags[i].label;
 

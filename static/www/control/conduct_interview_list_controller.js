@@ -25,5 +25,4 @@ function conduct_interview_list_controller($scope, $http) {
                 })}
             )};
 
-};
-
+}

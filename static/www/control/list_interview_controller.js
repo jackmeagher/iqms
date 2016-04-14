@@ -11,6 +11,7 @@ function list_interview_controller($scope, $http) {
 
     $http.get('/interview').success(function (data) {
         $scope._interview = data;
+
     });
 
 
@@ -23,4 +24,3 @@ function list_interview_controller($scope, $http) {
             )};
 
 };
-

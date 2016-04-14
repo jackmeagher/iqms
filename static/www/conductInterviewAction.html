@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Conducting Interview...</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <style>
-        .carousel-inner > .item > img,
-        .carousel-inner > .item > a > img {
-            width: 70%;
-            margin: auto;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
+<div ng-controller="conduct_interview_controller">
     <br>
     {{interview.label}}<br>
     {{interview.interviewee}}
@@ -36,8 +17,8 @@
         </ol>
 
         <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox" ng-controller="conduct_interview_controller"
-             ng-repeat="question.question_text in questions">
+        <div class="carousel-inner" role="listbox"
+             ng-repeat="question in questions">
             <div class="item active">
                 {{question.question_text}}
             </div>
@@ -54,6 +35,3 @@
         </a>
     </div>
 </div>
-
-</body>
-</html>

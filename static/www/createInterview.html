@@ -87,7 +87,7 @@
                                 <tr>
                                     <th>
                                         <a ng-click="sortType = 'id'; sortReverse = !sortReverse"
-                                           style="cursor:pointer;"></a>
+                                           style="cursor:pointer;">
                                             #
                                             <span ng-show="sortType == 'id' && !sortReverse"
                                                   class="fa fa-caret-down"></span>
@@ -97,7 +97,7 @@
                                     </th>
                                     <th>
                                         <a ng-click="sortType = 'question_text'; sortReverse = !sortReverse"
-                                           style="cursor:pointer;"></a>
+                                           style="cursor:pointer;">
                                             Question
                                             <span ng-show="sortType == 'question_text' && !sortReverse"
                                                   class="fa fa-caret-down"></span>
@@ -106,22 +106,24 @@
 
                                     </th>
                                     <th>
-                                        <h3> Current Questions</h3>
-                                        <a ng-click="sortType = 'difficulty'; sortReverse = !sortReverse"/>
-                                        Difficulty
-                                        <span ng-show="sortType == 'difficulty' && !sortReverse"
-                                              class="fa fa-caret-down"></span>
-                                        <span ng-show="sortType == 'difficulty' && sortReverse"
-                                              class="fa fa-caret-up"></span></th>
+                                        <a ng-click="sortType = 'difficulty'; sortReverse = !sortReverse">
+                                            Difficulty
+                                            <span ng-show="sortType == 'difficulty' && !sortReverse"
+                                                  class="fa fa-caret-down"></span>
+                                            <span ng-show="sortType == 'difficulty' && sortReverse"
+                                                  class="fa fa-caret-up"></span>
+                                        </a>
+                                    </th>
                                     <th>Tags</th>
                                     <th></th>
                                 </tr>
+                                </thead>
                                 <tbody ng-repeat="question in current_questions | orderBy:sortType:sortReverse | filter:searchQuestion">
                                 <tr class="success">
                                     <td>{{question.id}}</td>
                                     <td>{{question.question_text}}</td>
                                     <td> {{question.difficulty}}</td>
-                                    <td> Pizza, Pasta, Bagel, Moose</td>
+                                    <td> {{question.tags}}</td>
                                     <td>
                                         <!--TODO: FUNC FOR ADDING QUESTION BACK GOES HERE-->
                                         <button class="btn btn-danger" ng-click="current_questions.splice($index,1);">
@@ -129,7 +131,6 @@
                                         </button>
                                     </td>
                                 </tr>
-                                </thead>
                                 </tr>
                                 </tbody>
                             </table>

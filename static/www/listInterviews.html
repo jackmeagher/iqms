@@ -66,10 +66,20 @@
                                 <tbody ng-repeat="interview in _interview.interviews | orderBy:sortType:sortReverse | filter:searchInterview">
 
                                 <tr class="success">
+                                    <!--begin dropdown button code-->
+                                    <!--TODO: fix  -->
+                                    <!-- <td>
+                                      <button ng-if="interview.expanded" ng-click="interview.expanded = false">-</button>
+                                      <button ng-if="!interview.expanded" ng-click="interview.expanded = true">+</button>
+                                    </td> -->
+                                    <!--end dropdown button code-->
+
                                     <td>{{interview.id}}</td>
                                     <td>{{interview.interviewee}}</td>
 
                                     <td> {{interview.label}}</td>
+                                    <td> {{interview.tags}}</td>
+
                                     <td><a href="editInterview.html?interview=Front-End Developer">
                                         <button class="btn btn-warning">Edit Interview</button>
                                     </a>
@@ -81,6 +91,15 @@
 
                                         <!--<button class="btn btn-danger" type="submit" formaction="/interview/{{interview.id}}" formmethod="DELETE">Delete Interview</button>-->
                                     </td>
+                                    <!--begin dropdown code-->
+                                    <!--TODO: fix  -->
+                                    <!-- <tr ng-if="interview.expanded" ng-repeat-end="">
+                                      <tr ng-repeat-start="question in interview.questions">
+                                        <td colspan="2">{{interview.question.question_text}}
+                                        </td>
+                                      </tr>
+                                    </tr> -->
+                                    <!--end dropdown code-->
                                 </tr>
                         </div>
 

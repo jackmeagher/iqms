@@ -21,7 +21,7 @@ exports = module.exports = new Resource('role', '/role', {
         // make new role
         post: (req, res) => {
             models.role.create({
-                //TODO: user fields
+                //TODO: role fields
 
             }).then(function(created) {
                 res.status(201).json({
