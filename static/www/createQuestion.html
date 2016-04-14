@@ -60,18 +60,17 @@
                                                 one!</a>
                                         </md-not-found>
                                     </md-autocomplete>
-                                </md-content>
-                                <div ng-repeat="tag in current_tags">
-                                    <br>
-                                    {{tag.display}}
-
-                                </div>
-                                <span class="input-group-btn">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-success btn-add" type="button"
                                             ng-click="addTag(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                 </span>
+                                </md-content>
+                                <div ng-repeat="tag in current_tags">
+                                    <br>
+                                    {{tag.display}}
+                                </div>
                             </div>
                         </div>
 

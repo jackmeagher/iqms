@@ -87,7 +87,7 @@
                                 <tr>
                                     <th>
                                         <a ng-click="sortType = 'id'; sortReverse = !sortReverse"
-                                           style="cursor:pointer;">
+                                           style="cursor:pointer;"></a>
                                             #
                                             <span ng-show="sortType == 'id' && !sortReverse"
                                                   class="fa fa-caret-down"></span>
@@ -97,7 +97,7 @@
                                     </th>
                                     <th>
                                         <a ng-click="sortType = 'question_text'; sortReverse = !sortReverse"
-                                           style="cursor:pointer;">
+                                           style="cursor:pointer;"></a>
                                             Question
                                             <span ng-show="sortType == 'question_text' && !sortReverse"
                                                   class="fa fa-caret-down"></span>
@@ -164,12 +164,12 @@
                                                 one!</a>
                                         </md-not-found>
                                     </md-autocomplete>
-                                                <span class="input-group-btn">
-                                                    <button class="btn btn-success btn-add" type="button"
-                                                            ng-click="addQuestion(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
-                                                        <span class="glyphicon glyphicon-plus"></span>
-                                                    </button>
-                                                </span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success btn-add" type="button"
+                                                ng-click="addQuestion(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </span>
                                     <br/>
 
                                     <!--</form>-->
