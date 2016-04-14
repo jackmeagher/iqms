@@ -20,7 +20,7 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox"
              ng-repeat="question in questions">
-            <div class="item active">
+            <div class="item active" style="margin-left:auto; margin-right:auto;">
                 {{question.question_text}}
             </div>
         </div>
@@ -35,5 +35,11 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-    <div ng-include="'stars.html'" style="margin-left:25%; margin-top:15%;"></div>
+    <br><br>
+    <span style="font-size:22px; font-weight:bold;">Response:</span><br><br>
+    <textarea style="width:100%; height:15%; font-size:22px;"
+              placeholder="Type candidate's response here..."></textarea>
+    <br><br><br><br>
+    <span style="font-size:22px; font-weight:bold;">Response Rating:</span>
+    <div ng-include="'stars.html'" style="margin-top:5%;"></div>
 </div>
