@@ -13,7 +13,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         $scope.questions = data.questions;
     });
 
-    $scope.post_interview = function(answer_text, rating, questionId, interviewId) {
+    $scope.post_answer = function(answer_text, rating, questionId, interviewId) {
         $http.post('/answer', {
             answer_text : answer_text,
             rating: rating,
