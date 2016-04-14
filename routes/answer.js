@@ -28,6 +28,28 @@ exports = module.exports = new Resource('answer', '/answer', {
                     answer: created
                 });
             })
+        },
+        put: (req, res) => {
+            models.answer.findAll({
+                where: {
+                    id : req.body.answer_id ? req.body.answer_id : null
+                }
+            }).then(function (data) {
+                var answer = data[0];
+                if (!answer) {
+                    res.status(403).json({
+                        "success" : false,
+                        "msg" : "failed"
+                    })
+                } else {
+                    answer.update({
+                        answer_text : req.body.answer_text ? req.body.answer_text : null,
+                        rating : req.body.rating ? req.body.rating : null
+                    }).then((data) => {
+                        res.status(200).json(data);
+                    });
+                }
+            })
         }
     }, [new Resource('get_answer_by_id', '/:id', {
         // get answer by id
