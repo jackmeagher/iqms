@@ -31,8 +31,8 @@ function create_interview_controller($scope, $http, $window) {
     };
 
     var addQuestions = function(id){
-        $scope.current_questions.forEach(q => $http.post('/interview/' + id+ '/questions/' + q.id));
-
+        $scope.current_questions.forEach(q => $http.post('/interview/' + id + '/questions/' + q.id));
+        $scope.current_questions.forEach(q => $http.post('/answer/',{interviewId : id, questionId: q.id}));
     };
 
         //$scope.current_questions.forEach(

@@ -14,6 +14,8 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         return ((n % m) + m) % m;
     }
 
+
+
     $scope.updateCurrentQuestion = function(i){
         $scope.currentQuestionIndex = mod(($scope.currentQuestionIndex + i) ,self.n_questions);
         console.log($scope.currentQuestionIndex);
@@ -21,15 +23,23 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         $scope.currentQuestion = $scope.questions[$scope.currentQuestionIndex];
 
 
+            $http.get('/answer/' +  interviewId + '/' + $scope.currentQuestion.id).success(function(answer){
+                    $scope.currentQuestion.answer = answer.answer;
+                    document.getElementById('response').value = $scope.currentQuestion.answer.feedback;
 
-            document.getElementById('response').value = $scope.currentQuestion.answer ? $scope.currentQuestion.answer : '';
+            }
+            )
 
 
 
     };
     $scope.click_answer_update = function()
     {
-        $scope.currentQuestion.answer = document.getElementById('response').value;
+        $scope.currentQuestion.answer.feedback = document.getElementById('response').value;
+        console.log($scope.currentQuestion.answer);
+        $http.put('/answer',{answer:$scope.currentQuestion.answer}).success(function(){
+
+        });
         console.log('answer updated to ' + $scope.currentQuestion.answer);
     };
 
@@ -73,7 +83,15 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
             $scope.questions = data.data.questions;
             $scope.currentQuestion = $scope.questions[0];
             self.n_questions = $scope.questions.length;
-            $scope.questions.forEach(q => q.answer = '');
+            //$scope.questions.forEach(q => q.answer = '');
+            $http.get('/answer/' +  interviewId + '/' + $scope.currentQuestion.id).success(function(answer){
+                    $scope.currentQuestion.answer = answer.answer;
+                document.getElementById('response').value = $scope.currentQuestion.answer.feedback;
+
+                });
+
+
         });
+
 
 }
