@@ -10,7 +10,7 @@ function create_interview_controller($scope, $http, $window) {
         $scope.cur_pos = data.display;
     });
     $scope.$on('current_interviewee', function (event, data) {
-        $scope.cur_int = data.display;
+        $scope.cur_int = data.item.first_name + " " + data.item.last_name;
     });
 
     $scope.addQuestion = function(question){

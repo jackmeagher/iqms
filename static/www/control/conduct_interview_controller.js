@@ -7,7 +7,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     $scope.questions = [];
     $scope.currentQuestion = {};
     $scope.currentAnswer  = '';
-    $scope.currentQuestionIndex = 1;
+    $scope.currentQuestionIndex = 0;
     self.n_questions = 0;
 
     function mod(n, m) {
