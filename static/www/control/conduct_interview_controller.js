@@ -47,6 +47,8 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
 
         });
 
+
+
     };
     $scope.click_answer_update = function()
     {
