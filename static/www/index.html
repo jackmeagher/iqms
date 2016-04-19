@@ -51,6 +51,7 @@
     <script src="control/position_auto_complete_controller.js"></script>
     <script src="control/conduct_interview_list_controller.js"></script>
     <script src="control/conduct_interview_controller.js"></script>
+    <script src="control/login_controller.js"></script>
 
 
     <script>
@@ -60,8 +61,6 @@
             };
             $scope.show_side = function () {
                 angular.element('#hidethis').css('visibility', 'visible');
-
-
             }
         }
 
@@ -116,11 +115,12 @@
         app.controller("question_auto_complete_controller", question_auto_complete_controller);
         app.controller("list_interview_controller", list_interview_controller);
         app.controller("create_question_controller", create_question_controller);
-        //        app.controller('question_manager_controller', ['$scope', '$mdDialog', question_manager_controller);
+        //app.controller('question_manager_controller', ['$scope', '$mdDialog', question_manager_controller);
         app.controller("question_manager_controller", question_manager_controller);
         app.controller("tag_auto_complete_controller", tag_auto_complete_controller);
         app.controller("position_auto_complete_controller", position_auto_complete_controller);
         app.controller("index_controller", index_controller);
+        app.controller("login_controller", login_controller);
 
 
         app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function ($scope, $mdDialog) {

@@ -27,7 +27,7 @@
 
 </head>
 <body style="background-color: #ffffff;">
-<div class="container" style="width:100%;">
+<div class="container" style="width:100%;" ng-controller="login_controller">
     <div class="row text-center " style="padding-top:100px;">
         <div class="col-md-12">
             <p style="font-weight:normal;color:#000000;letter-spacing:1pt;word-spacing:2pt;font-size:53px;font-family:times new roman, times, serif;line-height:1;">
@@ -45,11 +45,11 @@
                     <br/>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="fa fa-tag"></i></span>
-                        <input type="text" class="form-control" placeholder="Your Username "/>
+                        <input type="text" class="form-control" placeholder="Your Username " ng-model="user.email"/>
                     </div>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="Your Password"/>
+                        <input type="password" class="form-control" placeholder="Your Password" ng-model="user.password"/>
                     </div>
                     <div class="form-group">
                         <label class="checkbox-inline">
@@ -60,7 +60,7 @@
                         </span>
                     </div>
 
-                    <a href="#/" class="btn btn-primary " ng-click="show_side()">Login Now</a>
+                    <a href="#/" class="btn btn-primary " ng-click="PostLogin()">Login Now</a>
                     <hr/>
                     Not registered? <a href="">click here </a> or go to <a href="">Home</a>
                 </form>

@@ -24,8 +24,6 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
 
             document.getElementById('response').value = $scope.currentQuestion.answer ? $scope.currentQuestion.answer : '';
 
-
-
     };
     $scope.click_answer_update = function()
     {
