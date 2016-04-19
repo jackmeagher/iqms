@@ -3,10 +3,10 @@ require('use-strict');
 var request = require('supertest');
 var server_promise = require('../bin/www_test');
 var expectedAnswersData = {
-  'feedback': 'test_feedback',
+  'answer_text': 'test_feedback',
   'rating': 'test,_rating',
-  'interview_id' : 'test_interview_id',
-  'question_id' : 'test_question_id'
+  'interviewId' : 0,
+  'questionId' : 0
 };
 
 describe('App', function () {
@@ -78,67 +78,6 @@ describe('App', function () {
                                 done();
                             }
                         });
-                });
-            });
-        });
-
-        describe('#ID', function() {
-            it('should return interview by id', function(done) {
-                var idurl= url + '/' + expectedAnswersData.id;
-                server_promise.then( (server) => {
-                    request(server)
-                        .get(idurl)
-                        .expect(function (res) {
-                          if (!res.body.answer.feedback== expectedAnswersData.feedback) {
-                              throw new Error("Didn't get expected feedback back.");
-                          }
-                          if (!res.body.answer.rating== expectedAnswersData.rating) {
-                              throw new Error("Didn't get expected rating back.");
-                          }
-                          if (!res.body.answer.interview_id== expectedAnswersData.interview_id) {
-                              throw new Error("Didn't get expected feedback back.");
-                          }
-                          if (!res.body.answer.question_id== expectedAnswersData.question_id) {
-                              throw new Error("Didn't get expected rating back.");
-                          }
-                        }).end(function (err, res) {
-                        if (err) {
-                            done(err);
-                        } else {
-                            done();
-                        }
-
-                    });
-                });
-            });
-        });
-        describe('#DELETE', function() {
-            it('should delete and return answer by id', function(done) {
-                var idurl= url + '/' + expectedAnswersData.id;
-                server_promise.then( (server) => {
-                    request(server)
-                        .delete(idurl)
-                        .expect(function (res) {
-                          if (!res.body.answer.feedback== expectedAnswersData.feedback) {
-                              throw new Error("Didn't get expected feedback back.");
-                          }
-                          if (!res.body.answer.rating== expectedAnswersData.rating) {
-                              throw new Error("Didn't get expected rating back.");
-                          }
-                          if (!res.body.answer.interview_id== expectedAnswersData.interview_id) {
-                              throw new Error("Didn't get expected feedback back.");
-                          }
-                          if (!res.body.answer.question_id== expectedAnswersData.question_id) {
-                              throw new Error("Didn't get expected rating back.");
-                          }
-                        }).end(function (err, res) {
-                        if (err) {
-                            done(err);
-                        } else {
-                            done();
-                        }
-
-                    });
                 });
             });
         });

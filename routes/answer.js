@@ -21,36 +21,26 @@ exports = module.exports = new Resource('answer', '/answer', {
             models.answer.create({
                 answer_text: req.body.answer_text ? req.body.answer_text : null,
                 rating: req.body.rating ? req.body.feedback : null,
-                interviewId: req.body.interview_id ? req.body.interview_id : null,
-                questionId: req.body.question_id ? req.body.question_id : null
+                interviewId: req.body.interviewId ? req.body.interviewId : null,
+                questionId: req.body.questionId ? req.body.questionId : null
             }).then(function (created) {
                 res.status(201).json({
                     answer: created
                 });
             })
         },
-        put: (req, res) => {
-            models.answer.findAll({
-                where: {
-                    id : req.body.answer_id ? req.body.answer_id : null
-                }
-            }).then(function (data) {
-                var answer = data[0];
-                if (!answer) {
-                    res.status(403).json({
-                        "success" : false,
-                        "msg" : "failed"
-                    })
-                } else {
-                    answer.update({
-                        answer_text : req.body.answer_text ? req.body.answer_text : null,
-                        rating : req.body.rating ? req.body.rating : null
-                    }).then((data) => {
-                        res.status(200).json(data);
-                    });
-                }
-            })
-        }
+
+
+    put: (req, res) => {
+        //console.log(req.body);
+        models.answer.upsert(
+          req.body.answer
+        ).then(function (created) {
+            res.status(201).json({
+                answer: created
+            });
+        })
+    }
     }, [new Resource('get_answer_by_id', '/:id', {
         // get answer by id
         get: (req, res) => {
@@ -77,8 +67,22 @@ exports = module.exports = new Resource('answer', '/answer', {
 
 
         }
-    }
-    ),
+    }),new Resource('get_answer_by_ids', '/:id/:interview_id', {
+        // get answer by id
+        get: (req, res) => {
+            models.answer.findOne({
+                    where: {
+                        interviewId: req.params.id,
+                        questionId:req.params.interview_id
+                    }
+                })
+                .then(function (answer) {
+                    res.status(200).json({
+                        answer: answer
+                    });
+                })
+        }}),
+
         new Resource('get_unanswered_questions', '/interview/unanswered_questions/:interview_id', {
             get: (req, res) => {
                 models.interview.findAll({

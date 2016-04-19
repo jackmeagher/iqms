@@ -175,7 +175,7 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
         new Resource('get_answers_from_interview', '/:id/answers', {
             /// get all answers from interview
             get: (req, res) => {
-                models.sequelize.query('SELECT * FROM answers WHERE interview_id =' + req.params.id
+                models.sequelize.query('SELECT * FROM answers WHERE "interviewId" =' + req.params.id
                     , {type: models.sequelize.QueryTypes.SELECT}
                     )
                     .then(function (answers) {
