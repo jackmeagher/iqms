@@ -62,7 +62,7 @@ describe('App', function () {
                                 throw new Error("Didn't get expected interviewee back.");
                             }
                             //lets us get the JSON with the id in it too
-                            expectedInterviewsData.id= res.body.interviews[0].id;
+                            expectedInterviewsData.id= res.body.interview.id;
                         })
                         .end(function (err, res) {
                             if (err) {
