@@ -84,14 +84,14 @@
                         <br>
                     </div>
                     <br>
-                    <div>
+                    <!--<div>
                         <label>Add tags</label><br>
                         <div class="entry input-group col-xs-3" style="display:inline-flex; width:55%;">
 
                             <div ng-controller="tag_auto_complete_controller as ctrl"
                                  ng-cloak style='width : 50%;'>
                                 <md-content class="md-padding">
-                                    <!--<form ng-submit="$event.preventDefault()">-->
+                                    <!--<form ng-submit="$event.preventDefault()">
                                     <md-autocomplete
                                             style="width:90%;"
                                             md-no-cache="ctrl.noCache"
@@ -127,6 +127,21 @@
                             </div>
                         </div>
 
+                    </div>-->
+                    <div>
+                        <div class="form-group" style="margin-top:2%; text-align:left; width:95%">
+                            <label>Answers</label>
+                            <div>
+                                <questionanswer ng-repeat="answer in answers"></questionanswer>
+                            </div>
+                     
+                            <button class="btn btn-success btn-add" type="button" ng-click="addAnswer()">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                            <button class="btn btn-danger btn-add" type="button" ng-click="removeAnswer()" style="float:right;">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </button>
+                        </div>
                     </div>
                 </form>
                 <br>

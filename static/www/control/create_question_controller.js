@@ -6,6 +6,8 @@ function create_question_controller ($scope,$location,$http,$window) {
     $scope.qt = $location.search().qt;
     $scope.current_tags = [];
 
+    $scope.answers = [1];
+    
     $scope.addTag = function(tag){
         if ($scope.current_tags.indexOf(tag) < 0){
             $scope.current_tags.push(tag);
@@ -37,6 +39,20 @@ function create_question_controller ($scope,$location,$http,$window) {
 
             });
 
+    }
+    
+    $scope.addAnswer = function() {
+        $scope.answers.push($scope.answers.length + 1);
+        
+        console.log($scope.answers);
+    }
+    
+    $scope.removeAnswer = function() {
+        if ($scope.answers.length > 1) {
+            $scope.answers.pop();
+        }
+        
+        console.log($scope.answers);
     }
 
 
