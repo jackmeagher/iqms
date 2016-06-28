@@ -27,7 +27,7 @@
     <!-- Angular -->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
 
-
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
     <style>
         .md-transition-in {
             width: 75%;
@@ -41,6 +41,7 @@
     <script src="assets/js/angularjs/1.5.0/angular-messages.min.js"></script>
     <script src="assets/js/angular_material/1.0.0/angular-material.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-route.js"></script>
+    <script src="assets/js/angularjs/1.5.0/slider.js"></script>
     <script src="control/create_interview_controller.js"></script>
     <script src="control/name_auto_complete_controller.js"></script>
     <script src="control/question_auto_complete_controller.js"></script>
@@ -52,6 +53,7 @@
     <script src="control/conduct_interview_list_controller.js"></script>
     <script src="control/conduct_interview_controller.js"></script>
     <script src="control/login_controller.js"></script>
+    <script src="control/slider_controller.js"></script>
 
 
     <script>
@@ -102,7 +104,7 @@
                     .when('/login', {
                         templateUrl: 'login.html'
                     })
-
+                    
                     .otherwise({redirectTo: '/'});
 
         });
@@ -121,7 +123,7 @@
         app.controller("position_auto_complete_controller", position_auto_complete_controller);
         app.controller("index_controller", index_controller);
         app.controller("login_controller", login_controller);
-
+        app.controller("slider_controller", slider_controller);
 
         app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function ($scope, $mdDialog) {
             var alert;
@@ -152,6 +154,13 @@
                 $mdDialog.hide();
             };
         }]);
+            
+        app.directive("questionanswer", function() {
+            return {
+                restrict: "E",
+                template: '<input id="answer1" class="form-control" type="text" style="width:95%; text-align:left;">'
+            };
+        });
 
 
     </script>

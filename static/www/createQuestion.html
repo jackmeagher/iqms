@@ -47,13 +47,39 @@
                         <!-- Insert button to add another tag -->
                     </div>
                     <div class="form-group" style="margin-top:2%; text-align:left;">
-                        <label>Difficulty</label>
-                        <div class="percentage-cur" ng-init="selectedRange=1">
-                            <span class="num">{{ selectedRange }}/5</span>
-                            <input id='difficulty' class="form-control" type="range" min="1" max="5"
-                                   value="1" style="width:95%;
-                                     text-align:left;" ng-model="selectedRange">
+                        <div ng-controller="slider_controller">
+                            <label>Difficulty</label>
+                            <div class="percentage-cur row" ng-init="selectedRange=1" style="width:76%">
+                                <div class='col-xs-4' style="text-align: left;">
+                                    <p>
+                                        Junior
+                                        <br>
+                                        <input type="radio" name="level" ng-model="value" value="0" checked>
+                                    </p>
+                                </div>
+                                <div class='col-xs-4' style="text-align: center;">
+                                    <p>
+                                        Mid
+                                        <br>
+                                        <input type="radio" name="level" ng-model="value" value="5">
+                                    </p>
+                                </div>
+                                <div class='col-xs-4' style="text-align: right;">
+                                    <p>
+                                        Senior
+                                        <br>
+                                        <input type="radio" name="level" ng-model="value" value="10">
+                                    </p>
+                                </div>
+                            </div>
+                            <input id="modelValue" type="range" ng-model="value"
+                                    min="{{options.min}}" step="{{options.step}}"
+                                    max="{{options.max}}" 
+                                    style="float:left; margin-top:1%; width:72.5%;">
+                            <input ng-model="value" class="form-control" ng-change="updateLimits()"
+                                    style="float:right; width:20%; margin-right:5%;">
                         </div>
+                        
 
                         <br>
                     </div>
