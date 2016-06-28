@@ -2,11 +2,25 @@
  * Created by nick on 4/6/16.
  */
 
-function create_question_controller ($scope,$location,$http,$window) {
+function create_question_controller ($scope,$location,$http,$window, taggingService) {
     $scope.qt = $location.search().qt;
-    $scope.current_tags = [];
+    $scope.current_topics = [];
+    
+    $scope.selectedType = 0;
+    $scope.selectedTopic = null;
+    $scope.types = taggingService.getTypes();
 
     $scope.answers = [1];
+    
+    $scope.updateSelectedType = function(value) {
+        /*$scope.current_topics = [];
+        $scope.types[value.id].topics.forEach(function(topic) {
+            console.log(topic.name);
+            $scope.current_topics.push(topic.name);
+        });
+        console.log($scope.current_topics);*/
+        taggingService.updateSelectedType(value.id);
+    }
     
     $scope.addTag = function(tag){
         if ($scope.current_tags.indexOf(tag) < 0){

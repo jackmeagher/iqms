@@ -54,6 +54,7 @@
     <script src="control/conduct_interview_controller.js"></script>
     <script src="control/login_controller.js"></script>
     <script src="control/slider_controller.js"></script>
+    <script src="control/topic_autocomplete_controller.js"></script>
 
 
     <script>
@@ -124,6 +125,7 @@
         app.controller("index_controller", index_controller);
         app.controller("login_controller", login_controller);
         app.controller("slider_controller", slider_controller);
+        app.controller("topic_autocomplete_controller", topic_autocomplete_controller);
 
         app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function ($scope, $mdDialog) {
             var alert;
@@ -154,6 +156,83 @@
                 $mdDialog.hide();
             };
         }]);
+        
+        app.service("taggingService", function() {
+            
+            var currentTopics = [];
+            var currentSubTopics = [];
+            
+            var selectedType = 0;
+            var selectedTopic = null;
+            
+            var types = [
+                {
+                    name: "Technical",
+                    id: 0,
+                    topics: [
+                        {
+                            name: "Java",
+                            sub: ["Classes", "Inheritance", "Libraries"]
+                        },
+                        {
+                            name: "PHP",
+                            sub: ["Syntax", "Variables"]
+                        }
+                    ]    
+                },
+                {
+                    name: "General",
+                    id: 1,
+                    topics: [
+                        {
+                            name: "Test",
+                            sub: ["Classes", "Inheritance", "Libraries"]
+                        },
+                        {
+                            name: "Test2",
+                            sub: ["Syntax", "Variables"]
+                        }
+                    ]
+                }
+            ];
+            
+            var updateSelectedType = function(value) {
+                $("#topic-box").css({"visibility": "visible"});
+                selectedType = value;
+                console.log(JSON.stringify(types[selectedType].topics));
+                currentTopics = types[selectedType].topics;
+            };
+            
+            var updateSelectedTopic = function() {
+                
+            };
+            
+            var updateSelectedSubTopic = function() {
+                
+            };
+            
+            var getTypes = function() {
+                return types;
+            };
+            
+            var getCurrentTopics = function() {
+                return currentTopics;
+            };
+            
+            var getCurrentSubTopics = function() {
+                return currentSubTopics;
+            };
+            
+            return {
+              updateSelectedType: updateSelectedType,
+              updateSelectedTopic: updateSelectedTopic,
+              updateSelectedSubTopic: updateSelectedSubTopic,
+              getTypes: getTypes,
+              getCurrentTopics: getCurrentTopics,
+              getCurrentSubTopics: getCurrentSubTopics
+            };
+            
+        });
             
         app.directive("questionanswer", function() {
             return {

@@ -29,15 +29,35 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Type</label><br>
-                                <select class="form-control">
-                                    <option value="Techinical">Technical</option>
-                                    <option value="General">General</option>
+                                <select class="form-control" ng-model="selectedType" ng-change="updateSelectedType(selectedType)" data-ng-options="type as type.name for type in types">
+                                   
                                 </select>
                                 
                             </div>
-                            <div class="col-md-4">
-                                <!-- Insert Topic -->
+                            <div class="col-md-4" id="topic-box" ng-controller="topic_autocomplete_controller as ctrl" style="visibility: hidden">
+            
                                 <label>Topic</label><br>
+                                <md-autocomplete
+                                        style="width:90%;"
+                                        md-no-cache="true"
+                                        md-selected-item="ctrl.selectedItem"
+                                        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                                        md-search-text="ctrl.searchText"
+                                        md-selected-item-change="ctrl.selectedItemChange(ctrl.selectedItem)"
+                                        md-items="topic in ctrl.querySearch(ctrl.searchText)"
+                                        md-item-text="topic.name"
+                                        md-min-length="0"
+                                        placeholder="Seach for Topic">
+                                    <md-item-template>
+                                                    <span md-highlight-text="ctrl.searchText"
+                                                          md-highlight-flags="^i">{{topic.name}}</span>
+                                    </md-item-template>
+                                    <md-not-found>
+                                        No topic matching "{{ctrl.searchText}}" were found.
+                                        <a ng-click="ctrl.newTag(ctrl.searchText)">Create a new
+                                            one!</a>
+                                    </md-not-found>
+                                </md-autocomplete>
                             </div>
                             <div class="col-md-4">
                                 <!-- Insert Sub-Topic Checkboxes -->
