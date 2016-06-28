@@ -39,7 +39,7 @@
     <script src="assets/js/angularjs/1.5.0/angular-animate.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-aria.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-messages.min.js"></script>
-    <script src="assets/js/angular_material/1.0.0/angular-material.min.js"></script>
+    <script src="assets/js/angular_material/1.1.0/angular-material.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-route.js"></script>
     <script src="assets/js/angularjs/1.5.0/slider.js"></script>
     <!-- CONTROLLERS -->
@@ -135,7 +135,7 @@
 
 
             function showDialog($event) {
-                var parentEl = angular.element(document.querySelector('md-content'));
+                var parentEl = angular.element(document.body);
                 alert = $mdDialog.alert({
                     parent: parentEl,
                     targetEvent: $event,
@@ -164,7 +164,7 @@
         app.directive("questionanswer", function() {
             return {
                 restrict: "E",
-                template: '<input id="answer1" class="form-control" type="text" style="text-align:left;">'
+                template: '<input id="answer1" class="form-control" type="text" style="text-align:left; margin-bottom:1%;">'
             };
         });
 

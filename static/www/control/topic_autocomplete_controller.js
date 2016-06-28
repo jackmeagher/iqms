@@ -10,6 +10,7 @@ function topic_autocomplete_controller($scope, $timeout, $q, $log, taggingServic
     
     function newTopic(topic) {
         console.log(topic);
+        taggingService.createNewTopic(topic);
     }
     
     function querySearch (query) {
@@ -19,18 +20,16 @@ function topic_autocomplete_controller($scope, $timeout, $q, $log, taggingServic
         }
         text = query.toLowerCase();
         var ret = self.topics.filter(function (d) {
-            console.log(d.name);
             var test = d.name.toLowerCase();
             return test.startsWith(text);
         });
         return ret;
     }
     function searchTextChange(text) {
-        self.topics = taggingService.getCurrentTopics();   
-        $log.info('Text changed to ' + text);
+        self.topics = taggingService.getCurrentTopics();
+        
     }
     function selectedItemChange(item) {
-      $log.info('Item changed to ' + JSON.stringify(item));
       if (item) {
         taggingService.updateSelectedTopic(item);
         self.notifySelection();

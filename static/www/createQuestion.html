@@ -1,4 +1,4 @@
-<div class="row" style="width:100%; margin-left:0px; margin-right:0px;">
+<div class="row" style="width:100%; margin-left:25px; margin-right:0px;">
     <div class="col-md-12">
         <h1 class="page-head-line">Create a question
             <button type="button" class="btn-lg btn-danger"
@@ -29,7 +29,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Type</label><br>
-                                <select class="form-control" ng-model="selectedType" ng-change="updateSelectedType(selectedType)" data-ng-options="type as type.name for type in types">
+                                <select class="form-control" ng-model="selectedType" ng-change="updateSelectedType(selectedType)" data-ng-options="type as type.name for type in types" style="margin-top:1%;">
                                    
                                 </select>
                                 
@@ -53,9 +53,7 @@
                                                           md-highlight-flags="^i">{{topic.name}}</span>
                                     </md-item-template>
                                     <md-not-found>
-                                        No topic matching "{{ctrl.searchText}}" were found.
-                                        <a ng-click="ctrl.newTag(ctrl.searchText)">Create a new
-                                            one!</a>
+                                        <a ng-click="ctrl.newTopic(ctrl.searchText)">Create "{{ctrl.searchText}}"</a>
                                     </md-not-found>
                                 </md-autocomplete>
                             </div>

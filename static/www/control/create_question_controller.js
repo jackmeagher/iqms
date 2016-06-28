@@ -4,6 +4,7 @@
 
 function create_question_controller ($scope,$location,$http,$window, taggingService) {
     $scope.qt = $location.search().qt;
+   
     $scope.current_topics = [];
     $scope.current_subtopics = [];
     
@@ -17,23 +18,6 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         taggingService.updateSelectedType(value.id);
         $scope.current_subtopics = taggingService.getCurrentSubTopics();
     }
-    
-    $scope.addTag = function(tag){
-        if ($scope.current_tags.indexOf(tag) < 0){
-            $scope.current_tags.push(tag);
-            console.log(tag);
-        }};
-
-
-    self.clear = function(tag){
-        $scope.tags = $scope.tag.filter(e => e!==tag);
-
-        //console.log(self.selectedItem);
-        self.searchText = undefined;
-        self.selectedItem = undefined;
-    };
-
-
 
     $scope.CreateQuestion = function () {
         qt = document.getElementById("question_text").value;

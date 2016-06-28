@@ -64,12 +64,19 @@ function taggingService() {
         return currentSubTopics;
     };
     
+    var createNewTopic = function(name) {
+        console.log(name);
+        types[selectedType].topics.push({name: name, sub: []});
+        updateSelectedType(selectedType);
+    };
+    
     return {
       updateSelectedType: updateSelectedType,
       updateSelectedTopic: updateSelectedTopic,
       updateSelectedSubTopic: updateSelectedSubTopic,
       getTypes: getTypes,
       getCurrentTopics: getCurrentTopics,
-      getCurrentSubTopics: getCurrentSubTopics
+      getCurrentSubTopics: getCurrentSubTopics,
+      createNewTopic: createNewTopic
     };
 }
