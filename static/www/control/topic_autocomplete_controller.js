@@ -1,4 +1,4 @@
-function topic_autocomplete_controller($timeout, $q, $log, taggingService) {
+function topic_autocomplete_controller($scope, $timeout, $q, $log, taggingService) {
     var self = this;
     self.topics = taggingService.getCurrentTopics();
     self.searchText = "";
@@ -14,6 +14,9 @@ function topic_autocomplete_controller($timeout, $q, $log, taggingService) {
     
     function querySearch (query) {
         self.topics = taggingService.getCurrentTopics();
+        if (query == null) {
+            query = "";
+        }
         text = query.toLowerCase();
         var ret = self.topics.filter(function (d) {
             console.log(d.name);
@@ -28,5 +31,16 @@ function topic_autocomplete_controller($timeout, $q, $log, taggingService) {
     }
     function selectedItemChange(item) {
       $log.info('Item changed to ' + JSON.stringify(item));
+      if (item) {
+        taggingService.updateSelectedTopic(item);
+        self.notifySelection();
+        $("#subtopic-box").css({"visibility": "visible"});
+      } else {
+        $("#subtopic-box").css({"visibility": "hidden"});
+      }
+    }
+    
+    self.notifySelection = function() {
+        $scope.$emit("topicNotification", {on: true});
     }
   }

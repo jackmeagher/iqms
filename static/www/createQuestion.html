@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div class="col-md-6 col-sm-6 col-xs-12 row" style="width:100%;" ng-controller="create_question_controller">
+<div class="col-md-6 col-sm-6 col-xs-12 row" style="width:100%;" ng-controller="create_question_controller as cqc">
     <div class="panel panel-info" style="margin-left:3%;">
         <div class="panel-heading">
             Question
@@ -59,9 +59,14 @@
                                     </md-not-found>
                                 </md-autocomplete>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="subtopic-box" style="visibility: hidden">
                                 <!-- Insert Sub-Topic Checkboxes -->
                                 <label>Sub-Topic List</label><br>
+                                <div class="checkbox" ng-repeat="sub in current_subtopics">
+                                    <label>
+                                        <input type="checkbox"> {{sub}}
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <!-- Insert button to add another tag -->

@@ -186,11 +186,11 @@
                     topics: [
                         {
                             name: "Test",
-                            sub: ["Classes", "Inheritance", "Libraries"]
+                            sub: ["Foo", "Bar"]
                         },
                         {
                             name: "Test2",
-                            sub: ["Syntax", "Variables"]
+                            sub: ["This", "Some of This", "More of This", "That"]
                         }
                     ]
                 }
@@ -199,12 +199,12 @@
             var updateSelectedType = function(value) {
                 $("#topic-box").css({"visibility": "visible"});
                 selectedType = value;
-                console.log(JSON.stringify(types[selectedType].topics));
                 currentTopics = types[selectedType].topics;
+                currentSubTopics = [];
             };
             
-            var updateSelectedTopic = function() {
-                
+            var updateSelectedTopic = function(topic) {
+                currentSubTopics = topic.sub;
             };
             
             var updateSelectedSubTopic = function() {
