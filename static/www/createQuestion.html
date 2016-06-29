@@ -1,12 +1,6 @@
 <div class="row" style="width:100%; margin-left:25px; margin-right:0px;">
     <div class="col-md-12">
-        <h1 class="page-head-line">Create a question
-            <button type="button" class="btn-lg btn-danger"
-                    ng-click="closeDialog()" ng-controller="create_question_dialog_controller"
-                    style='float: right;'>
-                X
-            </button>
-        </h1>
+        <h1 class="page-head-line">Create a question</h1>
         <h1 class="page-subhead-line">Write a question and add tags</h1>
 
     </div>
@@ -59,7 +53,13 @@
                             </div>
                             <div class="col-md-4" id="subtopic-box" style="visibility: hidden">
                                 <!-- Insert Sub-Topic Checkboxes -->
-                                <label>Sub-Topic List</label><br>
+                                <label>
+                                    Sub-Topic List
+                                    <button class="btn btn-success btn-add" type="button" ng-click="addAnswer()" style="float:right;margin-left:4px;">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </label>
+                                <br>
                                 <div class="checkbox" ng-repeat="sub in current_subtopics">
                                     <label>
                                         <input type="checkbox"> {{sub}}
@@ -168,10 +168,20 @@
                     </div>
                 </form>
                 <br>
-                <button type="button" class="btn btn-lg btn-success" ng-click="CreateQuestion();ctrl.closeDialog()"
-                        style="margin-left:43%; margin-bottom:2%;">
-                    Submit Question
-                </button>
+                <div class='row'>
+                    <div class='col-md-6' style="text-align:right;">
+                        <button type="button" class="btn btn-lg btn-success"
+                                ng-click="CreateQuestion();ctrl.closeDialog()">
+                            Submit
+                        </button>
+                    </div>
+                    <div class='col-md-6'>
+                        <button type="button" class="btn btn-lg btn-danger"
+                                onclick="window.location.href='#qm'">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
                 <br>
             </div>
         </div>

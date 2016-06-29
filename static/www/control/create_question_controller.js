@@ -16,6 +16,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     
     $scope.updateSelectedType = function(value) {
         taggingService.updateSelectedType(value.id);
+        $("#subtopic-box").css({"visibility": "hidden"});
         $scope.current_subtopics = taggingService.getCurrentSubTopics();
     }
 
