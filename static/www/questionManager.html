@@ -62,7 +62,9 @@
                                                   class="fa fa-caret-up"></span>
                                         </a>
                                     </th>
-                                    <th>Tags</th>
+                                    <th>Type</th>
+                                    <th>Topic</th>
+                                    <th>Subtopics</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -70,8 +72,12 @@
                                 <tr class="success">
                                     <td>{{question.id}}</td>
                                     <td>{{question.text}}</td>
-                                    <td> {{question.difficulty}}</td>
-                                    <td>{{question.tags}}</td>
+                                    <td>{{question.difficulty}}</td>
+                                    <td>{{question.type}}</td>
+                                    <td>{{question.topic}}</td>
+                                    <td>
+                                        <p ng-repeat="sub in question.subtopics">{{sub}}</p>
+                                    </td>
                                     <td>
                                         <button class="btn btn-danger" ng-click="DeleteQuestion($index,question)">
                                             Delete
