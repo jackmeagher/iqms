@@ -17,7 +17,7 @@
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <label>Question</label>
                         <input id='question_text' class="form-control" type="text" style="width:95%;
-                                     text-align:left;" value="{{qt}}">
+                                     text-align:left;" ng-model="questionText">
                     </div>
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <div class="row">
@@ -62,7 +62,7 @@
                                 <br>
                                 <div class="checkbox" ng-repeat="sub in current_subtopics">
                                     <label>
-                                        <input type="checkbox"> {{sub}}
+                                        <input type="checkbox" data-name="{{sub}}">{{sub}}
                                     </label>
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
                                     min="{{options.min}}" step="{{options.step}}"
                                     max="{{options.max}}" 
                                     style="float:left; margin-top:1%; width:72.5%;">
-                            <input ng-model="value" class="form-control" ng-change="updateLimits()"
+                            <input id="diff-input" ng-model="value" class="form-control" ng-change="updateLimits()"
                                     style="float:right; width:20%; margin-right:5%;">
                         </div>
                         
@@ -171,7 +171,7 @@
                 <div class='row'>
                     <div class='col-md-6' style="text-align:right;">
                         <button type="button" class="btn btn-lg btn-success"
-                                ng-click="CreateQuestion();ctrl.closeDialog()">
+                                ng-click="compileData()">
                             Submit
                         </button>
                     </div>

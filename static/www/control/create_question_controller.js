@@ -5,10 +5,12 @@
 function create_question_controller ($scope,$location,$http,$window, taggingService, popupService) {
     $scope.qt = $location.search().qt;
    
+    $scope.questionText = '';
+   
     $scope.current_topics = [];
     $scope.current_subtopics = [];
     
-    $scope.selectedType = 0;
+    $scope.selectedType = null;
     $scope.selectedTopic = null;
     $scope.types = taggingService.getTypes();
 
@@ -16,7 +18,17 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     
     $scope.newSub = '';
     
+    $scope.questionData = {
+      text: '',
+      type: '',
+      topic: '',
+      subtopics: [],
+      difficulty: 0,
+      answers: []
+    };
+    
     $scope.updateSelectedType = function(value) {
+        $scope.selectedType = value;
         taggingService.updateSelectedType(value.id);
         $("#subtopic-box").css({"visibility": "hidden"});
         $scope.current_subtopics = taggingService.getCurrentSubTopics();
@@ -65,6 +77,27 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
             taggingService.createNewSubTopic($scope.newSub);
             $scope.current_subtopics = taggingService.getCurrentSubTopics();
         }
+    }
+    
+    $scope.compileData = function () {
+        
+        $scope.selectedTopic = taggingService.getSelectedTopic();
+        
+        $scope.questionData.text = $scope.questionText;
+        $scope.questionData.type = $scope.selectedType.name;
+        $scope.questionData.topic = $scope.selectedTopic.name;
+        $scope.questionData.subtopics = [];
+        $('.checkbox').each(function(index) {
+            if($(this).find('input').is(':checked')) {
+                $scope.questionData.subtopics.push($(this).find('input').data("name"));
+            }
+        });
+        $scope.questionData.difficulty = parseInt($("#diff-input").val());
+        $scope.questionData.answers = [];
+        $('.answer-box').each(function(index) {
+           $scope.questionData.answers.push($(this).val()); 
+        });
+        console.log($scope.questionData);
     }
     
 }

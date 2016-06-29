@@ -79,6 +79,10 @@ function taggingService() {
         currentSubTopics = types[selectedType].topics[selectedTopic.id].sub;
     }
     
+    var getSelectedTopic = function() {
+        return selectedTopic;
+    }
+    
     return {
       updateSelectedType: updateSelectedType,
       updateSelectedTopic: updateSelectedTopic,
@@ -87,6 +91,7 @@ function taggingService() {
       getCurrentTopics: getCurrentTopics,
       getCurrentSubTopics: getCurrentSubTopics,
       createNewTopic: createNewTopic,
-      createNewSubTopic: createNewSubTopic
+      createNewSubTopic: createNewSubTopic,
+      getSelectedTopic: getSelectedTopic
     };
 }
