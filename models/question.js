@@ -2,9 +2,12 @@
 
 module.exports = function(sequelize, DataTypes) {
     var question = sequelize.define("question", {
-        question_text: DataTypes.STRING,
-        sample_answer: DataTypes.STRING,
-        difficulty: DataTypes.INTEGER
+        text: DataTypes.STRING,
+        type: DataTypes.STRING,
+        topic: DataTypes.STRING,
+        subtopics: DataTypes.ARRAY(DataTypes.STRING),
+        difficulty: DataTypes.INTEGER,
+        answers: DataTypes.ARRAY(DataTypes.STRING)
     }, {
         classMethods: {
             associate: function(models) {
@@ -13,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
             }
         }
     });
-
+    
     return question;
 };
 

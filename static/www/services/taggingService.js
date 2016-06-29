@@ -70,7 +70,7 @@ function taggingService() {
     };
     
     var createNewTopic = function(name) {
-        types[selectedType].topics.push({name: name, sub: []});
+        types[selectedType].topics.push({name: name, id: types[selectedType].topics.length, sub: []});
         updateSelectedType(selectedType);
     };
     

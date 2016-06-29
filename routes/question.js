@@ -14,8 +14,8 @@ exports = module.exports = new Resource('question', '/question', {
                 query_doc.difficulty = req.query.difficulty;
             }
             if (req.query.target_text) {
-                query_doc.question_text = {like: "%" + req.query.target_text + "%"};
-                console.log(query_doc.question_text);
+                query_doc.text = {like: "%" + req.query.text + "%"};
+                console.log(query_doc.text);
             }
 
             models.question.findAll({where: query_doc}
@@ -27,18 +27,40 @@ exports = module.exports = new Resource('question', '/question', {
         },
         // create new question
         post: (req, res) => { // make a new question
-            if (!req.body.question_text){
-                req.body.question_text = 'DEFAULT VAL';
+                console.log("made it");
+            if (!req.body.text){
+                req.body.text = 'Blank Text';
             }
+            
+            if (!req.body.type) {
+                req.body.type = 'Blank Type';
+            }
+            
+            if (!req.body.topic) {
+                req.body.topic = 'Blank Topic';
+            }
+            
+            if (!req.body.subtopics) {
+                req.body.subtopics = [];
+            }
+            
             if(!req.body.difficulty){
                 req.body.difficulty = -1;
             }
+            
+            if (!req.body.answers) {
+                req.body.answers = [];
+            }
+            
+            console.log(req.body);
+            
             models.question.create({
-              question_text: req.body.question_text ? req.body.question_text : null,
-              difficulty: req.body.difficulty ? req.body.difficulty : null
-              // previous
-              // question_text: req.body.question_text,
-              // difficulty: req.body.difficulty
+                text: req.body.text ? req.body.text : null,
+                type: req.body.type ? req.body.type : null,
+                topic: req.body.topic ? req.body.topic : null,
+                subtopics: req.body.subtopics ? req.body.subtopics : null,
+                difficulty: req.body.difficulty ? req.body.difficulty : null,
+                answers: req.body.answers ? req.body.answers : null
             }).then(function (created) {
                 res.status(201).json({
                     question: created.dataValues
