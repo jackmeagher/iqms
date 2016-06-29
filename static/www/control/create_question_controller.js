@@ -2,7 +2,7 @@
  * Created by nick on 4/6/16.
  */
 
-function create_question_controller ($scope,$location,$http,$window, taggingService) {
+function create_question_controller ($scope,$location,$http,$window, taggingService, popupService) {
     $scope.qt = $location.search().qt;
    
     $scope.current_topics = [];
@@ -13,6 +13,8 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     $scope.types = taggingService.getTypes();
 
     $scope.answers = [1];
+    
+    $scope.newSub = '';
     
     $scope.updateSelectedType = function(value) {
         taggingService.updateSelectedType(value.id);
@@ -49,5 +51,21 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     $scope.$on("topicNotification", function(event, args) {
         $scope.current_subtopics = taggingService.getCurrentSubTopics();
     });
+    
+    $scope.showPrompt = function($event) {
+        popupService.init('New Subtopic', 'Enter the new subtopic', '', '');
+        popupService.showPrompt($event, $scope.getPrompt);
+    }
+    
+    $scope.getPrompt = function() {
+        $scope.newSub = popupService.getResult();
+        console.log($scope.newSub);
+        
+        if ($scope.newSub != null) {
+            taggingService.createNewSubTopic($scope.newSub);
+            $scope.current_subtopics = taggingService.getCurrentSubTopics();
+        }
+    }
+    
 }
 

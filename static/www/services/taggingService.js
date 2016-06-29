@@ -13,10 +13,12 @@ function taggingService() {
             topics: [
                 {
                     name: "Java",
+                    id: 0,
                     sub: ["Classes", "Inheritance", "Libraries"]
                 },
                 {
                     name: "PHP",
+                    id: 1,
                     sub: ["Syntax", "Variables"]
                 }
             ]    
@@ -27,10 +29,12 @@ function taggingService() {
             topics: [
                 {
                     name: "Test",
+                    id: 0,
                     sub: ["Foo", "Bar"]
                 },
                 {
                     name: "Test2",
+                    id: 1,
                     sub: ["This", "Some of This", "More of This", "That"]
                 }
             ]
@@ -45,6 +49,7 @@ function taggingService() {
     };
     
     var updateSelectedTopic = function(topic) {
+        selectedTopic = topic;
         currentSubTopics = topic.sub;
     };
     
@@ -65,10 +70,14 @@ function taggingService() {
     };
     
     var createNewTopic = function(name) {
-        console.log(name);
         types[selectedType].topics.push({name: name, sub: []});
         updateSelectedType(selectedType);
     };
+    
+    var createNewSubTopic = function(name) {
+        types[selectedType].topics[selectedTopic.id].sub.push(name);
+        currentSubTopics = types[selectedType].topics[selectedTopic.id].sub;
+    }
     
     return {
       updateSelectedType: updateSelectedType,
@@ -77,6 +86,7 @@ function taggingService() {
       getTypes: getTypes,
       getCurrentTopics: getCurrentTopics,
       getCurrentSubTopics: getCurrentSubTopics,
-      createNewTopic: createNewTopic
+      createNewTopic: createNewTopic,
+      createNewSubTopic: createNewSubTopic
     };
 }

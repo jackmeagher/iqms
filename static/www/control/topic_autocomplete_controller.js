@@ -9,7 +9,6 @@ function topic_autocomplete_controller($scope, $timeout, $q, $log, taggingServic
     self.newTopic = newTopic;
     
     function newTopic(topic) {
-        console.log(topic);
         taggingService.createNewTopic(topic);
     }
     
