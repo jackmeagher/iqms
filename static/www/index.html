@@ -160,7 +160,7 @@
             };
         }]);
         
-        app.service("taggingService", taggingService);
+        app.service("taggingService", ['$http', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
             
         app.directive("questionanswer", function() {

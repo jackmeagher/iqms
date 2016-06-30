@@ -15,7 +15,6 @@ exports = module.exports = new Resource('question', '/question', {
             }
             if (req.query.target_text) {
                 query_doc.text = {like: "%" + req.query.text + "%"};
-                console.log(query_doc.text);
             }
 
             models.question.findAll({where: query_doc}
@@ -27,7 +26,6 @@ exports = module.exports = new Resource('question', '/question', {
         },
         // create new question
         post: (req, res) => { // make a new question
-                console.log("made it");
             if (!req.body.text){
                 req.body.text = 'Blank Text';
             }
@@ -51,8 +49,6 @@ exports = module.exports = new Resource('question', '/question', {
             if (!req.body.answers) {
                 req.body.answers = [];
             }
-            
-            console.log(req.body);
             
             models.question.create({
                 text: req.body.text ? req.body.text : null,
