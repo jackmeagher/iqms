@@ -30,7 +30,11 @@
                             </div>
                             <div class="col-md-4" id="topic-box" ng-controller="topic_autocomplete_controller as ctrl" style="visibility: hidden">
             
-                                <label>Topic</label><br>
+                                <label>Topic</label>
+                                <button class="btn btn-success btn-add btn-xs" type="button" ng-click="ctrl.newTopic(ctrl.searchText);" style="margin-left:4px;">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                                <br>
                                 <md-autocomplete
                                         style="width:90%;"
                                         md-no-cache="true"
@@ -52,10 +56,9 @@
                                 </md-autocomplete>
                             </div>
                             <div class="col-md-4" id="subtopic-box" style="visibility: hidden">
-                                <!-- Insert Sub-Topic Checkboxes -->
                                 <label>
                                     Sub-Topic List
-                                    <button class="btn btn-success btn-add" type="button" ng-click="showPrompt($event)" style="float:right;margin-left:4px;">
+                                    <button class="btn btn-success btn-add btn-xs" type="button" ng-click="showPrompt($event)" style="margin-left:4px;">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                 </label>
@@ -107,50 +110,6 @@
                         <br>
                     </div>
                     <br>
-                    <!--<div>
-                        <label>Add tags</label><br>
-                        <div class="entry input-group col-xs-3" style="display:inline-flex; width:55%;">
-
-                            <div ng-controller="tag_auto_complete_controller as ctrl"
-                                 ng-cloak style='width : 50%;'>
-                                <md-content class="md-padding">
-                                    <!--<form ng-submit="$event.preventDefault()">
-                                    <md-autocomplete
-                                            style="width:90%;"
-                                            md-no-cache="ctrl.noCache"
-                                            md-selected-item="ctrl.selectedItem"
-                                            md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                                            md-search-text="ctrl.searchText"
-                                            md-selected-item-change="ctrl.selectedItemChange(item)"
-                                            md-items="item in ctrl.querySearch(ctrl.searchText)"
-                                            md-item-text="item.display"
-                                            md-min-length="0"
-                                            placeholder="Seach for Tag">
-                                        <md-item-template>
-                                                        <span md-highlight-text="ctrl.searchText"
-                                                              md-highlight-flags="^i">{{item.display}}</span>
-                                        </md-item-template>
-                                        <md-not-found>
-                                            No tags matching "{{ctrl.searchText}}" were found.
-                                            <a ng-click="ctrl.newTag(ctrl.searchText)">Create a new
-                                                one!</a>
-                                        </md-not-found>
-                                    </md-autocomplete>
-                                    <span class="input-group-btn">
-                                    <button class="btn btn-success btn-add" type="button"
-                                            ng-click="addTag(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </span>
-                                </md-content>
-                                <div ng-repeat="tag in current_tags">
-                                    <br>
-                                    {{tag.display}}
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>-->
                     <div>
                         <div class="form-group" style="margin-top:2%; text-align:left; width:95%">
                             <label>Answers</label>
@@ -169,13 +128,13 @@
                 </form>
                 <br>
                 <div class='row'>
-                    <div class='col-md-6' style="text-align:right;">
+                    <div class='col-xs-6' style="text-align:right;">
                         <button type="button" class="btn btn-lg btn-success"
                                 ng-click="compileData()">
                             Submit
                         </button>
                     </div>
-                    <div class='col-md-6'>
+                    <div class='col-xs-6'>
                         <button type="button" class="btn btn-lg btn-danger"
                                 onclick="window.location.href='#qm'">
                             Cancel

@@ -10,34 +10,12 @@ function taggingService($http) {
         {
             name: "Technical",
             id: 0,
-            topics: [
-               /* {
-                    name: "Java",
-                    id: 0,
-                    sub: ["Classes", "Inheritance", "Libraries"]
-                },
-                {
-                    name: "PHP",
-                    id: 1,
-                    sub: ["Syntax", "Variables"]
-                }*/
-            ]    
+            topics: []    
         },
         {
             name: "General",
             id: 1,
-            topics: [
-               /* {
-                    name: "Test",
-                    id: 0,
-                    sub: ["Foo", "Bar"]
-                },
-                {
-                    name: "Test2",
-                    id: 1,
-                    sub: ["This", "Some of This", "More of This", "That"]
-                }*/
-            ]
+            topics: []
         }
     ];
     
@@ -71,20 +49,30 @@ function taggingService($http) {
     
     var createNewTopic = function(name) {
         
-        var topicData = {
-            type: types[selectedType].name,
-            name: name,
-            id: types[selectedType].topics.length,
-            sub: []
-        };
+        var shouldAdd = true;
         
-        $http.post('/topic',  topicData).success(function(created){
-                console.log(created);
-                console.log(created.topic);
+        types[selectedType].topics.forEach(function(topic, index) {
+           if(topic.name === name)
+                shouldAdd = false; 
         });
+        if (shouldAdd) {
+            var topicData = {
+                type: types[selectedType].name,
+                name: name,
+                id: types[selectedType].topics.length,
+                sub: []
+            };
+            
+            $http.post('/topic',  topicData).success(function(created){
+                    console.log(created);
+                    console.log(created.topic);
+            });
+            
+            types[selectedType].topics.push({name: name, id: types[selectedType].topics.length, sub: []});
+            updateSelectedType(selectedType);
+            updateSelectedTopic(types[selectedType].topics[types[selectedType].topics.length - 1]);
+        }
         
-        types[selectedType].topics.push({name: name, id: types[selectedType].topics.length, sub: []});
-        updateSelectedType(selectedType);
     };
     
     $http.get('/topic').success(function (data) {

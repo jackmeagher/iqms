@@ -10,6 +10,8 @@ function topic_autocomplete_controller($scope, $timeout, $q, $log, taggingServic
     
     function newTopic(topic) {
         taggingService.createNewTopic(topic);
+        self.notifySelection();
+        $("#subtopic-box").css({"visibility": "visible"});
     }
     
     function querySearch (query) {

@@ -35,19 +35,9 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     }
 
     $scope.createQuestion = function () {
-        /*qt = document.getElementById("question_text").value;
-        diff = document.getElementById("difficulty").value;
-
-        console.log(qt);
-        var par1 = {question_text: qt,difficulty : diff};*/
 
         $http.post('/question',  $scope.questionData).success(function(created){
-                qid = created.question.id;
-               // $scope.current_tags.forEach(tag => $http.post('/question/' + qid + '/tags/' + tag.item.id ))
-                console.log(created);
-                console.log(created.question);
                 $window.location.href = './#qm';
-
             });
 
     }
