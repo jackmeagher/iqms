@@ -8,7 +8,7 @@
 
 <div class="col-md-6 col-sm-6 col-xs-12 row" style="width:100%;" ng-controller="create_question_controller as cqc">
     <div class="panel panel-info" style="margin-left:3%;">
-        <div class="panel-heading">
+        <div class="panel-heading" ng-click='loadQuestion()'>
             Question
         </div>
         <div class="control-group" id="fields" style="margin-left:5%;">
@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Type</label><br>
-                                <select class="form-control" ng-model="selectedType" ng-change="updateSelectedType(selectedType)" data-ng-options="type as type.name for type in types" style="margin-top:1%;">
+                                <select class="form-control" id='question-type' ng-model="selectedType" ng-change="updateSelectedType(selectedType)" data-ng-options="type.name for type in types track by type.name" style="margin-top:1%;">
                                    
                                 </select>
                                 
@@ -36,6 +36,7 @@
                                 </button>
                                 <br>
                                 <md-autocomplete
+                                        id="question-topic"
                                         style="width:90%;"
                                         md-no-cache="true"
                                         md-selected-item="ctrl.selectedItem"
@@ -51,7 +52,7 @@
                                                           md-highlight-flags="^i">{{topic.name}}</span>
                                     </md-item-template>
                                     <md-not-found>
-                                        <a ng-click="ctrl.newTopic(ctrl.searchText)">Create "{{ctrl.searchText}}"</a>
+                                        Click the plus to add "{{ctrl.searchText}}"
                                     </md-not-found>
                                 </md-autocomplete>
                             </div>
@@ -65,7 +66,7 @@
                                 <br>
                                 <div class="checkbox" ng-repeat="sub in current_subtopics">
                                     <label>
-                                        <input type="checkbox" data-name="{{sub}}">{{sub}}
+                                        <input class="question-sub" type="checkbox" data-name="{{sub}}">{{sub}}
                                     </label>
                                 </div>
                             </div>

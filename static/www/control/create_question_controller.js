@@ -9,9 +9,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
    
     $scope.current_topics = [];
     $scope.current_subtopics = [];
-    
-    $scope.selectedType = null;
-    $scope.selectedTopic = null;
+
     $scope.types = taggingService.getTypes();
 
     $scope.answers = [1];
@@ -27,19 +25,54 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
       answers: []
     };
     
+    
+    $scope.loadQuestion = function() {
+        var loc = "" + $window.location;
+        loc = loc.substr(loc.lastIndexOf('/') + 1, 2);
+        var id = $window.location.hash.substr(5);
+        if (loc === 'ce') {
+            console.log('EDIT PAGE: ' + id);
+            $http.get('/question/' + id).success(function(data) {
+                console.log(data);
+                $('#question_text').val(data.question.text);
+                taggingService.updateSelectedTypeByName(data.question.type);
+                console.log(taggingService.getSelectedType());               
+                $('#question-type').val(data.question.type);
+                taggingService.updateSelectedTopicByName(data.question.topic);
+                $('#question-topic').find('input').val(data.question.topic);
+                $("#topic-box").css({"visibility": "visible"});
+                $("#subtopic-box").css({"visibility": "visible"});
+                $scope.current_subtopics = taggingService.getCurrentSubTopics();
+                console.log($scope.current_subtopics);
+                $('.question-sub').each(function(index, el) {
+                    var box = $(this);
+                    data.question.subtopics.forEach(function(sub, index) {
+                        if (box.data("name") == sub){
+                            box.prop("checked", true);     
+                        } 
+                    });
+                });
+            })
+        }
+
+    }
+    
     $scope.updateSelectedType = function(value) {
-        $scope.selectedType = value;
-        taggingService.updateSelectedType(value.id);
+        taggingService.updateSelectedType(value);
         $("#subtopic-box").css({"visibility": "hidden"});
         $scope.current_subtopics = taggingService.getCurrentSubTopics();
     }
 
     $scope.createQuestion = function () {
-
         $http.post('/question',  $scope.questionData).success(function(created){
                 $window.location.href = './#qm';
             });
-
+    }
+    
+    $scope.editQuestion = function() {
+        $http.put('/question', $scope.questionData).success(function(created) {
+           $window.location.href = './#qm'; 
+        });
     }
     
     $scope.addAnswer = function() {
@@ -71,12 +104,10 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     }
     
     $scope.compileData = function () {
-        
-        $scope.selectedTopic = taggingService.getSelectedTopic();
-        
+    
         $scope.questionData.text = $scope.questionText;
-        $scope.questionData.type = $scope.selectedType.name;
-        $scope.questionData.topic = $scope.selectedTopic.name;
+        $scope.questionData.type = taggingService.getSelectedType().name;
+        $scope.questionData.topic = taggingService.getSelectedTopic().name;
         $scope.questionData.subtopics = [];
         $('.checkbox').each(function(index) {
             if($(this).find('input').is(':checked')) {
@@ -88,8 +119,8 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         $('.answer-box').each(function(index) {
            $scope.questionData.answers.push($(this).val()); 
         });
-        console.log($scope.questionData);
         
+        //Check if we are edit or create
         $scope.createQuestion();
     }
     

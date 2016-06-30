@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     var topic = sequelize.define("topic", {
         type: DataTypes.STRING,
         name: DataTypes.STRING,
-        subtopics: DataTypes.ARRAY(DataTypes.STRING)
+        index: DataTypes.INTEGER,
+        sub: DataTypes.ARRAY(DataTypes.STRING)
     }, {
         classMethods: {}  
     });

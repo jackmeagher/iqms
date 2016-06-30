@@ -9,9 +9,11 @@ function topic_autocomplete_controller($scope, $timeout, $q, $log, taggingServic
     self.newTopic = newTopic;
     
     function newTopic(topic) {
-        taggingService.createNewTopic(topic);
-        self.notifySelection();
-        $("#subtopic-box").css({"visibility": "visible"});
+        if (topic) {
+            taggingService.createNewTopic(topic);
+            self.notifySelection();
+            makeSubVisible('visible');
+        }
     }
     
     function querySearch (query) {
@@ -34,13 +36,17 @@ function topic_autocomplete_controller($scope, $timeout, $q, $log, taggingServic
       if (item) {
         taggingService.updateSelectedTopic(item);
         self.notifySelection();
-        $("#subtopic-box").css({"visibility": "visible"});
+        makeSubVisible('visible');
       } else {
-        $("#subtopic-box").css({"visibility": "hidden"});
+        makeSubVisible('hidden');
       }
     }
     
     self.notifySelection = function() {
         $scope.$emit("topicNotification", {on: true});
+    }
+    
+    function makeSubVisible(visible) {
+        $("#subtopic-box").css({"visibility": visible});  
     }
   }

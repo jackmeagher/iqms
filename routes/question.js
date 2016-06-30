@@ -64,6 +64,11 @@ exports = module.exports = new Resource('question', '/question', {
             })
         },
 
+        put: (req, res) => {
+        models.question.upsert(req.body.question).then(function (created) {
+                  res.status(201).json({question:created});      
+                })
+        }
 
     }, [new Resource('get_question_by_id', '/:id', {
         //get question by id

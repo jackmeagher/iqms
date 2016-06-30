@@ -90,6 +90,7 @@
                                         </a>
                                     </th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody ng-repeat="question in _question | orderBy:sortType:sortReverse | filter:searchQuestion">
@@ -101,6 +102,11 @@
                                     <td>{{question.topic}}</td>
                                     <td>
                                         <p ng-repeat="sub in question.subtopics">{{sub}}</p>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning" ng-click="DeleteQuestion($index,question)">
+                                            Edit
+                                        </button>
                                     </td>
                                     <td>
                                         <button class="btn btn-danger" ng-click="DeleteQuestion($index,question)">
