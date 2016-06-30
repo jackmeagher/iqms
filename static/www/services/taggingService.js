@@ -8,9 +8,6 @@ function taggingService($http) {
     
     var types = [];
     
-    $http.post('/type', {label: 'Technical'});
-    $http.post('/type', {label: 'General'});
-    
     var updateSelectedType = function(value) {
         $("#topic-box").css({"visibility": "visible"});
         selectedType = value;
@@ -22,11 +19,7 @@ function taggingService($http) {
         selectedTopic = topic;
         currentSubTopics = topic.sub;
     };
-    
-    var updateSelectedSubTopic = function() {
-        
-    };
-    
+
     var getTypes = function() {
         return types;
     };
@@ -94,7 +87,6 @@ function taggingService($http) {
     return {
       updateSelectedType: updateSelectedType,
       updateSelectedTopic: updateSelectedTopic,
-      updateSelectedSubTopic: updateSelectedSubTopic,
       getTypes: getTypes,
       getCurrentTopics: getCurrentTopics,
       getCurrentSubTopics: getCurrentSubTopics,

@@ -9,22 +9,6 @@ function question_manager_controller($scope, $http) {
 
     $http.get('/question').success(function (data) {
         $scope._question = data.questions;
-        $scope._question.forEach(q => $http.get('/question/' + q.id + '/tags').success(function(tags){
-            the_tags = tags.tags;
-            q.tags = '';
-            console.log(the_tags.length);
-            if (the_tags.length > 1){
-                for(var i = 0;i < the_tags.length-1;i++){
-                    q.tags += the_tags[0].label;
-                    q.tags += ', '
-                }
-                q.tags += the_tags[i].label;
-
-            }else if(the_tags.length == 1){
-                q.tags = the_tags[0].label;
-            }
-
-        }));
     });
 
 
