@@ -6,18 +6,10 @@ function taggingService($http) {
     var selectedType = 0;
     var selectedTopic = null;
     
-    var types = [
-        {
-            name: "Technical",
-            id: 0,
-            topics: []    
-        },
-        {
-            name: "General",
-            id: 1,
-            topics: []
-        }
-    ];
+    var types = [];
+    
+    $http.post('/type', {label: 'Technical'});
+    $http.post('/type', {label: 'General'});
     
     var updateSelectedType = function(value) {
         $("#topic-box").css({"visibility": "visible"});
@@ -74,6 +66,12 @@ function taggingService($http) {
         }
         
     };
+    
+    $http.get('/type').success(function(data) {
+        data.types.forEach(function(type, index) {
+           types.push({name: type.label, id: types.length, topics: []}); 
+        });
+    });
     
     $http.get('/topic').success(function (data) {
         data.topics.forEach(function(top, index) {

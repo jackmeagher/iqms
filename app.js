@@ -39,6 +39,7 @@ var user_routes = require('./routes/user');
 var tag_routes = require('./routes/tag');
 var position_routes = require('./routes/position');
 var topic_routes = require('./routes/topic');
+var type_routes = require('./routes/type');
 
 
 question_routes.register(app,'');
@@ -49,6 +50,7 @@ role_routes.register(app,'');
 tag_routes.register(app,'');
 position_routes.register(app,'');
 topic_routes.register(app, '');
+type_routes.register(app, '');
 
 
 app.use('/static', express.static('../static'));
