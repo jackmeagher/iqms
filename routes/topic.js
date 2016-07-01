@@ -57,6 +57,7 @@ exports = module.exports = new Resource('topic', '/topic', {
                     }
                 })
                 .then(function (topic) {
+                    console.log("Test");
                     res.send("Test");
                     res.status(200).json({
                         topic: topic[0]
