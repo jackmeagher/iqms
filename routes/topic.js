@@ -65,13 +65,12 @@ exports = module.exports = new Resource('topic', '/topic', {
         },
         put: (req, res) => {
             res.send('HERE');
-            models.topic.findAll({
+            models.topic.find({
                     where: {
                         id: req.params.id
                     }
                 })
                 .then(function (topic) {
-                    res.send('Found specific id');
                     topic.sub = req.body.sub;
                     topic.save({fields: ['sub']}).then(function() {
                         res.status(200);

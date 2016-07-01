@@ -69,7 +69,7 @@ function taggingService($http) {
                 type: types[selectedType.id].name,
                 name: name,
                 index: types[selectedType.id].topics.length,
-                sub: ["dsfsd", "sdfds"]
+                sub: []
             };
             
             $http.post('/topic',  topicData).success(function(created){});
