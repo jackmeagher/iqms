@@ -28,9 +28,9 @@
                                 </select>
                                 
                             </div>
-                            <div class="col-md-4" id="topic-box" ng-controller="topic_autocomplete_controller as ctrl" style="visibility: hidden">
+                            <div class="col-md-4" id="topic-box" ng-controller="tag_auto_complete_controller as ctrl" style="visibility: hidden">
             
-                                <label>Topic</label>
+                                <label>Tags</label>
                                 <button class="btn btn-success btn-add btn-xs" type="button" ng-click="ctrl.newTopic(ctrl.searchText);" style="margin-left:4px;">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
@@ -46,32 +46,26 @@
                                         md-items="topic in ctrl.querySearch(ctrl.searchText)"
                                         md-item-text="topic.name"
                                         md-min-length="0"
-                                        placeholder="Seach for Topic">
+                                        placeholder="Seach for Tag">
                                     <md-item-template>
                                                     <span md-highlight-text="ctrl.searchText"
-                                                          md-highlight-flags="^i">{{topic.name}}</span>
+                                                          md-highlight-flags="^i">{{tag.name}}</span>
                                     </md-item-template>
                                     <md-not-found>
                                         Click the plus to add "{{ctrl.searchText}}"
                                     </md-not-found>
                                 </md-autocomplete>
                             </div>
-                            <div class="col-md-4" id="subtopic-box" style="visibility: hidden">
-                                <label>
-                                    Sub-Topic List
-                                    <button class="btn btn-success btn-add btn-xs" type="button" ng-click="showPrompt($event)" style="margin-left:4px;">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </label>
+                            <div class="col-md-4" id="subtopic-box">
+                                <label>Tag List</label>
                                 <br>
-                                <div class="checkbox" ng-repeat="sub in current_subtopics">
+                                <div class="checkbox" ng-repeat="tag in currentTags">
                                     <label>
-                                        <input class="question-sub" type="checkbox" data-name="{{sub}}">{{sub}}
+                                        <input class="question-sub" type="checkbox" data-name="{{tag}}">{{tag}}
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <!-- Insert button to add another tag -->
                     </div>
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <div ng-controller="slider_controller">

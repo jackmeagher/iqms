@@ -30,8 +30,8 @@ function topic_autocomplete_controller($scope, $timeout, $q, $log, taggingServic
     }
     function searchTextChange(text) {
         self.topics = taggingService.getCurrentTopics();
-        
     }
+    
     function selectedItemChange(item) {
       if (item) {
         taggingService.updateSelectedTopic(item);
