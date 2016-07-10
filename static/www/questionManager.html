@@ -88,7 +88,7 @@
                                         <p ng-repeat="tag in question.tags">{{tag}}</p>
                                     </td>
                                     <td>
-                                        <button class="btn btn-warning" ng-click="DeleteQuestion($index,question)">
+                                        <button class="btn btn-warning" ng-click="loadQuestion(question.id)">
                                             Edit
                                         </button>
                                     </td>

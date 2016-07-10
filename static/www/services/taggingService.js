@@ -56,7 +56,7 @@ function taggingService($http) {
     
     var getSelectedTags = function() {
         return selectedTags;
-    }
+    } 
     
     //Creation Methods
     

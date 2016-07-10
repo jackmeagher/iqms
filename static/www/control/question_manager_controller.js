@@ -12,7 +12,9 @@ function question_manager_controller($scope, $http) {
     });
 
 
-
+    $scope.loadQuestion = function(index) {
+        window.location.href = "#ce#" + index;
+    }
 
     $scope.DeleteQuestion = function (index,question) {
         $http.delete('/question/' + question.id)

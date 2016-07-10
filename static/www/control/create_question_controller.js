@@ -113,5 +113,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         }
 
     }
+    
+    $scope.loadQuestion();
 }
 
