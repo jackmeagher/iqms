@@ -21,7 +21,6 @@ function slider_controller($scope, $log) {
 
     $scope.updateLimits = function() {
         $scope.value = $("#modelValue").val();
-        console.log($('#modelValue').val());
         if ($scope.value > 10) {
             $scope.value = 10;
         } else if ($scope.value < 0) {

@@ -107,7 +107,7 @@
                         <div class="form-group" style="margin-top:2%; text-align:left; width:95%">
                             <label>Answers</label>
                             <div>
-                                <questionanswer ng-repeat="answer in answers"></questionanswer>
+                                <questionanswer ng-repeat="answer in answers track by $index"></questionanswer>
                             </div>
                      
                             <button class="btn btn-success btn-add" type="button" ng-click="addAnswer()">

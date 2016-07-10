@@ -28,6 +28,7 @@ function taggingService($http) {
         $("#topic-box").css({"visibility": "visible"});
         selectedType = value;
         currentTags = types[selectedType.id].tags;
+        resetTags();
     };
     
      var updateSelectedTypeByName = function(name) {
@@ -107,6 +108,10 @@ function taggingService($http) {
         console.log(selectedTags);
     }
     
+    var resetTags = function() {
+        selectedTags = [];
+    }
+    
     return {
       updateSelectedType: updateSelectedType,
       updateSelectedTypeByName: updateSelectedTypeByName,
@@ -116,6 +121,7 @@ function taggingService($http) {
       getSelectedTags: getSelectedTags,
       createNewTag: createNewTag,
       addTag: addTag,
-      removeTag: removeTag
+      removeTag: removeTag,
+      resetTags: resetTags
     };
 }

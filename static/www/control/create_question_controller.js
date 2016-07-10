@@ -24,6 +24,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     $scope.updateSelectedType = function(value) {
         taggingService.updateSelectedType(value);
         $scope.currentTags = taggingService.getCurrentTags();
+        $scope.selectedTags = taggingService.getSelectedTags();
     }
 
     //Tag
@@ -42,7 +43,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     //Answer
     
     $scope.addAnswer = function() {
-        $scope.answers.push($scope.answers.length + 1);
+        $scope.answers.push('');
     }
     
     $scope.removeAnswer = function() {
@@ -54,18 +55,28 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     //Submit
     
     $scope.compileData = function () {
-    
+        $scope.questionText = $('#question_text').val();
         $scope.questionData.text = $scope.questionText;
         $scope.questionData.type = taggingService.getSelectedType().name;
         $scope.questionData.tags = taggingService.getSelectedTags();
-        $scope.questionData.difficulty = parseInt($("#diff-input").val());
+        $scope.questionData.difficulty = parseInt($("#modelValue").val());
+        console.log($('#modelValue').val());
         $scope.questionData.answers = [];
         $('.answer-box').each(function(index) {
            $scope.questionData.answers.push($(this).val()); 
         });
         
+        var loc = "" + $window.location;
+        loc = loc.substr(loc.lastIndexOf('/') + 1, 2);
+        var id = $window.location.hash.substr(5);
+        
         //Check if we are edit or create
-        $scope.createQuestion();
+        if (loc === 'ce') {
+            $scope.editQuestion(id);
+        } else if (loc === 'cq') {
+            $scope.createQuestion();
+        }
+        
     }
     
     
@@ -76,8 +87,8 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
             });
     }
     
-    $scope.editQuestion = function() {
-        $http.put('/question', $scope.questionData).success(function(created) {
+    $scope.editQuestion = function(id) {
+        $http.put('/question/' + id, $scope.questionData).success(function(created) {
            $window.location.href = './#qm'; 
         });
     }
@@ -104,12 +115,15 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
                 $('#modelValue').val(data.question.difficulty);
                 $scope.answers = data.question.answers;
                 data.question.answers.forEach(function(answer, index) {
-                    if(index > 0) {
+                    if(!$('#answer' + index)) {
                         $scope.addAnswer();
                     }
                     
                 });
             })
+        } else if (loc === 'cq') {
+            taggingService.resetTags();
+            console.log("TESSSST");
         }
 
     }

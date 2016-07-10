@@ -92,6 +92,25 @@ exports = module.exports = new Resource('question', '/question', {
                 })
 
 
+        },
+        put: (req, res) => {
+                res.send('HERE');
+             models.question.find({
+               where: {
+                id: req.params.id
+               }
+             })
+             .then(function (question) {
+                question.text = req.body.text;
+                question.type = req.body.type;
+                question.tags = req.body.tags;
+                question.difficulty = req.body.difficulty;
+                question.answers = req.body.answers;
+                question.save({fields: ['text', 'type', 'tags', 'difficulty', 'answers']}).then(function() {
+                  res.status(200);      
+                })
+             })
+                
         }
     }
     ),
