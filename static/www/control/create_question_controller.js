@@ -7,7 +7,9 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     $scope.questionText = '';
     $scope.types = taggingService.getTypes();
     $scope.currentTags = [];
+    $scope.selectedTags = [];
     $scope.answers = [''];
+    $scope.difficulty = 0;
     
     $scope.questionData = {
       text: '',
@@ -21,15 +23,21 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     
     $scope.updateSelectedType = function(value) {
         taggingService.updateSelectedType(value);
-        $("#subtopic-box").css({"visibility": "hidden"});
         $scope.currentTags = taggingService.getCurrentTags();
     }
 
     //Tag
     
-    $scope.$on("topicNotification", function(event, args) {
+    $scope.$on("tagNotification", function(event, args) {
         $scope.currentTags = taggingService.getCurrentTags();
+        $scope.selectedTags = taggingService.getSelectedTags();
     });
+    
+    $scope.removeTag = function(tag) {
+        taggingService.removeTag(tag);
+        $scope.currentTags = taggingService.getCurrentTags();
+        $scope.selectedTags = taggingService.getSelectedTags();
+    }
     
     //Answer
     
@@ -49,7 +57,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     
         $scope.questionData.text = $scope.questionText;
         $scope.questionData.type = taggingService.getSelectedType().name;
-        //Grab Tags Here
+        $scope.questionData.tags = taggingService.getSelectedTags();
         $scope.questionData.difficulty = parseInt($("#diff-input").val());
         $scope.questionData.answers = [];
         $('.answer-box').each(function(index) {
@@ -86,19 +94,20 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
                 taggingService.updateSelectedTypeByName(data.question.type);
                 console.log(taggingService.getSelectedType());               
                 $('#question-type').val(data.question.type);
-                taggingService.updateSelectedTopicByName(data.question.topic);
-                $('#question-topic').find('input').val(data.question.topic);
                 $("#topic-box").css({"visibility": "visible"});
                 $("#subtopic-box").css({"visibility": "visible"});
-                $scope.current_subtopics = taggingService.getCurrentSubTopics();
-                console.log($scope.current_subtopics);
-                $('.question-sub').each(function(index, el) {
-                    var box = $(this);
-                    data.question.subtopics.forEach(function(sub, index) {
-                        if (box.data("name") == sub){
-                            box.prop("checked", true);     
-                        } 
-                    });
+                data.question.tags.forEach(function(tag, index) {
+                   taggingService.addTag(tag); 
+                });
+                $scope.currentTags = taggingService.getCurrentTags();
+                $scope.selectedTags = taggingService.getSelectedTags();
+                $('#modelValue').val(data.question.difficulty);
+                $scope.answers = data.question.answers;
+                data.question.answers.forEach(function(answer, index) {
+                    if(index > 0) {
+                        $scope.addAnswer();
+                    }
+                    
                 });
             })
         }

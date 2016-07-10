@@ -4,7 +4,8 @@ function taggingService($http) {
     var currentTags = [];
     
     var selectedType = null;
-    
+    var selectedTags = [];
+
     $http.get('/type').success(function(data) {
         data.types.forEach(function(type, index) {
            types.push({name: type.label, id: types.length, tags: []}); 
@@ -53,13 +54,16 @@ function taggingService($http) {
         return currentTags;
     };
     
+    var getSelectedTags = function() {
+        return selectedTags;
+    }
     
     //Creation Methods
     
     var createNewTag = function(name) {
         var shouldAdd = true;
         types[selectedType.id].tags.forEach(function(tag, index) {
-           if(topic.name === name)
+           if(tag.name === name)
                 shouldAdd = false; 
         });
         
@@ -73,10 +77,35 @@ function taggingService($http) {
                 
             });
             
-            types[selectedType.id].tags.push({type: tagData,type, name: tagData.name});
+            types[selectedType.id].tags.push({type: tagData.type, name: tagData.name});
             updateSelectedType(selectedType);
+            addTag(tagData.name);
         }
     };
+    
+    var addTag = function(newTag) {
+        var shouldAdd = true;
+        selectedTags.forEach(function(tag, index) {
+            if(tag === newTag)
+                shouldAdd = false;
+        });
+        
+        if (shouldAdd) {
+            selectedTags.push(newTag);
+        }
+       
+    }
+    
+    var removeTag = function(oldTag) {
+        var remove = selectedTags.indexOf(oldTag);
+        console.log(oldTag);
+        console.log(remove);
+        if (remove > -1) {
+            selectedTags.splice(remove, 1);
+        }
+        
+        console.log(selectedTags);
+    }
     
     return {
       updateSelectedType: updateSelectedType,
@@ -84,6 +113,9 @@ function taggingService($http) {
       getTypes: getTypes,
       getSelectedType: getSelectedType,
       getCurrentTags: getCurrentTags,
-      createNewTag: createNewTag
+      getSelectedTags: getSelectedTags,
+      createNewTag: createNewTag,
+      addTag: addTag,
+      removeTag: removeTag
     };
 }

@@ -31,7 +31,7 @@
                             <div class="col-md-4" id="topic-box" ng-controller="tag_auto_complete_controller as ctrl" style="visibility: hidden">
             
                                 <label>Tags</label>
-                                <button class="btn btn-success btn-add btn-xs" type="button" ng-click="ctrl.newTopic(ctrl.searchText);" style="margin-left:4px;">
+                                <button class="btn btn-success btn-add btn-xs" type="button" ng-click="ctrl.newTag(ctrl.searchText);" style="margin-left:4px;">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
                                 <br>
@@ -43,8 +43,8 @@
                                         md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
                                         md-search-text="ctrl.searchText"
                                         md-selected-item-change="ctrl.selectedItemChange(ctrl.selectedItem)"
-                                        md-items="topic in ctrl.querySearch(ctrl.searchText)"
-                                        md-item-text="topic.name"
+                                        md-items="tag in ctrl.querySearch(ctrl.searchText)"
+                                        md-item-text="tag.name"
                                         md-min-length="0"
                                         placeholder="Seach for Tag">
                                     <md-item-template>
@@ -52,53 +52,51 @@
                                                           md-highlight-flags="^i">{{tag.name}}</span>
                                     </md-item-template>
                                     <md-not-found>
-                                        Click the plus to add "{{ctrl.searchText}}"
+                                        Click the plus to create "{{ctrl.searchText}}"
                                     </md-not-found>
                                 </md-autocomplete>
                             </div>
                             <div class="col-md-4" id="subtopic-box">
                                 <label>Tag List</label>
                                 <br>
-                                <div class="checkbox" ng-repeat="tag in currentTags">
-                                    <label>
-                                        <input class="question-sub" type="checkbox" data-name="{{tag}}">{{tag}}
-                                    </label>
-                                </div>
+                                <button type="button" class="btn btn-info" ng-repeat="tag in selectedTags" data-name="{{tag}}" ng-click="removeTag(tag)">{{tag}}</button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <div ng-controller="slider_controller">
                             <label>Difficulty</label>
-                            <div class="percentage-cur row" ng-init="selectedRange=1" style="width:76%">
-                                <div class='col-xs-4' style="text-align: left;">
+                            <div class="percentage-cur row" ng-init="selectedRange=1" style="width:95%; margin: 0px !important;">
+                                <div class='col-xs-4' style="text-align: left; padding: 0px !important;">
                                     <p>
                                         Junior
                                         <br>
-                                        <input type="radio" name="level" ng-model="value" value="0" checked>
+                                        <input type="radio" name="level" ng-model="value" value="0" checked ng-click="updateLimits()">
                                     </p>
                                 </div>
-                                <div class='col-xs-4' style="text-align: center;">
+                                <div class='col-xs-4' style="text-align: center; padding: 0px !important;">
                                     <p>
                                         Mid
                                         <br>
-                                        <input type="radio" name="level" ng-model="value" value="5">
+                                        <input type="radio" name="level" ng-model="value" value="5" ng-click="updateLimits()">
                                     </p>
                                 </div>
-                                <div class='col-xs-4' style="text-align: right;">
+                                <div class='col-xs-4' style="text-align: right; padding: 0px !important;">
                                     <p>
                                         Senior
                                         <br>
-                                        <input type="radio" name="level" ng-model="value" value="10">
+                                        <input type="radio" name="level" ng-model="value" value="10" ng-click="updateLimits()">
                                     </p>
                                 </div>
                             </div>
+                            
                             <input id="modelValue" type="range" ng-model="value"
                                     min="{{options.min}}" step="{{options.step}}"
-                                    max="{{options.max}}" 
-                                    style="float:left; margin-top:1%; width:72.5%;">
-                            <input id="diff-input" ng-model="value" class="form-control" ng-change="updateLimits()"
-                                    style="float:right; width:20%; margin-right:5%;">
+                                    max="{{options.max}}" slider-tooltip="show"
+                                    handle="{{options.handle}}"
+                                    style="width:95%;" data-toggle="tooltip" data-placement="bottom"
+                                    title="{{value}}" ng-click="updateLimits()" ng-change="updateLimits()"
+                                    >
                         </div>
                         
 

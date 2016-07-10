@@ -34,11 +34,12 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
     
     function selectedItemChange(item) {
         if (item) {
-            console.log(item);
+            taggingService.addTag(item.name);
+            self.notifySelection();
         }
     }
     
     self.notifySelection = function() {
-        $scope.$emit(topicNotification, {on: true});
+        $scope.$emit("tagNotification", {on: true});
     }
 }

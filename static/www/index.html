@@ -170,7 +170,7 @@
         app.directive("questionanswer", function() {
             return {
                 restrict: "E",
-                template: '<input id="answer1"  class="form-control answer-box" type="text" style="text-align:left; margin-bottom:1%;">'
+                template: '<input id="answer{{$index}}"class="form-control answer-box" type="text" style="text-align:left; margin-bottom:1%;" value="{{answer}}">'
             };
         });
 

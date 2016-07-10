@@ -34,12 +34,9 @@ exports = module.exports = new Resource('question', '/question', {
                 req.body.type = 'Blank Type';
             }
             
-            if (!req.body.topic) {
-                req.body.topic = 'Blank Topic';
-            }
             
-            if (!req.body.subtopics) {
-                req.body.subtopics = [];
+            if (!req.body.tags) {
+                req.body.tags = [];
             }
             
             if(!req.body.difficulty){
@@ -53,8 +50,7 @@ exports = module.exports = new Resource('question', '/question', {
             models.question.create({
                 text: req.body.text ? req.body.text : null,
                 type: req.body.type ? req.body.type : null,
-                topic: req.body.topic ? req.body.topic : null,
-                subtopics: req.body.subtopics ? req.body.subtopics : null,
+                tags: req.body.tags ? req.body.tags : null,
                 difficulty: req.body.difficulty ? req.body.difficulty : null,
                 answers: req.body.answers ? req.body.answers : null
             }).then(function (created) {

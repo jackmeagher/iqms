@@ -72,22 +72,7 @@
                                         </a>
                                     </th>
                                     <th>
-                                        <a ng-click="sortType = 'topic'; sortReverse = !sortReverse">
-                                            Topic
-                                            <span ng-show="sortType == 'topic' && !sortReverse"
-                                                  class="fa fa-caret-down"></span>
-                                            <span ng-show="sortType == 'topic' && sortReverse"
-                                                  class="fa fa-caret-up"></span>
-                                        </a>
-                                    </th>
-                                    <th>
-                                        <a ng-click="sortType = 'subtopics'; sortReverse = !sortReverse">
-                                            Subtopics
-                                            <span ng-show="sortType == 'subtopics' && !sortReverse"
-                                                  class="fa fa-caret-down"></span>
-                                            <span ng-show="sortType == 'subtopics' && sortReverse"
-                                                  class="fa fa-caret-up"></span>
-                                        </a>
+                                        Tags
                                     </th>
                                     <th></th>
                                     <th></th>
@@ -99,9 +84,8 @@
                                     <td>{{question.text}}</td>
                                     <td>{{question.difficulty}}</td>
                                     <td>{{question.type}}</td>
-                                    <td>{{question.topic}}</td>
                                     <td>
-                                        <p ng-repeat="sub in question.subtopics">{{sub}}</p>
+                                        <p ng-repeat="tag in question.tags">{{tag}}</p>
                                     </td>
                                     <td>
                                         <button class="btn btn-warning" ng-click="DeleteQuestion($index,question)">
