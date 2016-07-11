@@ -19,6 +19,10 @@ function taggingService($http) {
         }
     }
     
+    var setSelected = function(sel) {
+        selectedTags = sel;
+    }
+    
     //Getters
     
     var getTags = function() {
@@ -114,6 +118,9 @@ function taggingService($http) {
                     } else {
                         tag.count--;
                     }
+                    
+                    console.log("Updating " + tag.name + " with a value of " + tag.count);
+                    
                     $http.put('/tag/' + (id + 1),  tag).success(function(created) {
                 
                     });
@@ -124,6 +131,7 @@ function taggingService($http) {
     
     return {
       setTech: setTech,
+      setSelected: setSelected,
       getTags: getTags,
       getSelectedTags: getSelectedTags,
       getTech: getTech,

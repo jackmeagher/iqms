@@ -40,7 +40,7 @@ exports = module.exports = new Resource('question', '/question', {
             }
             
             if(!req.body.difficulty){
-                req.body.difficulty = -1;
+                req.body.difficulty = 0;
             }
             
             if (!req.body.answers) {
@@ -51,7 +51,7 @@ exports = module.exports = new Resource('question', '/question', {
                 text: req.body.text ? req.body.text : null,
                 tech: req.body.tech ? req.body.tech : null,
                 tags: req.body.tags ? req.body.tags : null,
-                difficulty: req.body.difficulty ? req.body.difficulty : null,
+                difficulty: req.body.difficulty ? req.body.difficulty : 0,
                 answers: req.body.answers ? req.body.answers : null
             }).then(function (created) {
                 res.status(201).json({

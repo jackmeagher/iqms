@@ -40,7 +40,6 @@ exports = module.exports = new Resource('tag', '/tag', {
 
 }, [new Resource('get_tag_by_id', '/:id', {
         get: (req, res) => {
-                console.log("Getting");
             models.tag.find({
                     where: {
                         id: req.params.id
@@ -54,18 +53,19 @@ exports = module.exports = new Resource('tag', '/tag', {
                 
         },
         put: (req, res) => {
-                console.log("Putting");
+                console.log("PUTTING");
                 models.tag.find({
                         where: {
                                 id: req.params.id
                         }
                 })
                 .then(function (tag) {
-                        tag.name = req.body.name;
                         tag.count = req.body.count;
-                        tag.save({fields: ['name', 'count']}).then(function() {
-                                res.status(200);      
+                        tag.save({fields: ['count']}).then(function() {
+                                res.status(200).json({tag: tag});
+                                console.log("DONE");
                         })
                 })
         }
-})]);
+})
+    ]);

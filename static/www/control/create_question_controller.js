@@ -105,6 +105,9 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         loc = loc.substr(loc.lastIndexOf('/') + 1, 2);
         var id = $window.location.hash.substr(5);
         if (loc === 'ce') {
+            taggingService.resetTags();
+            $scope.tags = taggingService.getTags();
+            $scope.selectedTags = taggingService.getSelectedTags();
             $http.get('/question/' + id).success(function(data) {
                 $('#question_text').val(data.question.text);     
                 data.question.tags.forEach(function(tag, index) {
