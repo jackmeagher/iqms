@@ -18,7 +18,7 @@ function question_manager_controller($scope, $http, taggingService) {
     $scope.DeleteQuestion = function (index, question) {
         
         taggingService.setSelected(question.tags);
-        taggingService.updateTags(false);
+        taggingService.updateTags("DELETE");
         
         $http.delete('/question/' + question.id).success(function() {
             $http.get('/question').success(function(data){

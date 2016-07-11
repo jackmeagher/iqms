@@ -14,6 +14,10 @@ exports = module.exports = new Resource('tag', '/tag', {
                     query.count = req.query.count;
                 }
                 
+               /* if (req.query.id) {
+                    query.id = req.query.id;
+                }*/
+                
                 models.tag.findAll({where: query}).
                         then(function(tags) {
                                 res.status(200).json({tags: tags});

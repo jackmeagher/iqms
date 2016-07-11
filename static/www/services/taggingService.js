@@ -5,7 +5,8 @@ function taggingService($http) {
 
     var isTech = true;
 
-    
+    var addedTags = [];
+    var removedTags = [];
     
     
     //Setters
@@ -53,11 +54,16 @@ function taggingService($http) {
             };
             
             $http.post('/tag',  tagData).success(function(created) {
+                console.log();
                 
             });
             
-            tags.push({count: tagData.count, name: tagData.name});
+            tags.push(tagData);
             addTag(tagData.name);
+            
+            $http.get('/tag').success(function (data) {
+                tags = data.tags;
+            });
         }
     };
     
@@ -71,13 +77,22 @@ function taggingService($http) {
         if (shouldAdd) {
             selectedTags.push(newTag);
         }
+        
+        var remove = removedTags.indexOf(newTag);
+        
+        if (remove > -1) {
+            removedTags.splice(remove, 1);
+        }
     }
     
     var removeTag = function(oldTag) {
         var remove = selectedTags.indexOf(oldTag);
+        
         if (remove > -1) {
             selectedTags.splice(remove, 1);
         }
+        
+        removedTags.push(oldTag);
     }
     
     var resetTags = function() {
@@ -85,9 +100,7 @@ function taggingService($http) {
         tags = [];
         
         $http.get('/tag').success(function (data) {
-            data.tags.forEach(function(tag, index) {
-                tags.push(tag);
-            });
+            tags = data.tags;
             createNewTag('Technical');
         });
         
@@ -110,23 +123,69 @@ function taggingService($http) {
     }
     
     var updateTags = function(val) {
-        selectedTags.forEach(function(sTag, index) {
-            tags.forEach(function(tag, id) {
-                if (sTag === tag.name) {
-                    if (val) {
-                        tag.count++;
-                    } else {
-                        tag.count--;
-                    }
-                    
-                    console.log("Updating " + tag.name + " with a value of " + tag.count);
-                    
-                    $http.put('/tag/' + (id + 1),  tag).success(function(created) {
-                
+        console.log(val);
+        console.log(tags);
+        switch (val) {
+            case("ADD"):
+                tags.forEach(function(tag, id) {
+                    selectedTags.forEach(function(sTag, index) {   
+                        if (sTag === tag.name) {
+                            tag.count++;
+                            console.log("Updating " + tag.name + " with a value of " + tag.count + " (" + id +")");
+                            
+                            $http.put('/tag/' + tag.id,  tag).success(function(created) {
+                            
+                            });
+                        }
                     });
-                }
-            });
-        });
+                });
+                break;
+            case("EDIT"):
+                tags.forEach(function(tag, id) {
+                    selectedTags.forEach(function(sTag, index) {
+                        if (sTag === tag.name) {
+                            tag.count++;
+                            
+                            console.log("Updating " + tag.name + " with a value of " + tag.count + " (" + id +")");
+                            
+                            $http.put('/tag/' + (id + 1),  tag).success(function(created) {
+                                
+                            });
+                        }
+                    });
+                    removedTags.forEach(function(sTag, index) {
+                        if (sTag === tag.name) {
+                            tag.count--;
+                            
+                            console.log("Updating " + tag.name + " with a value of " + tag.count + " (" + id +")");
+                            
+                            $http.put('/tag/' + (id + 1),  tag).success(function(created) {
+                            
+                            });
+                        }
+                    });
+                });
+                removedTags = [];
+                break;
+            case("DELETE"):
+                tags.forEach(function(tag, id) {
+                    selectedTags.forEach(function(sTag, index) {
+                        if (sTag === tag.name) {
+                            tag.count--;
+                            
+                            console.log("Updating " + tag.name + " with a value of " + tag.count);
+                            
+                            $http.put('/tag/' + (id + 1),  tag).success(function(created) {
+                                
+                            });
+                        }
+                    });
+                });
+                removedTags = [];
+                break;
+        }
+        
+        
     }
     
     return {

@@ -89,13 +89,14 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     //Interaction with question database
     $scope.createQuestion = function () {
         $http.post('/question',  $scope.questionData).success(function(created) {
-            taggingService.updateTags(true);
+            taggingService.updateTags("ADD");
             $window.location.href = './#qm';
         });
     }
     
     $scope.editQuestion = function(id) {
         $http.put('/question/' + id, $scope.questionData).success(function(created) {
+           taggingService.updateTags("EDIT");
            $window.location.href = './#qm'; 
         });
     }
@@ -116,6 +117,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
                 $scope.tags = taggingService.getTags();
                 $scope.selectedTags = taggingService.getSelectedTags();
                 $scope.tech = data.question.tech;
+                taggingService.setTech($scope.tech);
                 $('#modelValue').val(data.question.difficulty);
                 $scope.answers = data.question.answers;
                 data.question.answers.forEach(function(answer, index) {
