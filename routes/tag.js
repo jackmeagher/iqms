@@ -20,8 +20,8 @@ exports = module.exports = new Resource('tag', '/tag', {
                 })
         },
         post: (req, res) => {
-                if(!req.query.type) {
-                        req.query.type = 'Blank';
+                if(!req.query.count) {
+                        req.query.count = 1;
                 }
                 
                 if (!req.query.name) {
@@ -29,7 +29,7 @@ exports = module.exports = new Resource('tag', '/tag', {
                 }
                 
                 models.tag.create( {
-                        type: req.body.type ? req.body.type : null,
+                        count: req.body.count ? req.body.count : null,
                         name: req.body.name ? req.body.name : null
                 }).then(function(created) {
                         res.status(201).json({tag: created.dataValues});

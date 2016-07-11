@@ -1,6 +1,6 @@
 function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingService) {
     var self = this;
-    self.tags = taggingService.getCurrentTags();
+    self.tags = taggingService.getTags();
     self.searchText = "";
     self.selectedItem = null;
     self.querySearch = querySearch;
@@ -16,7 +16,7 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
     }
     
     function querySearch(query) {
-        self.tags = taggingService.getCurrentTags();
+        self.tags = taggingService.getTags();
         if (query == null) {
             query = "";
         }
@@ -29,7 +29,7 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
     }
     
     function searchTextChange(text) {
-        self.tags = taggingService.getCurrentTags();
+        self.tags = taggingService.getTags();
     }
     
     function selectedItemChange(item) {

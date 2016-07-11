@@ -5,38 +5,45 @@
 function create_question_controller ($scope,$location,$http,$window, taggingService, popupService) {
     
     $scope.questionText = '';
-    $scope.types = taggingService.getTypes();
-    $scope.currentTags = [];
+    $scope.tags = [];
     $scope.selectedTags = [];
     $scope.answers = [''];
     $scope.difficulty = 0;
+    $scope.tech = true;
     
     $scope.questionData = {
       text: '',
-      type: '',
       tags: [],
       difficulty: 0,
+      tech: true,
       answers: []
     };
     
     //Type
     
-    $scope.updateSelectedType = function(value) {
-        taggingService.updateSelectedType(value);
-        $scope.currentTags = taggingService.getCurrentTags();
+    $scope.updateTech = function(tech) {
+        taggingService.setTech(tech);
+        $scope.tech = taggingService.getTech();
+        $scope.tags = taggingService.getTags();
         $scope.selectedTags = taggingService.getSelectedTags();
     }
 
     //Tag
     
     $scope.$on("tagNotification", function(event, args) {
-        $scope.currentTags = taggingService.getCurrentTags();
+        $scope.tags = taggingService.getTags();
         $scope.selectedTags = taggingService.getSelectedTags();
     });
     
     $scope.removeTag = function(tag) {
-        taggingService.removeTag(tag);
-        $scope.currentTags = taggingService.getCurrentTags();
+        if (tag != "Technical") {
+            taggingService.removeTag(tag);
+        } else {
+            taggingService.setTech(false);
+            $scope.tech = taggingService.getTech();
+        }
+        
+        $scope.tags = taggingService.getTags();
         $scope.selectedTags = taggingService.getSelectedTags();
     }
     
@@ -57,10 +64,9 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     $scope.compileData = function () {
         $scope.questionText = $('#question_text').val();
         $scope.questionData.text = $scope.questionText;
-        $scope.questionData.type = taggingService.getSelectedType().name;
         $scope.questionData.tags = taggingService.getSelectedTags();
         $scope.questionData.difficulty = parseInt($("#modelValue").val());
-        console.log($('#modelValue').val());
+        $scope.questionData.tech = $scope.tech;
         $scope.questionData.answers = [];
         $('.answer-box').each(function(index) {
            $scope.questionData.answers.push($(this).val()); 
@@ -98,20 +104,14 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         loc = loc.substr(loc.lastIndexOf('/') + 1, 2);
         var id = $window.location.hash.substr(5);
         if (loc === 'ce') {
-            console.log('EDIT PAGE: ' + id);
             $http.get('/question/' + id).success(function(data) {
-                console.log(data);
-                $('#question_text').val(data.question.text);
-                taggingService.updateSelectedTypeByName(data.question.type);
-                console.log(taggingService.getSelectedType());               
-                $('#question-type').val(data.question.type);
-                $("#topic-box").css({"visibility": "visible"});
-                $("#subtopic-box").css({"visibility": "visible"});
+                $('#question_text').val(data.question.text);     
                 data.question.tags.forEach(function(tag, index) {
                    taggingService.addTag(tag); 
                 });
-                $scope.currentTags = taggingService.getCurrentTags();
+                $scope.tags = taggingService.getTags();
                 $scope.selectedTags = taggingService.getSelectedTags();
+                $scope.tech = data.question.tech;
                 $('#modelValue').val(data.question.difficulty);
                 $scope.answers = data.question.answers;
                 data.question.answers.forEach(function(answer, index) {
@@ -123,6 +123,9 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
             })
         } else if (loc === 'cq') {
             taggingService.resetTags();
+            taggingService.addTag("Technical");
+            $scope.tags = taggingService.getTags();
+            $scope.selectedTags = taggingService.getSelectedTags();
         }
 
     }

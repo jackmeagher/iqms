@@ -30,8 +30,8 @@ exports = module.exports = new Resource('question', '/question', {
                 req.body.text = 'Blank Text';
             }
             
-            if (!req.body.type) {
-                req.body.type = 'Blank Type';
+            if (!req.body.tech) {
+                req.body.tech = true;
             }
             
             
@@ -49,7 +49,7 @@ exports = module.exports = new Resource('question', '/question', {
             
             models.question.create({
                 text: req.body.text ? req.body.text : null,
-                type: req.body.type ? req.body.type : null,
+                tech: req.body.tech ? req.body.tech : null,
                 tags: req.body.tags ? req.body.tags : null,
                 difficulty: req.body.difficulty ? req.body.difficulty : null,
                 answers: req.body.answers ? req.body.answers : null
@@ -102,11 +102,11 @@ exports = module.exports = new Resource('question', '/question', {
              })
              .then(function (question) {
                 question.text = req.body.text;
-                question.type = req.body.type;
+                question.tech = req.body.tech;
                 question.tags = req.body.tags;
                 question.difficulty = req.body.difficulty;
                 question.answers = req.body.answers;
-                question.save({fields: ['text', 'type', 'tags', 'difficulty', 'answers']}).then(function() {
+                question.save({fields: ['text', 'tech', 'tags', 'difficulty', 'answers']}).then(function() {
                   res.status(200);      
                 })
              })

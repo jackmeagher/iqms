@@ -1,84 +1,63 @@
 function taggingService($http) {
 
-    var types = [];
-    var currentTags = [];
-    
-    var selectedType = null;
+    var tags = [];
     var selectedTags = [];
 
-    $http.get('/type').success(function(data) {
-        data.types.forEach(function(type, index) {
-           types.push({name: type.label, id: types.length, tags: []}); 
-        });
-        
-        $http.get('/tag').success(function (data) {
-            data.tags.forEach(function(tag, index) {
-                types.forEach(function(type, index) {
-                   if(type.name === tag.type) {
-                        type.tags.push(tag);
-                   }
-                });
-            });
+    var isTech = true;
+
+    $http.get('/tag').success(function (data) {
+        data.tags.forEach(function(tag, index) {
+            tags.push(tag);
         });
     });
     
+    
     //Setters
     
-    var updateSelectedType = function(value) {
-        $("#topic-box").css({"visibility": "visible"});
-        selectedType = value;
-        currentTags = types[selectedType.id].tags;
-        resetTags();
-    };
-    
-     var updateSelectedTypeByName = function(name) {
-        types.forEach(function(type, index) {
-           if(type.name == name) {
-            selectedType = type;
-           }
-        });
-        
-        currentTags = types[selectedType.id].tags;
+    var setTech = function(tech) { 
+        isTech = tech;
+        if (tech) {
+            addTag('Technical');
+        } else {
+            removeTag('Technical');
+        }
     }
     
     //Getters
-
-    var getTypes = function() {
-        return types;
-    };
     
-    var getSelectedType = function() {
-        return selectedType;
-    }
-    
-    var getCurrentTags = function() {
-        return currentTags;
+    var getTags = function() {
+        return tags;
     };
     
     var getSelectedTags = function() {
         return selectedTags;
-    } 
+    }
+    
+    var getTech = function() {
+        return isTech;
+    }
     
     //Creation Methods
     
     var createNewTag = function(name) {
         var shouldAdd = true;
-        types[selectedType.id].tags.forEach(function(tag, index) {
+        tags.forEach(function(tag, index) {
+            console.log(tag.name + " vs " + name);
            if(tag.name === name)
                 shouldAdd = false; 
         });
         
         if (shouldAdd) {
             var tagData = {
-                type: types[selectedType.id].name,
-                name: name
+                name: name,
+                count: 0
             };
             
             $http.post('/tag',  tagData).success(function(created) {
                 
             });
             
-            types[selectedType.id].tags.push({type: tagData.type, name: tagData.name});
+            tags.push({count: tagData.count, name: tagData.name});
             addTag(tagData.name);
         }
     };
@@ -93,31 +72,27 @@ function taggingService($http) {
         if (shouldAdd) {
             selectedTags.push(newTag);
         }
-       
     }
     
     var removeTag = function(oldTag) {
         var remove = selectedTags.indexOf(oldTag);
-        console.log(oldTag);
-        console.log(remove);
         if (remove > -1) {
             selectedTags.splice(remove, 1);
         }
-        
-        console.log(selectedTags);
     }
     
     var resetTags = function() {
         selectedTags = [];
+        if (getTech) {
+            selectedTags.push('Technical');
+        }
     }
     
     return {
-      updateSelectedType: updateSelectedType,
-      updateSelectedTypeByName: updateSelectedTypeByName,
-      getTypes: getTypes,
-      getSelectedType: getSelectedType,
-      getCurrentTags: getCurrentTags,
+      setTech: setTech,
+      getTags: getTags,
       getSelectedTags: getSelectedTags,
+      getTech: getTech,
       createNewTag: createNewTag,
       addTag: addTag,
       removeTag: removeTag,

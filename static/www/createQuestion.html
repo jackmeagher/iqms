@@ -21,14 +21,7 @@
                     </div>
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <div class="row">
-                            <div class="col-md-4">
-                                <label>Type</label><br>
-                                <select class="form-control" id='question-type' ng-model="selectedType" ng-change="updateSelectedType(selectedType)" data-ng-options="type.name for type in types track by type.name" style="margin-top:1%;">
-                                   
-                                </select>
-                                
-                            </div>
-                            <div class="col-md-4" id="topic-box" ng-controller="tag_auto_complete_controller as ctrl" style="visibility: hidden">
+                            <div class="col-md-4" id="topic-box" ng-controller="tag_auto_complete_controller as ctrl">
             
                                 <label>Tags</label>
                                 <button class="btn btn-success btn-add btn-xs" type="button" ng-click="ctrl.newTag(ctrl.searchText);" style="margin-left:4px;">
@@ -56,10 +49,21 @@
                                     </md-not-found>
                                 </md-autocomplete>
                             </div>
-                            <div class="col-md-4" id="subtopic-box">
+                            <div class="col-md-8" id="subtopic-box">
                                 <label>Tag List</label>
                                 <br>
-                                <button type="button" class="btn btn-info" ng-repeat="tag in selectedTags" data-name="{{tag}}" ng-click="removeTag(tag)">{{tag}}</button>
+                                <button type="button" class="btn btn-info" ng-repeat="tag in selectedTags" data-name="{{tag}}" ng-click="removeTag(tag)">
+                                    {{tag}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="tech" ng-change="updateTech(tech);"> Technical
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>

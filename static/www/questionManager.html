@@ -63,15 +63,6 @@
                                         </a>
                                     </th>
                                     <th>
-                                        <a ng-click="sortType = 'type'; sortReverse = !sortReverse">
-                                            Type
-                                            <span ng-show="sortType == 'type' && !sortReverse"
-                                                  class="fa fa-caret-down"></span>
-                                            <span ng-show="sortType == 'type' && sortReverse"
-                                                  class="fa fa-caret-up"></span>
-                                        </a>
-                                    </th>
-                                    <th>
                                         Tags
                                     </th>
                                     <th></th>
@@ -83,7 +74,6 @@
                                     <td>{{question.id}}</td>
                                     <td>{{question.text}}</td>
                                     <td>{{question.difficulty}}</td>
-                                    <td>{{question.type}}</td>
                                     <td>
                                         <p ng-repeat="tag in question.tags">{{tag}}</p>
                                     </td>
