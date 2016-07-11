@@ -79,7 +79,6 @@ function taggingService($http) {
             });
             
             types[selectedType.id].tags.push({type: tagData.type, name: tagData.name});
-            updateSelectedType(selectedType);
             addTag(tagData.name);
         }
     };

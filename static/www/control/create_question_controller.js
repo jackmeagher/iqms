@@ -123,7 +123,6 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
             })
         } else if (loc === 'cq') {
             taggingService.resetTags();
-            console.log("TESSSST");
         }
 
     }

@@ -3,7 +3,7 @@
  */
 
 function question_manager_controller($scope, $http) {
-    $scope.sortType     = 'question_text'; // set the default sort type
+    $scope.sortType     = 'id'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
     $scope.searchQuestion   = '';     // set the default search/filter term
 
