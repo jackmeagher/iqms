@@ -10,8 +10,8 @@ exports = module.exports = new Resource('tag', '/tag', {
                     query.name = req.query.name;
                 }
                 
-                if (req.query.type) {
-                    query.type = req.query.type;
+                if (req.query.count) {
+                    query.count = req.query.count;
                 }
                 
                 models.tag.findAll({where: query}).
@@ -21,7 +21,7 @@ exports = module.exports = new Resource('tag', '/tag', {
         },
         post: (req, res) => {
                 if(!req.query.count) {
-                        req.query.count = 1;
+                        req.query.count = 0;
                 }
                 
                 if (!req.query.name) {
@@ -29,7 +29,7 @@ exports = module.exports = new Resource('tag', '/tag', {
                 }
                 
                 models.tag.create( {
-                        count: req.body.count ? req.body.count : null,
+                        count: req.body.count ? req.body.count : 0,
                         name: req.body.name ? req.body.name : null
                 }).then(function(created) {
                         res.status(201).json({tag: created.dataValues});
@@ -38,4 +38,34 @@ exports = module.exports = new Resource('tag', '/tag', {
 
 
 
-});
+}, [new Resource('get_tag_by_id', '/:id', {
+        get: (req, res) => {
+                console.log("Getting");
+            models.tag.find({
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                .then(function (tag) {
+                    res.status(200).json({
+                        tag: tag
+                    });
+                }) 
+                
+        },
+        put: (req, res) => {
+                console.log("Putting");
+                models.tag.find({
+                        where: {
+                                id: req.params.id
+                        }
+                })
+                .then(function (tag) {
+                        tag.name = req.body.name;
+                        tag.count = req.body.count;
+                        tag.save({fields: ['name', 'count']}).then(function() {
+                                res.status(200);      
+                        })
+                })
+        }
+})]);

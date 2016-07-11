@@ -5,11 +5,7 @@ function taggingService($http) {
 
     var isTech = true;
 
-    $http.get('/tag').success(function (data) {
-        data.tags.forEach(function(tag, index) {
-            tags.push(tag);
-        });
-    });
+    
     
     
     //Setters
@@ -42,7 +38,6 @@ function taggingService($http) {
     var createNewTag = function(name) {
         var shouldAdd = true;
         tags.forEach(function(tag, index) {
-            console.log(tag.name + " vs " + name);
            if(tag.name === name)
                 shouldAdd = false; 
         });
@@ -82,10 +77,49 @@ function taggingService($http) {
     }
     
     var resetTags = function() {
+        
+        tags = [];
+        
+        $http.get('/tag').success(function (data) {
+            data.tags.forEach(function(tag, index) {
+                tags.push(tag);
+            });
+            createNewTag('Technical');
+        });
+        
         selectedTags = [];
         if (getTech) {
             selectedTags.push('Technical');
         }
+    }
+    
+    var countTag = function(name) {
+        
+        var count = 0;
+        
+        tags.forEach(function(tag, index) {
+            if (tag.name === name) {
+                count = tag.count;
+            }
+        });
+        return count;
+    }
+    
+    var updateTags = function(val) {
+        selectedTags.forEach(function(sTag, index) {
+            tags.forEach(function(tag, id) {
+                if (sTag === tag.name) {
+                    if (val) {
+                        tag.count++;
+                    } else {
+                        tag.count--;
+                    }
+                    $http.put('/tag/' + (id + 1),  tag).success(function(created) {
+                
+                    });
+                }
+            });
+        });
     }
     
     return {
@@ -96,6 +130,8 @@ function taggingService($http) {
       createNewTag: createNewTag,
       addTag: addTag,
       removeTag: removeTag,
-      resetTags: resetTags
+      resetTags: resetTags,
+      countTag: countTag,
+      updateTags: updateTags
     };
 }

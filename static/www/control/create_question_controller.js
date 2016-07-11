@@ -88,9 +88,10 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     
     //Interaction with question database
     $scope.createQuestion = function () {
-        $http.post('/question',  $scope.questionData).success(function(created){
-                $window.location.href = './#qm';
-            });
+        $http.post('/question',  $scope.questionData).success(function(created) {
+            taggingService.updateTags(true);
+            $window.location.href = './#qm';
+        });
     }
     
     $scope.editQuestion = function(id) {
@@ -123,11 +124,14 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
             })
         } else if (loc === 'cq') {
             taggingService.resetTags();
-            taggingService.addTag("Technical");
             $scope.tags = taggingService.getTags();
             $scope.selectedTags = taggingService.getSelectedTags();
         }
 
+    }
+    
+    $scope.getTagCount = function(tag) {
+        return taggingService.countTag(tag);
     }
     
     $scope.loadQuestion();
