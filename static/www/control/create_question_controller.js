@@ -111,9 +111,10 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
             $scope.selectedTags = taggingService.getSelectedTags();
             $http.get('/question/' + id).success(function(data) {
                 $('#question_text').val(data.question.text);     
-                data.question.tags.forEach(function(tag, index) {
+              /*  data.question.tags.forEach(function(tag, index) {
                    taggingService.addTag(tag); 
-                });
+                });*/
+                taggingService.loadSavedTags(data.question.tags);
                 $scope.tags = taggingService.getTags();
                 $scope.selectedTags = taggingService.getSelectedTags();
                 $scope.tech = data.question.tech;
@@ -126,6 +127,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
                     }
                     
                 });
+              
             })
         } else if (loc === 'cq') {
             taggingService.resetTags();

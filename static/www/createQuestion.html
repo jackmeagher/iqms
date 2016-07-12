@@ -37,12 +37,12 @@
                                         md-search-text="ctrl.searchText"
                                         md-selected-item-change="ctrl.selectedItemChange(ctrl.selectedItem)"
                                         md-items="tag in ctrl.querySearch(ctrl.searchText)"
-                                        md-item-text="tag.name"
+                                        md-item-text="tag"
                                         md-min-length="0"
                                         placeholder="Seach for Tag">
                                     <md-item-template>
                                                     <span md-highlight-text="ctrl.searchText"
-                                                          md-highlight-flags="^i">{{tag.name}}</span>
+                                                          md-highlight-flags="^i">{{tag}}</span>
                                     </md-item-template>
                                     <md-not-found>
                                         Click the plus to create "{{ctrl.searchText}}"
@@ -52,7 +52,7 @@
                             <div class="col-md-8" id="subtopic-box">
                                 <label>Tag List</label>
                                 <br>
-                                <button type="button" class="btn btn-info" ng-repeat="tag in selectedTags" data-name="{{tag}}" ng-click="removeTag(tag)" style="margin: 1px;">
+                                <button type="button" class="btn btn-info" ng-repeat="tag in selectedTags track by $index" data-name="{{tag}}" ng-click="removeTag(tag)" style="margin: 1px;">
                                     <span class="badge">{{getTagCount(tag)}}</span> {{tag}}
                                 </button>
                             </div>

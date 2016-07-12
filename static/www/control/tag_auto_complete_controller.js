@@ -16,25 +16,29 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
     }
     
     function querySearch(query) {
-        self.tags = taggingService.getTags();
+        self.tags = $.map(taggingService.getTags(), function(value, index) {
+            return value.name; 
+        });
         if (query == null) {
             query = "";
         }
         text = query.toLowerCase();
         var ret = self.tags.filter(function (d) {
-            var test = d.name.toLowerCase();
+            var test = d.toLowerCase();
             return test.startsWith(text);
         });
         return ret;
     }
     
     function searchTextChange(text) {
-        self.tags = taggingService.getTags();
+        self.tags = $.map(taggingService.getTags(), function(value, index) {
+            return value.name; 
+        });
     }
     
     function selectedItemChange(item) {
         if (item) {
-            taggingService.addTag(item.name);
+            taggingService.addTag(item);
             self.notifySelection();
         }
     }
