@@ -79,12 +79,10 @@
                         templateUrl: 'welcome.html'
                     })
 
-                    // route for the create interview page
                     .when('/ci', {
                         templateUrl: 'createInterview.html'
                     })
 
-                    // route for the list interviews page
                     .when('/li', {
                         templateUrl: 'listInterviews.html'
                     })
@@ -120,12 +118,10 @@
         app.controller("create_interview_controller", create_interview_controller);
         app.controller("conduct_interview_list_controller", conduct_interview_list_controller);
         app.controller("conduct_interview_controller", conduct_interview_controller);
-
         app.controller("name_auto_complete_controller", name_auto_complete_controller);
         app.controller("question_auto_complete_controller", question_auto_complete_controller);
         app.controller("list_interview_controller", list_interview_controller);
         app.controller("create_question_controller", create_question_controller);
-        //app.controller('question_manager_controller', ['$scope', '$mdDialog', question_manager_controller);
         app.controller("question_manager_controller", question_manager_controller);
         app.controller("tag_auto_complete_controller", tag_auto_complete_controller);
         app.controller("position_auto_complete_controller", position_auto_complete_controller);
@@ -133,45 +129,15 @@
         app.controller("login_controller", login_controller);
         app.controller("slider_controller", slider_controller);
         app.controller("topic_autocomplete_controller", topic_autocomplete_controller);
-
-        app.controller('create_question_dialog_controller', ['$scope', '$mdDialog', function ($scope, $mdDialog) {
-            var alert;
-            $scope.showDialog = showDialog;
-
-
-            function showDialog($event) {
-                var parentEl = angular.element(document.body);
-                alert = $mdDialog.alert({
-                    parent: parentEl,
-                    targetEvent: $event,
-                    templateUrl: 'createQuestion.html',
-                    locals: {
-                        closeDialog: $scope.closeDialog
-                    },
-                    bindToController: true,
-                    controllerAs: 'ctrl'
-                });
-
-                $mdDialog
-                        .show(alert)
-                        .finally(function () {
-                            alert = undefined;
-                        });
-            }
-
-            $scope.closeDialog = function () {
-                $mdDialog.hide();
-            };
-        }]);
         
         app.service("taggingService", ['$http', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
-            
-        app.directive("questionanswer", function() {
+        
+        app.directive("tag", function() {
             return {
-                restrict: "E",
-                template: '<input ng-model="answers[$index]" id="answer{{$index}}"class="form-control answer-box" type="text" style="text-align:left; margin-bottom:1%;" value="{{answer}}">'
-            };
+                        restrict: "E",
+                        templateUrl: 'directives/tag.html'
+                    };
         });
 
 

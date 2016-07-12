@@ -5,7 +5,6 @@
 
     </div>
 </div>
-
 <div class="col-md-6 col-sm-6 col-xs-12 row" style="width:100%;" ng-controller="create_question_controller as cqc">
     <div class="panel panel-info" style="margin-left:3%;">
         <div class="panel-heading">
@@ -22,7 +21,6 @@
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <div class="row">
                             <div class="col-md-4" id="topic-box" ng-controller="tag_auto_complete_controller as ctrl">
-            
                                 <label>Tags</label>
                                 <button class="btn btn-success btn-add btn-xs" type="button" ng-click="ctrl.newTag(ctrl.searchText);" style="margin-left:4px;">
                                     <span class="glyphicon glyphicon-plus"></span>
@@ -52,9 +50,7 @@
                             <div class="col-md-8" id="subtopic-box">
                                 <label>Tag List</label>
                                 <br>
-                                <button type="button" class="btn btn-info" ng-repeat="tag in selectedTags track by $index" data-name="{{tag}}" ng-click="removeTag(tag)" style="margin: 1px;">
-                                    <span class="badge">{{getTagCount(tag)}}</span> {{tag}}
-                                </button>
+                                <tag ng-repeat="tagName in selectedTags track by $index"></tag>
                             </div>
                         </div>
                         <div class="row">
@@ -111,7 +107,7 @@
                         <div class="form-group" style="margin-top:2%; text-align:left; width:95%">
                             <label>Answers</label>
                             <div>
-                                <questionanswer ng-repeat="answer in answers track by $index"></questionanswer>
+                                <input ng-repeat="answer in answers track by $index" ng-model="answers[$index]" id="answer{{$index}}"class="form-control answer-box" type="text" style="text-align:left; margin-bottom:1%;" value="{{answer}}">
                             </div>
                      
                             <button class="btn btn-success btn-add" type="button" ng-click="addAnswer()">
