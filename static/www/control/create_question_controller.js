@@ -89,14 +89,14 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     //Interaction with question database
     $scope.createQuestion = function () {
         $http.post('/question',  $scope.questionData).success(function(created) {
-            taggingService.updateTags("ADD");
+            taggingService.updateTags(false);
             $window.location.href = './#qm';
         });
     }
     
     $scope.editQuestion = function(id) {
         $http.put('/question/' + id, $scope.questionData).success(function(created) {
-           taggingService.updateTags("EDIT");
+           taggingService.updateTags(true);
            $window.location.href = './#qm'; 
         });
     }

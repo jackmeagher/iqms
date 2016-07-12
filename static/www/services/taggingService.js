@@ -3,14 +3,12 @@ function taggingService($http) {
     var tags = {};
     var selectedTags = {};
 
-    var isTech = true;
-
     var addedTags = [];
     var removedTags = [];
     var savedTags = [];
     
+    var isTech = true;
     
-    //Setters
     
     var setTech = function(tech) { 
         isTech = tech; 
@@ -28,8 +26,6 @@ function taggingService($http) {
     var loadSavedTags = function(saved) {
         savedTags = saved;
     }
-    
-    //Getters
     
     var getTags = function() {
         return tags;
@@ -80,8 +76,6 @@ function taggingService($http) {
             tags[tagData.name] = tagData;
            
             addTag(tagData.name);
-        } else if (name === 'Technical') {
-            addTag('Technical');
         }
     };
     
@@ -102,14 +96,9 @@ function taggingService($http) {
                 addedTags.push(newTag);
             }
         }
-        
-        getSelectedTags();
-      //  console.log(getSelectedTags());
     }
     
     var removeTag = function(oldTag) {
-        
-        getSelectedTags();
         
         if(savedTags.indexOf(oldTag) > -1) {
             savedTags.splice(savedTags.indexOf(oldTag), 1);
@@ -117,8 +106,6 @@ function taggingService($http) {
         } else {
             addedTags.splice(addedTags.indexOf(oldTag), 1);
         }
-        
-        getSelectedTags();
     }
     
     var resetTags = function() {
@@ -134,8 +121,6 @@ function taggingService($http) {
             data.tags.forEach(function(tag, index) {
                tags[tag.name] = tag; 
             });
-            
-            getSelectedTags();
         });
         
     }
@@ -150,31 +135,24 @@ function taggingService($http) {
         return tags[name].count;
     }
     
-    var updateTags = function(val) {
-        switch (val) {
-            case("ADD"):
-                addedTags.forEach(function(tag, id) {
-                    tags[tag].count++;
-                    $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
-                            
-                    });
+    var updateTags = function(edit) {
+        
+        addedTags.forEach(function(tag, id) {
+            tags[tag].count++;
+            $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
+                    
+            });
+        });
+        
+        if (edit) {
+            removedTags.forEach(function(tag, id) {
+                tags[tag].count--;
+                $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
+                        
                 });
-                break;
-            case("EDIT"):
-                addedTags.forEach(function(tag, id) {
-                    tags[tag].count++;
-                    $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
-                            
-                    });
-                });
-                removedTags.forEach(function(tag, id) {
-                    tags[tag].count--;
-                    $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
-                            
-                    });
-                });
-                break;
+            });
         }
+                
     }
     
     var deleteQuestionTags = function(deletedTags) {
