@@ -75,9 +75,9 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     }
     
     $scope.loadQuestion = function() {
+        taggingService.resetTags();
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ce') {
-            taggingService.resetTags();
             $http.get('/question/' + loc.id).success(function(data) {
                 $scope.questionText = data.question.text;     
                 $scope.tech = taggingService.setTech(data.question.tech);
@@ -87,7 +87,6 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
                 $scope.answers = data.question.answers;
             })
         } else if (loc.location === 'cq') {
-            taggingService.resetTags();
             taggingService.addTag('Technical');
             $scope.refreshTags();
         }

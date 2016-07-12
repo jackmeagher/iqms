@@ -1,33 +1,21 @@
-<div ng-controller="question_manager_controller"> <!-- NICK-->
-
-
+<div ng-controller="question_manager_controller">
     <div class="row">
         <div class="col-md-12">
             <h1 class="page-head-line">Question Manager</h1>
             <h1 class="page-subhead-line">Add, remove, and rewrite questions</h1>
-
-
             <div class="col-md-6" style="width:100%;">
-                <!--    Context Classes  -->
                 <div class="panel panel-default">
-
                     <div class="panel-heading">
-
                         <form>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-search"></i></div>
-
                                     <input type="text" class="form-control" placeholder="Search Question"
                                            ng-model="searchQuestion">
-
                                 </div>
                             </div>
                         </form>
-
-
                     </div>
-
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table">
@@ -91,8 +79,6 @@
                             </table>
                            <button type="button" class="btn-lg btn-success" onclick="window.location.href='#cq'"
                                     style="margin-left:auto; margin-right:auto;">
-
-                                <!--ng-click="CreateQuestion()"-->
                                 Create New Question
                             </button>
                         </div>

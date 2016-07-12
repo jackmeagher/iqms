@@ -17,113 +17,40 @@
                     <form role="form" autocomplete="on" style="margin-left:5%;">
                         <div class="form-group" style="margin-top:2%; text-align:left;">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label>Position</label>
-                                    <input id='position-text' class="form-control" type="text">
+                                <div class="col-md-5">
+                                    <label>Job Title</label>
+                                    <input id='position-text' class="form-control" type="text" disabled>
                                 </div>
-                                <div class="col-md-6">
-                                    <label>Interviewee</label>
-                                    <input id='name-text' class="form-control" type="text">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-5">
+                                    <label>Candidate</label>
+                                    <input id='name-text' class="form-control" type="text" disabled>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Description</label>
+                                    <textarea class="form-control" rows="5" id="comment" disabled></textarea>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        <a ng-click="sortType = 'id'; sortReverse = !sortReverse"
-                                           style="cursor:pointer;">
-                                            #
-                                            <span ng-show="sortType == 'id' && !sortReverse"
-                                                  class="fa fa-caret-down"></span>
-                                            <span ng-show="sortType == 'id' && sortReverse"
-                                                  class="fa fa-caret-up"></span></th>
-
-                                    </th>
-                                    <th>
-                                        <a ng-click="sortType = 'question_text'; sortReverse = !sortReverse"
-                                           style="cursor:pointer;">
-                                            Question
-                                            <span ng-show="sortType == 'question_text' && !sortReverse"
-                                                  class="fa fa-caret-down"></span>
-                                            <span ng-show="sortType == 'question_text' && sortReverse"
-                                                  class="fa fa-caret-up"></span></th>
-
-                                    </th>
-                                    <th>
-                                        <a ng-click="sortType = 'difficulty'; sortReverse = !sortReverse">
-                                            Difficulty
-                                            <span ng-show="sortType == 'difficulty' && !sortReverse"
-                                                  class="fa fa-caret-down"></span>
-                                            <span ng-show="sortType == 'difficulty' && sortReverse"
-                                                  class="fa fa-caret-up"></span>
-                                        </a>
-                                    </th>
-                                    <th>Tags</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody ng-repeat="question in current_questions | orderBy:sortType:sortReverse | filter:searchQuestion">
-                                <tr class="success">
-                                    <td>{{question.id}}</td>
-                                    <td>{{question.question_text}}</td>
-                                    <td> {{question.difficulty}}</td>
-                                    <td> {{question.tags}}</td>
-                                    <td>
-                                        <!--TODO: FUNC FOR ADDING QUESTION BACK GOES HERE-->
-                                        <button class="btn btn-danger" ng-click="current_questions.splice($index,1);">
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <br>
-                        <div class="entry input-group col-xs-3"
-                             style="float:left; width:80%; display:inline">
-                            <div ng-controller="question_auto_complete_controller as ctrl"
-                                 ng-cloak style='width : 50%;'>
-                                <md-content class="md-padding">
-                                    <!--<form ng-submit="$event.preventDefault()">-->
-                                    <md-autocomplete
-                                            style="width:90%;"
-                                            md-no-cache="ctrl.noCache"
-                                            md-selected-item="ctrl.selectedItem"
-                                            md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                                            md-search-text="ctrl.searchText"
-                                            md-selected-item-change="ctrl.selectedItemChange(item)"
-                                            md-items="item in ctrl.querySearch(ctrl.searchText)"
-                                            md-item-text="item.display"
-                                            md-min-length="0"
-                                            placeholder="Add Question">
-                                        <md-item-template>
-                                                        <span md-highlight-text="ctrl.searchText"
-                                                              md-highlight-flags="^i">{{item.display}}</span>
-                                        </md-item-template>
-                                        <md-not-found>
-                                            No questions matching "{{ctrl.searchText}}" were found.
-                                            <a ng-click="showDialog($event)"
-                                               ng-controller="create_question_dialog_controller">Create a new
-                                                one!</a>
-                                        </md-not-found>
-                                    </md-autocomplete>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-success btn-add" type="button"
-                                                ng-click="addQuestion(ctrl.selectedItem);ctrl.clear(ctrl.selectedItem);">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </button>
-                                    </span>
-                                    <br/>
-
-                                    <!--</form>-->
-                                </md-content>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Interviewer</label>
+                                    <input id="interviewer-text" class="form-control" type="text" disabled>
+                                </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Tags</label>
+                                    <ul id="myTags" class="form-control" style="height:initial">
+                                        <li ng-repeat="tagName in tags track by $index">
+                                            <tag></tag>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>                    
+                        </div>                     
                     </form>
                     <br><br>
                     <button type="button" class="btn btn-lg btn-success" ng-click="CreateInterview()"
@@ -135,5 +62,4 @@
             </div>
         </div>
     </div>
-    <!-- /. PAGE INNER  -->
 </div>
