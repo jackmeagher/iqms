@@ -1,7 +1,3 @@
-/**
- * Created by nick on 4/6/16.
- */
-
 function create_question_controller ($scope,$location,$http,$window, taggingService, popupService) {
     
     $scope.questionText = '';
@@ -11,43 +7,24 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     $scope.difficulty = 0;
     $scope.tech = true;
     
-    $scope.questionData = {
-      text: '',
-      tags: [],
-      difficulty: 0,
-      tech: true,
-      answers: []
-    };
-    
-    //Type
-    
     $scope.updateTech = function(tech) {
-        taggingService.updateTech(tech);
-        $scope.tech = taggingService.getTech();
-        $scope.tags = taggingService.getTags();
-        $scope.selectedTags = taggingService.getSelectedTags();
+        $scope.tech = taggingService.updateTech(tech);
+        $scope.refreshTags();
     }
 
-    //Tag
-    
     $scope.$on("tagNotification", function(event, args) {
-        $scope.tags = taggingService.getTags();
-        $scope.selectedTags = taggingService.getSelectedTags();
+        $scope.refreshTags();
     });
     
     $scope.removeTag = function(tag) {
         if (tag != "Technical") {
             taggingService.removeTag(tag);
         } else {
-            taggingService.updateTech(false);
-            $scope.tech = taggingService.getTech();
+            $scope.tech = taggingService.updateTech(false);
         }
         
-        $scope.tags = taggingService.getTags();
-        $scope.selectedTags = taggingService.getSelectedTags();
+        $scope.refreshTags();
     }
-    
-    //Answer
     
     $scope.addAnswer = function() {
         $scope.answers.push('');
@@ -59,85 +36,78 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         }
     }
     
-    //Submit
-    
     $scope.compileData = function () {
-        $scope.questionText = $('#question_text').val();
-        $scope.questionData.text = $scope.questionText;
-        $scope.questionData.tags = taggingService.getSelectedTags();
-        $scope.questionData.difficulty = parseInt($("#modelValue").val());
-        $scope.questionData.tech = $scope.tech;
-        $scope.questionData.answers = [];
-        $('.answer-box').each(function(index) {
-           $scope.questionData.answers.push($(this).val()); 
-        });
+        var questionData = {
+            text: '',
+            tags: [],
+            difficulty: 0,
+            tech: true,
+            answers: []
+        };
         
-        var loc = "" + $window.location;
-        loc = loc.substr(loc.lastIndexOf('/') + 1, 2);
-        var id = $window.location.hash.substr(5);
+        questionData.text = $scope.questionText;
+        questionData.tags = taggingService.getSelectedTags();
+        questionData.difficulty = parseInt($("#modelValue").val());
+        questionData.tech = $scope.tech;
+        questionData.answers = $scope.answers;
         
-        //Check if we are edit or create
-        if (loc === 'ce') {
-            $scope.editQuestion(id);
-        } else if (loc === 'cq') {
-            $scope.createQuestion();
+        var loc = $scope.getWindowLocation();
+        if (loc.location === 'ce') {
+            $scope.submitQuestion(questionData, loc.id);
+        } else if (loc.location === 'cq') {
+            $scope.submitQuestion(questionData, -1);
+        }
+    }
+    
+    $scope.submitQuestion = function(questionData, id) {
+        if (id > 0) {
+            $http.put('/question/' + id, questionData).success(function(created) {
+                taggingService.updateTags(true);
+                $window.location.href = './#qm'; 
+            });
+        } else {
+           $http.post('/question',  questionData).success(function(created) {
+                taggingService.updateTags(false);
+                $window.location.href = './#qm';
+            }); 
         }
         
-    }
-    
-    
-    //Interaction with question database
-    $scope.createQuestion = function () {
-        $http.post('/question',  $scope.questionData).success(function(created) {
-            taggingService.updateTags(false);
-            $window.location.href = './#qm';
-        });
-    }
-    
-    $scope.editQuestion = function(id) {
-        $http.put('/question/' + id, $scope.questionData).success(function(created) {
-           taggingService.updateTags(true);
-           $window.location.href = './#qm'; 
-        });
     }
     
     $scope.loadQuestion = function() {
-        var loc = "" + $window.location;
-        loc = loc.substr(loc.lastIndexOf('/') + 1, 2);
-        var id = $window.location.hash.substr(5);
-        if (loc === 'ce') {
+        var loc = $scope.getWindowLocation();
+        if (loc.location === 'ce') {
             taggingService.resetTags();
-            $scope.tags = taggingService.getTags();
-            $scope.selectedTags = taggingService.getSelectedTags();
-            $http.get('/question/' + id).success(function(data) {
-                $('#question_text').val(data.question.text);     
-                $scope.tech = data.question.tech;
-                taggingService.setTech($scope.tech);
+            $http.get('/question/' + loc.id).success(function(data) {
+                $scope.questionText = data.question.text;     
+                $scope.tech = taggingService.setTech(data.question.tech);
                 taggingService.loadSavedTags(data.question.tags);
-                $scope.tags = taggingService.getTags();
-                $scope.selectedTags = taggingService.getSelectedTags();
-                
+                $scope.refreshTags();
                 $('#modelValue').val(data.question.difficulty);
                 $scope.answers = data.question.answers;
-                data.question.answers.forEach(function(answer, index) {
-                    if(!$('#answer' + index)) {
-                        $scope.addAnswer();
-                    }
-                
-                });
             })
-        } else if (loc === 'cq') {
+        } else if (loc.location === 'cq') {
             taggingService.resetTags();
-            $scope.tags = taggingService.getTags();
             taggingService.addTag('Technical');
-            $scope.selectedTags = taggingService.getSelectedTags();
+            $scope.refreshTags();
         }
-        
-        
     }
     
     $scope.getTagCount = function(tag) {
         return taggingService.countTag(tag);
+    }
+    
+    $scope.refreshTags = function() {
+        $scope.tags = taggingService.getTags();
+        $scope.selectedTags = taggingService.getSelectedTags();
+    }
+    
+    $scope.getWindowLocation = function() {
+        var winLoc = {};
+        var loc = "" + $window.location;
+        winLoc.location = loc.substr(loc.lastIndexOf('/') + 1, 2);
+        winLoc.id = $window.location.hash.substr(5);
+        return winLoc;  
     }
     
     $scope.loadQuestion();

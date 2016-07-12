@@ -11,16 +11,17 @@ function taggingService($http) {
     
     
     var setTech = function(tech) { 
-        isTech = tech; 
+        isTech = tech;
+        return isTech;
     }
     
     var updateTech = function(tech) {
-        setTech(tech);
-        if (isTech) {
+        if (tech) {
             addTag('Technical');
         } else {
             removeTag('Technical');
         }
+        return setTech(tech);
     }
     
     var loadSavedTags = function(saved) {
