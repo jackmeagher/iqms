@@ -22,7 +22,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
     //Type
     
     $scope.updateTech = function(tech) {
-        taggingService.setTech(tech);
+        taggingService.updateTech(tech);
         $scope.tech = taggingService.getTech();
         $scope.tags = taggingService.getTags();
         $scope.selectedTags = taggingService.getSelectedTags();
@@ -39,7 +39,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         if (tag != "Technical") {
             taggingService.removeTag(tag);
         } else {
-            taggingService.setTech(false);
+            taggingService.updateTech(false);
             $scope.tech = taggingService.getTech();
         }
         
@@ -111,30 +111,29 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
             $scope.selectedTags = taggingService.getSelectedTags();
             $http.get('/question/' + id).success(function(data) {
                 $('#question_text').val(data.question.text);     
-              /*  data.question.tags.forEach(function(tag, index) {
-                   taggingService.addTag(tag); 
-                });*/
+                $scope.tech = data.question.tech;
+                taggingService.setTech($scope.tech);
                 taggingService.loadSavedTags(data.question.tags);
                 $scope.tags = taggingService.getTags();
                 $scope.selectedTags = taggingService.getSelectedTags();
-                $scope.tech = data.question.tech;
-                taggingService.setTech($scope.tech);
+                
                 $('#modelValue').val(data.question.difficulty);
                 $scope.answers = data.question.answers;
                 data.question.answers.forEach(function(answer, index) {
                     if(!$('#answer' + index)) {
                         $scope.addAnswer();
                     }
-                    
+                
                 });
-              
             })
         } else if (loc === 'cq') {
             taggingService.resetTags();
             $scope.tags = taggingService.getTags();
+            taggingService.addTag('Technical');
             $scope.selectedTags = taggingService.getSelectedTags();
         }
-
+        
+        
     }
     
     $scope.getTagCount = function(tag) {

@@ -13,7 +13,16 @@ function taggingService($http) {
     //Setters
     
     var setTech = function(tech) { 
-        isTech = tech;
+        isTech = tech; 
+    }
+    
+    var updateTech = function(tech) {
+        setTech(tech);
+        if (isTech) {
+            addTag('Technical');
+        } else {
+            removeTag('Technical');
+        }
     }
     
     var loadSavedTags = function(saved) {
@@ -40,6 +49,7 @@ function taggingService($http) {
     
         var showTags = $.merge([], addedTags);
         showTags = $.merge(showTags, savedTags);
+        
         return showTags;
     }
     
@@ -70,6 +80,8 @@ function taggingService($http) {
             tags[tagData.name] = tagData;
            
             addTag(tagData.name);
+        } else if (name === 'Technical') {
+            addTag('Technical');
         }
     };
     
@@ -149,14 +161,12 @@ function taggingService($http) {
                 });
                 break;
             case("EDIT"):
-                console.log(addedTags);
                 addedTags.forEach(function(tag, id) {
                     tags[tag].count++;
                     $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
                             
                     });
                 });
-                console.log(removedTags);
                 removedTags.forEach(function(tag, id) {
                     tags[tag].count--;
                     $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
@@ -178,6 +188,7 @@ function taggingService($http) {
     
     return {
       setTech: setTech,
+      updateTech: updateTech,
       loadSavedTags: loadSavedTags,
       getTags: getTags,
       getSelectedTags: getSelectedTags,

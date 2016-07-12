@@ -9,6 +9,18 @@ function question_manager_controller($scope, $http, taggingService) {
 
     $http.get('/question').success(function (data) {
         $scope._question = data.questions;
+        
+        var tags = {};
+        
+        $http.get('/tag').success(function (data) {
+            data.tags.forEach(function(tag, index) {
+               tags[tag.name] = tag; 
+            });
+            
+            if (!tags['Technical']) {
+                taggingService.createNewTag('Technical');
+            }
+        });
     });
 
     $scope.loadQuestion = function(index) {
