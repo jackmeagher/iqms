@@ -3,9 +3,11 @@
  */
 
 // controller
-function create_interview_controller($scope, $http, $window) {
+function create_interview_controller($scope, $http, $window, taggingService) {
     $scope.current_questions  = [];     // set the default search/filter term
 
+    $scope.tags = ['Technical', 'Test', 'First', 'Last'];
+    
     $scope.$on('current_position', function (event, data) {
         $scope.cur_pos = data.display;
     });
@@ -35,10 +37,12 @@ function create_interview_controller($scope, $http, $window) {
         $scope.current_questions.forEach(q => $http.post('/answer/',{interviewId : id, questionId: q.id}));
     };
 
-        //$scope.current_questions.forEach(
-        //    $http.post('/interview/')
-        //)
-
-
+    
+    $scope.getTagCount = function(tag) {
+        return taggingService.countTag(tag);
+    }
+    
+    $("#myTags").tagit();
+    taggingService.resetTags();
 }
 
