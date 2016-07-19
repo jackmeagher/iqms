@@ -2,12 +2,14 @@
 
 module.exports = function(sequelize, DataTypes) {
     var candidate = sequelize.define("candidate", {
-            name: DataTypes.STRING,
-            url: DataTypes.STRING
+            name: DataTypes.STRING
         },
-
         {
-            classMethods: { }
+            classMethods: {
+                associate: function(models) {
+                    candidate.belongsTo(models.interview);
+                }
+            }
         });
 
     return candidate;
