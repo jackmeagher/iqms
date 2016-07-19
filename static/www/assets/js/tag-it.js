@@ -471,7 +471,7 @@
 
             // Create tag.
             var tag = $('<li></li>')
-                .addClass('tagit-choice ui-widget-content ui-state-default ui-corner-all')
+                .addClass('tagit-choice ui-widget-content ui-state-default ui-corner-all btn btn-info')
                 .addClass(additionalClass)
                 .append(label);
 

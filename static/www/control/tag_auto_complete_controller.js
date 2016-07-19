@@ -11,7 +11,6 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
     function newTag(tag) {
         if (tag) {
             taggingService.createNewTag(tag);
-            self.notifySelection();
         }
     }
     
@@ -39,11 +38,6 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
     function selectedItemChange(item) {
         if (item) {
             taggingService.addTag(item);
-            self.notifySelection();
         }
-    }
-    
-    self.notifySelection = function() {
-        $scope.$emit("tagNotification", {on: true});
     }
 }

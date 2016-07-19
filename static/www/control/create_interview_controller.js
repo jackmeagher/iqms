@@ -7,6 +7,7 @@ function create_interview_controller($scope, $http, $window, taggingService) {
     $scope.current_questions  = [];     // set the default search/filter term
 
     $scope.tags = ['Technical', 'Test', 'First', 'Last'];
+    $scope.addTag = false;
     
     $scope.$on('current_position', function (event, data) {
         $scope.cur_pos = data.display;
@@ -42,7 +43,21 @@ function create_interview_controller($scope, $http, $window, taggingService) {
         return taggingService.countTag(tag);
     }
     
-    $("#myTags").tagit();
+    $("#myTags").tagit({
+        beforeTagAdded: function(event, ui) {
+            /*// do something special
+            console.log(ui.tagLabel);
+            //$scope.tags.push(ui.tagLabel);
+            ui.tagLabel = $scope.getTagCount(ui.tagLabel) + " " + ui.tagLabel;
+            if ($scope.addTag) {
+                $("#myTags").tagit("createTag", ui.tagLabel);
+                $scope.addTag = false;
+                return true;
+            }
+            $scope.addTag = true;
+            return false;*/
+        }
+    });
     taggingService.resetTags();
 }
 

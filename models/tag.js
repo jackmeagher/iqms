@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
     var tag = sequelize.define("tag", {
-            name: DataTypes.STRING,
+            name: {type: DataTypes.STRING, primaryKey: true},
             count: DataTypes.INTEGER
         },
 

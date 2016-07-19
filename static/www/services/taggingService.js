@@ -1,4 +1,4 @@
-function taggingService($http) {
+function taggingService($http, $rootScope) {
 
     var tags = {};
     var selectedTags = {};
@@ -7,7 +7,7 @@ function taggingService($http) {
     var removedTags = [];
     var savedTags = [];
     
-    var isTech = true;
+    var isTech = false;
     
     
     var setTech = function(tech) { 
@@ -37,13 +37,23 @@ function taggingService($http) {
         selectedTags = {};
         
         addedTags.forEach(function(tag, index) {
-           selectedTags[tag] = tags[tag]; 
+           selectedTags[tag] = tags[tag];
+           //selectedTags[tag].count = countTag(tag);
         });
         
         savedTags.forEach(function(tag, index) {
-           selectedTags[tag] = tags[tag]; 
+           selectedTags[tag] = tags[tag];
+          // selectedTags[tag].count = countTag(tag);
         });
     
+        var showTags = $.merge([], addedTags);
+        showTags = $.merge(showTags, savedTags);
+        
+        return selectedTags;
+    }
+    
+    //TEMP FUNCTION
+    var getSelectedTagsAsArray = function() {
         var showTags = $.merge([], addedTags);
         showTags = $.merge(showTags, savedTags);
         
@@ -97,6 +107,8 @@ function taggingService($http) {
                 addedTags.push(newTag);
             }
         }
+        
+        $rootScope.$emit('tagNotification');
     }
     
     var removeTag = function(oldTag) {
@@ -120,27 +132,24 @@ function taggingService($http) {
         
         $http.get('/tag').success(function (data) {
             data.tags.forEach(function(tag, index) {
-               tags[tag.name] = tag; 
+               tags[tag.name] = tag;
             });
+            $rootScope.$emit('tagNotification');
         });
         
     }
     
     var countTag = function(name) {
-        if (!tags[name]) {
-            return 0;
-        }
-        if (!tags[name].count) {
-            tags[name].count = 0;
-        }
-        return tags[name].count;
+        $http.get('/tag/' + name + '/questions/').success(function (data) {
+            return data.questions.length;
+        });
     }
     
     var updateTags = function(edit) {
         
         addedTags.forEach(function(tag, id) {
             tags[tag].count++;
-            $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
+            $http.put('/tag/' + tags[tag].name,  tags[tag]).success(function(created) {
                     
             });
         });
@@ -148,7 +157,7 @@ function taggingService($http) {
         if (edit) {
             removedTags.forEach(function(tag, id) {
                 tags[tag].count--;
-                $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
+                $http.put('/tag/' + tags[tag].name,  tags[tag]).success(function(created) {
                         
                 });
             });
@@ -159,10 +168,19 @@ function taggingService($http) {
     var deleteQuestionTags = function(deletedTags) {
         deletedTags.forEach(function(tag, index) {
             tags[tag].count--; 
-            $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
+            $http.put('/tag/' + tags[tag].name,  tags[tag]).success(function(created) {
                             
             });
         });
+    }
+    
+    var persistQuestionTag = function(questionId) {
+        addedTags.forEach(function(tag, index) {
+            $http.post('/question/' + questionId + '/tags/' + tag).success(function(created) {
+                console.log(tag);
+            }); 
+        });
+        
     }
     
     return {
@@ -171,6 +189,7 @@ function taggingService($http) {
       loadSavedTags: loadSavedTags,
       getTags: getTags,
       getSelectedTags: getSelectedTags,
+      getSelectedTagsAsArray: getSelectedTagsAsArray,
       getTech: getTech,
       createNewTag: createNewTag,
       addTag: addTag,
@@ -178,6 +197,7 @@ function taggingService($http) {
       resetTags: resetTags,
       countTag: countTag,
       updateTags: updateTags,
-      deleteQuestionTags: deleteQuestionTags
+      deleteQuestionTags: deleteQuestionTags,
+      persistQuestionTag: persistQuestionTag
     };
 }
