@@ -1,0 +1,1102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<architect-project version="1.0" appversion="1.0.6">
+ <project-name>datamodel</project-name>
+ <print-settings printerName="Dell 2155cdn Color MFP v1.3 (Geocent)" numCopies="1" zoom="0.69" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
+ <project-data-sources>
+  <data-source id="DS0">
+   <property key="Logical" value="PlayPen Database" />
+  </data-source>
+  <data-source id="DS2">
+   <property key="Connection Type" value="PostgreSQL" />
+   <property key="Logical" value="iqms" />
+   <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/iqms_development" />
+   <property key="UID" value="postgres" />
+   <property key="PWD" value="postgres" />
+   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
+  </data-source>
+ </project-data-sources>
+ <source-databases>
+  <database id="DB0" populated="true" UUID="b5f1264a-09f8-46f6-8938-bb8a949dc677" dbcs-ref="DS2" name="iqms" physicalName="iqms" >
+   <catalog id="CAT1" populated="true" UUID="376e09a7-dd98-4e41-a65a-927bf2d84c05" name="iqms_development" nativeTerm="database" physicalName="iqms_development" >
+    <schema id="SCH2" populated="true" UUID="3163bf45-7f68-4c68-8798-56280250a57a" name="information_schema" nativeTerm="schema" physicalName="information_schema" >
+    </schema>
+    <schema id="SCH3" populated="true" UUID="6b36e912-09b9-413f-8bf0-366c1cebb136" name="pg_catalog" nativeTerm="schema" physicalName="pg_catalog" >
+    </schema>
+    <schema id="SCH4" populated="true" UUID="33d1b822-348d-4eef-994d-24e6f9169ed4" name="pg_toast_temp_1" nativeTerm="schema" physicalName="pg_toast_temp_1" >
+    </schema>
+    <schema id="SCH5" populated="true" UUID="10393ac2-12a9-4526-a7a0-c8029313884f" name="public" nativeTerm="schema" physicalName="public" >
+     <table id="TAB6" populated="true" UUID="4d6a6ece-ba53-4e12-839e-daf42bac3609" name="answers" objectType="TABLE" physicalName="answers" >
+      <remarks></remarks>
+      <folder id="FOLTAB61" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL7" populated="true" UUID="34bde600-54cf-4360-acc9-59a1900017ed" autoIncrement="true" defaultValue="nextval(&apos;answers_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL8" populated="true" UUID="470aae24-3e14-4654-beda-256a5eb04f1b" autoIncrement="false" name="answer_text" nullable="1" physicalName="answer_text" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL9" populated="true" UUID="6a553ecb-8dd6-4ae5-9c82-47f7e5040796" autoIncrement="false" name="feedback" nullable="1" physicalName="feedback" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL10" populated="true" UUID="d1062ceb-f4b8-4545-bdff-7ac9de2bbf67" autoIncrement="false" name="rating" nullable="1" physicalName="rating" precision="10" referenceCount="1" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL11" populated="true" UUID="dcffc315-28d1-4ae3-95ab-72a4f448af9d" autoIncrement="false" name="interview_id" nullable="1" physicalName="interview_id" precision="10" referenceCount="1" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL12" populated="true" UUID="72e793bb-fbdf-4f1b-8f40-7fd7265903a8" autoIncrement="false" name="question_id" nullable="1" physicalName="question_id" precision="10" referenceCount="1" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL13" populated="true" UUID="04eec733-141f-4815-89d7-22293737e6f3" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL14" populated="true" UUID="0fd99382-192b-481d-b124-2a24cbb252e9" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL15" populated="true" UUID="ea3f5df4-b9ab-479a-8af6-4fa9d3a64fa9" autoIncrement="false" name="interviewId" nullable="1" physicalName="interviewId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL16" populated="true" UUID="6e07009e-0227-453c-acb7-3332467d3132" autoIncrement="false" name="questionId" nullable="1" physicalName="questionId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB63" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB62" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB64" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX17" populated="true" UUID="15c62e3c-ce63-4fdd-96ea-aece37126d08" clustered="false" index-type="BTREE" name="answers_pkey" physicalName="answers_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC18" populated="true" UUID="a74f06e3-cd7a-4c80-8b50-b4cc9a24e755" ascendingOrDescending="UNSPECIFIED" column-ref="COL7" name="id" physicalName="id" />
+       </index>
+      </folder>
+     </table>
+     <table id="TAB19" populated="true" UUID="fc13ab70-7723-4322-8018-4fbd5f6940af" name="interviewOwner" objectType="TABLE" physicalName="interviewOwner" >
+      <remarks></remarks>
+      <folder id="FOLTAB191" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL20" populated="true" UUID="c57c2c5e-0765-4904-b6ed-0442e6169a55" autoIncrement="false" name="interviewId" nullable="0" physicalName="interviewId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL21" populated="true" UUID="60267103-0fd4-4935-a9e1-db80dff9393b" autoIncrement="false" name="userId" nullable="0" physicalName="userId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL22" populated="true" UUID="b7c99759-5eda-4399-81b5-dd6db34e0d1f" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL23" populated="true" UUID="ac0d3d47-7423-4ed2-87b7-d1116375a583" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB193" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB192" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB194" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX24" populated="true" UUID="d65c6789-87c3-4e45-9f00-11fcac377101" clustered="false" index-type="BTREE" name="interviewOwner_pkey" physicalName="interviewOwner_pkey" primaryKeyIndex="true" unique="true" >
+       </index>
+      </folder>
+     </table>
+     <table id="TAB25" populated="true" UUID="b3c547be-747b-4a55-80d8-ee6ba5dd0340" name="interviewPosition" objectType="TABLE" physicalName="interviewPosition" >
+      <remarks></remarks>
+      <folder id="FOLTAB251" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL26" populated="true" UUID="233f24d5-5bd6-4aff-9ddc-ba554457db0c" autoIncrement="false" name="positionId" nullable="0" physicalName="positionId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL27" populated="true" UUID="e0eea3a5-4143-4d2e-b966-9e2b6b7f2a93" autoIncrement="false" name="interviewId" nullable="0" physicalName="interviewId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL28" populated="true" UUID="62a24232-612f-4c71-a991-80227808544e" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL29" populated="true" UUID="fbcd78b5-45b5-4af3-8e76-361aa80bd8d1" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB253" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB252" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB254" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX30" populated="true" UUID="c7d61cfa-d27a-424a-94ae-1b20785de3de" clustered="false" index-type="BTREE" name="interviewPosition_pkey" physicalName="interviewPosition_pkey" primaryKeyIndex="true" unique="true" >
+       </index>
+      </folder>
+     </table>
+     <table id="TAB31" populated="true" UUID="0eb9e2a6-6c0f-4684-8110-c3779d37bba0" name="interviewQuestion" objectType="TABLE" physicalName="interviewQuestion" >
+      <remarks></remarks>
+      <folder id="FOLTAB311" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL32" populated="true" UUID="e426a859-cd5b-4b34-beb7-6c7372f07481" autoIncrement="false" name="interviewId" nullable="0" physicalName="interviewId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL33" populated="true" UUID="b0a33ba2-9dbf-409c-8359-6e557a79e634" autoIncrement="false" name="questionId" nullable="0" physicalName="questionId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL34" populated="true" UUID="8715832a-f9d1-41f2-8df7-47a2a49dcc2c" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL35" populated="true" UUID="6d8a343a-e6e4-4720-b457-0c3c6b743ac5" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB313" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB312" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB314" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX36" populated="true" UUID="ad6e14c0-2c04-4566-8018-15bb8c950430" clustered="false" index-type="BTREE" name="interviewQuestion_pkey" physicalName="interviewQuestion_pkey" primaryKeyIndex="true" unique="true" >
+       </index>
+      </folder>
+     </table>
+     <table id="TAB37" populated="true" UUID="9fd103c7-2607-4531-bbce-17faf369847d" name="interviewee" objectType="TABLE" physicalName="interviewee" >
+      <remarks></remarks>
+      <folder id="FOLTAB371" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL38" populated="true" UUID="09718167-fef4-463d-8c33-2aa488e0d347" autoIncrement="false" name="userId" nullable="0" physicalName="userId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL39" populated="true" UUID="56da691f-1977-48dd-8db0-044e3ab0a21a" autoIncrement="false" name="interviewId" nullable="0" physicalName="interviewId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL40" populated="true" UUID="b8a8924e-cc1e-4263-8770-453c6ec2a599" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL41" populated="true" UUID="0cfccc5b-2516-42a4-b152-c7ccd0214854" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB373" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB372" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB374" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX42" populated="true" UUID="f02b3081-3db4-4ad9-8aaf-015df238cc6c" clustered="false" index-type="BTREE" name="interviewee_pkey" physicalName="interviewee_pkey" primaryKeyIndex="true" unique="true" >
+       </index>
+      </folder>
+     </table>
+     <table id="TAB43" populated="true" UUID="7bceb893-6051-4cd2-8ebb-d808d81ef40e" name="interviews" objectType="TABLE" physicalName="interviews" >
+      <remarks></remarks>
+      <folder id="FOLTAB431" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL44" populated="true" UUID="3f76ea16-8b18-492b-93ca-846523b21d02" autoIncrement="true" defaultValue="nextval(&apos;interviews_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL45" populated="true" UUID="da483308-738f-4241-9ae7-3c93c9e34706" autoIncrement="false" name="label" nullable="1" physicalName="label" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL46" populated="true" UUID="74103214-6abe-4802-857e-188c23a10b51" autoIncrement="false" name="interviewee" nullable="1" physicalName="interviewee" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL47" populated="true" UUID="8ed73506-4d10-4f70-a270-efa338e1aa4a" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL48" populated="true" UUID="5c820a5e-0534-419d-88a9-de395a0c62ca" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB433" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB432" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB434" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX49" populated="true" UUID="4f271cfa-68e7-4f09-aa26-b0ad2b46d167" clustered="false" index-type="BTREE" name="interviews_pkey" physicalName="interviews_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC50" populated="true" UUID="71da37d2-4d4f-41d2-9c01-6144b2893aa1" ascendingOrDescending="UNSPECIFIED" column-ref="COL44" name="id" physicalName="id" />
+       </index>
+      </folder>
+     </table>
+     <table id="TAB51" populated="true" UUID="3be97014-fc3b-4cc1-bc86-318eb9fcaad3" name="positions" objectType="TABLE" physicalName="positions" >
+      <remarks></remarks>
+      <folder id="FOLTAB511" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL52" populated="true" UUID="48ece611-e92b-431d-b59b-6fd70455fb8c" autoIncrement="true" defaultValue="nextval(&apos;positions_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL53" populated="true" UUID="1ccb9010-98e4-44b7-bcd6-256b5053fd6b" autoIncrement="false" name="title" nullable="1" physicalName="title" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL54" populated="true" UUID="d65ff3a1-0362-4529-bef7-734d34e2e154" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL55" populated="true" UUID="edad9dd2-39a1-4c42-af0e-88545101b581" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB513" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB512" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB514" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX56" populated="true" UUID="c81a8bcb-2cee-4713-abe1-6aa7938d4c8f" clustered="false" index-type="BTREE" name="positions_pkey" physicalName="positions_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC57" populated="true" UUID="63bb93db-cdaf-4f2f-b7a0-c3f430d02265" ascendingOrDescending="UNSPECIFIED" column-ref="COL52" name="id" physicalName="id" />
+       </index>
+      </folder>
+     </table>
+     <table id="TAB58" populated="true" UUID="2fda1db5-b7c9-4bf9-8a35-b771fba12c98" name="questionTag" objectType="TABLE" physicalName="questionTag" >
+      <remarks></remarks>
+      <folder id="FOLTAB581" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL59" populated="true" UUID="5d3fe060-e992-496f-899e-05c441ab1781" autoIncrement="false" name="questionId" nullable="0" physicalName="questionId" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL60" populated="true" UUID="f2c91c47-7d94-48c9-9613-92426c96ed21" autoIncrement="false" name="tagId" nullable="0" physicalName="tagId" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL61" populated="true" UUID="962aa850-e577-4318-a9bf-8c9e5f96047f" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL62" populated="true" UUID="08937e4c-01e4-4bed-a100-31dfe6ea5aee" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB583" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB582" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB584" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX63" populated="true" UUID="37516db7-ef58-4b3f-9f95-b4a8ce21139c" clustered="false" index-type="BTREE" name="questionTag_pkey" physicalName="questionTag_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC64" populated="true" UUID="faa1747e-48a2-42ea-9c26-15b5117f6ee6" ascendingOrDescending="UNSPECIFIED" column-ref="COL59" name="questionId" physicalName="questionId" />
+        <index-column id="IDC65" populated="true" UUID="aa57910d-952b-4605-84e5-6f862346fd22" ascendingOrDescending="UNSPECIFIED" column-ref="COL60" name="tagId" physicalName="tagId" />
+       </index>
+      </folder>
+     </table>
+     <table id="TAB66" populated="true" UUID="0880fedc-2077-4c7e-83a2-36d303ba209c" name="questions" objectType="TABLE" physicalName="questions" >
+      <remarks></remarks>
+      <folder id="FOLTAB661" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL67" populated="true" UUID="13ad3844-b444-495f-99cc-4412a497de8e" autoIncrement="true" defaultValue="nextval(&apos;questions_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL68" populated="true" UUID="09a7dce8-d066-4a11-b0f4-28ddce9bd1fa" autoIncrement="false" name="text" nullable="1" physicalName="text" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL69" populated="true" UUID="ae08301e-0721-439a-a298-356f0e88af30" autoIncrement="false" name="type" nullable="1" physicalName="type" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL70" populated="true" UUID="78742de9-7de0-4a3c-adec-4be674e2c42a" autoIncrement="false" name="topic" nullable="1" physicalName="topic" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL71" populated="true" UUID="2e6abc84-e50b-427f-a153-3d0d761b52a7" autoIncrement="false" name="subtopics" nullable="1" physicalName="subtopics" precision="2147483647" referenceCount="1" scale="0" sourceDataTypeName="_varchar" type="2003" >
+        <remarks></remarks>
+       </column>
+       <column id="COL72" populated="true" UUID="a3d3ae0c-eba0-4b5d-bae7-3fda8624bcdb" autoIncrement="false" name="difficulty" nullable="1" physicalName="difficulty" precision="10" referenceCount="1" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL73" populated="true" UUID="b8bf09bb-54c4-498d-9181-ddf26f50e927" autoIncrement="false" name="answers" nullable="1" physicalName="answers" precision="2147483647" referenceCount="1" scale="0" sourceDataTypeName="_varchar" type="2003" >
+        <remarks></remarks>
+       </column>
+       <column id="COL74" populated="true" UUID="e1558678-4b8b-4059-a86f-e2bb0d4175ea" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL75" populated="true" UUID="a5b6020d-3cdf-4095-98db-b62574019885" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB663" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB662" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB664" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX76" populated="true" UUID="689e52b6-3fa8-4451-8e2a-b2666b5fc7bb" clustered="false" index-type="BTREE" name="questions_pkey" physicalName="questions_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC77" populated="true" UUID="d7cd5414-d713-4e1e-96db-13260973e033" ascendingOrDescending="UNSPECIFIED" column-ref="COL67" name="id" physicalName="id" />
+       </index>
+      </folder>
+     </table>
+     <table id="TAB78" populated="true" UUID="2a7031c5-260a-4cbd-95a5-24bdf5d63e44" name="roles" objectType="TABLE" physicalName="roles" >
+      <remarks></remarks>
+      <folder id="FOLTAB781" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL79" populated="true" UUID="bf3deedf-c8f8-49dd-bd41-f6c8ddc93848" autoIncrement="true" defaultValue="nextval(&apos;roles_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL80" populated="true" UUID="274bd1c8-1713-4584-bc19-fd1fe46c5d5a" autoIncrement="false" name="type" nullable="1" physicalName="type" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL81" populated="true" UUID="2b2539d9-ce97-48e8-a57c-83e13a2bb9b0" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL82" populated="true" UUID="93eb9836-1502-46a6-a335-2800317f04de" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB783" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB782" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB784" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX83" populated="true" UUID="645c4f5f-6379-48e1-bb51-ebad441919a2" clustered="false" index-type="BTREE" name="roles_pkey" physicalName="roles_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC84" populated="true" UUID="cea5d273-a202-47a7-9d36-f6aecf2c60f7" ascendingOrDescending="UNSPECIFIED" column-ref="COL79" name="id" physicalName="id" />
+       </index>
+      </folder>
+     </table>
+     <table id="TAB85" populated="true" UUID="dd708bad-3437-4dff-b460-910827bd97ea" name="tags" objectType="TABLE" physicalName="tags" >
+      <remarks></remarks>
+      <folder id="FOLTAB851" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL86" populated="true" UUID="32cc9b45-dae5-4988-9105-24697d86b365" autoIncrement="true" defaultValue="nextval(&apos;tags_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL87" populated="true" UUID="d9d16347-e6a9-4c93-b6be-624d5db4fe0c" autoIncrement="false" name="label" nullable="1" physicalName="label" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL88" populated="true" UUID="1eba8992-dc36-4c8b-b088-1814eb365e2b" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL89" populated="true" UUID="6378c7e8-bb4e-4f37-a41b-bd43241d4592" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB853" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB852" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB854" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX90" populated="true" UUID="f177afa8-1840-40c0-9259-cdafababed6a" clustered="false" index-type="BTREE" name="tags_pkey" physicalName="tags_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC91" populated="true" UUID="1859215a-375d-4ea2-ac94-58f51fc82093" ascendingOrDescending="UNSPECIFIED" column-ref="COL86" name="id" physicalName="id" />
+       </index>
+      </folder>
+     </table>
+     <table id="TAB92" populated="true" UUID="f0fba1de-e268-4d32-9253-e2f1a1584ac6" name="topics" objectType="TABLE" physicalName="topics" >
+      <remarks></remarks>
+      <folder id="FOLTAB921" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL93" populated="true" UUID="19bc6a2e-10cd-4272-9fe6-cf14f73ea267" autoIncrement="true" defaultValue="nextval(&apos;topics_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL94" populated="true" UUID="348eb1de-a156-4358-93ef-7b8427b7d937" autoIncrement="false" name="type" nullable="1" physicalName="type" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL95" populated="true" UUID="b59ca579-7415-440a-8d82-61b222fef06e" autoIncrement="false" name="name" nullable="1" physicalName="name" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL96" populated="true" UUID="161ed9be-b509-409b-891e-db166f528791" autoIncrement="false" name="index" nullable="1" physicalName="index" precision="10" referenceCount="1" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL97" populated="true" UUID="f0898501-fe94-4528-99eb-9d26f1fd0e1f" autoIncrement="false" name="sub" nullable="1" physicalName="sub" precision="2147483647" referenceCount="1" scale="0" sourceDataTypeName="_varchar" type="2003" >
+        <remarks></remarks>
+       </column>
+       <column id="COL98" populated="true" UUID="09234d77-29c8-464f-a23b-d3c959c7d85f" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL99" populated="true" UUID="3e30e712-67b9-48bb-9134-d28e3d512b29" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB923" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB922" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB924" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX100" populated="true" UUID="d64bbef8-3562-4b0f-a38c-7b1e9f3c3c00" clustered="false" index-type="BTREE" name="topics_pkey" physicalName="topics_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC101" populated="true" UUID="f095b46f-630c-44d1-b06e-dac79e10c9a3" ascendingOrDescending="UNSPECIFIED" column-ref="COL93" name="id" physicalName="id" />
+       </index>
+      </folder>
+     </table>
+     <table id="TAB102" populated="true" UUID="8aad33aa-98ce-40c2-bfab-1ea59d96403d" name="types" objectType="TABLE" physicalName="types" >
+      <remarks></remarks>
+      <folder id="FOLTAB1021" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL103" populated="true" UUID="62148b69-1105-4b67-a2eb-7fbdac002208" autoIncrement="true" defaultValue="nextval(&apos;types_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL104" populated="true" UUID="db842e84-fb64-492b-8978-796fac919a5f" autoIncrement="false" name="label" nullable="1" physicalName="label" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL105" populated="true" UUID="4d132415-3774-4fe8-816e-43d044fbe0e1" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL106" populated="true" UUID="1af63520-d779-4957-a5b5-94255acbd877" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB1023" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB1022" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB1024" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX107" populated="true" UUID="6dbcef51-dbbc-40cd-81f0-f72049b6f82d" clustered="false" index-type="BTREE" name="types_pkey" physicalName="types_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC108" populated="true" UUID="43428ae2-efb5-4c76-add6-42218501f100" ascendingOrDescending="UNSPECIFIED" column-ref="COL103" name="id" physicalName="id" />
+       </index>
+      </folder>
+     </table>
+     <table id="TAB109" populated="true" UUID="f4592ae2-5bb9-4c01-9b66-7c4123f5c029" name="userRole" objectType="TABLE" physicalName="userRole" >
+      <remarks></remarks>
+      <folder id="FOLTAB1091" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL110" populated="true" UUID="5c179b0c-f1ce-459f-b7a5-e81d9d0a240b" autoIncrement="false" name="roleId" nullable="0" physicalName="roleId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL111" populated="true" UUID="dece9cb3-51e1-4638-aa85-d3b2a542ebef" autoIncrement="false" name="userId" nullable="0" physicalName="userId" precision="10" referenceCount="2" scale="0" sourceDataTypeName="int4" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL112" populated="true" UUID="1d8212bf-a074-4efa-99a0-2125c0fc4280" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL113" populated="true" UUID="1b1967f3-e492-4ff4-b39c-2eb5bee199f4" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB1093" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB1092" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB1094" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX114" populated="true" UUID="76c66977-c647-48e8-9e42-91df5354ba29" clustered="false" index-type="BTREE" name="userRole_pkey" physicalName="userRole_pkey" primaryKeyIndex="true" unique="true" >
+       </index>
+      </folder>
+     </table>
+     <table id="TAB115" populated="true" UUID="1bdea6b5-0c06-488b-a975-213749728047" name="users" objectType="TABLE" physicalName="users" >
+      <remarks></remarks>
+      <folder id="FOLTAB1151" populated="true" name="Columns" physicalName="Columns" type="1">
+       <column id="COL116" populated="true" UUID="6b743f45-b48d-4b6e-b697-41b09ad08d63" autoIncrement="true" defaultValue="nextval(&apos;users_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" >
+        <remarks></remarks>
+       </column>
+       <column id="COL117" populated="true" UUID="fd754c73-dd5e-4697-8268-009d98ab7528" autoIncrement="false" name="username" nullable="1" physicalName="username" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL118" populated="true" UUID="5508699e-c054-499d-96b0-d1942e087d56" autoIncrement="false" name="pw_hash" nullable="1" physicalName="pw_hash" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL119" populated="true" UUID="e8d64592-673e-4468-a40e-f85d75c95ada" autoIncrement="false" name="salt" nullable="1" physicalName="salt" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL120" populated="true" UUID="58022ec4-e72a-4683-9a12-d07749fb3ae5" autoIncrement="false" name="first_name" nullable="1" physicalName="first_name" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL121" populated="true" UUID="9e2bd1cb-7ce3-4f3b-a2ea-9367d47a5d57" autoIncrement="false" name="last_name" nullable="1" physicalName="last_name" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL122" populated="true" UUID="482b344b-d04f-43d6-93e0-e3c321b55436" autoIncrement="false" name="email" nullable="1" physicalName="email" precision="255" referenceCount="1" scale="0" sourceDataTypeName="varchar" type="12" >
+        <remarks></remarks>
+       </column>
+       <column id="COL123" populated="true" UUID="b974c1fc-2970-45f5-a8c8-0aa9a24e090a" autoIncrement="false" name="createdAt" nullable="0" physicalName="createdAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       <column id="COL124" populated="true" UUID="31df0faa-792c-4d21-b9c7-5f28f24d285c" autoIncrement="false" name="updatedAt" nullable="0" physicalName="updatedAt" precision="35" referenceCount="1" scale="6" sourceDataTypeName="timestamptz" type="93" >
+        <remarks></remarks>
+       </column>
+       </folder>
+       <folder id="FOLTAB1153" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+       </folder>
+       <folder id="FOLTAB1152" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+       </folder>
+       <folder id="FOLTAB1154" populated="true" name="Indices" physicalName="Indices" type="4">
+       <index id="IDX125" populated="true" UUID="72e0a8f0-6555-472f-a9c9-bba65fcca71e" clustered="false" index-type="BTREE" name="users_pkey" physicalName="users_pkey" primaryKeyIndex="true" unique="true" >
+        <index-column id="IDC126" populated="true" UUID="592ed8d6-dc14-4335-93ee-f9b6f63f8943" ascendingOrDescending="UNSPECIFIED" column-ref="COL116" name="id" physicalName="id" />
+       </index>
+      </folder>
+     </table>
+    </schema>
+   </catalog>
+   <relationships>
+    <relationship id="REL127" populated="true" UUID="c6e9917d-4de8-4b77-a0ce-074e569cc5fa" deferrability="7" deleteRule="2" fk-table-ref="TAB6" fkCardinality="7" identifying="false" name="answers_interviewId_fkey" physicalName="answers_interviewId_fkey" pk-table-ref="TAB43" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP128" populated="true" UUID="ee223637-3ce5-4d5e-af3c-ffb65870bb6f" fk-column-ref="COL15" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL44" />
+    </relationship>
+    <relationship id="REL129" populated="true" UUID="03a0d200-de3a-4ccb-8aef-88867960a08e" deferrability="7" deleteRule="0" fk-table-ref="TAB19" fkCardinality="7" identifying="false" name="interviewOwner_interviewId_fkey" physicalName="interviewOwner_interviewId_fkey" pk-table-ref="TAB43" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP130" populated="true" UUID="6df9fd0b-fbd4-4d7e-a455-fdd4d5a0b1fc" fk-column-ref="COL20" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL44" />
+    </relationship>
+    <relationship id="REL131" populated="true" UUID="c07cbc4e-746e-48ad-99f1-00ec56978b93" deferrability="7" deleteRule="0" fk-table-ref="TAB25" fkCardinality="7" identifying="false" name="interviewPosition_interviewId_fkey" physicalName="interviewPosition_interviewId_fkey" pk-table-ref="TAB43" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP132" populated="true" UUID="4ba27aa1-aa3c-45e1-b5da-426aefe6f7a0" fk-column-ref="COL27" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL44" />
+    </relationship>
+    <relationship id="REL133" populated="true" UUID="dfa053a2-9c89-49df-972d-1a6387503064" deferrability="7" deleteRule="0" fk-table-ref="TAB31" fkCardinality="7" identifying="false" name="interviewQuestion_interviewId_fkey" physicalName="interviewQuestion_interviewId_fkey" pk-table-ref="TAB43" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP134" populated="true" UUID="e0b47b87-eb64-4be9-b962-60a7b1871103" fk-column-ref="COL32" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL44" />
+    </relationship>
+    <relationship id="REL135" populated="true" UUID="43af668c-b8a1-4005-a1cb-3d9554e2bf3d" deferrability="7" deleteRule="0" fk-table-ref="TAB37" fkCardinality="7" identifying="false" name="interviewee_interviewId_fkey" physicalName="interviewee_interviewId_fkey" pk-table-ref="TAB43" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP136" populated="true" UUID="01405078-a218-4662-ae4d-9327eff4054b" fk-column-ref="COL39" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL44" />
+    </relationship>
+    <relationship id="REL137" populated="true" UUID="540cef71-1107-434f-a77d-f7ebba08dd66" deferrability="7" deleteRule="0" fk-table-ref="TAB25" fkCardinality="7" identifying="false" name="interviewPosition_positionId_fkey" physicalName="interviewPosition_positionId_fkey" pk-table-ref="TAB51" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP138" populated="true" UUID="8e2ccd10-7f3f-427b-8775-ac0f7d71cc22" fk-column-ref="COL26" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL52" />
+    </relationship>
+    <relationship id="REL139" populated="true" UUID="04cc7486-ca61-492d-b682-3a5e114e6557" deferrability="7" deleteRule="2" fk-table-ref="TAB6" fkCardinality="7" identifying="false" name="answers_questionId_fkey" physicalName="answers_questionId_fkey" pk-table-ref="TAB66" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP140" populated="true" UUID="db509638-4ed4-4202-8d73-1454abd757f6" fk-column-ref="COL16" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL67" />
+    </relationship>
+    <relationship id="REL141" populated="true" UUID="89cc2826-dbde-4b79-a301-09eb47205832" deferrability="7" deleteRule="0" fk-table-ref="TAB31" fkCardinality="7" identifying="false" name="interviewQuestion_questionId_fkey" physicalName="interviewQuestion_questionId_fkey" pk-table-ref="TAB66" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP142" populated="true" UUID="a6a179f6-d6d2-4b08-8474-ba3337a0dca4" fk-column-ref="COL33" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL67" />
+    </relationship>
+    <relationship id="REL143" populated="true" UUID="87eaa1e9-dff5-4f0c-802a-54c5e5fbe271" deferrability="7" deleteRule="0" fk-table-ref="TAB58" fkCardinality="7" identifying="false" name="questionTag_questionId_fkey" physicalName="questionTag_questionId_fkey" pk-table-ref="TAB66" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP144" populated="true" UUID="1626e8d6-2e34-4b1f-b2f3-300105e977c1" fk-column-ref="COL59" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL67" />
+    </relationship>
+    <relationship id="REL145" populated="true" UUID="713d6e47-f7d3-46f1-9b17-1b45758c7410" deferrability="7" deleteRule="2" fk-table-ref="TAB109" fkCardinality="7" identifying="false" name="userRole_roleId_fkey" physicalName="userRole_roleId_fkey" pk-table-ref="TAB78" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP146" populated="true" UUID="8d8c8b61-261f-44ca-aad0-cb7a1b4a710e" fk-column-ref="COL110" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL79" />
+    </relationship>
+    <relationship id="REL147" populated="true" UUID="400d4c47-7328-4c2a-8f8a-06b818f4bd51" deferrability="7" deleteRule="0" fk-table-ref="TAB58" fkCardinality="7" identifying="false" name="questionTag_tagId_fkey" physicalName="questionTag_tagId_fkey" pk-table-ref="TAB85" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP148" populated="true" UUID="d98b1c0a-9c3b-45be-892f-bcc2361976eb" fk-column-ref="COL60" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL86" />
+    </relationship>
+    <relationship id="REL149" populated="true" UUID="6a20be33-1c8a-40f8-a8d1-5cb41ce51475" deferrability="7" deleteRule="0" fk-table-ref="TAB19" fkCardinality="7" identifying="false" name="interviewOwner_userId_fkey" physicalName="interviewOwner_userId_fkey" pk-table-ref="TAB115" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP150" populated="true" UUID="da2dbbae-605e-43e0-ad09-314beac57fad" fk-column-ref="COL21" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL116" />
+    </relationship>
+    <relationship id="REL151" populated="true" UUID="8cc4a03e-cbc3-41f8-80a0-98c71eee26fd" deferrability="7" deleteRule="0" fk-table-ref="TAB37" fkCardinality="7" identifying="false" name="interviewee_userId_fkey" physicalName="interviewee_userId_fkey" pk-table-ref="TAB115" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP152" populated="true" UUID="13fa2299-1e3f-4310-b7f1-5f0449d4e2e2" fk-column-ref="COL38" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL116" />
+    </relationship>
+    <relationship id="REL153" populated="true" UUID="8c45d7a0-b631-4c8f-81e3-ee769971fa91" deferrability="7" deleteRule="2" fk-table-ref="TAB109" fkCardinality="7" identifying="false" name="userRole_userId_fkey" physicalName="userRole_userId_fkey" pk-table-ref="TAB115" pkCardinality="2" updateRule="0" >
+     <column-mapping id="CMP154" populated="true" UUID="956f01b2-4e9a-466d-8f04-0cd871f25776" fk-column-ref="COL111" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL116" />
+    </relationship>
+   </relationships>
+  </database>
+ </source-databases>
+ <target-database id="ppdb" dbcs-ref="DS0">
+  <table id="TAB156" populated="true" UUID="e915c839-9f79-4f65-a7ce-4b996da275e7" name="questionTag" objectType="TABLE" physicalName="questionTag" >
+   <remarks></remarks>
+   <folder id="FOLTAB1561" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL157" populated="true" UUID="a3abf25b-8b40-4a2f-9d5b-ee703f666faf" autoIncrement="false" defaultValue="" name="questionId" nullable="0" physicalName="questionId" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL59" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL158" populated="true" UUID="953d64d5-1a68-4d92-8fed-9035650f7d6f" autoIncrement="false" defaultValue="" name="tagId" nullable="0" physicalName="tagId" precision="0" primaryKeySeq="1" referenceCount="2" scale="0" source-column-ref="COL60" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL159" populated="true" UUID="620d1504-6177-44ba-892b-f8e743c97a7b" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL61" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL160" populated="true" UUID="f06d1509-198c-4eaf-ad58-f9f216027c00" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL62" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1563" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1562" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1564" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX161" populated="true" UUID="5a582d95-0369-49af-9f6b-409a13a4e6b9" clustered="false" index-type="BTREE" name="questionTag_pkey" physicalName="questionTag_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC162" populated="true" UUID="319e922e-2bd9-4d33-89aa-0a7b5601193b" ascendingOrDescending="UNSPECIFIED" column-ref="COL157" name="questionId" physicalName="questionId" />
+     <index-column id="IDC163" populated="true" UUID="9a267ee3-35bb-49bd-9cc5-741abf751b34" ascendingOrDescending="UNSPECIFIED" column-ref="COL158" name="tagId" physicalName="tagId" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB164" populated="true" UUID="e83a3e0f-1015-40fd-aae8-b1fafd3ae54b" name="types" objectType="TABLE" physicalName="types" >
+   <remarks></remarks>
+   <folder id="FOLTAB1641" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL165" populated="true" UUID="c9a6546e-c02e-4b76-99ea-d41ed5ac7ef3" autoIncrement="true" defaultValue="nextval(&apos;types_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL103" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL166" populated="true" UUID="ed8c0115-a989-494f-a989-38db43ea2a09" autoIncrement="false" defaultValue="" name="label" nullable="1" physicalName="label" precision="255" referenceCount="1" scale="0" source-column-ref="COL104" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL167" populated="true" UUID="6452c198-427d-42e0-b2a2-cf74018e2b32" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL105" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL168" populated="true" UUID="b26e5a5b-803c-4bd5-b583-a4654aaff03d" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL106" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1643" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1642" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1644" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX169" populated="true" UUID="273d7c9d-0154-4064-a377-23078e42fa94" clustered="false" index-type="BTREE" name="types_pkey" physicalName="types_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC170" populated="true" UUID="50c13a02-d9a0-4733-9f01-11bfb8eb702d" ascendingOrDescending="UNSPECIFIED" column-ref="COL165" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB171" populated="true" UUID="1f48a5ff-3dfe-4c70-a36d-901fea85ccae" name="interviews" objectType="TABLE" physicalName="interviews" >
+   <remarks></remarks>
+   <folder id="FOLTAB1711" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL172" populated="true" UUID="0d0c483f-a2d8-4ae6-8c48-43e611d7b28a" autoIncrement="true" defaultValue="nextval(&apos;interviews_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL44" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL173" populated="true" UUID="4dade070-9336-4aee-a774-f02639ce9bd2" autoIncrement="false" defaultValue="" name="label" nullable="1" physicalName="label" precision="255" referenceCount="1" scale="0" source-column-ref="COL45" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL174" populated="true" UUID="59cb613c-0c70-4a6b-8054-ced48f23e4ce" autoIncrement="false" defaultValue="" name="interviewee" nullable="1" physicalName="interviewee" precision="255" referenceCount="1" scale="0" source-column-ref="COL46" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL175" populated="true" UUID="9b3e6167-7df6-4cd3-a2b9-55cfcd2b2c61" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL47" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL176" populated="true" UUID="015a7810-dd57-4f28-86ec-3ed3f9d2b20f" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL48" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1713" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1712" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1714" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX177" populated="true" UUID="d137f104-293c-4cc4-9643-6325ca7acf6d" clustered="false" index-type="BTREE" name="interviews_pkey" physicalName="interviews_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC178" populated="true" UUID="8b2519ee-61e1-4cd6-a99e-3e9492a4a86b" ascendingOrDescending="UNSPECIFIED" column-ref="COL172" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB179" populated="true" UUID="978b2c32-46f5-44f4-bb82-043c6a92cf84" name="roles" objectType="TABLE" physicalName="roles" >
+   <remarks></remarks>
+   <folder id="FOLTAB1791" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL180" populated="true" UUID="4df49372-b28f-4735-b416-6d0f3a783065" autoIncrement="true" defaultValue="nextval(&apos;roles_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL79" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL181" populated="true" UUID="b39ba8e5-befd-41a3-ba11-83f69b862c5a" autoIncrement="false" defaultValue="" name="type" nullable="1" physicalName="type" precision="255" referenceCount="1" scale="0" source-column-ref="COL80" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL182" populated="true" UUID="8d231a33-5e3c-4e21-a413-8f9cdafb8df7" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL81" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL183" populated="true" UUID="be31a56e-1260-4bff-9e9a-d467d3d801cf" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL82" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1793" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1792" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1794" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX184" populated="true" UUID="0192f070-3dcf-45a4-81e4-0dba5b3a093d" clustered="false" index-type="BTREE" name="roles_pkey" physicalName="roles_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC185" populated="true" UUID="9e7f9447-8410-4c4a-9a58-61c0276c88e8" ascendingOrDescending="UNSPECIFIED" column-ref="COL180" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB186" populated="true" UUID="dfccf7f9-e247-4913-a04f-dce754f6ff32" name="topics" objectType="TABLE" physicalName="topics" >
+   <remarks></remarks>
+   <folder id="FOLTAB1861" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL187" populated="true" UUID="3c92575f-b719-46f7-88cd-bc69b8472170" autoIncrement="true" defaultValue="nextval(&apos;topics_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL93" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL188" populated="true" UUID="5d7e4df1-1493-4cfc-a7cd-27755a2ae381" autoIncrement="false" defaultValue="" name="type" nullable="1" physicalName="type" precision="255" referenceCount="1" scale="0" source-column-ref="COL94" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL189" populated="true" UUID="2b3f6e69-dbb9-4071-b98a-590fcef0de92" autoIncrement="false" defaultValue="" name="name" nullable="1" physicalName="name" precision="255" referenceCount="1" scale="0" source-column-ref="COL95" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL190" populated="true" UUID="f14bfc10-8231-41e4-b628-e5d401cf3327" autoIncrement="false" defaultValue="" name="index" nullable="1" physicalName="index" precision="0" referenceCount="1" scale="0" source-column-ref="COL96" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL191" populated="true" UUID="79ab5d69-294d-4d99-8882-14a12264d9a4" autoIncrement="false" defaultValue="" name="sub" nullable="1" physicalName="sub" precision="0" referenceCount="1" scale="0" source-column-ref="COL97" sourceDataTypeName="_varchar" type="2003" userDefinedTypeUUID="5a4374b2-131e-46dd-b7f1-5eb2aaf25f8b" >
+     <remarks></remarks>
+    </column>
+    <column id="COL192" populated="true" UUID="a8663ceb-d0a9-4cc2-ab0c-4b2b8d8cb51d" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL98" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL193" populated="true" UUID="3a67a7d9-4903-4999-abbe-6a7b871043e0" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL99" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1863" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1862" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1864" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX194" populated="true" UUID="1985291a-5c3f-4c26-ab57-ae9c18b6aace" clustered="false" index-type="BTREE" name="topics_pkey" physicalName="topics_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC195" populated="true" UUID="22a28b19-30a4-47a4-9597-f58db19a092a" ascendingOrDescending="UNSPECIFIED" column-ref="COL187" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB196" populated="true" UUID="94dbca13-e334-4d19-a87f-02c43067c906" name="interviewee" objectType="TABLE" physicalName="interviewee" >
+   <remarks></remarks>
+   <folder id="FOLTAB1961" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL197" populated="true" UUID="e08432ac-55ae-459b-801b-3bc998b1b6c9" autoIncrement="false" defaultValue="" name="userId" nullable="0" physicalName="userId" precision="0" referenceCount="2" scale="0" source-column-ref="COL38" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL198" populated="true" UUID="279103ad-8e36-4a85-9f85-9b782cc26490" autoIncrement="false" defaultValue="" name="interviewId" nullable="0" physicalName="interviewId" precision="0" referenceCount="2" scale="0" source-column-ref="COL39" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL199" populated="true" UUID="7bffd2ed-aba8-4187-b381-683e2dfdfb42" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL40" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL200" populated="true" UUID="9fc4e2cf-73c1-4250-bea6-6fb3f329db02" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL41" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1963" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1962" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1964" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX201" populated="true" UUID="790f3005-2acf-44a5-adf0-d2188d5dbb93" clustered="false" index-type="BTREE" name="interviewee_pkey" physicalName="interviewee_pkey" primaryKeyIndex="true" unique="true" >
+    </index>
+   </folder>
+  </table>
+  <table id="TAB202" populated="true" UUID="1d9cec34-3f0c-4330-b58d-1b7efb92bbd5" name="users" objectType="TABLE" physicalName="users" >
+   <remarks></remarks>
+   <folder id="FOLTAB2021" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL203" populated="true" UUID="146497e6-16b0-46d1-87c9-6747273dceba" autoIncrement="true" defaultValue="nextval(&apos;users_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL116" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL204" populated="true" UUID="4cb7cd28-829c-44f0-9e01-cdbce7732e02" autoIncrement="false" defaultValue="" name="username" nullable="1" physicalName="username" precision="255" referenceCount="1" scale="0" source-column-ref="COL117" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL205" populated="true" UUID="81716645-3aaf-4877-871a-ff00b2993fe7" autoIncrement="false" defaultValue="" name="pw_hash" nullable="1" physicalName="pw_hash" precision="255" referenceCount="1" scale="0" source-column-ref="COL118" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL206" populated="true" UUID="a6779fcb-4e79-4203-ab09-57e4a9e9386e" autoIncrement="false" defaultValue="" name="salt" nullable="1" physicalName="salt" precision="255" referenceCount="1" scale="0" source-column-ref="COL119" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL207" populated="true" UUID="b3df6217-c342-45b8-9a6b-78733eb2d299" autoIncrement="false" defaultValue="" name="first_name" nullable="1" physicalName="first_name" precision="255" referenceCount="1" scale="0" source-column-ref="COL120" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL208" populated="true" UUID="2f57f639-5d41-4ee4-a9cb-4824b15f84ff" autoIncrement="false" defaultValue="" name="last_name" nullable="1" physicalName="last_name" precision="255" referenceCount="1" scale="0" source-column-ref="COL121" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL209" populated="true" UUID="5b91ea59-247d-40e9-a898-c96d47834c10" autoIncrement="false" defaultValue="" name="email" nullable="1" physicalName="email" precision="255" referenceCount="1" scale="0" source-column-ref="COL122" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL210" populated="true" UUID="74964574-76ef-4de1-9b27-959f57781232" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL123" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL211" populated="true" UUID="833db82f-ad9c-454e-b0b3-3b135d06e99c" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL124" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB2023" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB2022" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB2024" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX212" populated="true" UUID="44c4b62c-ebbd-4ba7-b90a-973c3df8a7ec" clustered="false" index-type="BTREE" name="users_pkey" physicalName="users_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC213" populated="true" UUID="8c11de67-255d-44d4-8804-7303bafb770f" ascendingOrDescending="UNSPECIFIED" column-ref="COL203" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB214" populated="true" UUID="a2818b7e-bc95-4e77-b353-60ab550f7bac" name="tags" objectType="TABLE" physicalName="tags" >
+   <remarks></remarks>
+   <folder id="FOLTAB2141" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL215" populated="true" UUID="9adec15e-5f42-4c4b-942a-83ee891eaf6d" autoIncrement="true" defaultValue="nextval(&apos;tags_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL86" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL216" populated="true" UUID="fda188cf-1e9c-42d7-a9fd-d51aceecb6c2" autoIncrement="false" defaultValue="" name="label" nullable="1" physicalName="label" precision="255" referenceCount="1" scale="0" source-column-ref="COL87" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL217" populated="true" UUID="dc51b55a-b684-4eea-803d-c27db7583360" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL88" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL218" populated="true" UUID="fd4174a2-028b-4230-9451-c5cb13143a4b" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL89" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB2143" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB2142" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB2144" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX219" populated="true" UUID="2419a7df-afa5-4ff0-a343-cf49ac015b48" clustered="false" index-type="BTREE" name="tags_pkey" physicalName="tags_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC220" populated="true" UUID="ce4cf715-f4b2-4314-9796-72358a67ceac" ascendingOrDescending="UNSPECIFIED" column-ref="COL215" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB221" populated="true" UUID="53c58075-999c-46d8-9775-cc0e2b9fcd11" name="interviewPosition" objectType="TABLE" physicalName="interviewPosition" >
+   <remarks></remarks>
+   <folder id="FOLTAB2211" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL222" populated="true" UUID="e76821ca-e1c0-4403-b5e6-a737cc55384f" autoIncrement="false" defaultValue="" name="positionId" nullable="0" physicalName="positionId" precision="0" referenceCount="2" scale="0" source-column-ref="COL26" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL223" populated="true" UUID="945ce35f-88bd-496d-a1ae-be96c184f3ed" autoIncrement="false" defaultValue="" name="interviewId" nullable="0" physicalName="interviewId" precision="0" referenceCount="2" scale="0" source-column-ref="COL27" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL224" populated="true" UUID="ffe82bf8-e523-4198-aff9-69b3a6c358d9" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL28" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL225" populated="true" UUID="6b362589-9306-4543-a485-4cd483c8265a" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL29" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB2213" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB2212" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB2214" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX226" populated="true" UUID="0a274a65-6371-4ec0-915c-7106fd22253b" clustered="false" index-type="BTREE" name="interviewPosition_pkey" physicalName="interviewPosition_pkey" primaryKeyIndex="true" unique="true" >
+    </index>
+   </folder>
+  </table>
+  <table id="TAB227" populated="true" UUID="403e2aa7-2665-4966-8607-4f5fc8924fa9" name="interviewOwner" objectType="TABLE" physicalName="interviewOwner" >
+   <remarks></remarks>
+   <folder id="FOLTAB2271" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL228" populated="true" UUID="0021c3f3-bd6e-4db8-975b-bb4d7e88b223" autoIncrement="false" defaultValue="" name="interviewId" nullable="0" physicalName="interviewId" precision="0" referenceCount="2" scale="0" source-column-ref="COL20" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL229" populated="true" UUID="b9cd6474-d648-4a9a-b5a3-432f80c1658d" autoIncrement="false" defaultValue="" name="userId" nullable="0" physicalName="userId" precision="0" referenceCount="2" scale="0" source-column-ref="COL21" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL230" populated="true" UUID="e8d5e5e1-395d-46a8-8382-e80b4d79b388" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL22" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL231" populated="true" UUID="30c4fe1d-a3f9-4aa4-8897-0ec759aac56b" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL23" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB2273" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB2272" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB2274" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX232" populated="true" UUID="376459bb-b2e2-44e6-8f6e-8072ac980397" clustered="false" index-type="BTREE" name="interviewOwner_pkey" physicalName="interviewOwner_pkey" primaryKeyIndex="true" unique="true" >
+    </index>
+   </folder>
+  </table>
+  <table id="TAB233" populated="true" UUID="1ddf53a1-b350-4ea6-895c-a0b8ed6bd26a" name="questions" objectType="TABLE" physicalName="questions" >
+   <remarks></remarks>
+   <folder id="FOLTAB2331" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL234" populated="true" UUID="c5a04864-474e-4095-92cb-7e31d4e22499" autoIncrement="true" defaultValue="nextval(&apos;questions_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL67" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL235" populated="true" UUID="4b65e858-d13d-41d4-b869-e65741296654" autoIncrement="false" defaultValue="" name="text" nullable="1" physicalName="text" precision="255" referenceCount="1" scale="0" source-column-ref="COL68" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL236" populated="true" UUID="ec48f30c-e7c5-4d38-ac5f-539b25d524c1" autoIncrement="false" defaultValue="" name="type" nullable="1" physicalName="type" precision="255" referenceCount="1" scale="0" source-column-ref="COL69" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL237" populated="true" UUID="16ab8dc7-53c8-4975-b0c9-387e65cd2ba0" autoIncrement="false" defaultValue="" name="topic" nullable="1" physicalName="topic" precision="255" referenceCount="1" scale="0" source-column-ref="COL70" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL238" populated="true" UUID="29e12911-06f6-4520-abc5-7068bbfa05ab" autoIncrement="false" defaultValue="" name="subtopics" nullable="1" physicalName="subtopics" precision="0" referenceCount="1" scale="0" source-column-ref="COL71" sourceDataTypeName="_varchar" type="2003" userDefinedTypeUUID="5a4374b2-131e-46dd-b7f1-5eb2aaf25f8b" >
+     <remarks></remarks>
+    </column>
+    <column id="COL239" populated="true" UUID="77da1471-6fc5-45c4-852c-12b84ab468b9" autoIncrement="false" defaultValue="" name="difficulty" nullable="1" physicalName="difficulty" precision="0" referenceCount="1" scale="0" source-column-ref="COL72" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL240" populated="true" UUID="91e777a3-6334-4d36-94fa-2b124782b875" autoIncrement="false" defaultValue="" name="answers" nullable="1" physicalName="answers" precision="0" referenceCount="1" scale="0" source-column-ref="COL73" sourceDataTypeName="_varchar" type="2003" userDefinedTypeUUID="5a4374b2-131e-46dd-b7f1-5eb2aaf25f8b" >
+     <remarks></remarks>
+    </column>
+    <column id="COL241" populated="true" UUID="fde7aca8-7533-4fa3-bf50-fa9019192f24" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL74" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL242" populated="true" UUID="cea46be2-f8ef-40aa-9eae-1114cb5076f3" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL75" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB2333" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB2332" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB2334" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX243" populated="true" UUID="1fc359c2-b197-4d2a-a812-2444fdc7c655" clustered="false" index-type="BTREE" name="questions_pkey" physicalName="questions_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC244" populated="true" UUID="558e29e5-4246-44e0-aabf-912ae8765a86" ascendingOrDescending="UNSPECIFIED" column-ref="COL234" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB245" populated="true" UUID="831d5884-866b-4ed9-bf9d-2abe9d5896ff" name="interviewQuestion" objectType="TABLE" physicalName="interviewQuestion" >
+   <remarks></remarks>
+   <folder id="FOLTAB2451" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL246" populated="true" UUID="66b6ddba-06a1-4857-9db4-935fbdccf66e" autoIncrement="false" defaultValue="" name="interviewId" nullable="0" physicalName="interviewId" precision="0" referenceCount="2" scale="0" source-column-ref="COL32" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL247" populated="true" UUID="3c9c77e5-5987-4c42-b4c2-7b740f88444d" autoIncrement="false" defaultValue="" name="questionId" nullable="0" physicalName="questionId" precision="0" referenceCount="2" scale="0" source-column-ref="COL33" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL248" populated="true" UUID="6edfde66-fedb-4625-8568-b7517d661478" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL34" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL249" populated="true" UUID="7ae914d2-67cf-4cd2-8d03-1d566c4392c1" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL35" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB2453" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB2452" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB2454" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX250" populated="true" UUID="a014057d-418c-42bb-a896-c5fe483e0807" clustered="false" index-type="BTREE" name="interviewQuestion_pkey" physicalName="interviewQuestion_pkey" primaryKeyIndex="true" unique="true" >
+    </index>
+   </folder>
+  </table>
+  <table id="TAB251" populated="true" UUID="ff94dd66-4a80-4c0b-b735-744039efa47e" name="positions" objectType="TABLE" physicalName="positions" >
+   <remarks></remarks>
+   <folder id="FOLTAB2511" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL252" populated="true" UUID="6e40f914-981c-4de8-a581-79fa419416c8" autoIncrement="true" defaultValue="nextval(&apos;positions_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL52" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL253" populated="true" UUID="e08f0242-aef6-4910-8978-1ab7ed3de9d0" autoIncrement="false" defaultValue="" name="title" nullable="1" physicalName="title" precision="255" referenceCount="1" scale="0" source-column-ref="COL53" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL254" populated="true" UUID="ca6b5b2f-7f0b-45c4-9dd5-a7c31357c3a9" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL54" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL255" populated="true" UUID="903e9cd4-988a-4d2d-9e41-2563d6d5a25f" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL55" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB2513" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB2512" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB2514" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX256" populated="true" UUID="93dfb6d3-5c30-441d-a553-433ad8d2e4c9" clustered="false" index-type="BTREE" name="positions_pkey" physicalName="positions_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC257" populated="true" UUID="caf9d8ee-0653-4877-8d87-944242f48ddd" ascendingOrDescending="UNSPECIFIED" column-ref="COL252" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB258" populated="true" UUID="c866230a-c619-46a5-84ab-3e4affb5ed2d" name="answers" objectType="TABLE" physicalName="answers" >
+   <remarks></remarks>
+   <folder id="FOLTAB2581" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL259" populated="true" UUID="d996ea81-d554-4395-81ef-90bd34528e36" autoIncrement="true" defaultValue="nextval(&apos;answers_id_seq&apos;::regclass)" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL7" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL260" populated="true" UUID="ba20ff49-784e-4065-8fe9-36af6a4482ab" autoIncrement="false" defaultValue="" name="answer_text" nullable="1" physicalName="answer_text" precision="255" referenceCount="1" scale="0" source-column-ref="COL8" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL261" populated="true" UUID="09ae67aa-f142-4d81-a4d4-885f261d7d41" autoIncrement="false" defaultValue="" name="feedback" nullable="1" physicalName="feedback" precision="255" referenceCount="1" scale="0" source-column-ref="COL9" sourceDataTypeName="varchar" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL262" populated="true" UUID="31f0b716-61a6-41c9-a21c-4a0916edcc20" autoIncrement="false" defaultValue="" name="rating" nullable="1" physicalName="rating" precision="0" referenceCount="1" scale="0" source-column-ref="COL10" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL263" populated="true" UUID="33a7fd09-8151-4b26-ab30-96ce5ad21208" autoIncrement="false" defaultValue="" name="interview_id" nullable="1" physicalName="interview_id" precision="0" referenceCount="1" scale="0" source-column-ref="COL11" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL264" populated="true" UUID="9c0e9fc9-b151-4799-b667-623c1eb60a14" autoIncrement="false" defaultValue="" name="question_id" nullable="1" physicalName="question_id" precision="0" referenceCount="1" scale="0" source-column-ref="COL12" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL265" populated="true" UUID="ef7de958-f4ff-45f9-88d4-095d4b9ad679" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL13" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL266" populated="true" UUID="6c7eb5a7-e6f5-40f1-a9ba-9faec0ded427" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL14" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL267" populated="true" UUID="80e5d854-5bef-418d-9751-2af715c759d2" autoIncrement="false" defaultValue="" name="interviewId" nullable="0" physicalName="interviewId" precision="0" referenceCount="2" scale="0" source-column-ref="COL15" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL268" populated="true" UUID="0aa4c281-0499-4ae5-ad04-83b7f7f2577f" autoIncrement="false" defaultValue="" name="questionId" nullable="0" physicalName="questionId" precision="0" referenceCount="2" scale="0" source-column-ref="COL16" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB2583" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB2582" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB2584" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX269" populated="true" UUID="4286053e-0c4a-4de2-b5d5-add3be8326a0" clustered="false" index-type="BTREE" name="answers_pkey" physicalName="answers_pkey" primaryKeyIndex="true" unique="true" >
+     <index-column id="IDC270" populated="true" UUID="f055da71-9a0f-44ec-84e9-928107cab8d2" ascendingOrDescending="UNSPECIFIED" column-ref="COL259" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB271" populated="true" UUID="cb1bbdea-5e1f-4b43-8ad6-6ceb001f74cf" name="userRole" objectType="TABLE" physicalName="userRole" >
+   <remarks></remarks>
+   <folder id="FOLTAB2711" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL272" populated="true" UUID="0086e798-fe8f-4c98-9b0b-92930b898785" autoIncrement="false" defaultValue="" name="roleId" nullable="0" physicalName="roleId" precision="0" referenceCount="2" scale="0" source-column-ref="COL110" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL273" populated="true" UUID="8a928380-3308-47dc-bfc1-0fc82e6bea6e" autoIncrement="false" defaultValue="" name="userId" nullable="0" physicalName="userId" precision="0" referenceCount="2" scale="0" source-column-ref="COL111" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL274" populated="true" UUID="aa0d16bf-3f3e-4872-ac78-65d46ffbfa77" autoIncrement="false" defaultValue="" name="createdAt" nullable="0" physicalName="createdAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL112" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL275" populated="true" UUID="424a452b-93e5-4f99-8365-21fa819ffe35" autoIncrement="false" defaultValue="" name="updatedAt" nullable="0" physicalName="updatedAt" precision="0" referenceCount="1" scale="0" source-column-ref="COL113" sourceDataTypeName="timestamptz" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB2713" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB2712" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB2714" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX276" populated="true" UUID="26ce87a0-0bc7-4d06-b2dd-e97818fb3af6" clustered="false" index-type="BTREE" name="userRole_pkey" physicalName="userRole_pkey" primaryKeyIndex="true" unique="true" >
+    </index>
+   </folder>
+  </table>
+  <relationships>
+   <relationship id="REL277" populated="true" UUID="e17415b5-33f8-4dde-b0c1-da389f3a950b" deferrability="7" deleteRule="0" fk-table-ref="TAB196" fkCardinality="7" identifying="false" name="interviewee_interviewId_fkey" physicalName="interviewee_interviewId_fkey" pk-table-ref="TAB171" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP278" populated="true" UUID="858c7ad3-7ad0-4832-98c4-0d24a5b9d8bf" fk-column-ref="COL198" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL172" />
+   </relationship>
+   <relationship id="REL279" populated="true" UUID="779025ec-2d53-4a65-a466-ab07ed7e9455" deferrability="7" deleteRule="0" fk-table-ref="TAB221" fkCardinality="7" identifying="false" name="interviewPosition_interviewId_fkey" physicalName="interviewPosition_interviewId_fkey" pk-table-ref="TAB171" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP280" populated="true" UUID="a1d03d67-6f80-41ea-a8d9-32ed02b931a2" fk-column-ref="COL223" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL172" />
+   </relationship>
+   <relationship id="REL281" populated="true" UUID="915f726e-744b-41cc-99ad-98d49fd948b9" deferrability="7" deleteRule="0" fk-table-ref="TAB227" fkCardinality="7" identifying="false" name="interviewOwner_interviewId_fkey" physicalName="interviewOwner_interviewId_fkey" pk-table-ref="TAB171" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP282" populated="true" UUID="d7eb62a1-e78b-4f89-b4b8-d7eac13a9e22" fk-column-ref="COL228" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL172" />
+   </relationship>
+   <relationship id="REL283" populated="true" UUID="c021903a-ef02-4ac3-85d4-877b1b6484a7" deferrability="7" deleteRule="0" fk-table-ref="TAB245" fkCardinality="7" identifying="false" name="interviewQuestion_interviewId_fkey" physicalName="interviewQuestion_interviewId_fkey" pk-table-ref="TAB171" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP284" populated="true" UUID="2dd3d11c-4a86-4045-9b2a-dc0efb04a8de" fk-column-ref="COL246" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL172" />
+   </relationship>
+   <relationship id="REL285" populated="true" UUID="387f5677-e2ee-4510-91d9-c76cb9e694ea" deferrability="7" deleteRule="2" fk-table-ref="TAB258" fkCardinality="7" identifying="false" name="answers_interviewId_fkey" physicalName="answers_interviewId_fkey" pk-table-ref="TAB171" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP286" populated="true" UUID="fc1b00df-0082-4247-a931-971910d58635" fk-column-ref="COL267" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL172" />
+   </relationship>
+   <relationship id="REL287" populated="true" UUID="57920960-d49e-40e5-bed2-8e7e7a6365e6" deferrability="7" deleteRule="2" fk-table-ref="TAB271" fkCardinality="7" identifying="false" name="userRole_roleId_fkey" physicalName="userRole_roleId_fkey" pk-table-ref="TAB179" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP288" populated="true" UUID="a911d663-0798-4574-99e8-0ee1eec90879" fk-column-ref="COL272" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL180" />
+   </relationship>
+   <relationship id="REL289" populated="true" UUID="f15a5713-2caa-4668-8a66-b65cbd9c167b" deferrability="7" deleteRule="0" fk-table-ref="TAB196" fkCardinality="7" identifying="false" name="interviewee_userId_fkey" physicalName="interviewee_userId_fkey" pk-table-ref="TAB202" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP290" populated="true" UUID="a6e21699-1ddf-4d34-9502-5c9fbccfbfb5" fk-column-ref="COL197" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL203" />
+   </relationship>
+   <relationship id="REL291" populated="true" UUID="b1af7bae-f49c-425d-ba49-19d1fa1d8e44" deferrability="7" deleteRule="0" fk-table-ref="TAB227" fkCardinality="7" identifying="false" name="interviewOwner_userId_fkey" physicalName="interviewOwner_userId_fkey" pk-table-ref="TAB202" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP292" populated="true" UUID="e0f5ac7d-e860-430d-a698-f68ea0807a1a" fk-column-ref="COL229" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL203" />
+   </relationship>
+   <relationship id="REL293" populated="true" UUID="af55f164-f17a-4d73-a76c-d39ff0b007a7" deferrability="7" deleteRule="2" fk-table-ref="TAB271" fkCardinality="7" identifying="false" name="userRole_userId_fkey" physicalName="userRole_userId_fkey" pk-table-ref="TAB202" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP294" populated="true" UUID="ae0654f3-7fe7-4e41-9de6-193d56c8bd25" fk-column-ref="COL273" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL203" />
+   </relationship>
+   <relationship id="REL295" populated="true" UUID="f827a8c6-335f-4c04-aa83-f72e9f4f9c98" deferrability="7" deleteRule="0" fk-table-ref="TAB156" fkCardinality="7" identifying="true" name="questionTag_tagId_fkey" physicalName="questionTag_tagId_fkey" pk-table-ref="TAB214" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP296" populated="true" UUID="387cfa5d-eb15-4528-8927-b2f3e1d69a22" fk-column-ref="COL158" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL215" />
+   </relationship>
+   <relationship id="REL297" populated="true" UUID="32eb8662-d4bf-4536-9d8b-18abbf87636f" deferrability="7" deleteRule="0" fk-table-ref="TAB156" fkCardinality="7" identifying="true" name="questionTag_questionId_fkey" physicalName="questionTag_questionId_fkey" pk-table-ref="TAB233" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP298" populated="true" UUID="6b5ae70a-24d2-4e0f-94ae-7186fca7973b" fk-column-ref="COL157" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL234" />
+   </relationship>
+   <relationship id="REL299" populated="true" UUID="4749f00b-6019-48d5-b105-7d3975712864" deferrability="7" deleteRule="0" fk-table-ref="TAB245" fkCardinality="7" identifying="false" name="interviewQuestion_questionId_fkey" physicalName="interviewQuestion_questionId_fkey" pk-table-ref="TAB233" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP300" populated="true" UUID="64a2b486-6418-43e3-a0cc-953e161a5a4a" fk-column-ref="COL247" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL234" />
+   </relationship>
+   <relationship id="REL301" populated="true" UUID="5e88d10b-907a-4b42-8042-965088862465" deferrability="7" deleteRule="2" fk-table-ref="TAB258" fkCardinality="7" identifying="false" name="answers_questionId_fkey" physicalName="answers_questionId_fkey" pk-table-ref="TAB233" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP302" populated="true" UUID="47b52633-9900-4486-a74d-228c3b43450c" fk-column-ref="COL268" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL234" />
+   </relationship>
+   <relationship id="REL303" populated="true" UUID="944d689e-4df2-4120-95d9-1af0579dda15" deferrability="7" deleteRule="0" fk-table-ref="TAB221" fkCardinality="7" identifying="false" name="interviewPosition_positionId_fkey" physicalName="interviewPosition_positionId_fkey" pk-table-ref="TAB251" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP304" populated="true" UUID="e85f251f-3459-4262-81d6-2fec5e90b017" fk-column-ref="COL222" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL252" />
+   </relationship>
+  </relationships>
+ </target-database>
+ <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="true"> </ddl-generator>
+ <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
+ <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
+ <play-pen zoom="0.5000000000000002" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+  <table-pane table-ref="TAB156" x="20" y="31" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB164" x="436" y="877" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB171" x="968" y="427" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB179" x="892" y="1579" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB186" x="136" y="857" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB196" x="1158" y="895" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB202" x="802" y="1161" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB214" x="122" y="647" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB221" x="1249" y="185" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB227" x="819" y="699" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB233" x="482" y="33" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB245" x="938" y="31" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB251" x="1245" y="667" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB258" x="492" y="317" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB271" x="206" y="1221" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-link relationship-ref="REL277" pkConnection="0.6022727272727273" fkConnection="0.4046242774566474" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL289" pkConnection="1.0" fkConnection="0.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL295" pkConnection="0.6442953020134228" fkConnection="0.3707865168539326" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL279" pkConnection="1.0" fkConnection="0.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL281" pkConnection="0.4772727272727273" fkConnection="0.5144508670520231" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL291" pkConnection="0.29651162790697677" fkConnection="0.6069364161849711" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL297" pkConnection="0.0" fkConnection="1.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL283" pkConnection="0.5965909090909091" fkConnection="0.41040462427745666" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL299" pkConnection="1.0" fkConnection="0.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL303" pkConnection="0.3288590604026846" fkConnection="0.6358381502890174" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL285" pkConnection="0.0" fkConnection="1.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL301" pkConnection="0.31543624161073824" fkConnection="0.6574585635359116" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL287" pkConnection="0.0" fkConnection="1.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL293" pkConnection="0.0" fkConnection="1.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+ </play-pen>
+ <critic-manager>
+  <critic-grouping platformType="Generic" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PrimaryKeyCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.RelationshipMappingTypeCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.EmptyRelationshipCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericSequenceNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetDefaultOnColumnWithNoDefaultCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetNullOnNonNullableColumnCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DuplicateNameCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="DB2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DB2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="H2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.H2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="HSQLDB" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.HSQLDBUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="MySQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLCommentCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="Oracle" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OraclePhysicalNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="PostgreSQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PostgreSQLReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerUnsupportedFeaturesCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2000" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2000UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2005" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2005UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+ </critic-manager>
+ <profiles topNCount="10">
+  </profiles>
+  <olap>
+  </olap>
+  <olap-gui>
+  </olap-gui>
+</architect-project>
