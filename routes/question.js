@@ -32,11 +32,6 @@ exports = module.exports = new Resource('question', '/question', {
                 req.body.tech = true;
             }
             
-            
-            if (!req.body.tags) {
-                req.body.tags = [];
-            }
-            
             if(!req.body.difficulty){
                 req.body.difficulty = 0;
             }
@@ -48,7 +43,6 @@ exports = module.exports = new Resource('question', '/question', {
             models.question.create({
                 text: req.body.text ? req.body.text : null,
                 tech: req.body.tech ? req.body.tech : null,
-                tags: req.body.tags ? req.body.tags : null,
                 difficulty: req.body.difficulty ? req.body.difficulty : 0,
                 answers: req.body.answers ? req.body.answers : null
             }).then(function (created) {
@@ -100,10 +94,9 @@ exports = module.exports = new Resource('question', '/question', {
              .then(function (question) {
                 question.text = req.body.text;
                 question.tech = req.body.tech;
-                question.tags = req.body.tags;
                 question.difficulty = req.body.difficulty;
                 question.answers = req.body.answers;
-                question.save({fields: ['text', 'tech', 'tags', 'difficulty', 'answers']}).then(function() {
+                question.save({fields: ['text', 'tech', 'difficulty', 'answers']}).then(function() {
                      res.status(200).json({});   
                 })
                 

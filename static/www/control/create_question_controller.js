@@ -5,7 +5,7 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
     $scope.selectedTags = {};
     $scope.answers = [''];
     $scope.difficulty = 0;
-    $scope.tech = false;
+    $scope.tech = true;
     
     $scope.updateTech = function(tech) {
         $scope.tech = taggingService.updateTech(tech);

@@ -62,9 +62,7 @@
                                     <td>{{question.id}}</td>
                                     <td>{{question.text}}</td>
                                     <td>{{question.difficulty}}</td>
-                                    <td>
-                                        <p ng-repeat="tag in question.tags">{{tag}}</p>
-                                    </td>
+                                    <td>{{question.taglist}}</td>
                                     <td>
                                         <button class="btn btn-warning" ng-click="loadQuestion(question.id)">
                                             Edit

@@ -4,7 +4,6 @@ module.exports = function(sequelize, DataTypes) {
     var question = sequelize.define("question", {
         text: DataTypes.STRING,
         tech: DataTypes.BOOLEAN,
-        tags: DataTypes.ARRAY(DataTypes.STRING),
         difficulty: DataTypes.INTEGER,
         answers: DataTypes.ARRAY(DataTypes.STRING)
     }, {
