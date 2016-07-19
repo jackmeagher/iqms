@@ -82,7 +82,7 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
             $http.get('/question/' + loc.id).success(function(data) {
                 $scope.questionText = data.question.text;     
                 $scope.tech = taggingService.setTech(data.question.tech);
-                taggingService.loadSavedTags(data.question.tags);
+                taggingService.loadSavedTags(data.question.id);
                 $scope.refreshTags();
                 $('#modelValue').val(data.question.difficulty);
                 $scope.answers = data.question.answers;

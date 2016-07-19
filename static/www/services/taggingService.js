@@ -24,8 +24,15 @@ function taggingService($http, $rootScope) {
         return setTech(tech);
     }
     
-    var loadSavedTags = function(saved) {
-        savedTags = saved;
+    var loadSavedTags = function(questionId) {
+        
+        $http.get('/question/' + questionId + '/tags/').success(function(data) {
+            data.tags.forEach(function(tag, index) {
+                savedTags.push(tag.name);
+            })
+            $rootScope.$emit('tagNotification');
+        });
+
     }
     
     var getTags = function() {
