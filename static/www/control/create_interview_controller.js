@@ -5,6 +5,10 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $scope.selectedPosition = null;
     $scope.positionText = "";
     
+    $scope.candidates = {"Hunter Heidenreich": {id: 0, name: "Hunter Heidenreich"}};
+    $scope.selectedCandidate = null;
+    $scope.candidateText = "";
+    
     $scope.tags = ['Technical', 'Test', 'First', 'Last'];
     $scope.addTag = false;
     
@@ -84,14 +88,48 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     }
     
     $scope.positionTextChange = function(text) {
-        var pos = $.map(taggingService.getTags(), function(value, index) {
-            return value.name; 
+        var pos = $.map($scope.positions, function(value, index) {
+            return value.position; 
         }); 
     }
     
     $scope.positionItemChange = function(item) {
         if (item) {
             $scope.selectedPosition = item;
+        }
+    }
+    
+    $scope.addCandidate = function(candidate) {
+        if (candidate && !$scope.candidates[candidate]) {
+            $scope.candidates[candidate] = {id: 0, name: candidate};
+            $scope.selectedCandidate = candidate;
+        }
+    }
+    
+    $scope.queryCandidate = function(query) {
+        var can = $.map($scope.candidates, function(value, index) {
+           return value.name; 
+        });
+        if (query == null) {
+            query = "";
+        }
+        text = query.toLowerCase();
+        var ret = can.filter(function(d) {
+           var test = d.toLowerCase();
+           return test.startsWith(text);
+        });
+        return ret;
+    }
+    
+    $scope.candidateTextChange = function(text) {
+        var pos = $.map($scope.candidates, function(value, index) {
+            return value.name; 
+        });
+    }
+    
+    $scope.candidateItemChange = function(item) {
+        if (item) {
+            $scope.selectedCandidate = item;
         }
     }
 }

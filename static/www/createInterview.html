@@ -21,10 +21,6 @@
                                     <button class="btn btn-success btn-add btn-xs" type="button" ng-click="addPosition(positionText)" style="margin-left:4px;">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
-                                    <!--<input id='position-text' class="form-control" type="text" disabled>
-                                    <select class="form-control" ng-model="positionID">
-                                        <option ng-repeat="position in positions" value="{{$index}}" selected>{{position.position}} (#{{position.id}})</option>
-                                    </select>-->
                                     <md-autocomplete
                                         id="position-box"
                                         md-no-cache="true"
@@ -48,7 +44,28 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-5">
                                     <label>Candidate</label>
-                                    <input id='name-text' class="form-control" type="text" disabled>
+                                    <button class="btn btn-success btn-add btn-xs" type="button" ng-click="addCandidate(candidateText)" style="margin-left:4px;">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                    <md-autocomplete
+                                        id="candidate-box"
+                                        md-no-cache="true"
+                                        md-selected-item="selectedCandidate"
+                                        md-search-text-change="candidateTextChange(candidateText)"
+                                        md-search-text="candidateText"
+                                        md-selected-item-change="candidateItemChange(selectedCandidate)"
+                                        md-items="candidate in queryCandidate(candidateText)"
+                                        md-item-text="candidate"
+                                        md-min-length="0"
+                                        placeholder="Search for Candidate">
+                                    <md-item-template>
+                                                    <span md-highlight-text="candidateText"
+                                                          md-highlight-flags="^i">{{candidate}}</span>
+                                    </md-item-template>
+                                    <md-not-found>
+                                        Click the plus to create "{{candidateText}}"
+                                    </md-not-found>
+                                </md-autocomplete>
                                 </div>
                                 <div class="col-md-1"></div>
                             </div>
