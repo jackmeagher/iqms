@@ -5,9 +5,9 @@ var exports = module.exports = {};
 exports = module.exports = new Resource('candidate', '/candidate', {
     get: (req, res) => {
         models.candidate.findAll()
-            .then(function(candidate) {
+            .then(function(candidates) {
                 res.status(200).json({
-                    candidate: candidate
+                    candidates: candidates
                 });
             })
     },

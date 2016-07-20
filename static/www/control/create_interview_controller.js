@@ -18,6 +18,12 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
                $scope.positions[position.name] = position;
             });
         });
+        
+        $http.get('/candidate').success(function(data) {
+            data.candidates.forEach(function(candidate, index) {
+               $scope.candidates[candidate.name] = candidate; 
+            });
+        });
     }
     
     $scope.CreateInterview = function () {
@@ -81,8 +87,12 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     
     $scope.addCandidate = function(candidate) {
         if (candidate && !$scope.candidates[candidate]) {
-            $scope.candidates[candidate] = {id: 0, name: candidate};
+            $scope.candidates[candidate] = {name: candidate};
             $scope.selectedCandidate = candidate;
+            $http.post('/candidate', $scope.candidates[candidate]).success(function(created) {
+               $scope.candidates[candidate].id = created.data.id;
+               console.log($scope.candidates);
+            });
         }
     }
     
