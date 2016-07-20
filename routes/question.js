@@ -137,7 +137,7 @@ exports = module.exports = new Resource('question', '/question', {
                 }).then(function (question) {
                         models.tag.findOne({
                                 where: {
-                                        name: req.params.tag+name
+                                        name: req.params.tag_name
                                 }
                         }).then(function (tag) {
                                 question.removeTag(tag).then( function(removed) {
