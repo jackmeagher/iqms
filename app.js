@@ -39,7 +39,7 @@ var user_routes = require('./routes/user');
 var tag_routes = require('./routes/tag');
 var position_routes = require('./routes/position');
 var candidate_routes = require('./routes/candidate');
-
+var interviewer_routes = require('./routes/interviewer');
 
 question_routes.register(app,'');
 interview_routes.register(app,'');
@@ -49,6 +49,7 @@ role_routes.register(app,'');
 tag_routes.register(app,'');
 position_routes.register(app,'');
 candidate_routes.register(app, '');
+interviewer_routes.register(app, '');
 
 app.use('/static', express.static('../static'));
 

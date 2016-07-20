@@ -24,6 +24,12 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
                $scope.candidates[candidate.name] = candidate; 
             });
         });
+        
+        $http.get('/interviewer').success(function(data) {
+            data.interviewers.forEach(function(interviewer, index) {
+               $scope.interviewers[interviewer.name] = interviewer; 
+            });
+        });
     }
     
     $scope.CreateInterview = function () {
