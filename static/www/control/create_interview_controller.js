@@ -32,14 +32,21 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
         });
     }
     
-    $scope.CreateInterview = function () {
-        var par1 = {interviewee: $scope.cur_int, label: $scope.cur_pos};
+    $scope.createInterview = function () {
+        /*var par1 = {interviewee: $scope.cur_int, label: $scope.cur_pos};
 
         $http.post('/interview', par1).success(function (posted) {
             addQuestions(posted.interview.id);
             $window.location.href = './#li';
 
-        })
+        })*/
+        
+        $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
+                   + '/position/' + $scope.positions[$scope.selectedPosition].id)
+        .success(function(created) {
+            console.log(created);
+            $window.location.href = './#li';
+        });
     };
 
     var addQuestions = function(id){
@@ -167,12 +174,7 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
         }
     }
     
-    $('#tagbox').on('itemAddedOnInit', function(event) {
-        console.log(event.item);
-    });
     $('#tagbox').on('beforeItemAdd', function(event) {
-        // event.item: contains the item
-        // event.cancel: set to true to prevent the item getting added
         event.itemValue = taggingService.countTag(event.item);
         event.itemText = event.item + " (" + event.itemValue + ")";
     });
