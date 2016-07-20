@@ -120,7 +120,6 @@ exports = module.exports = new Resource('question', '/question', {
                         }).then(function (tag) {
                         question.addTag(tag).then(
                             function (added) {
-                                console.log('ADDED');
                                 res.status(200).json({
                                     added: added
                                 });
