@@ -1,11 +1,10 @@
-/**
- * Created by nick on 3/31/16.
- */
-
-// controller
-function create_interview_controller($scope, $http, $window, taggingService) {
+function create_interview_controller($scope, $http, $window, taggingService, popupService) {
     $scope.current_questions  = [];     // set the default search/filter term
 
+    $scope.positions = {"Test": {id: 0, position: "Test", description: "A test description"}};
+    $scope.selectedPosition = null;
+    $scope.positionText = "";
+    
     $scope.tags = ['Technical', 'Test', 'First', 'Last'];
     $scope.addTag = false;
     
@@ -43,21 +42,57 @@ function create_interview_controller($scope, $http, $window, taggingService) {
         return taggingService.countTag(tag);
     }
     
-    $("#myTags").tagit({
-        beforeTagAdded: function(event, ui) {
-            /*// do something special
-            console.log(ui.tagLabel);
-            //$scope.tags.push(ui.tagLabel);
-            ui.tagLabel = $scope.getTagCount(ui.tagLabel) + " " + ui.tagLabel;
-            if ($scope.addTag) {
-                $("#myTags").tagit("createTag", ui.tagLabel);
-                $scope.addTag = false;
-                return true;
-            }
-            $scope.addTag = true;
-            return false;*/
-        }
-    });
+   /* $scope.addPosition = function() {
+        popupService.init("Add a Position", "Add a new position", "" ,"");
+        popupService.showPrompt(this, function() {
+            $scope.positions.push({id: $scope.positions.length, position: popupService.getResult()});
+            popupService.init("Description", "Add job description for " + popupService.getResult(), "" ,"");
+            popupService.showPrompt(this, function() {
+               $scope.positions[$scope.positions.length - 1].description = popupService.getResult(); 
+            });
+        });
+        
+    }*/
+    
     taggingService.resetTags();
+    
+    
+    $scope.addPosition = function(position) {
+        if (position && !$scope.positions[position]) {
+            $scope.positions[position] = {id: 0, position: position, description: ""};
+            popupService.init("Description", "Add job description for " + position, "" ,"");
+            popupService.showPrompt(this, function() {
+                $scope.positions[position].description = popupService.getResult();
+                $scope.selectedPosition = position;
+            });
+        }
+    }
+    
+    $scope.queryPosition = function(query) {
+        var pos = $.map($scope.positions, function(value, index) {
+           return value.position; 
+        });
+        if (query == null) {
+            query = "";
+        }
+        text = query.toLowerCase();
+        var ret = pos.filter(function(d) {
+           var test = d.toLowerCase();
+           return test.startsWith(text);
+        });
+        return ret;
+    }
+    
+    $scope.positionTextChange = function(text) {
+        var pos = $.map(taggingService.getTags(), function(value, index) {
+            return value.name; 
+        }); 
+    }
+    
+    $scope.positionItemChange = function(item) {
+        if (item) {
+            $scope.selectedPosition = item;
+        }
+    }
 }
 
