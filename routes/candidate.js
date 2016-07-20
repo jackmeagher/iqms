@@ -1,0 +1,106 @@
+var models = require('../models');
+var Resource = require('../lib/Resource');
+var exports = module.exports = {};
+
+exports = module.exports = new Resource('candidate', '/candidate', {
+    get: (req, res) => {
+        models.candidate.findAll()
+            .then(function(candidate) {
+                res.status(200).json({
+                    candidate: candidate
+                });
+            })
+    },
+    post: (req, res) => { // make a new position
+        if (!req.body.name){
+            req.body.name = 'NAME';
+        }
+        models.candidate.create({
+            name : req.body.name ? req.body.name : null
+        }).then(function(created) {
+            res.status(201).json({
+                data: created.dataValues
+            });
+        })
+    }
+}, [new Resource('get candidate by id', '/:id', {
+    get: (req, res) => {
+        models.candidate.findAll({
+            where: {
+                id: req.params.id
+            }
+        }).then(function(candidate) {
+            res.status(200).json({
+                candidate: candidate[0]
+            });
+        })
+    }
+    
+}),
+    new Resource('add position to candidate', '/:id/position/:position_id', {
+        post: (req, res) => {
+            models.candidate.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then(function(candidate) {
+                models.position.findOne({
+                    where: {
+                        id: req.params.position_id
+                    }
+                }).then(function(position) {
+                    candidate.addPosition(position).then(function(added) {
+                        res.status(200).json({
+                           added: added 
+                        });
+                    })
+                })
+            })
+        },
+        delete: (req, res) => {
+            models.candidate.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then(function(candidate) {
+                models.position.findOne({
+                    where: {
+                        id: req.params.position_id
+                    }
+                }).then(function(position) {
+                    candidate.removePosition(position).then(function(removed) {
+                        res.status(204).json({
+                           removed: removed 
+                        });
+                    })
+                })
+            })
+        }
+    }),
+    new Resource('get position by candidates', '/:id/position', {
+       get: (req, res) => {
+            models.candidate.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then(function(candidate) {
+                candidate.getPositions().then(function(positions) {
+                    res.status(200).json({
+                        positions: positions
+                    });
+                })
+            })
+        },
+        delete: (req, res) => {
+            models.candidate.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then(function(position) {
+                candidate.setPositions([]).then(function(positions) {
+                    res.status(204).json({});
+                })
+            })
+        }
+    })]
+);
