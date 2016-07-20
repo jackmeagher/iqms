@@ -127,8 +127,6 @@
         return;
     
       if(beforeItemAddEvent.itemText != null && beforeItemAddEvent.itemText !== itemText) {
-        console.log(itemText);
-        console.log(beforeItemAddEvent.itemText);
         itemText = beforeItemAddEvent.itemText;
         itemValue = beforeItemAddEvent.itemValue;
         if (itemValue == 0) {

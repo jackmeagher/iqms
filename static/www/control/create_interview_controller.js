@@ -12,6 +12,8 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $scope.selectedInterviewer = null;
     $scope.interviewerText = "";
     
+    $scope.taglist = [];
+    
     $scope.loadScreen = function() {
         $http.get('/position').success(function(data) {
             data.positions.forEach(function(position, index) {
@@ -45,8 +47,20 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
                    + '/position/' + $scope.positions[$scope.selectedPosition].id)
         .success(function(created) {
             console.log(created);
+            $scope.taglist.forEach(function(tag, index) {
+                if (taggingService.countTag(tag) > 0) {
+                    $http.post('/interviewer/' + $scope.interviewers[$scope.selectedInterviewer].id
+                           + '/tag/' + tag).success(function(created) {
+                        console.log(created);
+                    });
+                }
+                
+            });
             $window.location.href = './#li';
+            //$window.location.href = './#li';
         });
+        
+        
     };
 
     var addQuestions = function(id){
@@ -65,7 +79,6 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
                 $scope.selectedPosition = position;
                 $http.post('/position', $scope.positions[position]).success(function(created) {
                    $scope.positions[position].id = created.data.id;
-                   console.log($scope.positions);
                 });
             });
         }
@@ -104,7 +117,6 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
             $scope.selectedCandidate = candidate;
             $http.post('/candidate', $scope.candidates[candidate]).success(function(created) {
                $scope.candidates[candidate].id = created.data.id;
-               console.log($scope.candidates);
             });
         }
     }
@@ -142,7 +154,6 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
             $scope.selectedInterviewer = interviewer;
             $http.post('/interviewer', $scope.interviewers[interviewer]).success(function(created) {
                $scope.interviewers[interviewer].id = created.data.id;
-               console.log($scope.interviewers);
             });
         }
     }
@@ -177,6 +188,14 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $('#tagbox').on('beforeItemAdd', function(event) {
         event.itemValue = taggingService.countTag(event.item);
         event.itemText = event.item + " (" + event.itemValue + ")";
+        $scope.taglist.push(event.item);
+        console.log($scope.taglist);
+    });
+    
+    $('#tagbox').on('beforeItemRemove', function(event) {
+        if($scope.taglist.indexOf(event.item) > -1) {
+            $scope.taglist.splice($scope.taglist.indexOf(event.item), 1);
+        }
     });
 
     
