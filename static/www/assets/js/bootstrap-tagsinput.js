@@ -130,6 +130,12 @@
         console.log(itemText);
         console.log(beforeItemAddEvent.itemText);
         itemText = beforeItemAddEvent.itemText;
+        itemValue = beforeItemAddEvent.itemValue;
+        if (itemValue == 0) {
+            tagClass = 'label label-danger';
+        } else {
+          tagClass = 'label label-info';
+        }
       }
       // register item in internal array and map
       self.itemsArray.push(item);
@@ -220,9 +226,12 @@
       var self = this;
       $('.tag', self.$container).each(function() {
         var $tag = $(this),
-            item = $tag.data('item'),
+            item = $tag.data('item');
+            
+            var beforeItemRefreshEvent = $.Event('beforeItemRefresh', { item: item, cancel: false, options: options});
+            
             itemValue = self.options.itemValue(item),
-            itemText = self.options.itemText(item),
+            itemText = self.options.itemText(beforeItemRefreshEvent.item),
             tagClass = self.options.tagClass(item);
 
           // Update tag's class and inner text

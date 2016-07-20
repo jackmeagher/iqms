@@ -12,8 +12,6 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $scope.selectedInterviewer = null;
     $scope.interviewerText = "";
     
-    $scope.tags = ['Technical'];
-    
     $scope.CreateInterview = function () {
         var par1 = {interviewee: $scope.cur_int, label: $scope.cur_pos};
 
@@ -143,15 +141,9 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $('#tagbox').on('beforeItemAdd', function(event) {
         // event.item: contains the item
         // event.cancel: set to true to prevent the item getting added
-        console.log(event.item + " " + taggingService.countTag(event.item));
-        event.itemText = event.item + " " + taggingService.countTag(event.item);
-        event.data = event.item;
+        event.itemValue = taggingService.countTag(event.item);
+        event.itemText = event.item + " (" + event.itemValue + ")";
     });
-    
-    $scope.tags.forEach(function(tag, index) {
-       $('#tagbox').tagsinput('add', tag); 
-    });
-    
-    
+
 }
 
