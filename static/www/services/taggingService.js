@@ -141,15 +141,28 @@ function taggingService($http, $rootScope) {
             data.tags.forEach(function(tag, index) {
                tags[tag.name] = tag;
             });
+            data.tags.forEach(function(tag, index) {
+               tags[tag.name].count = countTag(tag.name);
+            });
             $rootScope.$emit('tagNotification');
         });
         
     }
     
     var countTag = function(name) {
-        $http.get('/tag/' + name + '/questions/').success(function (data) {
-            return data.questions.length;
-        });
+        if (tags[name]) {
+            if (tags[name].count) {
+                return tags[name].count;
+            } else {
+                $http.get('/tag/' + name + '/questions/').success(function (data) {
+                    return data.questions.length;
+                });
+            }
+            
+        } else {
+            return 0;
+        }
+        
     }
     
     var updateTags = function(edit) {

@@ -12,24 +12,9 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $scope.selectedInterviewer = null;
     $scope.interviewerText = "";
     
-    $scope.tags = ['Technical', 'Test', 'First', 'Last'];
-    $scope.addTag = false;
+    $scope.tags = ['Technical'];
     
-    $scope.$on('current_position', function (event, data) {
-        $scope.cur_pos = data.display;
-    });
-    $scope.$on('current_interviewee', function (event, data) {
-        $scope.cur_int = data.item.first_name + " " + data.item.last_name;
-    });
-
-    $scope.addQuestion = function(question){
-        if ($scope.current_questions.indexOf(question) < 0){
-        $scope.current_questions.push(question.item);
-    }};
-
     $scope.CreateInterview = function () {
-
-
         var par1 = {interviewee: $scope.cur_int, label: $scope.cur_pos};
 
         $http.post('/interview', par1).success(function (posted) {
@@ -43,26 +28,8 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
         $scope.current_questions.forEach(q => $http.post('/interview/' + id + '/questions/' + q.id));
         $scope.current_questions.forEach(q => $http.post('/answer/',{interviewId : id, questionId: q.id}));
     };
-
     
-    $scope.getTagCount = function(tag) {
-        return taggingService.countTag(tag);
-    }
-    
-   /* $scope.addPosition = function() {
-        popupService.init("Add a Position", "Add a new position", "" ,"");
-        popupService.showPrompt(this, function() {
-            $scope.positions.push({id: $scope.positions.length, position: popupService.getResult()});
-            popupService.init("Description", "Add job description for " + popupService.getResult(), "" ,"");
-            popupService.showPrompt(this, function() {
-               $scope.positions[$scope.positions.length - 1].description = popupService.getResult(); 
-            });
-        });
-        
-    }*/
-    
-    taggingService.resetTags();
-    
+    taggingService.resetTags();  
     
     $scope.addPosition = function(position) {
         if (position && !$scope.positions[position]) {
@@ -169,5 +136,22 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
             $scope.selectedInterviewer = item;
         }
     }
+    
+    $('#tagbox').on('itemAddedOnInit', function(event) {
+        console.log(event.item);
+    });
+    $('#tagbox').on('beforeItemAdd', function(event) {
+        // event.item: contains the item
+        // event.cancel: set to true to prevent the item getting added
+        console.log(event.item + " " + taggingService.countTag(event.item));
+        event.itemText = event.item + " " + taggingService.countTag(event.item);
+        event.data = event.item;
+    });
+    
+    $scope.tags.forEach(function(tag, index) {
+       $('#tagbox').tagsinput('add', tag); 
+    });
+    
+    
 }
 
