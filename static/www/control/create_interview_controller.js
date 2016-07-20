@@ -1,5 +1,4 @@
 function create_interview_controller($scope, $http, $window, taggingService, popupService) {
-    $scope.current_questions  = [];     // set the default search/filter term
 
     $scope.positions = {"Test": {id: 0, position: "Test", description: "A test description"}};
     $scope.selectedPosition = null;
@@ -8,6 +7,10 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $scope.candidates = {"Hunter Heidenreich": {id: 0, name: "Hunter Heidenreich"}};
     $scope.selectedCandidate = null;
     $scope.candidateText = "";
+    
+    $scope.interviewers = {"Hunter Scott Heidenreich": {id: 0, name: "Hunter Scott Heidenreich"}};
+    $scope.selectedInterviewer = null;
+    $scope.interviewerText = "";
     
     $scope.tags = ['Technical', 'Test', 'First', 'Last'];
     $scope.addTag = false;
@@ -130,6 +133,40 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $scope.candidateItemChange = function(item) {
         if (item) {
             $scope.selectedCandidate = item;
+        }
+    }
+    
+    $scope.addInterviewer = function(interviewer) {
+        if (interviewer && !$scope.interviewers[interviewer]) {
+            $scope.interviewers[interviewer] = {id: 0, name: interviewer};
+            $scope.selectedInterviewer = interviewer;
+        }
+    }
+    
+    $scope.queryInterviewer = function(query) {
+        var interv = $.map($scope.interviewers, function(value, index) {
+            return value.name;
+        });
+        if (query == null) {
+            query = "";
+        }
+        text = query.toLowerCase();
+        var ret = interv.filter(function(d) {
+            var test = d.toLowerCase();
+            return test.startsWith(text);
+        });
+        return ret;
+    }
+    
+    $scope.interviewerTextChange = function(text) {
+        var interv = $.map($scope.interviewers, function(value, index) {
+            return value.name;
+        });
+    }
+    
+    $scope.interviewerItemChange = function(item) {
+        if (item) {
+            $scope.selectedInterviewer = item;
         }
     }
 }
