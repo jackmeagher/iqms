@@ -63,7 +63,8 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
         if (id > 0) {
             $http.put('/question/' + id, questionData).success(function(created) {
                 taggingService.updateTags(true);
-                $window.location.href = './#qm'; 
+                $window.location.href = './#qm';
+                taggingService.persistQuestionTag(id);
             });
         } else {
            $http.post('/question',  questionData).success(function(created) {

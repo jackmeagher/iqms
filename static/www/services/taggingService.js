@@ -9,7 +9,6 @@ function taggingService($http, $rootScope) {
     
     var isTech = false;
     
-    
     var setTech = function(tech) { 
         isTech = tech;
         return isTech;
@@ -44,13 +43,15 @@ function taggingService($http, $rootScope) {
         selectedTags = {};
         
         addedTags.forEach(function(tag, index) {
-           selectedTags[tag] = tags[tag];
-           //selectedTags[tag].count = countTag(tag);
+            if (tags[tag]) {
+                selectedTags[tag] = tags[tag]; 
+            }
         });
         
         savedTags.forEach(function(tag, index) {
-           selectedTags[tag] = tags[tag];
-          // selectedTags[tag].count = countTag(tag);
+            if (tags[tag]) {
+                selectedTags[tag] = tags[tag];
+            }
         });
     
         var showTags = $.merge([], addedTags);
@@ -81,14 +82,13 @@ function taggingService($http, $rootScope) {
         
         if (shouldAdd) {
             var tagData = {
-                name: name,
-                count: 0
+                name: name
             };
             
             $http.post('/tag',  tagData).success(function(created) {
-                tags[created.tag.name].count = created.tag.count;
-                tags[created.tag.name].id = created.tag.id;
+                tags[created.tag.name].count = 0;
                 selectedTags[created.tag.name] = tags[created.tag.name];
+                $rootScope.$emit('tagNotification');
             });
             
             tags[tagData.name] = tagData;
@@ -142,7 +142,7 @@ function taggingService($http, $rootScope) {
                tags[tag.name] = tag;
             });
             data.tags.forEach(function(tag, index) {
-               tags[tag.name].count = countTag(tag.name);
+                countTag(tag.name);
             });
             $rootScope.$emit('tagNotification');
         });
@@ -155,8 +155,10 @@ function taggingService($http, $rootScope) {
                 return tags[name].count;
             } else {
                 $http.get('/tag/' + name + '/questions/').success(function (data) {
-                    return data.questions.length;
+                    tags[name].count = data.questions.length;
+                    $rootScope.$emit('tagNotification');
                 });
+                return 0;
             }
             
         } else {
@@ -168,7 +170,6 @@ function taggingService($http, $rootScope) {
     var updateTags = function(edit) {
         
         addedTags.forEach(function(tag, id) {
-            tags[tag].count++;
             $http.put('/tag/' + tags[tag].name,  tags[tag]).success(function(created) {
                     
             });
@@ -176,7 +177,6 @@ function taggingService($http, $rootScope) {
         
         if (edit) {
             removedTags.forEach(function(tag, id) {
-                tags[tag].count--;
                 $http.put('/tag/' + tags[tag].name,  tags[tag]).success(function(created) {
                         
                 });
@@ -187,7 +187,6 @@ function taggingService($http, $rootScope) {
     
     var deleteQuestionTags = function(deletedTags) {
         deletedTags.forEach(function(tag, index) {
-            tags[tag].count--; 
             $http.put('/tag/' + tags[tag].name,  tags[tag]).success(function(created) {
                             
             });
@@ -197,6 +196,14 @@ function taggingService($http, $rootScope) {
     var persistQuestionTag = function(questionId) {
         addedTags.forEach(function(tag, index) {
             $http.post('/question/' + questionId + '/tags/' + tag).success(function(created) {
+                console.log(tag);
+            }); 
+        });
+        
+        console.log(removedTags);
+        
+        removedTags.forEach(function(tag, index) {
+            $http.delete('/question/' + questionId + '/tags/' + tag).success(function(created) {
                 console.log(tag);
             }); 
         });
