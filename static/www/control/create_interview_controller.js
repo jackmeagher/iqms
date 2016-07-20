@@ -131,8 +131,12 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     
     $scope.addInterviewer = function(interviewer) {
         if (interviewer && !$scope.interviewers[interviewer]) {
-            $scope.interviewers[interviewer] = {id: 0, name: interviewer};
+            $scope.interviewers[interviewer] = {name: interviewer};
             $scope.selectedInterviewer = interviewer;
+            $http.post('/interviewer', $scope.interviewers[interviewer]).success(function(created) {
+               $scope.interviewers[interviewer].id = created.data.id;
+               console.log($scope.interviewers);
+            });
         }
     }
     
