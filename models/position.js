@@ -10,7 +10,9 @@ module.exports = function(sequelize, DataTypes) {
 
         {
             classMethods: {
-                
+                associate: function(models) {
+                    position.belongsToMany(models.candidate, {through: "cadidatePosition"});
+                }
             }
         });
 
