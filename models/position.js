@@ -6,6 +6,7 @@
 module.exports = function(sequelize, DataTypes) {
     var position = sequelize.define("position", {
             name: DataTypes.STRING,
+            description: DataTypes.TEXT
         },
 
         {

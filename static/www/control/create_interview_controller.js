@@ -1,6 +1,6 @@
 function create_interview_controller($scope, $http, $window, taggingService, popupService) {
 
-    $scope.positions = {"Test": {id: 0, position: "Test", description: "A test description"}};
+    $scope.positions = {"Test": {id: 0, name: "Test", description: "A test description"}};
     $scope.selectedPosition = null;
     $scope.positionText = "";
     
@@ -11,6 +11,14 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $scope.interviewers = {"Hunter Scott Heidenreich": {id: 0, name: "Hunter Scott Heidenreich"}};
     $scope.selectedInterviewer = null;
     $scope.interviewerText = "";
+    
+    $scope.loadScreen = function() {
+        $http.get('/position').success(function(data) {
+            data.positions.forEach(function(position, index) {
+               $scope.positions[position.name] = position;
+            });
+        });
+    }
     
     $scope.CreateInterview = function () {
         var par1 = {interviewee: $scope.cur_int, label: $scope.cur_pos};
@@ -31,18 +39,22 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     
     $scope.addPosition = function(position) {
         if (position && !$scope.positions[position]) {
-            $scope.positions[position] = {id: 0, position: position, description: ""};
+            $scope.positions[position] = {name: position, description: ""};
             popupService.init("Description", "Add job description for " + position, "" ,"");
             popupService.showPrompt(this, function() {
                 $scope.positions[position].description = popupService.getResult();
                 $scope.selectedPosition = position;
+                $http.post('/position', $scope.positions[position]).success(function(created) {
+                   $scope.positions[position].id = created.data.id;
+                   console.log($scope.positions);
+                });
             });
         }
     }
     
     $scope.queryPosition = function(query) {
         var pos = $.map($scope.positions, function(value, index) {
-           return value.position; 
+           return value.name; 
         });
         if (query == null) {
             query = "";
@@ -57,7 +69,7 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     
     $scope.positionTextChange = function(text) {
         var pos = $.map($scope.positions, function(value, index) {
-            return value.position; 
+            return value.name; 
         }); 
     }
     
@@ -145,5 +157,7 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
         event.itemText = event.item + " (" + event.itemValue + ")";
     });
 
+    
+    $scope.loadScreen();
 }
 

@@ -15,8 +15,14 @@ exports = module.exports = new Resource('position', '/position', {
         if (!req.body.name){
             req.body.name = 'Job';
         }
+        
+        if (!req.body.description) {
+            req.body.description = 'Job description';
+        }
+        
         models.position.create({
-            name : req.body.name ? req.body.name : null
+            name : req.body.name ? req.body.name : null,
+            description: req.body.description ? req.body.description : null
         }).then(function(created) {
             res.status(201).json({
                 data: created.dataValues
