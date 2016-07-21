@@ -11,7 +11,9 @@ module.exports = function(sequelize, DataTypes) {
 
         {
             classMethods: {
-
+                associate: function(models) {
+                    candidatePosition.hasOne(models.interview);
+                }
             }
         });
 
