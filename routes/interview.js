@@ -45,9 +45,7 @@ exports = module.exports = new Resource('interview', '/interview', {
                         id: req.params.id
                     }
                 }).then(function (destroyed) {
-                    res.status(200).json({
-                        answer: destroyed.dataValues
-                    });
+                    res.status(200).json({});
                 });
 
             },
@@ -95,15 +93,33 @@ exports = module.exports = new Resource('interview', '/interview', {
             ,
             /// delete all questions from interview
             delete: (req, res) => {
-                models.interviewQuestion.destroy({
+                models.interview.findOne({
                         where: {
-                            interview_id: req.params.id
+                                id: req.params.id
                         }
-                    }
-                    )
-                    .then(function (destroyed) {
-                        res.status(200).json(destroyed);
-                    })
+                }).then(function(interview) {
+                        interview.setQuestions([]).then(function(questions) {
+                                res.status(204).json({});      
+                        })
+                })
+
+            }
+
+
+        }),
+        
+        new Resource('get_questions_from_interview', '/:id/tags', {
+            /// delete all questions from interview
+            delete: (req, res) => {
+                models.interview.findOne({
+                        where: {
+                                id: req.params.id
+                        }
+                }).then(function(interview) {
+                        interview.setTags([]).then(function(tags) {
+                                res.status(204).json({});      
+                        })
+                })
 
             }
 
