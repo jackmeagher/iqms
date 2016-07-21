@@ -10,26 +10,18 @@ exports = module.exports = new Resource('tag', '/tag', {
                     query.name = req.query.name;
                 }
                 
-                if (req.query.count) {
-                    query.count = req.query.count;
-                }
-                
                 models.tag.findAll({where: query}).
                         then(function(tags) {
                                 res.status(200).json({tags: tags});
                 })
         },
         post: (req, res) => {
-                if(!req.query.count) {
-                        req.query.count = 0;
-                }
                 
                 if (!req.query.name) {
                     req.query.name = 'Blank';
                 }
                 
                 models.tag.create( {
-                        count: req.body.count ? req.body.count : 0,
                         name: req.body.name ? req.body.name : null
                 }).then(function(created) {
                         res.status(201).json({tag: created.dataValues});
