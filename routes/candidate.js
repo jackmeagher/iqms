@@ -51,11 +51,24 @@ exports = module.exports = new Resource('candidate', '/candidate', {
                 }).then(function(position) {
                     candidate.addPosition(position).then(function(added) {
                         res.status(200).json({
-                           added: added 
+                            result: added
                         });
                     })
                 })
             })
+        },
+        get: (req, res) => {
+          models.candidate.findOne({
+            where: {
+                id: req.params.id
+            }
+          }).then(function(candidate) {
+            candidate.getPositions({ attributes: ['id'], joinTableAttributes: ['id']}).then(function(result) {
+               res.status(200).json({
+                    result: result
+               });
+            })
+          })
         },
         delete: (req, res) => {
             models.candidate.findOne({

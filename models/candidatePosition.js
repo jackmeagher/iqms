@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
     var candidatePosition = sequelize.define("candidatePosition", {
-            id: {
+            c_id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
                 autoIncrement: true

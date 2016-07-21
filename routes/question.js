@@ -1,10 +1,6 @@
-/**
- * Created by nick on 3/15/16.
- */
 var models = require('../models');
 var Resource = require('../lib/Resource');
 var exports = module.exports = {};
-
 
 exports = module.exports = new Resource('question', '/question', {
         get: (req, res) => {
