@@ -73,12 +73,20 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
                     };
                     $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
                         console.log(updated);
-                        $window.location.href = './#li'; 
+                        $scope.taglist.forEach(function(tag, index) {
+                            if (taggingService.countTag(tag) > 0) {
+                                $http.post('/tag/' + tag
+                                       + '/interview/' + interviewID).success(function(created) {
+                                    console.log(created);
+                                    $window.location.href = './#li'; 
+                                });
+                            }
+                            
+                        });
+                        
                     });
                 });
             });
-            
-            //$window.location.href = './#li';
         });
         
         

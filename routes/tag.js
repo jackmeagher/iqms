@@ -73,5 +73,26 @@ exports = module.exports = new Resource('tag', '/tag', {
                         )
                 })
         }
+    }),
+    new Resource('add tags to interview', '/:name/interview/:interview_id', {
+        post: (req, res) => {
+                models.tag.findOne({
+                        where: {
+                                name: req.params.name
+                        }
+                }).then(function(tag) {
+                        models.interview.findOne({
+                                where: {
+                                        id: req.params.interview_id
+                                }
+                        }).then(function(interview) {
+                                tag.addInterview(interview).then(function(added) {
+                                        res.status(200).json({
+                                                added: added
+                                        });
+                                })
+                        })
+                })
+        }
     })
     ]);
