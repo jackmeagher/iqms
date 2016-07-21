@@ -196,25 +196,27 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     
     $scope.showInterviewWithTag = function(ev, tag) {
         taggingService.setClickedTag(tag);
-        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-        $mdDialog.show({
-            controller: DialogController,
-            templateUrl: 'questionFlagger.html',
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            clickOutsideToClose:true,
-            fullscreen: useFullScreen
-        })
-        .then(function(answer) {
-            $scope.status = 'You said the information was "' + answer + '".';
-        }, function() {
-            $scope.status = 'You cancelled the dialog.';
-        });
-        $scope.$watch(function() {
-          return $mdMedia('xs') || $mdMedia('sm');
-        }, function(wantsFullScreen) {
-          $scope.customFullscreen = (wantsFullScreen === true);
-        });
+        if (taggingService.countTag(tag) > 0) {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+            $mdDialog.show({
+                controller: DialogController,
+                templateUrl: 'questionFlagger.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                fullscreen: useFullScreen
+            })
+            .then(function(answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+            });
+            $scope.$watch(function() {
+              return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+              $scope.customFullscreen = (wantsFullScreen === true);
+            });
+        }
     }
     
     $('#tagbox').on('beforeItemAdd', function(event) {

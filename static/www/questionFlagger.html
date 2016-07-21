@@ -20,6 +20,7 @@
                             <table class="table">
                                 <thead>
                                 <tr>
+                                    <th></th>
                                     <th>
                                         <a ng-click="sortType = 'id'; sortReverse = !sortReverse"
                                            style="cursor:pointer;">
@@ -53,6 +54,13 @@
                                 </thead>
                                 <tbody ng-repeat="question in _question | orderBy:sortType:sortReverse | filter:searchQuestion">
                                 <tr class="success">
+                                    <td>
+                                        <select class="form-control">
+                                            <option>-----</option>
+                                            <option>Highlighted</option>
+                                            <option>Selected</option>
+                                        </select>
+                                    </td>
                                     <td>{{question.id}}</td>
                                     <td>{{question.text}}</td>
                                     <td>{{question.difficulty}}</td>
