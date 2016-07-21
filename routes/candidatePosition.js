@@ -26,6 +26,19 @@ exports = module.exports = new Resource('candidatePosition', '/candidatePosition
                 })
         }
     }
-    )
+    ),
+        new Resource('get with one id', '/:id', {
+                get: (req, res) => {
+                        models.candidatePosition.find({
+                                where: {
+                                        c_id: req.params.id
+                                }
+                        }).then(function(result) {
+                                res.status(200).json({
+                                   result: result     
+                                });
+                        })
+                }
+        })
 ]
 );

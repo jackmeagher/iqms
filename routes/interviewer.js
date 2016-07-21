@@ -24,7 +24,21 @@ exports = module.exports = new Resource('interviewer', '/interviewer', {
             });
         })
     }
-}, [new Resource('add tag to interviewer', '/:id/tag/:tag_name', {
+}, [
+    new Resource('access interviewer by id', '/:id', {
+       get: (req, res) => {
+            models.interviewer.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then(function(result) {
+                res.status(200).json({
+                    result: result
+                });
+            })
+       }
+    }),
+    new Resource('add tag to interviewer', '/:id/tag/:tag_name', {
         post: (req, res) => {
             models.interviewer.findOne({
                 where: {
