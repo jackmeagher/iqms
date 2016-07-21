@@ -1,4 +1,4 @@
-function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window, taggingService, popupService) {
+function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window, taggingService, popupService, flaggingService) {
 
     $scope.positions = {};
     $scope.selectedPosition = null;
@@ -38,6 +38,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         $http.post('/interview').success(function(created) {
             console.log(created);
             var interviewID = created.interview.id;
+            flaggingService.persistQuestions(interviewID);
             $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
                    + '/position/' + $scope.positions[$scope.selectedPosition].id)
             .success(function() {

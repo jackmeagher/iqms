@@ -167,6 +167,27 @@ exports = module.exports = new Resource('question', '/question', {
                                 })
                         })
                 }
+        }),
+        new Resource('add interview to question', '/:id/interview/:interview_id', {
+                post: (req, res) => {
+                        models.question.findOne({
+                                where: {
+                                        id: req.params.id
+                                }
+                        }).then(function(question) {
+                                models.interview.findOne({
+                                        where: {
+                                                id: req.params.interview_id
+                                        }
+                                }).then(function(interview) {
+                                        question.addInterview(interview, {state: req.body.state}).then(function(added) {
+                                                res.status(201).json({
+                                                        added: added        
+                                                });
+                                        })
+                                })
+                        })
+                }
         })
 ]
 );

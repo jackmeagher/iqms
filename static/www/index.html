@@ -65,6 +65,7 @@
     <!-- SERVICES -->
     <script src="services/taggingService.js"></script>
     <script src="services/popupService.js"></script>
+    <script src="services/flaggingService.js"></script>
 
     <script>
         function index_controller($scope) {
@@ -139,6 +140,7 @@
         
         app.service("taggingService", ['$http', '$rootScope', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
+        app.service('flaggingService', ['$http', flaggingService]);
         
         app.directive("tag", function() {
             return {
