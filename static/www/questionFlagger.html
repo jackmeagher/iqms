@@ -55,10 +55,10 @@
                                 <tbody ng-repeat="question in _question | orderBy:sortType:sortReverse | filter:searchQuestion">
                                 <tr class="success">
                                     <td>
-                                        <select class="form-control">
-                                            <option>-----</option>
-                                            <option>Highlighted</option>
-                                            <option>Selected</option>
+                                        <select ng-model="question.state" id="questionselect{{$index}}" class="form-control">
+                                            <option value="Neither">-----</option>
+                                            <option value="Pinned">Pinned</option>
+                                            <option value="Blacklisted">Blacklisted</option>
                                         </select>
                                     </td>
                                     <td>{{question.id}}</td>
@@ -66,7 +66,7 @@
                                     <td>{{question.difficulty}}</td>
                                 </tr>
                             </table>
-                           <button type="button" class="btn-lg btn-success"
+                           <button type="button" class="btn-lg btn-success" ng-click="saveQuestions()"
                                     style="margin-left:auto; margin-right:auto;">
                                 Save
                             </button>

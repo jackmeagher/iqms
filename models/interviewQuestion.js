@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
     var interviewQuestion = sequelize.define("interviewQuestion", {
-            state: DataTypes.ENUM('Blacklisted', 'Highlighted')
+            state: DataTypes.ENUM('Blacklisted', 'Pinned')
         },
 
         {

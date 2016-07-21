@@ -9,5 +9,13 @@ function question_flagger_controller($scope, $http, taggingService) {
         $scope._question = data.questions;
         console.log(data);
     });
+    
+    $scope.saveQuestions = function() {
+            var questions = [];
+          /*  for(var i = 0; i < $scope._questions; i++) {
+                $scope._questions[i].state = $("#questionselect" + i).val();
+            }*/
+          console.log($scope._question);
+    }
 
 };
