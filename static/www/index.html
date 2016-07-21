@@ -61,6 +61,7 @@
     <script src="control/login_controller.js"></script>
     <script src="control/slider_controller.js"></script>
     <script src="control/topic_autocomplete_controller.js"></script>
+    <script src="control/question_flagger_controller.js"></script>
     <!-- SERVICES -->
     <script src="services/taggingService.js"></script>
     <script src="services/popupService.js"></script>
@@ -134,6 +135,7 @@
         app.controller("login_controller", login_controller);
         app.controller("slider_controller", slider_controller);
         app.controller("topic_autocomplete_controller", topic_autocomplete_controller);
+        app.controller("question_flagger_controller", question_flagger_controller);
         
         app.service("taggingService", ['$http', '$rootScope', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);

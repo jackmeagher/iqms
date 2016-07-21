@@ -1,4 +1,4 @@
-function create_interview_controller($scope, $http, $window, taggingService, popupService) {
+function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window, taggingService, popupService) {
 
     $scope.positions = {};
     $scope.selectedPosition = null;
@@ -35,27 +35,6 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     }
     
     $scope.createInterview = function () {
-        /*var par1 = {interviewee: $scope.cur_int, label: $scope.cur_pos};
-
-        $http.post('/interview', par1).success(function (posted) {
-            addQuestions(posted.interview.id);
-            $window.location.href = './#li';
-
-        })*/
-        
-       /* $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
-                   + '/position/' + $scope.positions[$scope.selectedPosition].id)
-        .success(function(created) {
-            console.log(created);
-            $scope.taglist.forEach(function(tag, index) {
-                if (taggingService.countTag(tag) > 0) {
-                    $http.post('/interviewer/' + $scope.interviewers[$scope.selectedInterviewer].id
-                           + '/tag/' + tag).success(function(created) {
-                        console.log(created);
-                    });
-                }
-                
-            });*/
         $http.post('/interview').success(function(created) {
             console.log(created);
             var interviewID = created.interview.id;
@@ -88,8 +67,6 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
                 });
             });
         });
-        
-        
     };
 
     var addQuestions = function(id){
@@ -216,6 +193,30 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
         }
     }
     
+    
+    $scope.showInterviewWithTag = function(ev, tag) {
+        taggingService.setClickedTag(tag);
+        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+        $mdDialog.show({
+            controller: DialogController,
+            templateUrl: 'questionFlagger.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: useFullScreen
+        })
+        .then(function(answer) {
+            $scope.status = 'You said the information was "' + answer + '".';
+        }, function() {
+            $scope.status = 'You cancelled the dialog.';
+        });
+        $scope.$watch(function() {
+          return $mdMedia('xs') || $mdMedia('sm');
+        }, function(wantsFullScreen) {
+          $scope.customFullscreen = (wantsFullScreen === true);
+        });
+    }
+    
     $('#tagbox').on('beforeItemAdd', function(event) {
         event.itemValue = taggingService.countTag(event.item);
         event.itemText = event.item + " (" + event.itemValue + ")";
@@ -233,3 +234,14 @@ function create_interview_controller($scope, $http, $window, taggingService, pop
     $scope.loadScreen();
 }
 
+function DialogController($scope, $mdDialog) {
+  $scope.hide = function() {
+    $mdDialog.hide();
+  };
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
+  $scope.answer = function(answer) {
+    $mdDialog.hide(answer);
+  };
+}

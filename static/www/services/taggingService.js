@@ -9,6 +9,8 @@ function taggingService($http, $rootScope) {
     
     var isTech = false;
     
+    var clickedTag = "";
+    
     var setTech = function(tech) { 
         isTech = tech;
         return isTech;
@@ -196,18 +198,25 @@ function taggingService($http, $rootScope) {
     var persistQuestionTag = function(questionId) {
         addedTags.forEach(function(tag, index) {
             $http.post('/question/' + questionId + '/tags/' + tag).success(function(created) {
-                console.log(tag);
+
             }); 
         });
         
-        console.log(removedTags);
         
         removedTags.forEach(function(tag, index) {
             $http.delete('/question/' + questionId + '/tags/' + tag).success(function(created) {
-                console.log(tag);
             }); 
         });
         
+    }
+    
+    var getClickedTag = function() {
+        return clickedTag;
+    }
+    
+    var setClickedTag = function(tag) {
+        console.log(tag);
+        clickedTag = tag;
     }
     
     return {
@@ -225,6 +234,8 @@ function taggingService($http, $rootScope) {
       countTag: countTag,
       updateTags: updateTags,
       deleteQuestionTags: deleteQuestionTags,
-      persistQuestionTag: persistQuestionTag
+      persistQuestionTag: persistQuestionTag,
+      getClickedTag: getClickedTag,
+      setClickedTag: setClickedTag
     };
 }

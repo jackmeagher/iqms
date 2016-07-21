@@ -140,7 +140,7 @@
 
       // add a tag element
 
-      var $tag = $('<span class="tag ' + htmlEncode(tagClass) + (itemTitle !== null ? ('" title="' + itemTitle) : '') + '">' + htmlEncode(itemText) + '<span data-role="remove"></span></span>');
+      var $tag = $('<span class="tag ' + htmlEncode(tagClass) + (itemTitle !== null ? ('" title="' + itemTitle) : '') + '" data-role="tag">' + htmlEncode(itemText) + '<span data-role="remove"></span></span>');
       $tag.data('item', item);
       self.findInputWrapper().before($tag);
       $tag.after(' ');
@@ -472,6 +472,19 @@
         self.remove($(event.target).closest('.tag').data('item'));
       }, self));
 
+      //Tag clicked
+      self.$container.on('click', '[data-role=tag]', $.proxy(function(event) {
+        if (self.$element.attr('disabled')) {
+          return;
+        }
+        console.log('Clicked ' + $(event.target).closest('.tag').data('item'));
+        //console.log(angular.element(document.getElementById('createInterviewDiv')).scope);
+        var scope = angular.element($('#createInterviewDiv')).scope();
+        scope.$apply(function() {
+          scope.showInterviewWithTag(event, $(event.target).closest('.tag').data('item'));
+        }); 
+      }, self));
+      
       // Only add existing value as tags when using strings as tags
       if (self.options.itemValue === defaultOptions.itemValue) {
         if (self.$element[0].tagName === 'INPUT') {

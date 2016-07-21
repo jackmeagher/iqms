@@ -1,5 +1,5 @@
 <div ng-controller="create_interview_controller as cic">
-    <div class="row">
+    <div id="createInterviewDiv" class="row">
         <div class="col-md-12">
             <h1 class="page-head-line">Create an interview</h1>
             <h1 class="page-subhead-line">Set up an interview</h1>
@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12" style="width:100%;">
         <div class="panel panel-info">
-            <div class="panel-heading">
+            <div class="panel-heading" ng-click="showInterviewWithTag($event);">
                 Interview
             </div>
             <div class="control-group" id="fields">
