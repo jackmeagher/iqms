@@ -14,8 +14,7 @@ exports = module.exports = new Resource('question', '/question', {
                 query_doc.difficulty = req.query.difficulty;
             }
             if (req.query.target_text) {
-                query_doc.question_text = {like: "%" + req.query.target_text + "%"};
-                console.log(query_doc.question_text);
+                query_doc.text = {like: "%" + req.query.text + "%"};
             }
 
             models.question.findAll({where: query_doc}
@@ -27,18 +26,33 @@ exports = module.exports = new Resource('question', '/question', {
         },
         // create new question
         post: (req, res) => { // make a new question
-            if (!req.body.question_text){
-                req.body.question_text = 'DEFAULT VAL';
+            if (!req.body.text){
+                req.body.text = 'Blank Text';
             }
+            
+            if (!req.body.tech) {
+                req.body.tech = true;
+            }
+            
+            
+            if (!req.body.tags) {
+                req.body.tags = [];
+            }
+            
             if(!req.body.difficulty){
-                req.body.difficulty = -1;
+                req.body.difficulty = 0;
             }
+            
+            if (!req.body.answers) {
+                req.body.answers = [];
+            }
+            
             models.question.create({
-              question_text: req.body.question_text ? req.body.question_text : null,
-              difficulty: req.body.difficulty ? req.body.difficulty : null
-              // previous
-              // question_text: req.body.question_text,
-              // difficulty: req.body.difficulty
+                text: req.body.text ? req.body.text : null,
+                tech: req.body.tech ? req.body.tech : null,
+                tags: req.body.tags ? req.body.tags : null,
+                difficulty: req.body.difficulty ? req.body.difficulty : 0,
+                answers: req.body.answers ? req.body.answers : null
             }).then(function (created) {
                 res.status(201).json({
                     question: created.dataValues
@@ -46,6 +60,11 @@ exports = module.exports = new Resource('question', '/question', {
             })
         },
 
+        put: (req, res) => {
+        models.question.upsert(req.body.question).then(function (created) {
+                  res.status(201).json({question:created});      
+                })
+        }
 
     }, [new Resource('get_question_by_id', '/:id', {
         //get question by id
@@ -73,6 +92,25 @@ exports = module.exports = new Resource('question', '/question', {
                 })
 
 
+        },
+        put: (req, res) => {
+                res.send('HERE');
+             models.question.find({
+               where: {
+                id: req.params.id
+               }
+             })
+             .then(function (question) {
+                question.text = req.body.text;
+                question.tech = req.body.tech;
+                question.tags = req.body.tags;
+                question.difficulty = req.body.difficulty;
+                question.answers = req.body.answers;
+                question.save({fields: ['text', 'tech', 'tags', 'difficulty', 'answers']}).then(function() {
+                  res.status(200);      
+                })
+             })
+                
         }
     }
     ),

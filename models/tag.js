@@ -2,7 +2,8 @@
 
 module.exports = function(sequelize, DataTypes) {
     var tag = sequelize.define("tag", {
-            label: DataTypes.STRING,
+            name: DataTypes.STRING,
+            count: DataTypes.INTEGER
         },
 
         {
