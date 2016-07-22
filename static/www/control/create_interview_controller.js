@@ -87,7 +87,6 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                             }
                             
                         });
-                        
                     });
                 });
             });

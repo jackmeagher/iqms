@@ -16,6 +16,7 @@ function flaggingService($http, $rootScope) {
                 }
             }
             if (!found) {
+                console.log(questionList);
                 questionList[selectedTag].push(additionalQuestions[i]);
                 questionListById[additionalQuestions[i].id] = additionalQuestions[i];
                 console.log(additionalQuestions[i]);
@@ -30,7 +31,18 @@ function flaggingService($http, $rootScope) {
     }
     
     var persistQuestions = function(interviewID) {
-        for(var i = 0; i < questionList.length; i++) {
+        for (var key in questionListById) {
+            if (questionListById.hasOwnProperty(key)) {
+                if (questionListById[key].state == "Pinned" || questionListById[key].state == "Blacklisted") {
+                    $http.post('/question/' + key +
+                           '/interview/' + interviewID, questionListById[key]).success(function(created) {
+                        
+                    });
+                }
+                console.log(key + " -> " + questionListById[key]);
+            }
+          }
+       /* for(var i = 0; i < questionList.length; i++) {
             if (questionList[i].state == "Pinned") {
                 $http.post('/question/' + questionList[i].id +
                            '/interview/' + interviewID, questionList[i]).success(function(created) {
@@ -42,12 +54,16 @@ function flaggingService($http, $rootScope) {
                     
                 });
             }
-        }
+        }*/
     }
     
     var clearQuestions = function() {
         questionList = {};
         questionListById = {};
+        if (!questionList[selectedTag]) {
+            questionList[selectedTag] = [];
+            console.log(questionList);
+        }
     }
     
     var loadQuestionList = function(id) {

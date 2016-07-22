@@ -4,7 +4,6 @@ function question_flagger_controller($scope, $http, $rootScope, taggingService, 
     $scope.searchQuestion   = '';     // set the default search/filter term
 
     $scope.tag = taggingService.getClickedTag();
-    flaggingService.clearQuestions();
     $http.get('/tag/' + $scope.tag + '/questions/').success(function (data) {
         $scope._question = data.questions;
         var flaggedQuestions = flaggingService.getQuestions();
