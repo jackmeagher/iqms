@@ -109,6 +109,21 @@ exports = module.exports = new Resource('interview', '/interview', {
         }),
         
         new Resource('get_questions_from_interview', '/:id/tags', {
+                
+                get: (req, res) => {
+                        models.interview.findOne({
+                                where: {
+                                        id: req.params.id
+                                }
+                        }).then(function(interview) {
+                                interview.getTags().then(function(tags) {
+                                        res.status(200).json({
+                                           tags: tags     
+                                        });
+                                })
+                        })
+                        
+                },
             /// delete all questions from interview
             delete: (req, res) => {
                 models.interview.findOne({

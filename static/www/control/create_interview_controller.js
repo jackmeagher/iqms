@@ -47,6 +47,12 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                         $scope.positionItemChange(result.position.name);
                     });
                  });
+                $http.get('/interview/' + loc.id + '/tags').success(function(data) {
+                    data.tags.forEach(function(tag, index) {
+                       console.log(tag);
+                       $('#tagbox').tagsinput('add', tag.name);
+                    });
+                })
             });
         }
     }
@@ -169,8 +175,6 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.candidateItemChange = function(item) {
         if (item) {
             $scope.selectedCandidate = item;
-            console.log($scope.candidates);
-            console.log($scope.selectedCandidate);
         }
     }
     
