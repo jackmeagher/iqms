@@ -15,6 +15,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.taglist = [];
     
     $scope.loadScreen = function() {
+        flaggingService.clearQuestions();
         $http.get('/position').success(function(data) {
             data.positions.forEach(function(position, index) {
                $scope.positions[position.name] = position;
@@ -35,6 +36,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ie') {
+            flaggingService.loadQuestionList(loc.id);
             $http.get('/interview/' + loc.id).success(function(data) {
                 $http.get('/interviewer/' + data.interview.interviewerId).success(function(result) {
                     $scope.interviewerItemChange(result.result.name);
@@ -49,7 +51,6 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                  });
                 $http.get('/interview/' + loc.id + '/tags').success(function(data) {
                     data.tags.forEach(function(tag, index) {
-                       console.log(tag);
                        $('#tagbox').tagsinput('add', tag.name);
                     });
                 })
@@ -225,6 +226,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     
     $scope.showInterviewWithTag = function(ev, tag) {
         taggingService.setClickedTag(tag);
+        flaggingService.setSelectedTag(tag);
         if (taggingService.countTag(tag) > 0) {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             $mdDialog.show({

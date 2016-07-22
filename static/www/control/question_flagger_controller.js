@@ -7,6 +7,14 @@ function question_flagger_controller($scope, $http, taggingService, flaggingServ
     
     $http.get('/tag/' + $scope.tag + '/questions/').success(function (data) {
         $scope._question = data.questions;
+        var flaggedQuestions = flaggingService.getQuestions();
+        $scope._question.forEach(function(question, index) {
+           flaggedQuestions.forEach(function(qs, id) {
+            if (question.id == qs.id) {
+                question.state = qs.state;
+            }
+           });
+        });
         console.log(data);
     });
     
