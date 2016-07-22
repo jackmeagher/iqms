@@ -9,11 +9,13 @@ function question_flagger_controller($scope, $http, taggingService, flaggingServ
         $scope._question = data.questions;
         var flaggedQuestions = flaggingService.getQuestions();
         $scope._question.forEach(function(question, index) {
-           flaggedQuestions.forEach(function(qs, id) {
+           /*flaggedQuestions.forEach(function(qs, id) {
             if (question.id == qs.id) {
                 question.state = qs.state;
+            }*/
+            if (flaggedQuestions[question.id]) {
+                question.state = flaggedQuestions[question.id].state; 
             }
-           });
         });
         console.log(data);
     });

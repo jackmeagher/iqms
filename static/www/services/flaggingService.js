@@ -1,6 +1,7 @@
 function flaggingService($http) {
     
     var questionList = {};
+    var questionListById = {};
     var selectedTag = "";
     
     var addQuestions = function(additionalQuestions) {
@@ -10,11 +11,14 @@ function flaggingService($http) {
                 if (additionalQuestions[i].id === questionList[selectedTag][id].id) {
                     found = true;
                     questionList[selectedTag][id].state = additionalQuestions[i].state;
+                    questionListById[additionalQuestions[i].id] = additionalQuestions[i];
                     id = questionList[selectedTag].length;
                 }
             }
             if (!found) {
                 questionList[selectedTag].push(additionalQuestions[i]);
+                questionListById[additionalQuestions[i].id] = additionalQuestions[i];
+                console.log(additionalQuestions[i]);
             }
         }
         
@@ -53,7 +57,7 @@ function flaggingService($http) {
     }
     
     var getQuestions = function() {
-        return questionList[selectedTag];
+        return questionListById;
     }
     
     var setSelectedTag = function(tag) {
