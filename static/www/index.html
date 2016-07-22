@@ -144,7 +144,7 @@
         
         app.service("taggingService", ['$http', '$rootScope', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
-        app.service('flaggingService', ['$http', flaggingService]);
+        app.service('flaggingService', ['$http', '$rootScope', flaggingService]);
         
         app.directive("tag", function() {
             return {

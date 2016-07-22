@@ -1,4 +1,4 @@
-function flaggingService($http) {
+function flaggingService($http, $rootScope) {
     
     var questionList = {};
     var questionListById = {};
@@ -47,12 +47,21 @@ function flaggingService($http) {
     
     var clearQuestions = function() {
         questionList = {};
+        questionListById = {};
     }
     
     var loadQuestionList = function(id) {
         //Might have to save tag in this database as well...?
         $http.get('/interview/' + id + '/questions/').success(function(data) {
-           console.log(data); 
+           //console.log(data.questions);
+           data.questions.forEach(function(question, index) {
+            questionListById[question.id] = question;
+            $http.get('/interviewQuestion/' + question.id + '/interview/' + id).success(function(result) {
+               questionListById[question.id].state = result.result.state;
+               console.log(questionListById);
+               $rootScope.$emit('flagNotification');
+            });
+           });
         });
     }
     
