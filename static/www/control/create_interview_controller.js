@@ -32,6 +32,23 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                $scope.interviewers[interviewer.name] = interviewer; 
             });
         });
+        
+        var loc = $scope.getWindowLocation();
+        if (loc.location === 'ie') {
+            $http.get('/interview/' + loc.id).success(function(data) {
+                $http.get('/interviewer/' + data.interview.interviewerId).success(function(result) {
+                    $scope.interviewerItemChange(result.result.name);
+                });
+                $http.get('/candidatePosition/' + data.interview.candidatePositionCId).success(function(result) {
+                    $http.get('/candidate/' + result.result.candidateId).success(function(result) {
+                        $scope.candidateItemChange(result.candidate.name);
+                    });
+                    $http.get('/position/' + result.result.positionId).success(function(result) {
+                        $scope.positionItemChange(result.position.name);
+                    });
+                 });
+            });
+        }
     }
     
     $scope.createInterview = function () {
@@ -194,6 +211,13 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         }
     }
     
+    $scope.getWindowLocation = function() {
+        var winLoc = {};
+        var loc = "" + $window.location;
+        winLoc.location = loc.substr(loc.lastIndexOf('/') + 1, 2);
+        winLoc.id = $window.location.hash.substr(5);
+        return winLoc;  
+    }
     
     $scope.showInterviewWithTag = function(ev, tag) {
         taggingService.setClickedTag(tag);

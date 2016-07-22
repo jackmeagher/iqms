@@ -67,6 +67,7 @@
                                         </a>
                                     </th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody ng-repeat="interview in interviews | orderBy:sortType:sortReverse | filter:searchInterview">
@@ -76,13 +77,18 @@
                                     <td>{{interview.position}}</td>
                                     <td>{{interview.interviewer}}</td>
                                     <td>
+                                        <button class="btn btn-warning"
+                                                ng-click="loadInterview(interview.id)" >
+                                            Edit
+                                        </button>
+                                    </td>
+                                    <td>
                                         <button class="btn btn-danger"
-                                                ng-click="deleteInterview($index,interview)">Delete Interview
+                                                ng-click="deleteInterview($index, interview)">
+                                            Delete
                                         </button>
                                     </td>
                                 </tr>
-                        </div>
-
                         </tbody>
                         </table>
                     </div>
