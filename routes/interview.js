@@ -45,6 +45,7 @@ exports = module.exports = new Resource('interview', '/interview', {
                         id: req.params.id
                     }
                 }).then(function (destroyed) {
+                        console.log("deleted interview");
                     res.status(200).json({});
                 });
 
@@ -99,6 +100,7 @@ exports = module.exports = new Resource('interview', '/interview', {
                         }
                 }).then(function(interview) {
                         interview.setQuestions([]).then(function(questions) {
+                                console.log("deleted questions");
                                 res.status(204).json({});      
                         })
                 })
@@ -132,6 +134,7 @@ exports = module.exports = new Resource('interview', '/interview', {
                         }
                 }).then(function(interview) {
                         interview.setTags([]).then(function(tags) {
+                                console.log("deleted tags");
                                 res.status(204).json({});      
                         })
                 })

@@ -59,9 +59,9 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     }
     
     $scope.createInterview = function () {
-        $http.post('/interview').success(function(created) {
-            console.log(created);
-            var interviewID = created.interview.id;
+        var loc = $scope.getWindowLocation();
+        if (loc.location === 'ie') {
+            var interviewID = loc.id;
             flaggingService.persistQuestions(interviewID);
             $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
                    + '/position/' + $scope.positions[$scope.selectedPosition].id)
@@ -77,12 +77,12 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                     };
                     $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
                         console.log(updated);
+                        $window.location.href = './#li'; 
                         $scope.taglist.forEach(function(tag, index) {
                             if (taggingService.countTag(tag) > 0) {
                                 $http.post('/tag/' + tag
                                        + '/interview/' + interviewID).success(function(created) {
                                     console.log(created);
-                                    $window.location.href = './#li'; 
                                 });
                             }
                             
@@ -90,7 +90,42 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                     });
                 });
             });
-        });
+        } else {
+            $http.post('/interview').success(function(created) {
+                console.log(created);
+                var interviewID = created.interview.id;
+                flaggingService.persistQuestions(interviewID);
+                $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
+                       + '/position/' + $scope.positions[$scope.selectedPosition].id)
+                .success(function() {
+                    $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
+                       + '/position/' + $scope.positions[$scope.selectedPosition].id)
+                    .success(function(canPos) {
+                        console.log(canPos);
+                        var candidatePositionID = canPos.candidatePosition.c_id;
+                        var interviewData = {
+                          candidatePositionCId: candidatePositionID,
+                          interviewerId: $scope.interviewers[$scope.selectedInterviewer].id
+                        };
+                        $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
+                            console.log(updated);
+                            $scope.taglist.forEach(function(tag, index) {
+                                if (taggingService.countTag(tag) > 0) {
+                                    $http.post('/tag/' + tag
+                                           + '/interview/' + interviewID).success(function(created) {
+                                        console.log(created);
+                                        $window.location.href = './#li'; 
+                                    });
+                                }
+                                
+                            });
+                        });
+                    });
+                });
+            });
+        }
+        
+        
     };
 
     var addQuestions = function(id){
