@@ -477,8 +477,6 @@
         if (self.$element.attr('disabled')) {
           return;
         }
-        console.log('Clicked ' + $(event.target).closest('.tag').data('item'));
-        //console.log(angular.element(document.getElementById('createInterviewDiv')).scope);
         var scope = angular.element($('#createInterviewDiv')).scope();
         scope.$apply(function() {
           scope.showInterviewWithTag(event, $(event.target).closest('.tag').data('item'));

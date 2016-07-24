@@ -215,7 +215,6 @@ function taggingService($http, $rootScope) {
     }
     
     var setClickedTag = function(tag) {
-        console.log(tag);
         clickedTag = tag;
     }
     

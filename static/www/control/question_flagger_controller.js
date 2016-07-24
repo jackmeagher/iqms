@@ -12,7 +12,6 @@ function question_flagger_controller($scope, $http, $rootScope, taggingService, 
                 question.state = flaggedQuestions[question.id].state; 
             }
         });
-        console.log(data);
     });
     
     $scope.saveQuestions = function() {

@@ -16,14 +16,10 @@ function flaggingService($http, $rootScope) {
                 }
             }
             if (!found) {
-                console.log(questionList);
                 questionList[selectedTag].push(additionalQuestions[i]);
                 questionListById[additionalQuestions[i].id] = additionalQuestions[i];
-                console.log(additionalQuestions[i]);
             }
         }
-        
-        console.log(questionList);
     }
     
     var pullQuestions = function() {
@@ -39,22 +35,8 @@ function flaggingService($http, $rootScope) {
                         
                     });
                 }
-                console.log(key + " -> " + questionListById[key]);
             }
           }
-       /* for(var i = 0; i < questionList.length; i++) {
-            if (questionList[i].state == "Pinned") {
-                $http.post('/question/' + questionList[i].id +
-                           '/interview/' + interviewID, questionList[i]).success(function(created) {
-                    
-                });
-            } else if (questionList[i].state == "Blacklisted") {
-                $http.post('/question/' + questionList[i].id +
-                           '/interview/' + interviewID, questionList[i]).success(function(created) {
-                    
-                });
-            }
-        }*/
     }
     
     var clearQuestions = function() {
@@ -62,19 +44,15 @@ function flaggingService($http, $rootScope) {
         questionListById = {};
         if (!questionList[selectedTag]) {
             questionList[selectedTag] = [];
-            console.log(questionList);
         }
     }
     
     var loadQuestionList = function(id) {
-        //Might have to save tag in this database as well...?
         $http.get('/interview/' + id + '/questions/').success(function(data) {
-           //console.log(data.questions);
            data.questions.forEach(function(question, index) {
             questionListById[question.id] = question;
             $http.get('/interviewQuestion/' + question.id + '/interview/' + id).success(function(result) {
                questionListById[question.id].state = result.result.state;
-               console.log(questionListById);
                $rootScope.$emit('flagNotification');
             });
            });
