@@ -47,10 +47,6 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
 
                 })
 
-
-
-
-
         });
 
 
@@ -73,19 +69,22 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
 
     
     $scope.collapseQuestion = function(id) {
+        $('.collapse').collapse('hide');
         $('#collapse' + id).collapse('toggle');
     }
     
 
     $scope.star_update = function(id) {
         var dif = document.getElementById("the_stars" + id);
+        console.log(dif);
         var curr = dif.firstChild;
+        console.log(curr);
         while (curr != null) {
             if (curr.checked) {
                 break;
             }
             curr = curr.nextSibling;
-
+            
         }
         if(curr) {
 
