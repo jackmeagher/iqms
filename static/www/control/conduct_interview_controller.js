@@ -9,12 +9,12 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     $scope.questionList = {};
     $scope.currentTag = "";
     $scope.currentQuestions = [];
-    
+    $scope.currentQuestionIndex = 0;
     
     $scope.questions = [];
     $scope.currentQuestion = {};
     $scope.currentAnswer  = '';
-    $scope.currentQuestionIndex = 0;
+    
     self.n_questions = 0;
     currentRating = 0;
 
@@ -87,19 +87,9 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
             
         }
         if(curr) {
-
-          /* $scope.currentQuestion.answer.rating = curr.value;
-
-            $http.put('/answer', {answer: $scope.currentQuestion.answer}).success(function () {
-                console.log('updated stars with ' + curr.value);
-            });*/
+            
         }
     };
-
-
-    //$interval($scope.star_update,250);
-
-
 
 
     $http.get('/interview/' + interviewId).success(function (data) {
@@ -119,23 +109,13 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         });
     });
 
-
-       /* $http.get('/interview/' + interviewId +'/questions/').then(function (data) {
-            $scope.questions = data.data.questions;
-            $scope.currentQuestion = $scope.questions[0];
-            self.n_questions = $scope.questions.length;
-            //$scope.questions.forEach(q => q.answer = '');
-            $http.get('/answer/' +  interviewId + '/' + $scope.currentQuestion.id).success(function(answer){
-                    $scope.currentQuestion.answer = answer.answer;
-                document.getElementById('response').value = $scope.currentQuestion.answer.feedback;
-
-                rating = $scope.currentQuestion.answer.rating ? $scope.currentQuestion.answer.rating : 5;
-                angular.element('input:radio[name="rating"]').filter('[value="' + rating + '"]').prop('checked', true);
-
-                });
-
-
-        });*/
-
-
+    
+    $scope.selectQuestion = function(id) {
+        $('#collapsePanel' + $scope.currentQuestionIndex).toggleClass('panel-info');
+        $('#collapsePanel' + $scope.currentQuestionIndex).toggleClass('panel-success');
+        $scope.currentQuestionIndex = id;
+        $('#collapsePanel' + id).toggleClass('panel-default');
+        $('#collapsePanel' + id).toggleClass('panel-info');
+        $('#askButton' + id).remove();
+    }
 }
