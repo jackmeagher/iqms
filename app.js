@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 });
 
 
+
 var answer_routes = require('./routes/answer');
 var role_routes = require('./routes/role');
 var interview_routes = require('./routes/interview');
@@ -57,7 +58,6 @@ interviewQuestion_routes.register(app, '');
 
 app.use('/static', express.static('../static'));
 
-
 // middleware to add headers for cross origin requests
 
 app.all('/*', function(req, res, next) {
@@ -65,8 +65,5 @@ app.all('/*', function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type,X-Requested-With');
     next();
 });
-
-
-//var testq = require('./testData');
 
 module.exports = app;

@@ -3,21 +3,16 @@
         <div class="col-md-12">
             <h1 class="page-head-line">Conduct an Interview</h1>
             <h1 class="page-subhead-line">Choose an interview to conduct</h1>
-
-
             <div class="col-md-6" style="width:100%;">
                 <!--    Context Classes  -->
                 <div class="panel panel-default">
-
                     <div class="panel-heading">
                         <form>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-search"></i></div>
-
                                     <input type="text" class="form-control" placeholder="Search Interviews"
                                            ng-model="searchInterview">
-
                                 </div>
                             </div>
                         </form>
@@ -39,41 +34,39 @@
                                         </a>
                                     </th>
                                     <th>
-                                        <a ng-click="sortType = 'interviewee'; sortReverse = !sortReverse"
+                                        <a ng-click="sortType = 'candidate'; sortReverse = !sortReverse"
                                            style="cursor:pointer;">
-                                            Interviewee
-                                            <span ng-show="sortType == 'interviewee' && !sortReverse"
+                                            Candidate
+                                            <span ng-show="sortType == 'candidate' && !sortReverse"
                                                   class="fa fa-caret-down"></span>
-                                            <span ng-show="sortType == 'interviewee' && sortReverse"
+                                            <span ng-show="sortType == 'candidate' && sortReverse"
                                                   class="fa fa-caret-up"></span>
                                         </a>
 
                                     </th>
                                     <th>
-                                        <a ng-click="sortType = 'label'; sortReverse = !sortReverse"
+                                        <a ng-click="sortType = 'position'; sortReverse = !sortReverse"
                                            style="cursor:pointer;">
                                             Position
-                                            <span ng-show="sortType == 'label' && !sortReverse"
+                                            <span ng-show="sortType == 'position' && !sortReverse"
                                                   class="fa fa-caret-down"></span>
-                                            <span ng-show="sortType == 'label' && sortReverse"
+                                            <span ng-show="sortType == 'position' && sortReverse"
                                                   class="fa fa-caret-up"></span>
                                         </a>
                                     </th>
                                     <th></th>
                                 </tr>
                                 </thead>
-                                <tbody ng-repeat="interview in _interview.interviews | orderBy:sortType:sortReverse | filter:searchInterview">
+                                <tbody ng-repeat="interview in interviews | orderBy:sortType:sortReverse | filter:searchInterview">
 
                                 <tr class="success">
                                     <td>{{interview.id}}</td>
-                                    <td>{{interview.interviewee}}</td>
-                                    <td> {{interview.label}}</td>
-                                    <td><a href="#conaction/{{interview.id}}">
-                                        <button class="btn btn-warning">Conduct Interview</button>
-                                    </a>
+                                    <td>{{interview.candidate}}</td>
+                                    <td>{{interview.position}}</td>
+                                    <td>
+                                        <button class="btn btn-warning" ng-click="addInterviewer();">Conduct Interview</button>
                                     </td>
                                 </tr>
-
                                 </tbody>
                             </table>
                         </div>

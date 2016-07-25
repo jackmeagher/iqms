@@ -108,7 +108,7 @@ exports = module.exports = new Resource('interview', '/interview', {
 
         }),
         
-        new Resource('get_questions_from_interview', '/:id/tags', {
+        new Resource('get_tags_from_interview', '/:id/tags', {
                 
                 get: (req, res) => {
                         models.interview.findOne({
