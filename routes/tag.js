@@ -10,30 +10,18 @@ exports = module.exports = new Resource('tag', '/tag', {
                     query.name = req.query.name;
                 }
                 
-                if (req.query.count) {
-                    query.count = req.query.count;
-                }
-                
-               /* if (req.query.id) {
-                    query.id = req.query.id;
-                }*/
-                
                 models.tag.findAll({where: query}).
                         then(function(tags) {
                                 res.status(200).json({tags: tags});
                 })
         },
         post: (req, res) => {
-                if(!req.query.count) {
-                        req.query.count = 0;
-                }
                 
                 if (!req.query.name) {
                     req.query.name = 'Blank';
                 }
                 
                 models.tag.create( {
-                        count: req.body.count ? req.body.count : 0,
                         name: req.body.name ? req.body.name : null
                 }).then(function(created) {
                         res.status(201).json({tag: created.dataValues});
@@ -42,11 +30,11 @@ exports = module.exports = new Resource('tag', '/tag', {
 
 
 
-}, [new Resource('get_tag_by_id', '/:id', {
+}, [new Resource('get_tag_by_id', '/:name', {
         get: (req, res) => {
             models.tag.find({
                     where: {
-                        id: req.params.id
+                        name: req.params.name
                     }
                 })
                 .then(function (tag) {
@@ -57,19 +45,54 @@ exports = module.exports = new Resource('tag', '/tag', {
                 
         },
         put: (req, res) => {
-                console.log("PUTTING");
                 models.tag.find({
                         where: {
-                                id: req.params.id
+                                name: req.params.name
                         }
                 })
                 .then(function (tag) {
                         tag.count = req.body.count;
                         tag.save({fields: ['count']}).then(function() {
                                 res.status(200).json({tag: tag});
-                                console.log("DONE");
                         })
                 })
         }
-})
+}),
+    new Resource('get questions by tag', '/:name/questions/', {
+        get: (req, res) => {
+                models.tag.findOne({
+                        where: {
+                                name: req.params.name
+                        }
+                }).then(function(tag) {
+                        tag.getQuestions().then ( function(questions) {
+                                        res.status(200).json({
+                                            questions: questions
+                                        })
+                                }
+                        )
+                })
+        }
+    }),
+    new Resource('add tags to interview', '/:name/interview/:interview_id', {
+        post: (req, res) => {
+                models.tag.findOne({
+                        where: {
+                                name: req.params.name
+                        }
+                }).then(function(tag) {
+                        models.interview.findOne({
+                                where: {
+                                        id: req.params.interview_id
+                                }
+                        }).then(function(interview) {
+                                tag.addInterview(interview).then(function(added) {
+                                        res.status(200).json({
+                                                added: added
+                                        });
+                                })
+                        })
+                })
+        }
+    })
     ]);

@@ -1,13 +1,8 @@
-/**
- * Created by nick on 3/15/16.
- */
 var models = require('../models');
 var Resource = require('../lib/Resource');
 var exports = module.exports = {};
 
-
 exports = module.exports = new Resource('question', '/question', {
-        // get all questions
         get: (req, res) => {
             var query_doc = {};
             if (req.query.difficulty) {
@@ -24,19 +19,13 @@ exports = module.exports = new Resource('question', '/question', {
                 });
             })
         },
-        // create new question
-        post: (req, res) => { // make a new question
+        post: (req, res) => {
             if (!req.body.text){
                 req.body.text = 'Blank Text';
             }
             
             if (!req.body.tech) {
                 req.body.tech = true;
-            }
-            
-            
-            if (!req.body.tags) {
-                req.body.tags = [];
             }
             
             if(!req.body.difficulty){
@@ -50,7 +39,6 @@ exports = module.exports = new Resource('question', '/question', {
             models.question.create({
                 text: req.body.text ? req.body.text : null,
                 tech: req.body.tech ? req.body.tech : null,
-                tags: req.body.tags ? req.body.tags : null,
                 difficulty: req.body.difficulty ? req.body.difficulty : 0,
                 answers: req.body.answers ? req.body.answers : null
             }).then(function (created) {
@@ -94,7 +82,6 @@ exports = module.exports = new Resource('question', '/question', {
 
         },
         put: (req, res) => {
-                res.send('HERE');
              models.question.find({
                where: {
                 id: req.params.id
@@ -103,60 +90,104 @@ exports = module.exports = new Resource('question', '/question', {
              .then(function (question) {
                 question.text = req.body.text;
                 question.tech = req.body.tech;
-                question.tags = req.body.tags;
                 question.difficulty = req.body.difficulty;
                 question.answers = req.body.answers;
-                question.save({fields: ['text', 'tech', 'tags', 'difficulty', 'answers']}).then(function() {
-                  res.status(200);      
+                question.save({fields: ['text', 'tech', 'difficulty', 'answers']}).then(function() {
+                     res.status(200).json({});   
                 })
+                
              })
                 
         }
     }
     ),
-    new Resource('add tag to question', '/:id/tags/:tag_id', {
-        post: (req, res) => {
-
-            models.question.findOne({
-                where: {
-                    id: req.params.id
-                }
-            }).then(function (question) {
-                models.tag.findOne(
-                    {
-                        where: {
-                            id: req.params.tag_id
-                        }
-                    }).then(function (tag) {
-                    question.addTag(tag).then(
-                        function (added) {
-                            res.status(200).json({
-                                added: added
-                            });
-                        }
-                    )
-
-                })
-            })
-        }
-    } ),
-        new Resource('get tags by question', '/:id/tags/', {
-            get: (req, res) => {
-                models.question.findOne({where:{
-                    id:req.params.id
-                }}).then(function(question){
-
-                        question.getTags().then(function(tags){
-                            res.status(200).json(
-                                {
-                                    tags: tags
-                                }
-                            )}
-                        )
+        new Resource('add tag to question', '/:id/tags/:tag_name', {
+            post: (req, res) => {
+                models.question.findOne({
+                    where: {
+                        id: req.params.id
                     }
-                )
-
+                }).then(function (question) {
+                    models.tag.findOne(
+                        {
+                            where: {
+                                name: req.params.tag_name
+                            }
+                        }).then(function (tag) {
+                        question.addTag(tag).then(
+                            function (added) {
+                                res.status(200).json({
+                                    added: added
+                                });
+                            }
+                        )
+    
+                    })
+                })
+            },
+            delete: (req, res) => {
+                models.question.findOne({
+                        where: {
+                                id: req.params.id
+                        }
+                }).then(function (question) {
+                        models.tag.findOne({
+                                where: {
+                                        name: req.params.tag_name
+                                }
+                        }).then(function (tag) {
+                                question.removeTag(tag).then( function(removed) {
+                                        console.log('REMOVED');
+                                                res.status(204).json({});
+                                        }
+                                )
+                        })
+                })
             }
-        } )
+        } ),
+        new Resource('get tags by question', '/:id/tags/', {
+                get: (req, res) => {
+                    models.question.findOne({where:{
+                        id: req.params.id
+                    }}).then(function(question) {
+                            question.getTags().then(function(tags){
+                                res.status(200).json({
+                                        tags: tags
+                                    }
+                                )}
+                            )
+                        })
+                },
+                delete: (req, res) => {
+                        models.question.findOne({where: {
+                                id: req.params.id
+                        }}).then(function (question) {
+                                question.setTags([]).then(function(tags) {
+                                        res.status(204).json({});
+                                })
+                        })
+                }
+        }),
+        new Resource('add interview to question', '/:id/interview/:interview_id', {
+                post: (req, res) => {
+                        models.question.findOne({
+                                where: {
+                                        id: req.params.id
+                                }
+                        }).then(function(question) {
+                                models.interview.findOne({
+                                        where: {
+                                                id: req.params.interview_id
+                                        }
+                                }).then(function(interview) {
+                                        question.addInterview(interview, {state: req.body.state}).then(function(added) {
+                                                res.status(201).json({
+                                                        added: added        
+                                                });
+                                        })
+                                })
+                        })
+                }
+        })
 ]
 );

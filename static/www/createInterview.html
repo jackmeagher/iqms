@@ -1,15 +1,14 @@
-<div ng-controller="create_interview_controller as cic"> <!-- NICK-->
-
-    <div class="row">
+<div ng-controller="create_interview_controller as cic">
+    <div id="createInterviewDiv" class="row">
         <div class="col-md-12">
             <h1 class="page-head-line">Create an interview</h1>
-            <h1 class="page-subhead-line">Define a job and add questions </h1>
+            <h1 class="page-subhead-line">Set up an interview</h1>
 
         </div>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12" style="width:100%;">
         <div class="panel panel-info">
-            <div class="panel-heading">
+            <div class="panel-heading" ng-click="showInterviewWithTag($event);">
                 Interview
             </div>
             <div class="control-group" id="fields">
@@ -18,42 +17,104 @@
                         <div class="form-group" style="margin-top:2%; text-align:left;">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <label>Job Title</label>
-                                    <input id='position-text' class="form-control" type="text" disabled>
+                                    <label>Position</label>
+                                    <button class="btn btn-success btn-add btn-xs" type="button" ng-click="addPosition(positionText)" style="margin-left:4px;">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                    <md-autocomplete
+                                        id="position-box"
+                                        md-no-cache="true"
+                                        md-selected-item="selectedPosition"
+                                        md-search-text-change="positionTextChange(positionText)"
+                                        md-search-text="positionText"
+                                        md-selected-item-change="positionItemChange(selectedPosition)"
+                                        md-items="position in queryPosition(positionText)"
+                                        md-item-text="position"
+                                        md-min-length="0"
+                                        placeholder="Search for Position">
+                                    <md-item-template>
+                                                    <span md-highlight-text="positionText"
+                                                          md-highlight-flags="^i">{{position}}</span>
+                                    </md-item-template>
+                                    <md-not-found>
+                                        Click the plus to create "{{positionText}}"
+                                    </md-not-found>
+                                </md-autocomplete>
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-5">
                                     <label>Candidate</label>
-                                    <input id='name-text' class="form-control" type="text" disabled>
+                                    <button class="btn btn-success btn-add btn-xs" type="button" ng-click="addCandidate(candidateText)" style="margin-left:4px;">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                    <md-autocomplete
+                                        id="candidate-box"
+                                        md-no-cache="true"
+                                        md-selected-item="selectedCandidate"
+                                        md-search-text-change="candidateTextChange(candidateText)"
+                                        md-search-text="candidateText"
+                                        md-selected-item-change="candidateItemChange(selectedCandidate)"
+                                        md-items="candidate in queryCandidate(candidateText)"
+                                        md-item-text="candidate"
+                                        md-min-length="0"
+                                        placeholder="Search for Candidate">
+                                    <md-item-template>
+                                                    <span md-highlight-text="candidateText"
+                                                          md-highlight-flags="^i">{{candidate}}</span>
+                                    </md-item-template>
+                                    <md-not-found>
+                                        Click the plus to create "{{candidateText}}"
+                                    </md-not-found>
+                                </md-autocomplete>
                                 </div>
                                 <div class="col-md-1"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>Description</label>
-                                    <textarea class="form-control" rows="5" id="comment" disabled></textarea>
+                                    <textarea class="form-control" rows="5" id="comment" disabled>{{positions[selectedPosition].description}}</textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>Interviewer</label>
-                                    <input id="interviewer-text" class="form-control" type="text" disabled>
+                                    <button class="btn btn-success btn-add btn-xs" type="button" ng-click="addInterviewer(interviewerText)" style="margin-left:4px;">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                    <md-autocomplete
+                                        id="interviewer-box"
+                                        md-no-cache="true"
+                                        md-selected-item="selectedInterviewer"
+                                        md-search-text-change="interviewerTextChange(interviewerText)"
+                                        md-search-text="interviewerText"
+                                        md-selected-item-change="interviewerItemChange(selectedInterviewer)"
+                                        md-items="interviewer in queryInterviewer(interviewerText)"
+                                        md-item-text="interviewer"
+                                        md-min-length="0"
+                                        placeholder="Search for Interviewer">
+                                    <md-item-template>
+                                                    <span md-highlight-text="interviewerText"
+                                                          md-highlight-flags="^i">{{interviewer}}</span>
+                                    </md-item-template>
+                                    <md-not-found>
+                                        Click the plus to create "{{interviewerText}}"
+                                    </md-not-found>
+                                </md-autocomplete>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>Tags</label>
-                                    <ul id="myTags" class="form-control" style="height:initial">
-                                        <li ng-repeat="tagName in tags track by $index">
-                                            <tag></tag>
-                                        </li>
-                                    </ul>
+                                    <br>
+                                    <select id="tagbox" multiple data-role="tagsinput">
+                                        
+                                    </select>
                                 </div>
                             </div>                    
                         </div>                     
                     </form>
                     <br><br>
-                    <button type="button" class="btn btn-lg btn-success" ng-click="CreateInterview()"
+                    <button type="button" class="btn btn-lg btn-success" ng-click="createInterview()"
                             style="margin-left:43%; margin-bottom:2%;">
                         Submit Interview
                     </button>
@@ -63,3 +124,4 @@
         </div>
     </div>
 </div>
+<script src="assets/js/bootstrap-tagsinput.js"></script>

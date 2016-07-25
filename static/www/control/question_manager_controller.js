@@ -9,7 +9,9 @@ function question_manager_controller($scope, $http, taggingService) {
 
     $http.get('/question').success(function (data) {
         $scope._question = data.questions;
-        
+        $scope._question.forEach(function(q, index) {
+           $scope.stringifyTags(q); 
+        });
         var tags = {};
         
         $http.get('/tag').success(function (data) {
@@ -29,7 +31,9 @@ function question_manager_controller($scope, $http, taggingService) {
 
     $scope.DeleteQuestion = function (index, question) {
         
-        taggingService.deleteQuestionTags(question.tags);
+        $http.delete('/question/' + question.id + '/tags/').success(function() {
+        
+        })
         
         $http.delete('/question/' + question.id).success(function() {
             $http.get('/question').success(function(data){
@@ -39,5 +43,15 @@ function question_manager_controller($scope, $http, taggingService) {
         
     };
 
+    
+    $scope.stringifyTags = function(question) {
+        question.taglist = "";
+        $http.get('/question/' + question.id + '/tags/').success(function(data) {
+           data.tags.forEach(function(tag, index) {
+                question.taglist += tag.name + ", ";
+           });
+           question.taglist = question.taglist.substring(0, question.taglist.length - 2);
+        });
+    }
 };
 

@@ -1,8 +1,8 @@
-function create_question_controller ($scope,$location,$http,$window, taggingService, popupService) {
+function create_question_controller ($scope, $rootScope, $location,$http,$window, taggingService, popupService) {
     
     $scope.questionText = '';
     $scope.tags = [];
-    $scope.selectedTags = [];
+    $scope.selectedTags = {};
     $scope.answers = [''];
     $scope.difficulty = 0;
     $scope.tech = true;
@@ -11,8 +11,8 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         $scope.tech = taggingService.updateTech(tech);
         $scope.refreshTags();
     }
-
-    $scope.$on("tagNotification", function(event, args) {
+    
+    $rootScope.$on("tagNotification", function(event, args) {
         $scope.refreshTags();
     });
     
@@ -46,7 +46,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         };
         
         questionData.text = $scope.questionText;
-        questionData.tags = taggingService.getSelectedTags();
+        questionData.tags = taggingService.getSelectedTagsAsArray();
         questionData.difficulty = parseInt($("#modelValue").val());
         questionData.tech = $scope.tech;
         questionData.answers = $scope.answers;
@@ -63,12 +63,14 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
         if (id > 0) {
             $http.put('/question/' + id, questionData).success(function(created) {
                 taggingService.updateTags(true);
-                $window.location.href = './#qm'; 
+                $window.location.href = './#qm';
+                taggingService.persistQuestionTag(id);
             });
         } else {
            $http.post('/question',  questionData).success(function(created) {
                 taggingService.updateTags(false);
                 $window.location.href = './#qm';
+                taggingService.persistQuestionTag(created.question.id);
             }); 
         }
         
@@ -81,7 +83,7 @@ function create_question_controller ($scope,$location,$http,$window, taggingServ
             $http.get('/question/' + loc.id).success(function(data) {
                 $scope.questionText = data.question.text;     
                 $scope.tech = taggingService.setTech(data.question.tech);
-                taggingService.loadSavedTags(data.question.tags);
+                taggingService.loadSavedTags(data.question.id);
                 $scope.refreshTags();
                 $('#modelValue').val(data.question.difficulty);
                 $scope.answers = data.question.answers;

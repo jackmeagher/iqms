@@ -4,13 +4,15 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-
     <link rel="icon" href="assets/img/favicon.ico"/>
 
     <title>IQMS</title>
 
     <!-- BOOTSTRAP STYLES-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet"/>
+    <!--<link href="assets/css/bootstrap.css" rel="stylesheet"/>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-tagsinput.css">
 
     <!-- FONTAWESOME STYLES-->
     <link href="assets/css/font-awesome.css" rel="stylesheet"/>
@@ -26,12 +28,9 @@
 
     <!-- Angular -->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
-
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/tagit.ui-zendesk.css">
-
-    <link href="assets/css/jquery.tagit.css" rel="stylesheet" type="text/css">
+    
 
     <style>
         .md-transition-in {
@@ -47,6 +46,7 @@
     <script src="assets/js/angular_material/1.1.0/angular-material.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-route.js"></script>
     <script src="assets/js/angularjs/1.5.0/slider.js"></script>
+   
     <!-- CONTROLLERS -->
     <script src="control/create_interview_controller.js"></script>
     <script src="control/name_auto_complete_controller.js"></script>
@@ -61,9 +61,11 @@
     <script src="control/login_controller.js"></script>
     <script src="control/slider_controller.js"></script>
     <script src="control/topic_autocomplete_controller.js"></script>
+    <script src="control/question_flagger_controller.js"></script>
     <!-- SERVICES -->
     <script src="services/taggingService.js"></script>
     <script src="services/popupService.js"></script>
+    <script src="services/flaggingService.js"></script>
 
     <script>
         function index_controller($scope) {
@@ -88,6 +90,10 @@
                         templateUrl: 'createInterview.html'
                     })
 
+                    .when('/ie', {
+                        templateUrl: 'createInterview.html'
+                    })
+                    
                     .when('/li', {
                         templateUrl: 'listInterviews.html'
                     })
@@ -134,9 +140,11 @@
         app.controller("login_controller", login_controller);
         app.controller("slider_controller", slider_controller);
         app.controller("topic_autocomplete_controller", topic_autocomplete_controller);
+        app.controller("question_flagger_controller", question_flagger_controller);
         
-        app.service("taggingService", ['$http', taggingService]);
+        app.service("taggingService", ['$http', '$rootScope', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
+        app.service('flaggingService', ['$http', '$rootScope', flaggingService]);
         
         app.directive("tag", function() {
             return {
@@ -216,17 +224,18 @@
             </div>
             <!-- /. WRAPPER  -->
             <!-- /. FOOTER  -->
+            
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
             <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
             <!-- JQUERY SCRIPTS -->
-            <script src="assets/js/jquery-1.10.2.js"></script>
-            <script src="assets/js/jquery.ui.1.8.12.js"></script>
-            <script src="assets/js/tag-it.js"></script>
+           <!-- <script src="assets/js/jquery-1.10.2.js"></script>-->
             <!-- BOOTSTRAP SCRIPTS -->
-            <script src="assets/js/bootstrap.js"></script>
+            <!--<script src="assets/js/bootstrap.js"></script>-->
             <!-- METISMENU SCRIPTS -->
-            <script src="assets/js/jquery.metisMenu.js"></script>
+           <!-- <script src="assets/js/jquery.metisMenu.js"></script>-->
             <!-- CUSTOM SCRIPTS -->
-            <script src="assets/js/custom.js"></script>
+           <!-- <script src="assets/js/custom.js"></script>-->
         </div>
     </div>
 </div>

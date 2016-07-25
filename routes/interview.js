@@ -1,80 +1,72 @@
-/**
- * Created by nick on 3/15/16.
- */
 var models = require('../models');
 var Resource = require('../lib/Resource');
 var exports = module.exports = {};
 
-
-exports = module.exports = new Resource('get_all_interviews', '/interview',
-    {
-        // get all interviews
+exports = module.exports = new Resource('interview', '/interview', {
         get: (req, res) => {
-
             models.interview.findAll()
                 .then(function (interviews) {
-                    res.status(200).json
-                    ({
+                    res.status(200).json({
                         interviews: interviews
                     });
                 })
         },
-        // make a new interview
         post: (req, res) => {
-            console.log(req.body);
             models.interview.create({
-                label : req.body.label ? req.body.label : null,
-                interviewee : req.body.interviewee ? req.body.interviewee : null
-                //previously
-                // label : req.body.label,
-                // interviewee : req.body.interviewee
-
-            }).then
-            (
-                function (created) {
-                    res.status(201).json
-                    ({
+                candidatePositionId : req.body.candidatePositionCId ? req.body.candidatePositionCId : null,
+                interviewerId : req.body.interviewerId ? req.body.interviewerId : null
+            }).then(function (created) {
+                    res.status(201).json({
                         interview: created.dataValues
                     });
-                }
-            )
+                })
         }
-
-
     },
     [
-        new Resource('get_interview_by_id', '/:id',
-            {
-                // get interview
-                get: (req, res) => { //get interview by id
-                    models.interview.findAll({
-                        where: {
-                            id: req.params.id
-                        }
-                    }).then(function (interview) {
-                        res.status(200).json({
-                            interview: interview[0]
-                        });
-                    })
-                },
-
-
-                // delete interview
-                delete: (req, res) => {
-                    models.interview.destroy({
-                        where: {
-                            id: req.params.id
-                        }
-                    }).then(function (destroyed) {
-                        res.status(200).json({
-                            answer: destroyed.dataValues
-                        });
+        new Resource('get_interview_by_id', '/:id', {
+            // get interview
+            get: (req, res) => { //get interview by id
+                models.interview.findAll({
+                    where: {
+                        id: req.params.id
+                    }
+                }).then(function (interview) {
+                    res.status(200).json({
+                        interview: interview[0]
                     });
+                })
+            },
 
-                }
+
+            // delete interview
+            delete: (req, res) => {
+                models.interview.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                }).then(function (destroyed) {
+                    res.status(200).json({});
+                });
+
+            },
+            
+            put: (req, res) => {
+                models.interview.find({
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                .then(function(interview) {
+                  interview.candidatePositionCId = req.body.candidatePositionCId;
+                  interview.interviewerId = req.body.interviewerId;
+                  interview.save({fields: ['candidatePositionCId', 'interviewerId']}).then(function(interview) {
+                    res.status(200).json({interview: interview});
+                  })
+                })
+            }
 
 
-            }),
+        }),
 
         new Resource('get_questions_from_interview', '/:id/questions', {
             /// get all questions from interview
@@ -101,15 +93,48 @@ exports = module.exports = new Resource('get_all_interviews', '/interview',
             ,
             /// delete all questions from interview
             delete: (req, res) => {
-                models.interviewQuestion.destroy({
+                models.interview.findOne({
                         where: {
-                            interview_id: req.params.id
+                                id: req.params.id
                         }
-                    }
-                    )
-                    .then(function (destroyed) {
-                        res.status(200).json(destroyed);
-                    })
+                }).then(function(interview) {
+                        interview.setQuestions([]).then(function(questions) {
+                                res.status(204).json({});      
+                        })
+                })
+
+            }
+
+
+        }),
+        
+        new Resource('get_questions_from_interview', '/:id/tags', {
+                
+                get: (req, res) => {
+                        models.interview.findOne({
+                                where: {
+                                        id: req.params.id
+                                }
+                        }).then(function(interview) {
+                                interview.getTags().then(function(tags) {
+                                        res.status(200).json({
+                                           tags: tags     
+                                        });
+                                })
+                        })
+                        
+                },
+            /// delete all questions from interview
+            delete: (req, res) => {
+                models.interview.findOne({
+                        where: {
+                                id: req.params.id
+                        }
+                }).then(function(interview) {
+                        interview.setTags([]).then(function(tags) {
+                                res.status(204).json({});      
+                        })
+                })
 
             }
 

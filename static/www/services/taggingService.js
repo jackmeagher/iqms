@@ -1,4 +1,4 @@
-function taggingService($http) {
+function taggingService($http, $rootScope) {
 
     var tags = {};
     var selectedTags = {};
@@ -7,8 +7,9 @@ function taggingService($http) {
     var removedTags = [];
     var savedTags = [];
     
-    var isTech = true;
+    var isTech = false;
     
+    var clickedTag = "";
     
     var setTech = function(tech) { 
         isTech = tech;
@@ -24,8 +25,15 @@ function taggingService($http) {
         return setTech(tech);
     }
     
-    var loadSavedTags = function(saved) {
-        savedTags = saved;
+    var loadSavedTags = function(questionId) {
+        
+        $http.get('/question/' + questionId + '/tags/').success(function(data) {
+            data.tags.forEach(function(tag, index) {
+                savedTags.push(tag.name);
+            })
+            $rootScope.$emit('tagNotification');
+        });
+
     }
     
     var getTags = function() {
@@ -37,13 +45,25 @@ function taggingService($http) {
         selectedTags = {};
         
         addedTags.forEach(function(tag, index) {
-           selectedTags[tag] = tags[tag]; 
+            if (tags[tag]) {
+                selectedTags[tag] = tags[tag]; 
+            }
         });
         
         savedTags.forEach(function(tag, index) {
-           selectedTags[tag] = tags[tag]; 
+            if (tags[tag]) {
+                selectedTags[tag] = tags[tag];
+            }
         });
     
+        var showTags = $.merge([], addedTags);
+        showTags = $.merge(showTags, savedTags);
+        
+        return selectedTags;
+    }
+    
+    //TEMP FUNCTION
+    var getSelectedTagsAsArray = function() {
         var showTags = $.merge([], addedTags);
         showTags = $.merge(showTags, savedTags);
         
@@ -64,14 +84,13 @@ function taggingService($http) {
         
         if (shouldAdd) {
             var tagData = {
-                name: name,
-                count: 0
+                name: name
             };
             
             $http.post('/tag',  tagData).success(function(created) {
-                tags[created.tag.name].count = created.tag.count;
-                tags[created.tag.name].id = created.tag.id;
+                tags[created.tag.name].count = 0;
                 selectedTags[created.tag.name] = tags[created.tag.name];
+                $rootScope.$emit('tagNotification');
             });
             
             tags[tagData.name] = tagData;
@@ -97,6 +116,8 @@ function taggingService($http) {
                 addedTags.push(newTag);
             }
         }
+        
+        $rootScope.$emit('tagNotification');
     }
     
     var removeTag = function(oldTag) {
@@ -120,35 +141,45 @@ function taggingService($http) {
         
         $http.get('/tag').success(function (data) {
             data.tags.forEach(function(tag, index) {
-               tags[tag.name] = tag; 
+               tags[tag.name] = tag;
             });
+            data.tags.forEach(function(tag, index) {
+                countTag(tag.name);
+            });
+            $rootScope.$emit('tagNotification');
         });
         
     }
     
     var countTag = function(name) {
-        if (!tags[name]) {
+        if (tags[name]) {
+            if (tags[name].count) {
+                return tags[name].count;
+            } else {
+                $http.get('/tag/' + name + '/questions/').success(function (data) {
+                    tags[name].count = data.questions.length;
+                    $rootScope.$emit('tagNotification');
+                });
+                return 0;
+            }
+            
+        } else {
             return 0;
         }
-        if (!tags[name].count) {
-            tags[name].count = 0;
-        }
-        return tags[name].count;
+        
     }
     
     var updateTags = function(edit) {
         
         addedTags.forEach(function(tag, id) {
-            tags[tag].count++;
-            $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
+            $http.put('/tag/' + tags[tag].name,  tags[tag]).success(function(created) {
                     
             });
         });
         
         if (edit) {
             removedTags.forEach(function(tag, id) {
-                tags[tag].count--;
-                $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
+                $http.put('/tag/' + tags[tag].name,  tags[tag]).success(function(created) {
                         
                 });
             });
@@ -158,11 +189,33 @@ function taggingService($http) {
     
     var deleteQuestionTags = function(deletedTags) {
         deletedTags.forEach(function(tag, index) {
-            tags[tag].count--; 
-            $http.put('/tag/' + tags[tag].id,  tags[tag]).success(function(created) {
+            $http.put('/tag/' + tags[tag].name,  tags[tag]).success(function(created) {
                             
             });
         });
+    }
+    
+    var persistQuestionTag = function(questionId) {
+        addedTags.forEach(function(tag, index) {
+            $http.post('/question/' + questionId + '/tags/' + tag).success(function(created) {
+
+            }); 
+        });
+        
+        
+        removedTags.forEach(function(tag, index) {
+            $http.delete('/question/' + questionId + '/tags/' + tag).success(function(created) {
+            }); 
+        });
+        
+    }
+    
+    var getClickedTag = function() {
+        return clickedTag;
+    }
+    
+    var setClickedTag = function(tag) {
+        clickedTag = tag;
     }
     
     return {
@@ -171,6 +224,7 @@ function taggingService($http) {
       loadSavedTags: loadSavedTags,
       getTags: getTags,
       getSelectedTags: getSelectedTags,
+      getSelectedTagsAsArray: getSelectedTagsAsArray,
       getTech: getTech,
       createNewTag: createNewTag,
       addTag: addTag,
@@ -178,6 +232,9 @@ function taggingService($http) {
       resetTags: resetTags,
       countTag: countTag,
       updateTags: updateTags,
-      deleteQuestionTags: deleteQuestionTags
+      deleteQuestionTags: deleteQuestionTags,
+      persistQuestionTag: persistQuestionTag,
+      getClickedTag: getClickedTag,
+      setClickedTag: setClickedTag
     };
 }

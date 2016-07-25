@@ -1,48 +1,306 @@
-/**
- * Created by nick on 3/31/16.
- */
+function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window, taggingService, popupService, flaggingService) {
 
-// controller
-function create_interview_controller($scope, $http, $window, taggingService) {
-    $scope.current_questions  = [];     // set the default search/filter term
-
-    $scope.tags = ['Technical', 'Test', 'First', 'Last'];
+    $scope.positions = {};
+    $scope.selectedPosition = null;
+    $scope.positionText = "";
     
-    $scope.$on('current_position', function (event, data) {
-        $scope.cur_pos = data.display;
-    });
-    $scope.$on('current_interviewee', function (event, data) {
-        $scope.cur_int = data.item.first_name + " " + data.item.last_name;
-    });
-
-    $scope.addQuestion = function(question){
-        if ($scope.current_questions.indexOf(question) < 0){
-        $scope.current_questions.push(question.item);
-    }};
-
-    $scope.CreateInterview = function () {
-
-
-        var par1 = {interviewee: $scope.cur_int, label: $scope.cur_pos};
-
-        $http.post('/interview', par1).success(function (posted) {
-            addQuestions(posted.interview.id);
-            $window.location.href = './#li';
-
-        })
+    $scope.candidates = {};
+    $scope.selectedCandidate = null;
+    $scope.candidateText = "";
+    
+    $scope.interviewers = {};
+    $scope.selectedInterviewer = null;
+    $scope.interviewerText = "";
+    
+    $scope.taglist = [];
+    
+    $scope.loadScreen = function() {
+        flaggingService.clearQuestions();
+        $http.get('/position').success(function(data) {
+            data.positions.forEach(function(position, index) {
+               $scope.positions[position.name] = position;
+            });
+        });
+        
+        $http.get('/candidate').success(function(data) {
+            data.candidates.forEach(function(candidate, index) {
+               $scope.candidates[candidate.name] = candidate; 
+            });
+        });
+        
+        $http.get('/interviewer').success(function(data) {
+            data.interviewers.forEach(function(interviewer, index) {
+               $scope.interviewers[interviewer.name] = interviewer; 
+            });
+        });
+        
+        var loc = $scope.getWindowLocation();
+        if (loc.location === 'ie') {
+            flaggingService.loadQuestionList(loc.id);
+            $http.get('/interview/' + loc.id).success(function(data) {
+                $http.get('/interviewer/' + data.interview.interviewerId).success(function(result) {
+                    $scope.interviewerItemChange(result.result.name);
+                });
+                $http.get('/candidatePosition/' + data.interview.candidatePositionCId).success(function(result) {
+                    $http.get('/candidate/' + result.result.candidateId).success(function(result) {
+                        $scope.candidateItemChange(result.candidate.name);
+                    });
+                    $http.get('/position/' + result.result.positionId).success(function(result) {
+                        $scope.positionItemChange(result.position.name);
+                    });
+                 });
+                $http.get('/interview/' + loc.id + '/tags').success(function(data) {
+                    data.tags.forEach(function(tag, index) {
+                       $('#tagbox').tagsinput('add', tag.name);
+                    });
+                })
+            });
+        }
+    }
+    
+    $scope.createInterview = function () {
+        var loc = $scope.getWindowLocation();
+        if (loc.location === 'ie') {
+            var interviewID = loc.id;
+            flaggingService.persistQuestions(interviewID);
+            $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
+                   + '/position/' + $scope.positions[$scope.selectedPosition].id)
+            .success(function() {
+                $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
+                   + '/position/' + $scope.positions[$scope.selectedPosition].id)
+                .success(function(canPos) {
+                    var candidatePositionID = canPos.candidatePosition.c_id;
+                    var interviewData = {
+                      candidatePositionCId: candidatePositionID,
+                      interviewerId: $scope.interviewers[$scope.selectedInterviewer].id
+                    };
+                    $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
+                        $window.location.href = './#li'; 
+                        $scope.taglist.forEach(function(tag, index) {
+                            if (taggingService.countTag(tag) > 0) {
+                                $http.post('/tag/' + tag
+                                       + '/interview/' + interviewID).success(function(created) {
+                                });
+                            }
+                            
+                        });
+                    });
+                });
+            });
+        } else {
+            $http.post('/interview').success(function(created) {
+                var interviewID = created.interview.id;
+                flaggingService.persistQuestions(interviewID);
+                $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
+                       + '/position/' + $scope.positions[$scope.selectedPosition].id)
+                .success(function() {
+                    $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
+                       + '/position/' + $scope.positions[$scope.selectedPosition].id)
+                    .success(function(canPos) {
+                        var candidatePositionID = canPos.candidatePosition.c_id;
+                        var interviewData = {
+                          candidatePositionCId: candidatePositionID,
+                          interviewerId: $scope.interviewers[$scope.selectedInterviewer].id
+                        };
+                        $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
+                            $window.location.href = './#li'; 
+                            $scope.taglist.forEach(function(tag, index) {
+                                if (taggingService.countTag(tag) > 0) {
+                                    $http.post('/tag/' + tag
+                                           + '/interview/' + interviewID).success(function(created) {
+                                    });
+                                }
+                                
+                            });
+                        });
+                    });
+                });
+            });
+        }
+        
+        
     };
 
     var addQuestions = function(id){
         $scope.current_questions.forEach(q => $http.post('/interview/' + id + '/questions/' + q.id));
         $scope.current_questions.forEach(q => $http.post('/answer/',{interviewId : id, questionId: q.id}));
     };
-
     
-    $scope.getTagCount = function(tag) {
-        return taggingService.countTag(tag);
+    taggingService.resetTags();  
+    
+    $scope.addPosition = function(position) {
+        if (position && !$scope.positions[position]) {
+            $scope.positions[position] = {name: position, description: ""};
+            popupService.init("Description", "Add job description for " + position, "" ,"");
+            popupService.showPrompt(this, function() {
+                $scope.positions[position].description = popupService.getResult();
+                $scope.selectedPosition = position;
+                $http.post('/position', $scope.positions[position]).success(function(created) {
+                   $scope.positions[position].id = created.data.id;
+                });
+            });
+        }
     }
     
-    $("#myTags").tagit();
-    taggingService.resetTags();
+    $scope.queryPosition = function(query) {
+        var pos = $.map($scope.positions, function(value, index) {
+           return value.name; 
+        });
+        if (query == null) {
+            query = "";
+        }
+        text = query.toLowerCase();
+        var ret = pos.filter(function(d) {
+           var test = d.toLowerCase();
+           return test.startsWith(text);
+        });
+        return ret;
+    }
+    
+    $scope.positionTextChange = function(text) {
+        var pos = $.map($scope.positions, function(value, index) {
+            return value.name; 
+        }); 
+    }
+    
+    $scope.positionItemChange = function(item) {
+        if (item) {
+            $scope.selectedPosition = item;
+        }
+    }
+    
+    $scope.addCandidate = function(candidate) {
+        if (candidate && !$scope.candidates[candidate]) {
+            $scope.candidates[candidate] = {name: candidate};
+            $scope.selectedCandidate = candidate;
+            $http.post('/candidate', $scope.candidates[candidate]).success(function(created) {
+               $scope.candidates[candidate].id = created.data.id;
+            });
+        }
+    }
+    
+    $scope.queryCandidate = function(query) {
+        var can = $.map($scope.candidates, function(value, index) {
+           return value.name; 
+        });
+        if (query == null) {
+            query = "";
+        }
+        text = query.toLowerCase();
+        var ret = can.filter(function(d) {
+           var test = d.toLowerCase();
+           return test.startsWith(text);
+        });
+        return ret;
+    }
+    
+    $scope.candidateTextChange = function(text) {
+        var pos = $.map($scope.candidates, function(value, index) {
+            return value.name; 
+        });
+    }
+    
+    $scope.candidateItemChange = function(item) {
+        if (item) {
+            $scope.selectedCandidate = item;
+        }
+    }
+    
+    $scope.addInterviewer = function(interviewer) {
+        if (interviewer && !$scope.interviewers[interviewer]) {
+            $scope.interviewers[interviewer] = {name: interviewer};
+            $scope.selectedInterviewer = interviewer;
+            $http.post('/interviewer', $scope.interviewers[interviewer]).success(function(created) {
+               $scope.interviewers[interviewer].id = created.data.id;
+            });
+        }
+    }
+    
+    $scope.queryInterviewer = function(query) {
+        var interv = $.map($scope.interviewers, function(value, index) {
+            return value.name;
+        });
+        if (query == null) {
+            query = "";
+        }
+        text = query.toLowerCase();
+        var ret = interv.filter(function(d) {
+            var test = d.toLowerCase();
+            return test.startsWith(text);
+        });
+        return ret;
+    }
+    
+    $scope.interviewerTextChange = function(text) {
+        var interv = $.map($scope.interviewers, function(value, index) {
+            return value.name;
+        });
+    }
+    
+    $scope.interviewerItemChange = function(item) {
+        if (item) {
+            $scope.selectedInterviewer = item;
+        }
+    }
+    
+    $scope.getWindowLocation = function() {
+        var winLoc = {};
+        var loc = "" + $window.location;
+        winLoc.location = loc.substr(loc.lastIndexOf('/') + 1, 2);
+        winLoc.id = $window.location.hash.substr(5);
+        return winLoc;  
+    }
+    
+    $scope.showInterviewWithTag = function(ev, tag) {
+        taggingService.setClickedTag(tag);
+        flaggingService.setSelectedTag(tag);
+        if (taggingService.countTag(tag) > 0) {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+            $mdDialog.show({
+                controller: DialogController,
+                templateUrl: 'questionFlagger.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                fullscreen: useFullScreen
+            })
+            .then(function(answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+            });
+            $scope.$watch(function() {
+              return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+              $scope.customFullscreen = (wantsFullScreen === true);
+            });
+        }
+    }
+    
+    $('#tagbox').on('beforeItemAdd', function(event) {
+        event.itemValue = taggingService.countTag(event.item);
+        event.itemText = event.item + " (" + event.itemValue + ")";
+        $scope.taglist.push(event.item);
+    });
+    
+    $('#tagbox').on('beforeItemRemove', function(event) {
+        if($scope.taglist.indexOf(event.item) > -1) {
+            $scope.taglist.splice($scope.taglist.indexOf(event.item), 1);
+        }
+    });
+
+    
+    $scope.loadScreen();
 }
 
+function DialogController($scope, $mdDialog) {
+  $scope.hide = function() {
+    $mdDialog.hide();
+  };
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
+  $scope.answer = function(answer) {
+    $mdDialog.hide(answer);
+  };
+}

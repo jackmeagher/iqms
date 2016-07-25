@@ -37,7 +37,7 @@
                                         md-items="tag in ctrl.querySearch(ctrl.searchText)"
                                         md-item-text="tag"
                                         md-min-length="0"
-                                        placeholder="Seach for Tag">
+                                        placeholder="Search for Tag">
                                     <md-item-template>
                                                     <span md-highlight-text="ctrl.searchText"
                                                           md-highlight-flags="^i">{{tag}}</span>
@@ -50,7 +50,7 @@
                             <div class="col-md-8" id="subtopic-box">
                                 <label>Tag List</label>
                                 <br>
-                                <tag ng-repeat="tagName in selectedTags track by $index"></tag>
+                                <tag ng-repeat="(key, value) in selectedTags track by $index"></tag>
                             </div>
                         </div>
                         <div class="row">
