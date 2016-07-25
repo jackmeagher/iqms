@@ -6,6 +6,11 @@ var models = require('./models');
 var bodyParser  = require('body-parser');
 var jwt = require('jsonwebtoken');
 const secret = 'tg6bhr5dxddrtcx';
+                   
+var http           = require('http').createServer(app);
+var io             = require('socket.io').listen(http);
+
+app.set('port', process.env.PORT || 5000);
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {

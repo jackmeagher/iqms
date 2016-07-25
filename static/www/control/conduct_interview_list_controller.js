@@ -1,4 +1,4 @@
-function conduct_interview_list_controller($scope, $http) {
+function conduct_interview_list_controller($scope, $http, socket) {
 
     $scope.sortType     = 'id'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
@@ -28,9 +28,21 @@ function conduct_interview_list_controller($scope, $http) {
     }
     
     $scope.addInterviewer = function() {
-  
-
+        console.log('Add Interviewer');
+        socket.emit('add-interviewer', 'New');
     }
+    
+    socket.on('news', function(data) {
+        $scope.$apply(function () {
+         console.log(data);
+        });
+      });
+    
+    socket.on('notification', function(data) {
+       $scope.$apply(function() {
+        console.log(data);
+       });
+    });
     
     $scope.loadScreen();
 }
