@@ -17,7 +17,8 @@
                                         {{question.difficulty}}
                                     </div>
                                     <div class="col-xs-3">
-                                        <button id="askButton{{question.id}}" class="btn btn-default" ng-click="selectQuestion(question.id);">Ask</button>
+                                        <button id="askButton{{question.id}}" class="btn btn-success" ng-click="selectQuestion(question.id);">Ask</button>
+                                        <button id="skipButton{{question.id}}" class="btn btn-danger" ng-click="selectQuestion(question.id);">Skip</button>
                                     </div>
                                 </div>
                             </a>
@@ -25,10 +26,30 @@
                     </div>
                     <div id="collapse{{question.id}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
-                            {{question.text}}
-                            <br>
-                            <span style="font-size:22px; font-weight:bold;">Response Rating:</span>
-                            <div ng-include="'stars.html'" style="margin-top:5%;"></div>
+                            <div class="row">
+                                <h3 class="h3" style="text-align: center;">
+                                    {{question.text}}
+                                </h3>
+                            </div>
+                            <ul>
+                                <li ng-repeat="answer in question.answers">
+                                  {{answer}}  
+                                </li>
+                            </ul>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="h4">Response Rating:</h4>
+                                    <div ng-include="'stars.html'" style="margin-top:5%;"></div>  
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="h4">Notes:</h4>
+                                    <input type class="form-input" id='response{{question.id}}' style="width:100%; height:15%; font-size:22px;"></input>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: center;">
+                                <button class="btn btn-success">Save Response</button>
+                            </div>
                         </div>
                     </div>
                 </div>

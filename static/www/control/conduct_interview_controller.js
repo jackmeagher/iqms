@@ -113,6 +113,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     $scope.selectQuestion = function(id) {
         $('#collapsePanel' + $scope.currentQuestionIndex).toggleClass('panel-info');
         $('#collapsePanel' + $scope.currentQuestionIndex).toggleClass('panel-success');
+        $('#skipButton' + $scope.currentQuestionIndex).remove();
         $scope.currentQuestionIndex = id;
         $('#collapsePanel' + id).toggleClass('panel-default');
         $('#collapsePanel' + id).toggleClass('panel-info');
