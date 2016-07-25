@@ -5,6 +5,12 @@
 
 function conduct_interview_controller ($scope,$location,$http,$window,$routeParams,$interval) {
     var interviewId = $routeParams.id;
+    $scope.interview = {};
+    $scope.questionList = {};
+    $scope.currentTag = "";
+    $scope.currentQuestions = [];
+    
+    
     $scope.questions = [];
     $scope.currentQuestion = {};
     $scope.currentAnswer  = '';
@@ -65,10 +71,14 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         $scope.click_answer_update();
     });
 
+    
+    $scope.collapseQuestion = function(id) {
+        $('#collapse' + id).collapse('toggle');
+    }
+    
 
-
-    $scope.star_update = function() {
-        var dif = document.getElementById("the_stars");
+    $scope.star_update = function(id) {
+        var dif = document.getElementById("the_stars" + id);
         var curr = dif.firstChild;
         while (curr != null) {
             if (curr.checked) {
@@ -79,11 +89,11 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         }
         if(curr) {
 
-            $scope.currentQuestion.answer.rating = curr.value;
+          /* $scope.currentQuestion.answer.rating = curr.value;
 
             $http.put('/answer', {answer: $scope.currentQuestion.answer}).success(function () {
                 console.log('updated stars with ' + curr.value);
-            });
+            });*/
         }
     };
 
@@ -94,36 +104,24 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
 
 
     $http.get('/interview/' + interviewId).success(function (data) {
+        console.log(data);
         $scope.interview = data.interview;
-        $http.get('/interview/' + interviewId + '/questions').success(function (data) {
-            //if (data.questions.len == 0)
-            $scope.questions = data.questions;
-
-            $scope.post_answer = function() {
-                var answer_text = document.getElementById('answer_text').value();
-                var rating = document.getElementById('rating').value();
-                var questionId = -1;
-                if(currentQuestion) {
-                    questionId = currentQuestion.id;
-                } else {
-                    return;
-                }
-                $http.post('/answer', {
-                    answer_text : answer_text,
-                    rating: rating,
-                    questionId: questionId,
-                    interviewId: interviewId
-                }).then(function (data) {
-                    $scope.lastAnswer = data;
+        $http.get('/interview/' + interviewId +'/tags/').success(function(result) {
+            console.log(result);
+            result.tags.forEach(function(tag, index) {
+                $scope.questionList[tag.name] = [];
+                $http.get('/tag/' + tag.name + '/questions/').success(function(result) {
+                   $scope.questionList[tag.name] = result.questions;
+                   $scope.currentTag = "Technical";
+                   $scope.currentQuestions = $scope.questionList[$scope.currentTag];
                 });
-            };
+            });
+            console.log($scope.questionList);
         });
-
-        //console.log(data);
     });
 
 
-        $http.get('/interview/' + interviewId +'/questions/').then(function (data) {
+       /* $http.get('/interview/' + interviewId +'/questions/').then(function (data) {
             $scope.questions = data.data.questions;
             $scope.currentQuestion = $scope.questions[0];
             self.n_questions = $scope.questions.length;
@@ -138,7 +136,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                 });
 
 
-        });
+        });*/
 
 
 }

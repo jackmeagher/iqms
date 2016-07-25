@@ -64,8 +64,8 @@
     }
 </style>
 
-<div id='fields_for_stars' ng-click="star_update();">
-<fieldset class="rating" id="the_stars">
+<div id='fields_for_stars{{question.id}}' ng-click="star_update(question.id);">
+<fieldset class="rating" id="the_stars{{question.id}}">
     <input type="radio" id="star5" name="rating" value="9"/><label class="full" for="star5"
                                                                    title="Awesome - 5 stars"></label>
     <input type="radio" id="star4half" name="rating" value="8"/><label class="half" for="star4half"

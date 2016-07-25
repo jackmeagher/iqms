@@ -27,9 +27,10 @@ function conduct_interview_list_controller($scope, $http, socket) {
          });
     }
     
-    $scope.addInterviewer = function() {
+    $scope.addInterviewer = function(id) {
         console.log('Add Interviewer');
         socket.emit('add-interviewer', 'New');
+        window.location.href = "#conaction/" + id;
     }
     
     socket.on('news', function(data) {
