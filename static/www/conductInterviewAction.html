@@ -118,7 +118,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12" ng-click="faultyClick();">
                             <h3 class="h3" style="text-align: left;">
                                 {{currentQuestion.text}}
                             </h3>
@@ -166,7 +166,7 @@
             
             <!-- Queued Questions -->
             <div class="panel-group" id="accordionQueue" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default vthumbnail" ng-repeat="question in queuedQuestions" id="collapsePanel{{question.id}}" data-drop="true" data-drag="true" ng-model="queuedQuestions" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection'}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}">
+                <div class="panel panel-default vthumbnail" ng-repeat="question in queuedQuestions" id="collapsePanel{{question.id}}" data-drop="true" data-drag="true" ng-model="queuedQuestions" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection', onStart: sendQuestionOrder()}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}">
                     <div class="panel-heading" role="tab" id="heading{{question.id}}" ng-click="">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordionQueue" aria-expanded="true" aria-controls="collapseOne">

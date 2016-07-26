@@ -20,6 +20,13 @@ io.on('connection', function (socket) {
     });
   });
   
+  socket.on('question-reorder', function(data) {
+    console.log("Sending reorder");
+    io.emit('notifiy-question-reorder', {
+        queue: data.queue
+    });
+  });
+  
 });
 
 server.listen(4041, "127.0.0.1", function() {
