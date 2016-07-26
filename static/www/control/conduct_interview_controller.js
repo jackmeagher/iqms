@@ -109,7 +109,6 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                    $scope.currentTag = "Technical";
                    $scope.queuedQuestions = $scope.questionList[$scope.currentTag];
                    $scope.currentQuestion = $scope.queuedQuestions.shift();
-                   
                 });
             });
             console.log($scope.questionList);
@@ -124,7 +123,8 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
             console.log($scope.previousQuestions);
             $scope.currentQuestion = $scope.queuedQuestions.shift();
             $scope.currentQuestion.response = null;*/
-            socket.emit('question-feedback', { value: value });
+            socket.emit('question-feedback', {});
+            $scope.currentQuestion.response = value;
         } else {
             
         }
@@ -132,7 +132,6 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     
     socket.on('notify-question-feedback', function(data) {
         $scope.$apply(function() {
-          $scope.currentQuestion.response = data.value;
             $scope.previousQuestions.push($scope.currentQuestion);
             console.log($scope.previousQuestions);
             $scope.currentQuestion = $scope.queuedQuestions.shift();
