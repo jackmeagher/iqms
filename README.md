@@ -1,66 +1,79 @@
-# IQMS
-Interview Question Management System for CSCI 462
+
+##Required
+<table>
+  <tr>
+    <td>PostgreSQL</td>
+    <td>http://www.postgresql.org/download/</td>
+  </tr>
+  <tr>
+    <td>Node</td>
+    <td>https://nodejs.org/en/download/package-manager/</td>
+  </tr>
+</table>
 
 
 
+Clone the project from the repository  
 
-# REST API DOCS
-
-##Question
-####/question
-* **GET**  : returns all questions 
- * query_strings:
-   * target_text : searches question text
-    * difficulty : returns only questions with this difficulty
-* **POST** : insert new question
- * params: 
-   * question_text   
-    * difficulty
-
-####/question/:id
-* **GET**    : gets a question by id
-* **DELETE** : deletes a question by id
-
-## Interview
-####/interview
-* **GET**  : returns all interviews
-* **POST** : insert a new interview
-
-####/interview/:id
-* **GET**    : gets an interview by id
-* **DELETE** : deletes an interview by id
-
-####/interview/:id/questions
-* **GET** : returns all questions in interview[id]
-	
-####/interview/:id/questions/:question_id
-* **POST**   : adds question[question_id] to interview [id]
-* **DELETE** : removes question[question_id] from interview [id]
-
-## Answer
-####/answer
-* **GET**  : returns all answers
-* **POST** : creates new answer (params : 'feedback', 'rating')
-
-####/answer/:id
-* **GET**    : gets answer by id
-* **DELETE** : deletes an answer by id
-
-## User
-####/user
-* **GET**  : returns all users
-* **POST** : creates new user
-
-####/user/:id
-* **GET**    : gets user by id
-***DELETE** : deletes an user by id
+```	
+	$git clone https://github.com/Geocent/iqms
+```
 
 
-## Role
-####/role
-* **GET**  : returns all roles
-* **POST** : creates new role
+Change directory to project  
 
-####/role/:id
-* **GET**    : gets role by id
-* **DELETE** : deletes an role by id
+```	
+$cd iqms
+```
+
+
+Install node dependencies via npm  
+
+```	
+$npm install 
+```
+
+Set up psql in separate terminal  
+
+```
+	$ psql
+	$ ALTER USER postgres WITH PASSWORD '1233456';
+	$ CREATE DATABASE iqms_development;  
+```
+
+To start: back in /iqms  
+
+```
+	$ chmod +x bin/www_test
+	$cd bin
+	$ ./www_test
+```	
+
+To open app: from a browser, go to  
+
+```
+	http://localhost:3000/static/www/
+```	
+
+###Notes:
+
+bin/www is daemonized, bin/www_test is not  
+tests can be ran with `$ mocha`
+
+
+###Hunter’s Notes
+To load new models:  
+Close test  
+Modify models  
+Delete database (DROP DATABASE ‘name’;)  
+Create Database (CREATE DATABASE ‘name’;)  
+Open test  
+
+To check database  
+
+```
+/l (lists databases)
+/c <name> (connects to database <name>)
+/dt (lists all tables in connected database)
+/d <table> (displays columns of <table> in connected database)
+```
