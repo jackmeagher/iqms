@@ -8,6 +8,14 @@ io.on('connection', function (socket) {
   socket.on('my other event', function (data) {
     console.log(data);
   });
+  
+  
+  socket.on('question-feedback', function(data) {
+    io.emit('notify-question-feedback', {
+        value: data.value
+    });
+  });
+  
   socket.on('add-interviewer', function(interviewer) {
     io.emit('notification', {
       message: 'new interviewer',

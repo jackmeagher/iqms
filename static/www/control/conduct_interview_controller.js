@@ -3,7 +3,7 @@
  */
 
 
-function conduct_interview_controller ($scope,$location,$http,$window,$routeParams,$interval) {
+function conduct_interview_controller ($scope,$location,$http,$window,$routeParams,$interval, socket) {
     var interviewId = $routeParams.id;
     $scope.interview = {};
     $scope.questionList = {};
@@ -118,14 +118,28 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
 
     $scope.respond = function(id, value) {
         if ($scope.currentQuestion.id == id) {
-            console.log(value);
+           /* console.log(value);
             $scope.currentQuestion.response = value;
             $scope.previousQuestions.push($scope.currentQuestion);
             console.log($scope.previousQuestions);
             $scope.currentQuestion = $scope.queuedQuestions.shift();
-            $scope.currentQuestion.response = null;
+            $scope.currentQuestion.response = null;*/
+            socket.emit('question-feedback', { value: value });
+        } else {
+            
         }
     }
+    
+    socket.on('notify-question-feedback', function(data) {
+        $scope.$apply(function() {
+          $scope.currentQuestion.response = data.value;
+            $scope.previousQuestions.push($scope.currentQuestion);
+            console.log($scope.previousQuestions);
+            $scope.currentQuestion = $scope.queuedQuestions.shift();
+            $scope.currentQuestion.response = null;  
+        });
+        
+    });
     
     $scope.selectQuestion = function(id) {
         $('#collapsePanel' + $scope.currentQuestionIndex).toggleClass('panel-info');
