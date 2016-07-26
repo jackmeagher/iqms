@@ -1,7 +1,38 @@
 <div ng-controller="conduct_interview_controller">
     <div class="row">
         <div class="col-md-12">
-            
+            <style type="text/css">
+                /* Vertical Sortable */
+                .vthumbnail {
+                  padding-top: 0px;
+                  cursor: pointer;
+                  position: relative;
+                  -webkit-transition: none;
+                  transition: none;
+                  float: none !important;
+                }
+                .vthumbnail.ng-leave {
+                  -webkit-transition-duration: 0s;
+                  transition-duration: 0s;
+                  opacity: 1;
+                }
+                .vthumbnail.ng-leave.ng-leave-active {
+                  opacity: 0;
+                }
+                .vthumbnail.ng-enter {
+                  -webkit-transition: top 0.3s;
+                  transition: top 0.3s;
+                }
+                .vthumbnail.ng-enter[data-direction="left"] {
+                  top: -40px; /* 56px width + 20px marginBottom */
+                }
+                .vthumbnail.ng-enter[data-direction="right"] {
+                  top: 40px; /* 56px width + 20px marginBottom */
+                }
+                .vthumbnail.ng-enter.ng-enter-active {
+                  top: 0px;
+                }
+              </style>
             <!-- Previous Questions -->
             <div class="panel-group" id="accordionPrev" role="tablist" aria-multiselectable="true">
                 <div class="panel" ng-repeat="question in previousQuestions" ng-class="{'panel-danger': question.response == null, 'panel-success': question.response >= 0}" id="collapsePanel{{question.id}}">
@@ -135,8 +166,8 @@
             
             <!-- Queued Questions -->
             <div class="panel-group" id="accordionQueue" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default" ng-repeat="question in queuedQuestions" id="collapsePanel{{question.id}}">
-                    <div class="panel-heading" role="tab" id="heading{{question.id}}" ng-click="collapseQuestion(question.id);">
+                <div class="panel panel-default vthumbnail" ng-repeat="question in queuedQuestions" id="collapsePanel{{question.id}}" data-drop="true" data-drag="true" ng-model="queuedQuestions" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection'}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}">
+                    <div class="panel-heading" role="tab" id="heading{{question.id}}" ng-click="">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordionQueue" aria-expanded="true" aria-controls="collapseOne">
                                 <div class="row">
