@@ -109,13 +109,23 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                    $scope.currentTag = "Technical";
                    $scope.queuedQuestions = $scope.questionList[$scope.currentTag];
                    $scope.currentQuestion = $scope.queuedQuestions.shift();
-                   $('#collapse' + $scope.currentQuestion.id).collapse('show');
+                   
                 });
             });
             console.log($scope.questionList);
         });
     });
 
+    $scope.respond = function(id, value) {
+        if ($scope.currentQuestion.id == id) {
+            console.log(value);
+            $scope.currentQuestion.response = value;
+            $scope.previousQuestions.push($scope.currentQuestion);
+            console.log($scope.previousQuestions);
+            $scope.currentQuestion = $scope.queuedQuestions.shift();
+            $scope.currentQuestion.response = null;
+        }
+    }
     
     $scope.selectQuestion = function(id) {
         $('#collapsePanel' + $scope.currentQuestionIndex).toggleClass('panel-info');
