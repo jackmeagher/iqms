@@ -1,24 +1,82 @@
 <div ng-controller="conduct_interview_controller">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default" ng-repeat="question in currentQuestions" id="collapsePanel{{$index + 1}}">
+            
+            
+            <!-- Current Question -->
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="heading{{currentQuestion.id}}">
+                    <h4 class="panel-title">
+                        <div class="row">
+                            <div class="col-xs-10">
+                                {{currentQuestion.text}}
+                            </div>
+                            <div class="col-xs-2" style="text-align: center;">
+                                {{currentQuestion.difficulty}}
+                            </div>
+                        </div>
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="h3" style="text-align: left;">
+                                {{currentQuestion.text}}
+                            </h3>
+                        </div>
+                    </div>
+                    <ul>
+                        <li ng-repeat="answer in currentQuestion.answers" style='list-style: none;'>
+                          {{answer}}  
+                        </li>
+                    </ul>
+                    <div class="row">
+                        <div class="col-md-12" style="text-align: center;">
+                            <h4 class="h4">Response Rating:</h4>
+                            <label class="radio-inline">
+                                <input type="radio" name="responseRating" id="inlineRadio0-{{currentQuestion.id}}" value="0"> Poor
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="responseRating" id="inlineRadio1-{{currentQuestion.id}}" value="1"> Incorrect
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="responseRating" id="inlineRadio2-{{currentQuestion.id}}" value="2"> Insufficient
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="responseRating" id="inlineRadio3-{{currentQuestion.id}}" value="3"> Adequate
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="responseRating" id="inlineRadio4-{{currentQuestion.id}}" value="4"> Good
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="responseRating" id="inlineRadio5-{{currentQuestion.id}}" value="5"> Excellent
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: center;">
+                        <div class="col-md-12">
+                            <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#noteBox{{currentQuestion.id}}" aria-expanded="false" aria-controls="noteBox{{currentQuestion.id}}">Take Notes</button>
+                            <div class="collapse noteBox" id="noteBox{{currentQuestion.id}}">
+                                <h4 class="h4">Notes:</h4>
+                                <input type class="form-input" id='response{{currentQuestion.id}}' style="width:100%; height:15%; font-size:22px;"></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Queued Questions -->
+            <div class="panel-group" id="accordionQueue" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default" ng-repeat="question in queuedQuestions" id="collapsePanel{{question.id}}">
                     <div class="panel-heading" role="tab" id="heading{{question.id}}" ng-click="collapseQuestion(question.id);">
                         <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne">
+                            <a role="button" data-toggle="collapse" data-parent="#accordionQueue" aria-expanded="true" aria-controls="collapseOne">
                                 <div class="row">
-                                    <div class="col-xs-1">
-                                        #{{question.id}}.  
-                                    </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-10">
                                         {{question.text}}
                                     </div>
-                                    <div class="col-xs-2">
+                                    <div class="col-xs-2" style="text-align: center;">
                                         {{question.difficulty}}
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <button id="askButton{{question.id}}" class="btn btn-success" ng-click="selectQuestion(question.id);">Ask</button>
-                                        <button id="skipButton{{question.id}}" class="btn btn-danger" ng-click="selectQuestion(question.id);">Skip</button>
                                     </div>
                                 </div>
                             </a>
@@ -27,71 +85,58 @@
                     <div id="collapse{{question.id}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                             <div class="row">
-                                <h3 class="h3" style="text-align: center;">
-                                    {{question.text}}
-                                </h3>
+                                <div class="col-md-12">
+                                    <h3 class="h3" style="text-align: left;">
+                                        {{question.text}}
+                                    </h3>
+                                </div>
                             </div>
                             <ul>
-                                <li ng-repeat="answer in question.answers">
+                                <li ng-repeat="answer in question.answers" style='list-style: none;'>
                                   {{answer}}  
                                 </li>
                             </ul>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12" style="text-align: center;">
                                     <h4 class="h4">Response Rating:</h4>
-                                    <div ng-include="'stars.html'" style="margin-top:5%;"></div>  
-                                </div>
-                                <div class="col-md-6">
-                                    <h4 class="h4">Notes:</h4>
-                                    <input type class="form-input" id='response{{question.id}}' style="width:100%; height:15%; font-size:22px;"></input>
-                                    <br>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="responseRating" id="inlineRadio0-{{question.id}}" value="0"> Poor
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="responseRating" id="inlineRadio1-{{question.id}}" value="1"> Incorrect
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="responseRating" id="inlineRadio2-{{question.id}}" value="2"> Insufficient
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="responseRating" id="inlineRadio3-{{question.id}}" value="3"> Adequate
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="responseRating" id="inlineRadio4-{{question.id}}" value="4"> Good
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="responseRating" id="inlineRadio5-{{question.id}}" value="5"> Excellent
+                                    </label>
                                 </div>
                             </div>
                             <div class="row" style="text-align: center;">
-                                <button class="btn btn-success">Save Response</button>
+                                <div class="col-md-12">
+                                    <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#noteBox{{question.id}}" aria-expanded="false" aria-controls="noteBox{{question.id}}">Take Notes</button>
+                                    <div class="collapse noteBox" id="noteBox{{question.id}}">
+                                        <h4 class="h4">Notes:</h4>
+                                        <input type class="form-input" id='response{{question.id}}' style="width:100%; height:15%; font-size:22px;"></input>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <script>
-                $('.collapse').collapse();
+                $('.collapse').collapse('hide');
             </script>
         </div>
     </div>
-    <!--<br>
-    <span style="font-size:20px;"><b>Position:</b> {{interview.label}}</span><br>
-    <span style="font-size:20px;"><b>Candidate:</b> {{interview.interviewee}}</span>
-
-    <div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-top:15%;">
-
-    
-        <div class="carousel-inner" role="listbox">
-            <div class="item active" style="text-align: center; font-size:18px; font-weight:700;">
-                {{currentQuestion.question_text}}
-            </div>
-        </div>
-
-    
-        <a class="left carousel-control" role="button" data-slide="prev" ng-click="updateCurrentQuestion(-1);">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" ></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" ng-click="updateCurrentQuestion(1);" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-
-
-
-    <br><br>
-    <span style="font-size:22px; font-weight:bold;">Response:</span><br><br>
-    <textarea id='response' style="width:100%; height:15%; font-size:22px;"
-              placeholder="Type candidate's response here..."  >{{currentAnswer}}</textarea>
-    <br><br><br><br>
-    <span style="font-size:22px; font-weight:bold;">Response Rating:</span>
-    <div ng-include="'stars.html'" style="margin-top:5%;"></div>-->
 </div>
 
 

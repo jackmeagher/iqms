@@ -8,7 +8,11 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     $scope.interview = {};
     $scope.questionList = {};
     $scope.currentTag = "";
-    $scope.currentQuestions = [];
+    
+    $scope.previousQuestions = [];
+    $scope.currentQuestion = {};
+    $scope.queuedQuestions = [];
+    
     $scope.currentQuestionIndex = 0;
     
     $scope.questions = [];
@@ -69,6 +73,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
 
     
     $scope.collapseQuestion = function(id) {
+        console.log(id);
         $('.collapse').collapse('hide');
         $('#collapse' + id).collapse('toggle');
     }
@@ -102,7 +107,9 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                 $http.get('/tag/' + tag.name + '/questions/').success(function(result) {
                    $scope.questionList[tag.name] = result.questions;
                    $scope.currentTag = "Technical";
-                   $scope.currentQuestions = $scope.questionList[$scope.currentTag];
+                   $scope.queuedQuestions = $scope.questionList[$scope.currentTag];
+                   $scope.currentQuestion = $scope.queuedQuestions.shift();
+                   $('#collapse' + $scope.currentQuestion.id).collapse('show');
                 });
             });
             console.log($scope.questionList);
