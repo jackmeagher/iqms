@@ -137,6 +137,18 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         if ($scope.currentQuestion.id == id) {
             socket.emit('question-feedback', {});
             $scope.currentQuestion.response = value;
+            var feedback = {
+                user: $scope.interviewerName,
+                rating: value,
+                note: null,
+                question_id: id
+            };
+            $http.post('/feedback', feedback).then(function(created) {
+                console.log(created);
+                $http.post('/interview/' + interviewId + '/feedback/' + created.id).then(function(added) {
+                    console.log(added);
+                });
+            });
         } else {
             
         }
