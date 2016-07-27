@@ -48,6 +48,7 @@ var candidate_routes = require('./routes/candidate');
 var interviewer_routes = require('./routes/interviewer');
 var candidatePosition_routes = require('./routes/candidatePosition');
 var interviewQuestion_routes = require('./routes/interviewQuestion');
+var feedback_routes = require('./routes/feedback');
 
 question_routes.register(app,'');
 interview_routes.register(app,'');
@@ -60,6 +61,7 @@ candidate_routes.register(app, '');
 interviewer_routes.register(app, '');
 candidatePosition_routes.register(app, '');
 interviewQuestion_routes.register(app, '');
+feedback_routes.register(app, '');
 
 app.use('/static', express.static('../static'));
 
