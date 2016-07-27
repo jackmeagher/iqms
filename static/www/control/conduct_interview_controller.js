@@ -140,7 +140,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
             var feedback = {
                 user: $scope.interviewerName,
                 rating: value,
-                note: null,
+                note: $scope.currentQuestion.note,
                 question_id: id
             };
             $http.post('/feedback', feedback).then(function(created) {
@@ -152,7 +152,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
             var feedback = {
                 user: $scope.interviewerName,
                 rating: value,
-                note: null,
+                note: $scope.lastQuestion.note,
                 question_id: id
             };
             $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
@@ -160,23 +160,67 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                });
             });
         } else {
+            var index;
+            for(var i = 0; i < $scope.previousQuestions.length; i++) {
+                if ($scope.previousQuestions[i].id == id) {
+                    $scope.previousQuestions[i].response = value;
+                    index = i;
+                    i = $scope.previousQuestions.length;
+                }
+            }
+            
             var feedback = {
                 user: $scope.interviewerName,
                 rating: value,
-                note: null,
+                note: $scope.previousQuestions[index].note,
                 question_id: id
             };
             $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
                $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
                });
             });
-            
+        }
+    }
+    
+    $scope.saveNote = function(id) {
+        if ($scope.currentQuestion.id == id) {
+            var feedback = {
+                user: $scope.interviewerName,
+                note: $scope.currentQuestion.note,
+                question_id: id
+            };
+            $http.post('/feedback', feedback).then(function(created) {
+                $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id).then(function(added) {
+                });
+            });
+        } else if($scope.lastQuestion.id == id) {
+            var feedback = {
+                user: $scope.interviewerName,
+                note: $scope.lastQuestion.note,
+                question_id: id
+            };
+            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
+               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
+               });
+            });
+        } else {
+            var index;
             for(var i = 0; i < $scope.previousQuestions.length; i++) {
                 if ($scope.previousQuestions[i].id == id) {
-                    $scope.previousQuestions[i].response = value;
+                    index = i;
                     i = $scope.previousQuestions.length;
                 }
             }
+            
+            var feedback = {
+                user: $scope.interviewerName,
+                note: $scope.previousQuestions[index].note,
+                question_id: id
+            };
+            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
+               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
+               });
+            });
         }
     }
     
