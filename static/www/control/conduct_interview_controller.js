@@ -15,6 +15,8 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     $scope.currentQuestion = {};
     $scope.queuedQuestions = [];
     
+    $scope.interviewerName = "User";
+    
     $scope.currentQuestionIndex = 0;
     
     $scope.questions = [];
