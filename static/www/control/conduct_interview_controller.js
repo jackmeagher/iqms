@@ -156,12 +156,27 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                 question_id: id
             };
             $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
-               console.log("FOUND");
-               console.log(feedbacks);
                $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
-                console.log(update);
                });
             });
+        } else {
+            var feedback = {
+                user: $scope.interviewerName,
+                rating: value,
+                note: null,
+                question_id: id
+            };
+            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
+               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
+               });
+            });
+            
+            for(var i = 0; i < $scope.previousQuestions.length; i++) {
+                if ($scope.previousQuestions[i].id == id) {
+                    $scope.previousQuestions[i].response = value;
+                    i = $scope.previousQuestions.length;
+                }
+            }
         }
     }
     
