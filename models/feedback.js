@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var feedback = sequelize.define("Feedback", {
+    var feedback = sequelize.define("feedback", {
         question_id: DataTypes.INTEGER,
         data: DataTypes.JSON
     }, {
