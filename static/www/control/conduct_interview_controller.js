@@ -225,6 +225,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     }
     
     $scope.skip = function(id) {
+        socket.emit('question-skip', {id: id});
         if ($scope.currentQuestion.id == id) {
             socket.emit('question-feedback', {});
             $scope.currentQuestion.response = -1;
@@ -253,8 +254,25 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
             } else {
                 $scope.currentQuestion = null;   
             }
-        });
-        
+        }); 
+    });
+    
+    socket.on('notify-question-skip', function(data) {
+       $scope.$apply(function() {
+            if ($scope.currentQuestion.id == data.id) {
+                $scope.currentQuestion.skipped = true;
+            } else if($scope.lastQuestion.id == data.id) {
+                $scope.lastQuestion.skipped = true;
+            } else {
+                var index;
+                for(var i = 0; i < $scope.previousQuestions.length; i++) {
+                    if ($scope.previousQuestions[i].id == data.id) {
+                        $scope.previousQuestions[i].skipped = true;
+                        i = $scope.previousQuestions.length;
+                    }
+                }
+            }
+       });
     });
     
     $scope.selectQuestion = function(id) {

@@ -47,7 +47,7 @@
                                 <a role="button" data-toggle="collapse" data-parent="#accordionPrev" aria-expanded="true" aria-controls="collapseOne">
                                     <div class="row">
                                         <div class="col-xs-10">
-                                            {{question.text}}
+                                           <span ng-show="question.skipped" class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> {{question.text}}
                                         </div>
                                         <div class="col-xs-2" style="text-align: center;">
                                             {{question.difficulty}}
@@ -119,7 +119,7 @@
                     <h4 class="panel-title">
                         <div class="row">
                             <div class="col-xs-10">
-                                {{lastQuestion.text}}
+                                <span ng-show="lastQuestion.skipped" class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> {{lastQuestion.text}}
                             </div>
                             <div class="col-xs-2" style="text-align: center;">
                                 {{lastQuestion.difficulty}}

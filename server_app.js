@@ -27,6 +27,12 @@ io.on('connection', function (socket) {
     });
   });
   
+  socket.on('question-skip', function(data) {
+    io.emit('notify-question-skip', {
+       id: data.id 
+    });
+  });
+  
 });
 
 server.listen(4041, "127.0.0.1", function() {
