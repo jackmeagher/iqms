@@ -224,6 +224,23 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         }
     }
     
+    $scope.skip = function(id) {
+        if ($scope.currentQuestion.id == id) {
+            socket.emit('question-feedback', {});
+            $scope.currentQuestion.response = -1;
+        } else if($scope.lastQuestion.id == id) {
+            $scope.lastQuestion.response = -1;
+        } else {
+            var index;
+            for(var i = 0; i < $scope.previousQuestions.length; i++) {
+                if ($scope.previousQuestions[i].id == id) {
+                    $scope.previousQuestions[i].response = -1;
+                    i = $scope.previousQuestions.length;
+                }
+            }
+        }
+    }
+    
     socket.on('notify-question-feedback', function(data) {
         $scope.$apply(function() {
             if ($scope.lastQuestion) {

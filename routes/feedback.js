@@ -57,8 +57,6 @@ exports = module.exports = new Resource('feedback', '/feedback', {
             
             feedback.set('data', data);
             
-            console.log(feedback.data);
-            
             feedback.save({fields: ['data']}).then(function(feedback) {
                 res.status(201).json({feedback: feedback});
             })
