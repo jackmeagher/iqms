@@ -11,6 +11,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     $scope.currentTag = "";
     
     $scope.previousQuestions = [];
+    $scope.lastQuestion = null;
     $scope.currentQuestion = {};
     $scope.queuedQuestions = [];
     
@@ -75,7 +76,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     
     $scope.collapseQuestion = function(id) {
         console.log(id);
-        $('.collapse').collapse('hide');
+        $('.collapse-prev').collapse('hide');
         $('#collapse' + id).collapse('toggle');
     }
     
@@ -141,8 +142,10 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     
     socket.on('notify-question-feedback', function(data) {
         $scope.$apply(function() {
-            $scope.previousQuestions.push($scope.currentQuestion);
-            console.log($scope.previousQuestions);
+            if ($scope.lastQuestion) {
+                $scope.previousQuestions.push($scope.lastQuestion);
+            }
+            $scope.lastQuestion = $scope.currentQuestion;
             if ($scope.queuedQuestions.length >= 1) {
                 $scope.currentQuestion = $scope.queuedQuestions.shift();
                 $scope.currentQuestion.response = null;  
