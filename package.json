@@ -12,6 +12,7 @@
     "daemon": "^1.1.0",
     "express": "^4.13.4",
     "gulp": "^3.9.0",
+    "http": "0.0.0",
     "jsonwebtoken": "^5.7.0",
     "mocha": "^2.4.5",
     "pg": "^4.4.3",
@@ -19,6 +20,7 @@
     "report-viewer": "^0.3.3",
     "sequelize": "^3.18.0",
     "sequelize-cli": "^2.3.1",
+    "socket.io": "^1.4.8",
     "supertest": "^1.2.0",
     "use-strict": "^1.0.1"
   },
