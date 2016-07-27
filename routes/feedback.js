@@ -1,6 +1,6 @@
 var models = require('../models');
 var Resource = require('../lib/Resource');
-var exports = model.exports = {};
+var exports = module.exports = {};
 
 exports = module.exports = new Resource('feedback', '/feedback', {
     get: (req, res) => {
