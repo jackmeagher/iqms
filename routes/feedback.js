@@ -15,7 +15,7 @@ exports = module.exports = new Resource('feedback', '/feedback', {
         
         var data = {};
         data[req.body.user] = {
-            rating: req.body.rating ? req.body.rating : null,
+            rating: req.body.rating ? req.body.rating : 0,
             note: req.body.note ? req.body.note : null
         };
         
@@ -48,10 +48,17 @@ exports = module.exports = new Resource('feedback', '/feedback', {
             }
         })
         .then(function(feedback) {
-            feedback.data[req.body.user] = {
-                rating: req.body.rating ? req.body.rating : null,
+            
+            var data = {};
+            data[req.body.user] = {
+                rating: req.body.rating ? req.body.rating : 0,
                 note: req.body.note ? req.body.note : null
             };
+            
+            feedback.set('data', data);
+            
+            console.log(feedback.data);
+            
             feedback.save({fields: ['data']}).then(function(feedback) {
                 res.status(201).json({feedback: feedback});
             })

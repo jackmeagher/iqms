@@ -144,13 +144,24 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                 question_id: id
             };
             $http.post('/feedback', feedback).then(function(created) {
-                console.log(created);
                 $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id).then(function(added) {
-                    console.log(added);
                 });
             });
-        } else {
-            
+        } else if($scope.lastQuestion.id == id) {
+            $scope.lastQuestion.response = value;
+            var feedback = {
+                user: $scope.interviewerName,
+                rating: value,
+                note: null,
+                question_id: id
+            };
+            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
+               console.log("FOUND");
+               console.log(feedbacks);
+               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
+                console.log(update);
+               });
+            });
         }
     }
     

@@ -220,6 +220,23 @@ exports = module.exports = new Resource('interview', '/interview', {
                         })
                 }
         }),
+        
+        new Resource('get_feedback_from_interview_withQuestionID', '/:id/feedback/:question_id', {
+               get: (req, res) => {
+                        models.interview.findOne({
+                                where: {
+                                        id: req.params.id
+                                }
+                        }).then(function(interview) {
+                                interview.getFeedbacks({where: ['question_id = ?', [req.params.question_id]]}).then(function(feedbacks) {
+                                        res.status(200).json({
+                                           feedbacks: feedbacks     
+                                        });
+                                })
+                        })
+                        
+                }
+        }),
 
         new Resource('get_answers_from_interview', '/:id/answers', {
             /// get all answers from interview
