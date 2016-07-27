@@ -277,39 +277,6 @@
                                   {{answer}}  
                                 </li>
                             </ul>
-                            <div class="row">
-                                <div class="col-md-12" style="text-align: center;">
-                                    <h4 class="h4">Response Rating:</h4>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio0-{{question.id}}" value="0" disabled> Poor
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio1-{{question.id}}" value="1" disabled> Incorrect
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio2-{{question.id}}" value="2" disabled> Insufficient
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio3-{{question.id}}" value="3" disabled> Adequate
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio4-{{question.id}}" value="4" disabled> Good
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio5-{{question.id}}" value="5" disabled> Excellent
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row" style="text-align: center;">
-                                <div class="col-md-12">
-                                    <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#noteBox{{question.id}}" aria-expanded="false" aria-controls="noteBox{{question.id}}">Take Notes</button>
-                                    <div class="collapse noteBox" id="noteBox{{question.id}}">
-                                        <h4 class="h4">Notes:</h4>
-                                        <input type class="form-input" id='response{{question.id}}' style="width:100%; height:15%; font-size:22px;"></input>
-                                        <button class="btn btn-success center-block" ng-click="saveNote(question.id)">Save Note</button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
