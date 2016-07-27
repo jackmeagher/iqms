@@ -11,24 +11,19 @@ io.on('connection', function (socket) {
   
   
   socket.on('question-feedback', function(data) {
-    io.emit('notify-question-feedback', {
-    });
-  });
-  
-  socket.on('fake-question-feedback', function(data) {
-    io.emit('notify-question-feedback', {
+    io.emit('notify-question-feedback' + data.interviewId, {
     });
   });
   
   socket.on('question-reorder', function(data) {
     console.log("Sending reorder");
-    io.emit('notifiy-question-reorder', {
+    io.emit('notifiy-question-reorder' + data.interviewId, {
         queue: data.queue
     });
   });
   
   socket.on('question-skip', function(data) {
-    io.emit('notify-question-skip', {
+    io.emit('notify-question-skip' + data.interviewId, {
        id: data.id 
     });
   });

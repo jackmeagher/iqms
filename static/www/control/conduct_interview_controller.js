@@ -135,7 +135,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
 
     $scope.respond = function(id, value) {
         if ($scope.currentQuestion.id == id) {
-            socket.emit('question-feedback', {});
+            socket.emit('question-feedback', {interviewId: interviewId});
             $scope.currentQuestion.response = value;
             var feedback = {
                 user: $scope.interviewerName,
@@ -225,9 +225,9 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     }
     
     $scope.skip = function(id) {
-        socket.emit('question-skip', {id: id});
+        socket.emit('question-skip', {id: id, interviewId: interviewId});
         if ($scope.currentQuestion.id == id) {
-            socket.emit('question-feedback', {});
+            socket.emit('question-feedback', {interviewId: interviewId});
             $scope.currentQuestion.response = -1;
         } else if($scope.lastQuestion.id == id) {
             $scope.lastQuestion.response = -1;
@@ -242,7 +242,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         }
     }
     
-    socket.on('notify-question-feedback', function(data) {
+    socket.on('notify-question-feedback' + interviewId, function(data) {
         $scope.$apply(function() {
             if ($scope.lastQuestion) {
                 $scope.previousQuestions.push($scope.lastQuestion);
@@ -257,7 +257,7 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         }); 
     });
     
-    socket.on('notify-question-skip', function(data) {
+    socket.on('notify-question-skip' + interviewId, function(data) {
        $scope.$apply(function() {
             if ($scope.currentQuestion.id == data.id) {
                 $scope.currentQuestion.skipped = true;
@@ -286,14 +286,10 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     }
     
     $scope.sendQuestionOrder = function() {
-        socket.emit('question-reorder', {queue: $scope.queuedQuestions});
+        socket.emit('question-reorder', {queue: $scope.queuedQuestions, interviewId: interviewId});
     }
     
-    $scope.faultyClick = function() {
-        socket.emit('question-reorder', {queue: $scope.queuedQuestions});
-    }
-    
-    socket.on('notify-question-reorder', function(data) {
+    socket.on('notify-question-reorder' + interviewId, function(data) {
        $scope.$apply(function() {
         $scope.queuedQuestions = data.queue;
        });
