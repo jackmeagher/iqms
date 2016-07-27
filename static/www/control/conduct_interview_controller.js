@@ -3,10 +3,11 @@
  */
 
 
-function conduct_interview_controller ($scope,$location,$http,$window,$routeParams,$interval, socket) {
+function conduct_interview_controller ($scope,$location,$http,$window,$routeParams,$filter, $interval, socket) {
     var interviewId = $routeParams.id;
     $scope.interview = {};
     $scope.questionList = {};
+    $scope.questionsByID = {};
     $scope.currentTag = "";
     
     $scope.previousQuestions = [];
@@ -107,13 +108,22 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                 $http.get('/tag/' + tag.name + '/questions/').success(function(result) {
                    $scope.questionList[tag.name] = result.questions;
                    $scope.currentTag = "Technical";
-                   $scope.questionList[$scope.currentTag].forEach(function(q, index) {
-                    if (index < 5) {
-                        $scope.queuedQuestions.push(q);
+                   $scope.questionList[tag.name].forEach(function(q, index) {
+                    if (!$scope.questionsByID[q.id]) {
+                        $scope.questionsByID[q.id] = q;
+                        $scope.questionsByID[q.id].queued = false;
                     }
                     
                    });
-                   $scope.currentQuestion = $scope.queuedQuestions.shift();
+                   
+                    $scope.questionsByID = $.map($scope.questionsByID, function(value, index) {
+                        return value;
+                    });
+                    console.log($scope.questionsByID);
+                    $scope.queuedQuestions = $filter('filter')($scope.questionsByID, function(question){
+                        return  question.difficulty === 0 && !question.queued;
+                    });
+                    $scope.currentQuestion = $scope.queuedQuestions.shift();
                 });
             });
             console.log($scope.questionList);
@@ -122,12 +132,6 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
 
     $scope.respond = function(id, value) {
         if ($scope.currentQuestion.id == id) {
-           /* console.log(value);
-            $scope.currentQuestion.response = value;
-            $scope.previousQuestions.push($scope.currentQuestion);
-            console.log($scope.previousQuestions);
-            $scope.currentQuestion = $scope.queuedQuestions.shift();
-            $scope.currentQuestion.response = null;*/
             socket.emit('question-feedback', {});
             $scope.currentQuestion.response = value;
         } else {
@@ -160,7 +164,6 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     }
     
     $scope.faultyClick = function() {
-        $scope.queuedQuestions.push($scope.questionList[$scope.currentTag][5]);
         socket.emit('question-reorder', {queue: $scope.queuedQuestions});
     }
     
