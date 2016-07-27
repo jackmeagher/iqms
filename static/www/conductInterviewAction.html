@@ -103,7 +103,7 @@
             
             
             <!-- Current Question -->
-            <div class="panel panel-info">
+            <div class="panel panel-info" ng-show="currentQuestion">
                 <div class="panel-heading" role="tab" id="heading{{currentQuestion.id}}">
                     <h4 class="panel-title">
                         <div class="row">
@@ -199,22 +199,22 @@
                                 <div class="col-md-12" style="text-align: center;">
                                     <h4 class="h4">Response Rating:</h4>
                                     <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio0-{{question.id}}" value="0"> Poor
+                                        <input type="radio" name="responseRating" id="inlineRadio0-{{question.id}}" value="0" disabled> Poor
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio1-{{question.id}}" value="1"> Incorrect
+                                        <input type="radio" name="responseRating" id="inlineRadio1-{{question.id}}" value="1" disabled> Incorrect
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio2-{{question.id}}" value="2"> Insufficient
+                                        <input type="radio" name="responseRating" id="inlineRadio2-{{question.id}}" value="2" disabled> Insufficient
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio3-{{question.id}}" value="3"> Adequate
+                                        <input type="radio" name="responseRating" id="inlineRadio3-{{question.id}}" value="3" disabled> Adequate
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio4-{{question.id}}" value="4"> Good
+                                        <input type="radio" name="responseRating" id="inlineRadio4-{{question.id}}" value="4" disabled> Good
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="responseRating" id="inlineRadio5-{{question.id}}" value="5"> Excellent
+                                        <input type="radio" name="responseRating" id="inlineRadio5-{{question.id}}" value="5" disabled> Excellent
                                     </label>
                                 </div>
                             </div>

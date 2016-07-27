@@ -143,8 +143,12 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         $scope.$apply(function() {
             $scope.previousQuestions.push($scope.currentQuestion);
             console.log($scope.previousQuestions);
-            $scope.currentQuestion = $scope.queuedQuestions.shift();
-            $scope.currentQuestion.response = null;  
+            if ($scope.queuedQuestions.length >= 1) {
+                $scope.currentQuestion = $scope.queuedQuestions.shift();
+                $scope.currentQuestion.response = null;  
+            } else {
+                $scope.currentQuestion = null;   
+            }
         });
         
     });
