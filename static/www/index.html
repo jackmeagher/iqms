@@ -77,7 +77,7 @@
             
             $scope.interviewScreen = false;
             
-            $scope.$on('$locationChangeStart', function(event) {
+            $scope.$on('$routeChangeStart', function(event) {
                 var loc = "" + window.location;
                 loc = loc.substr(loc.lastIndexOf('#') + 2);
                 console.log("Change: " + loc);

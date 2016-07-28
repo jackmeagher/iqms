@@ -42,13 +42,11 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         $scope.interview = data.interview;
         $http.get('/interview/' + interviewId +'/tags/').success(function(result) {
             result.tags.forEach(function(tag, index) {
-                console.log(tag);
                 $scope.tags.push({
                    label: tag.name,
                    checked: true
                 });
                 filterService.setTags($scope.tags);
-                console.log($scope.tags);
                 $scope.questionList[tag.name] = [];
                 $http.get('/tag/' + tag.name + '/questions/').success(function(result) {
                    $scope.questionList[tag.name] = result.questions;
@@ -67,7 +65,9 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                     $scope.queuedQuestions = $filter('filter')(qsId, function(question){
                         return  question.difficulty === 0 && !question.queued;
                     });
-                    $scope.queuedQuestions.length = 6;
+                    if ($scope.queuedQuestions.length > 6) {
+                        $scope.queuedQuestions.length = 6;
+                    }
                     $scope.queuedQuestions.forEach(function(q, index) {
                        $scope.questionsByID[q.id].queued = true;
                     });
