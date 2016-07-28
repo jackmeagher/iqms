@@ -3,7 +3,7 @@
  */
 
 
-function conduct_interview_controller ($scope,$rootScope,$http,$window,$routeParams,$filter, $interval, socket, filterService) {
+function conduct_interview_controller ($scope,$rootScope,$http,$window,$routeParams,$filter, $interval, socket, filterService, toast) {
     var interviewId = $routeParams.id;
     filterService.setInterviewId(interviewId);
     $scope.interview = {};
@@ -76,7 +76,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
 
     $scope.respond = function(id, value) {
         if ($scope.currentQuestion.id == id) {
-            socket.emit('question-feedback', {interviewId: interviewId});
+            socket.emit('question-feedback', {interviewId: interviewId, user: $scope.interviewerName});
             $scope.currentQuestion.response = value;
             var feedback = {
                 user: $scope.interviewerName,
@@ -166,12 +166,32 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     }
     
     $scope.skip = function(id) {
-        socket.emit('question-skip', {id: id, interviewId: interviewId});
+        socket.emit('question-skip', {id: id, interviewId: interviewId, user: $scope.interviewerName});
         if ($scope.currentQuestion.id == id) {
-            socket.emit('question-feedback', {interviewId: interviewId});
+            socket.emit('question-feedback', {interviewId: interviewId, user: $scope.interviewerName});
             $scope.currentQuestion.response = -1;
+            var feedback = {
+                user: $scope.interviewerName,
+                rating: -1,
+                note: $scope.currentQuestion.note,
+                question_id: id
+            };
+            $http.post('/feedback', feedback).then(function(created) {
+                $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id).then(function(added) {
+                });
+            });
         } else if($scope.lastQuestion.id == id) {
             $scope.lastQuestion.response = -1;
+             var feedback = {
+                user: $scope.interviewerName,
+                rating: -1,
+                note: $scope.lastQuestion.note,
+                question_id: id
+            };
+            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
+               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
+               });
+            });
         } else {
             var index;
             for(var i = 0; i < $scope.previousQuestions.length; i++) {
@@ -180,6 +200,16 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                     i = $scope.previousQuestions.length;
                 }
             }
+            var feedback = {
+                user: $scope.interviewerName,
+                rating: -1,
+                note: $scope.previousQuestions[index].note,
+                question_id: id
+            };
+            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
+               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
+               });
+            });
         }
     }
     
@@ -240,7 +270,8 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     });
     
     socket.on('notify-question-skip' + interviewId, function(data) {
-       $scope.$apply(function() {
+        $scope.$apply(function() {
+            toast.info(data.message);
             if ($scope.currentQuestion.id == data.id) {
                 $scope.currentQuestion.skipped = true;
             } else if($scope.lastQuestion.id == data.id) {
@@ -254,11 +285,11 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                     }
                 }
             }
-       });
+        });
     });
     
     $scope.sendQuestionOrder = function() {
-        socket.emit('question-reorder', {queue: $scope.queuedQuestions, interviewId: interviewId});
+        socket.emit('question-reorder', {queue: $scope.queuedQuestions, interviewId: interviewId, user: $scope.interviewerName});
     }
     
     socket.on('notify-question-reorder' + interviewId, function(data) {
@@ -280,7 +311,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
        $scope.$apply(function() {
             filterService.setTags(data.tags);
             filterService.setDifficulties(data.difficulties);
-            console.log("Server Buzzed");
+            toast.info(data.message);
        });
     });
     

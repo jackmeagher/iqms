@@ -16,19 +16,20 @@ io.on('connection', function (socket) {
   });
   
   socket.on('question-reorder', function(data) {
-    console.log("Sending reorder");
-    io.emit('notifiy-question-reorder' + data.interviewId, {
+    io.emit('notify-question-reorder' + data.interviewId, {
         queue: data.queue
     });
   });
   
   socket.on('question-skip', function(data) {
     io.emit('notify-question-skip' + data.interviewId, {
-       id: data.id 
+       id: data.id,
+       message: data.user + " skipped question."
     });
   });
   
     socket.on('update-filter', function(data) {
+        data.message = "Filter updated.";
         io.emit('notify-update-filter' + data.id, data);
     });
   
