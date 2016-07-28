@@ -272,7 +272,7 @@
                         </h4>
                         <hr style="margin: 0px;">
                         <div class="checkbox" style="text-align: center">
-                            <label class="checkbox-inline" ng-model="tags" ng-repeat="tag in tags track by tag.label">  
+                            <label class="checkbox-inline" ng-model="tags" ng-repeat="tag in tags track by tag.label" ng-show="tag.label != 'Technical' && tag.label != 'Intro' && tag.label != 'Close'">  
                                 <input type="checkbox" ng-model="tag.checked" ng-click="changeTag()"> {{tag.label}}
                             </label>
                         </div>
