@@ -3,7 +3,7 @@
  */
 
 
-function conduct_interview_controller ($scope,$location,$http,$window,$routeParams,$filter, $interval, socket) {
+function conduct_interview_controller ($scope,$location,$http,$window,$routeParams,$filter, $interval, socket, filterService) {
     var interviewId = $routeParams.id;
     $scope.interview = {};
     $scope.questionList = {};
@@ -17,6 +17,21 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     
     $scope.interviewerName = "User";
 
+    $scope.difficulties = [{
+        label: "Junior",
+        checked: true
+    }, {
+        label: "Mid",
+        checked: true
+    }, {
+        label: "Senior",
+        checked: true
+    }];
+    
+    filterService.setDifficulties($scope.difficulties);
+    
+    $scope.tags = [];
+    
     $scope.collapseQuestion = function(id) {
         console.log(id);
         $('.collapse-prev').collapse('hide');
@@ -27,6 +42,13 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         $scope.interview = data.interview;
         $http.get('/interview/' + interviewId +'/tags/').success(function(result) {
             result.tags.forEach(function(tag, index) {
+                console.log(tag);
+                $scope.tags.push({
+                   label: tag.name,
+                   checked: true
+                });
+                filterService.setTags($scope.tags);
+                console.log($scope.tags);
                 $scope.questionList[tag.name] = [];
                 $http.get('/tag/' + tag.name + '/questions/').success(function(result) {
                    $scope.questionList[tag.name] = result.questions;
@@ -39,11 +61,15 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                     
                    });
                    
-                    $scope.questionsByID = $.map($scope.questionsByID, function(value, index) {
+                    var qsId = $.map($scope.questionsByID, function(value, index) {
                         return value;
                     });
-                    $scope.queuedQuestions = $filter('filter')($scope.questionsByID, function(question){
+                    $scope.queuedQuestions = $filter('filter')(qsId, function(question){
                         return  question.difficulty === 0 && !question.queued;
+                    });
+                    $scope.queuedQuestions.length = 6;
+                    $scope.queuedQuestions.forEach(function(q, index) {
+                       $scope.questionsByID[q.id].queued = true;
                     });
                     $scope.currentQuestion = $scope.queuedQuestions.shift();
                 });
@@ -157,6 +183,18 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                     i = $scope.previousQuestions.length;
                 }
             }
+        }
+    }
+    
+    $scope.pullQuestion = function() {
+        var qsId = $.map($scope.questionsByID, function(value, index) {
+            return value;
+        });
+        qsId = $filter('filter')(qsId, function(question){
+            return  question.difficulty === 0 && !question.queued;
+        });
+        if (qsId.length > 0) {
+            $scope.queuedQuestions.push(qsId[0]);
         }
     }
     

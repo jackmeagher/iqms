@@ -41,7 +41,7 @@
             <!-- Previous Questions -->
             <div class="collapse well" id="showPrevCollapse">
                 <div class="panel-group" id="accordionPrev" role="tablist" aria-multiselectable="true">
-                    <div class="panel" ng-repeat="question in previousQuestions" ng-class="{'panel-danger': question.response == null, 'panel-success': question.response >= -1}" id="collapsePanel{{question.id}}">
+                    <div class="panel" ng-repeat="question in previousQuestions track by $index" ng-class="{'panel-danger': question.response == null, 'panel-success': question.response >= -1}" id="collapsePanel{{question.id}}">
                             <div class="panel-heading" role="tab" id="heading{{question.id}}" ng-click="collapseQuestion(question.id);">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordionPrev" aria-expanded="true" aria-controls="collapseOne">
@@ -248,7 +248,7 @@
             
             <!-- Queued Questions -->
             <div class="panel-group" id="accordionQueue" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default vthumbnail" ng-repeat="question in queuedQuestions" id="collapsePanel{{question.id}}" data-drop="true" data-drag="true" ng-model="queuedQuestions" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection', onStart: sendQuestionOrder()}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}">
+                <div class="panel panel-default vthumbnail" ng-repeat="question in queuedQuestions track by $index" id="collapsePanel{{question.id}}" data-drop="true" data-drag="true" ng-model="queuedQuestions" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection', onStart: sendQuestionOrder()}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}">
                     <div class="panel-heading" role="tab" id="heading{{question.id}}" ng-click="">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordionQueue" aria-expanded="true" aria-controls="collapseOne">
