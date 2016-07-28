@@ -32,6 +32,10 @@ io.on('connection', function (socket) {
         data.message = "Filter updated.";
         io.emit('notify-update-filter' + data.id, data);
     });
+    
+    socket.on('change-state', function(data) {
+       io.emit('notify-change-state' + data.interviewId, data); 
+    });
   
 });
 

@@ -17,7 +17,9 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     $scope.queuedQuestions = [];
     
     $scope.interviewerName = "User";
-
+    
+    $scope.state = 0;
+    
     $scope.difficulties = [{
         label: "Junior",
         checked: true
@@ -125,6 +127,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     
     $scope.saveNote = function(id) {
         if ($scope.currentQuestion.id == id) {
+            socket.emit('question-feedback', {interviewId: interviewId, user: $scope.interviewerName});
             var feedback = {
                 user: $scope.interviewerName,
                 note: $scope.currentQuestion.note,
@@ -222,27 +225,38 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         });
         
         qsId = $filter('filter')(qsId, function(question){
-            if (!$scope.difficulties[0].checked && question.difficulty <= 3) {
-                return false
-            } else if (!$scope.difficulties[1].checked && question.difficulty > 3 && question.difficulty <= 6) {
-                return false;
-            } else if (!$scope.difficulties[2].checked && question.difficulty > 6) {
-                return false
-            }
-        
-            var del = false;
-            
-            $scope.tags.forEach(function(tag, index) {
-                if(!tag.checked && question.tags[tag.label]) {
-                    del = true;
+            if ($scope.state == 0) {
+                return !question.queued && question.tags["Intro"];
+            } else if ($scope.state == 1) {
+                if (question.tags["Intro"] || question.tags["Close"]) {
+                    return false;
                 }
-            });
+                
+                if (!$scope.difficulties[0].checked && question.difficulty <= 3) {
+                    return false
+                } else if (!$scope.difficulties[1].checked && question.difficulty > 3 && question.difficulty <= 6) {
+                    return false;
+                } else if (!$scope.difficulties[2].checked && question.difficulty > 6) {
+                    return false
+                }
             
-            if (del) {
-                return false;
+                var del = false;
+                
+                $scope.tags.forEach(function(tag, index) {
+                    if(!tag.checked && question.tags[tag.label]) {
+                        del = true;
+                    }
+                });
+                
+                if (del) {
+                    return false;
+                }
+            
+                return !question.queued;
+            } else {
+                return !question.queued && question.tags["Close"];
             }
-        
-            return !question.queued;
+            
         });      
         
         qsId = $filter('orderBy')(qsId, ['tags', 'difficulty']);
@@ -319,9 +333,35 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         $scope.queuedQuestions.forEach(function(q, index) {
             $scope.questionsByID[q.id].queued = false;
         });
+        if ($scope.currentQuestion && $scope.currentQuestion.id) {
+            $scope.questionsByID[$scope.currentQuestion.id].queued = false;
+        }
         $scope.queuedQuestions = [];
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 6; i++) {
             $scope.pullQuestion();
-        } 
+        }
+        $scope.currentQuestion = $scope.queuedQuestions.shift();
+    });
+    
+    $scope.changeState = function(add) {
+        
+        if (add) {
+            $scope.state++;
+        } else {
+            $scope.state--;
+        }
+        
+        socket.emit('change-state', {interviewId: interviewId, state: $scope.state});
+    }
+    
+    $scope.endInterview = function() {
+        window.location.href = '#/';
+    }
+    
+    socket.on('notify-change-state' + interviewId, function(data) {
+         $scope.$apply(function() {
+            $rootScope.$emit('updateFilter');
+            $scope.state = data.state;
+         });
     });
 }
