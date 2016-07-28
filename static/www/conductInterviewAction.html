@@ -50,7 +50,7 @@
                                            <span ng-show="question.skipped" class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> {{question.text}}
                                         </div>
                                         <div class="col-xs-2" style="text-align: center;">
-                                            {{question.difficulty}}
+                                            {{difficultyMap(question.difficulty)}}
                                         </div>
                                     </div>
                                 </a>
@@ -122,7 +122,7 @@
                                 <span ng-show="lastQuestion.skipped" class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> {{lastQuestion.text}}
                             </div>
                             <div class="col-xs-2" style="text-align: center;">
-                                {{lastQuestion.difficulty}}
+                                {{difficultyMap(lastQuestion.difficulty)}}
                             </div>
                         </div>
                     </h4>
@@ -189,7 +189,7 @@
                                 {{currentQuestion.text}}
                             </div>
                             <div class="col-xs-2" style="text-align: center;">
-                                {{currentQuestion.difficulty}}
+                                {{difficultyMap(currentQuestion.difficulty)}}
                             </div>
                         </div>
                     </h4>
@@ -257,7 +257,7 @@
                                         {{question.text}}
                                     </div>
                                     <div class="col-xs-2" style="text-align: center;">
-                                        {{question.difficulty}}
+                                        {{difficultyMap(question.difficulty)}}
                                     </div>
                                 </div>
                             </a>

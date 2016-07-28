@@ -240,4 +240,13 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         $scope.queuedQuestions = data.queue;
        });
     });
+    
+    $scope.difficultyMap = function(num) {
+        if (num <= 3) {
+            return "Junior";
+        } else if (num <= 6) {
+            return "Mid";
+        }
+        return "Senior";
+    }
 }
