@@ -3,7 +3,7 @@
  */
 
 
-function conduct_interview_controller ($scope,$location,$http,$window,$routeParams,$filter, $interval, socket, filterService) {
+function conduct_interview_controller ($scope,$rootScope,$http,$window,$routeParams,$filter, $interval, socket, filterService) {
     var interviewId = $routeParams.id;
     $scope.interview = {};
     $scope.questionList = {};
@@ -194,7 +194,6 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         console.log(qsId); 
         
         qsId = $filter('filter')(qsId, function(question){
-            
             if (!$scope.difficulties[0].checked && question.difficulty <= 3) {
                 return false
             } else if (!$scope.difficulties[1].checked && question.difficulty > 3 && question.difficulty <= 6) {
@@ -268,4 +267,14 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
         }
         return "Senior";
     }
+    
+    $rootScope.$on('updateFilter', function(event, args) {
+        $scope.queuedQuestions.forEach(function(q, index) {
+           $scope.questionsByID[q.id].queued = false;
+        });
+        $scope.queuedQuestions = [];
+        for (var i = 0; i < 5; i++) {
+            $scope.pullQuestion();
+        }
+    });
 }
