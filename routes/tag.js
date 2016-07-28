@@ -93,6 +93,23 @@ exports = module.exports = new Resource('tag', '/tag', {
                                 })
                         })
                 })
+        },
+        delete: (req, res) => {
+                models.tag.findOne({
+                        where: {
+                                name: req.params.name
+                        }
+                }).then(function(tag) {
+                        models.interview.findOne({
+                                where: {
+                                        id: req.params.interview_id
+                                }
+                        }).then(function(interview) {
+                          tag.removeInterview(interview).then(function(removed) {
+                            res.status(204).json({});  
+                          })  
+                        })
+                })
         }
     })
     ]);

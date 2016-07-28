@@ -332,6 +332,13 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     });
     
     $('#tagbox').on('beforeItemRemove', function(event) {
+        var loc = $scope.getWindowLocation();
+        if (loc.location === 'ie') {
+            var interviewID = loc.id;
+            $http.delete('/tag/' + event.item
+                + '/interview/' + interviewID).success(function(created) {
+            });
+        }
         if($scope.taglist.indexOf(event.item) > -1) {
             $scope.taglist.splice($scope.taglist.indexOf(event.item), 1);
         }
