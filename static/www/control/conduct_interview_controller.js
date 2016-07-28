@@ -5,6 +5,7 @@
 
 function conduct_interview_controller ($scope,$rootScope,$http,$window,$routeParams,$filter, $interval, socket, filterService) {
     var interviewId = $routeParams.id;
+    filterService.setInterviewId(interviewId);
     $scope.interview = {};
     $scope.questionList = {};
     $scope.questionsByID = {};
@@ -190,9 +191,6 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             return value;
         });
         
-        console.log("Mapped");
-        console.log(qsId); 
-        
         qsId = $filter('filter')(qsId, function(question){
             if (!$scope.difficulties[0].checked && question.difficulty <= 3) {
                 return false
@@ -215,10 +213,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             }
         
             return !question.queued;
-        });
-            
-        console.log("Filtered");
-        console.log(qsId);        
+        });      
         
         qsId = $filter('orderBy')(qsId, ['tags', 'difficulty']);
         
@@ -281,13 +276,21 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         return "Senior";
     }
     
-    $rootScope.$on('updateFilter', function(event, args) {
+    socket.on('notify-update-filter' + interviewId, function(data) {
+       $scope.$apply(function() {
+            filterService.setTags(data.tags);
+            filterService.setDifficulties(data.difficulties);
+            console.log("Server Buzzed");
+       });
+    });
+    
+    $rootScope.$on('updateFilter', function(data) {
         $scope.queuedQuestions.forEach(function(q, index) {
-           $scope.questionsByID[q.id].queued = false;
+            $scope.questionsByID[q.id].queued = false;
         });
         $scope.queuedQuestions = [];
         for (var i = 0; i < 5; i++) {
             $scope.pullQuestion();
-        }
+        } 
     });
 }

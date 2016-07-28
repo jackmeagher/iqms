@@ -1,4 +1,4 @@
-function filter_menu_controller ($scope, $rootScope, filterService) {
+function filter_menu_controller ($scope, $rootScope, filterService, socket) {
     $scope.difficulties = [];
     $scope.tags = [];
     
@@ -9,9 +9,19 @@ function filter_menu_controller ($scope, $rootScope, filterService) {
     
     $scope.changeDifficulty = function() {
         filterService.setDifficulties($scope.difficulties);
+        socket.emit('update-filter', {
+           tags: $scope.tags,
+           difficulties: $scope.difficulties,
+           id: filterService.getInterviewId()
+        });
     }
     
     $scope.changeTag = function() {
-        filterService.setTags($scope.tags);    
+        filterService.setTags($scope.tags);
+        socket.emit('update-filter', {
+           tags: $scope.tags,
+           difficulties: $scope.difficulties,
+           id: filterService.getInterviewId()
+        });
     }
 }

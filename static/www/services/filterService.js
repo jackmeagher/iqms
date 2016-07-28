@@ -2,6 +2,16 @@ function filterService($rootScope) {
     var difficulties = [];
     var tags = [];
     
+    var interviewId = 0;
+    
+    var setInterviewId = function(id) {
+        interviewId = id;
+    }
+    
+    var getInterviewId = function() {
+        return interviewId;
+    }
+    
     var setTags = function(tagArray) {
         tags = tagArray;
         $rootScope.$emit('updateFilter');
@@ -36,6 +46,8 @@ function filterService($rootScope) {
     }
     
     return {
+        setInterviewId: setInterviewId,
+        getInterviewId: getInterviewId,
         setTags: setTags,
         getTags: getTags,
         setDifficulties: setDifficulties,

@@ -28,6 +28,10 @@ io.on('connection', function (socket) {
     });
   });
   
+    socket.on('update-filter', function(data) {
+        io.emit('notify-update-filter' + data.id, data);
+    });
+  
 });
 
 server.listen(4041, "127.0.0.1", function() {
