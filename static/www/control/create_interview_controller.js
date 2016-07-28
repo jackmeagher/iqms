@@ -75,15 +75,39 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                       interviewerId: $scope.interviewers[$scope.selectedInterviewer].id
                     };
                     $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
-                        $window.location.href = './#li'; 
+                        $window.location.href = './#li';
+                        var techTag = false;
+                        var introTag = false;
+                        var closeTag = false;
                         $scope.taglist.forEach(function(tag, index) {
                             if (taggingService.countTag(tag) > 0) {
                                 $http.post('/tag/' + tag
                                        + '/interview/' + interviewID).success(function(created) {
                                 });
                             }
-                            
+                            if (tag == "Intro") {
+                                introTag = true;
+                            } else if (tag == "Technical") {
+                                techTag = true;
+                            } else if (tag == "Close") {
+                                closeTag = true;
+                            }
                         });
+                        if (!introTag) {
+                            $http.post('/tag/' + "Intro"
+                                       + '/interview/' + interviewID).success(function(created) {
+                            });
+                        }
+                        if (!techTag) {
+                            $http.post('/tag/' + "Technical"
+                                       + '/interview/' + interviewID).success(function(created) {
+                            });
+                        }
+                        if (!closeTag) {
+                            $http.post('/tag/' + "Close"
+                                       + '/interview/' + interviewID).success(function(created) {
+                            });
+                        }
                     });
                 });
             });
@@ -103,15 +127,39 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                           interviewerId: $scope.interviewers[$scope.selectedInterviewer].id
                         };
                         $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
-                            $window.location.href = './#li'; 
+                            $window.location.href = './#li';
+                            var techTag = false;
+                            var introTag = false;
+                            var closeTag = false;
                             $scope.taglist.forEach(function(tag, index) {
                                 if (taggingService.countTag(tag) > 0) {
                                     $http.post('/tag/' + tag
                                            + '/interview/' + interviewID).success(function(created) {
                                     });
                                 }
-                                
+                                if (tag == "Intro") {
+                                    introTag = true;
+                                } else if (tag == "Technical") {
+                                    techTag = true;
+                                } else if (tag == "Close") {
+                                    closeTag = true;
+                                }
                             });
+                            if (!introTag) {
+                                $http.post('/tag/' + "Intro"
+                                           + '/interview/' + interviewID).success(function(created) {
+                                });
+                            }
+                            if (!techTag) {
+                                $http.post('/tag/' + "Technical"
+                                           + '/interview/' + interviewID).success(function(created) {
+                                });
+                            }
+                            if (!closeTag) {
+                                $http.post('/tag/' + "Close"
+                                           + '/interview/' + interviewID).success(function(created) {
+                                });
+                            }
                         });
                     });
                 });
