@@ -220,7 +220,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         console.log("Filtered");
         console.log(qsId);        
         
-        qsId = $filter('orderBy')(qsId, 'difficulty');
+        qsId = $filter('orderBy')(qsId, ['tags', 'difficulty']);
         
         if (qsId.length > 0) {
             $scope.queuedQuestions.push(qsId[0]);
@@ -240,6 +240,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             } else {
                 $scope.currentQuestion = null;   
             }
+            $scope.pullQuestion();
         }); 
     });
     
