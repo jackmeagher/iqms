@@ -202,6 +202,18 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                 return false
             }
         
+            var del = false;
+            
+            $scope.tags.forEach(function(tag, index) {
+                if(!tag.checked && question.tags[tag.label]) {
+                    del = true;
+                }
+            });
+            
+            if (del) {
+                return false;
+            }
+        
             return !question.queued;
         });
             
