@@ -65,7 +65,7 @@ exports = module.exports = new Resource('tag', '/tag', {
                                 name: req.params.name
                         }
                 }).then(function(tag) {
-                        tag.getQuestions().then ( function(questions) {
+                        tag.getQuestions({order: [['difficulty', 'ASC']]}).then ( function(questions) {
                                         res.status(200).json({
                                             questions: questions
                                         })

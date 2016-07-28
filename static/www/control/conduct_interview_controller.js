@@ -48,30 +48,26 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
                 });
                 filterService.setTags($scope.tags);
                 $scope.questionList[tag.name] = [];
-                $http.get('/tag/' + tag.name + '/questions/').success(function(result) {
-                   $scope.questionList[tag.name] = result.questions;
-                   $scope.currentTag = "Technical";
-                   $scope.questionList[tag.name].forEach(function(q, index) {
-                    if (!$scope.questionsByID[q.id]) {
-                        $scope.questionsByID[q.id] = q;
-                        $scope.questionsByID[q.id].queued = false;
-                    }
+                $http.get('/tag/' + tag.name + '/questions/').success(function(res) {
+                    $scope.questionList[tag.name] = res.questions;
+                    console.log(res.questions);
+                    $scope.currentTag = "Technical";
+                    $scope.questionList[tag.name].forEach(function(q, index) {
+                        if (!$scope.questionsByID[q.id]) {
+                            $scope.questionsByID[q.id] = q;
+                            $scope.questionsByID[q.id].queued = false;
+                            $scope.questionsByID[q.id].tags = {};
+                            $scope.questionsByID[q.id].tags[tag.name] = true;
+                        }
                     
-                   });
+                    });
                    
-                    var qsId = $.map($scope.questionsByID, function(value, index) {
-                        return value;
-                    });
-                    $scope.queuedQuestions = $filter('filter')(qsId, function(question){
-                        return  question.difficulty === 0 && !question.queued;
-                    });
-                    if ($scope.queuedQuestions.length > 6) {
-                        $scope.queuedQuestions.length = 6;
+                    if (index + 1 === result.tags.length) {
+                        for(var i = 0; i < 6; i++)
+                            $scope.pullQuestion();
+                       
+                        $scope.currentQuestion = $scope.queuedQuestions.shift();
                     }
-                    $scope.queuedQuestions.forEach(function(q, index) {
-                       $scope.questionsByID[q.id].queued = true;
-                    });
-                    $scope.currentQuestion = $scope.queuedQuestions.shift();
                 });
             });
         });
@@ -187,14 +183,37 @@ function conduct_interview_controller ($scope,$location,$http,$window,$routePara
     }
     
     $scope.pullQuestion = function() {
+        $scope.difficulties = filterService.getDifficulties();
+        $scope.tags = filterService.getTags();
+        
         var qsId = $.map($scope.questionsByID, function(value, index) {
             return value;
         });
+        
+        console.log("Mapped");
+        console.log(qsId); 
+        
         qsId = $filter('filter')(qsId, function(question){
-            return  question.difficulty === 0 && !question.queued;
+            
+            if (!$scope.difficulties[0].checked && question.difficulty <= 3) {
+                return false
+            } else if (!$scope.difficulties[1].checked && question.difficulty > 3 && question.difficulty <= 6) {
+                return false;
+            } else if (!$scope.difficulties[2].checked && question.difficulty > 6) {
+                return false
+            }
+        
+            return !question.queued;
         });
+            
+        console.log("Filtered");
+        console.log(qsId);        
+        
+        qsId = $filter('orderBy')(qsId, 'difficulty');
+        
         if (qsId.length > 0) {
             $scope.queuedQuestions.push(qsId[0]);
+            $scope.questionsByID[qsId[0].id].queued = true;
         }
     }
     
