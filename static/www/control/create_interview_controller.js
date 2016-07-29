@@ -8,10 +8,6 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.selectedCandidate = null;
     $scope.candidateText = "";
     
-    $scope.interviewers = {};
-    $scope.selectedInterviewer = null;
-    $scope.interviewerText = "";
-    
     $scope.taglist = [];
     
     $scope.loadScreen = function() {
@@ -28,19 +24,10 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             });
         });
         
-        $http.get('/interviewer').success(function(data) {
-            data.interviewers.forEach(function(interviewer, index) {
-               $scope.interviewers[interviewer.name] = interviewer; 
-            });
-        });
-        
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ie') {
             flaggingService.loadQuestionList(loc.id);
             $http.get('/interview/' + loc.id).success(function(data) {
-                $http.get('/interviewer/' + data.interview.interviewerId).success(function(result) {
-                    $scope.interviewerItemChange(result.result.name);
-                });
                 $http.get('/candidatePosition/' + data.interview.candidatePositionCId).success(function(result) {
                     $http.get('/candidate/' + result.result.candidateId).success(function(result) {
                         $scope.candidateItemChange(result.candidate.name);
@@ -71,8 +58,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                 .success(function(canPos) {
                     var candidatePositionID = canPos.candidatePosition.c_id;
                     var interviewData = {
-                      candidatePositionCId: candidatePositionID,
-                      interviewerId: $scope.interviewers[$scope.selectedInterviewer].id
+                      candidatePositionCId: candidatePositionID
                     };
                     $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
                         $window.location.href = './#li';
@@ -123,8 +109,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                     .success(function(canPos) {
                         var candidatePositionID = canPos.candidatePosition.c_id;
                         var interviewData = {
-                          candidatePositionCId: candidatePositionID,
-                          interviewerId: $scope.interviewers[$scope.selectedInterviewer].id
+                          candidatePositionCId: candidatePositionID
                         };
                         $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
                             $window.location.href = './#li';
@@ -251,43 +236,6 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.candidateItemChange = function(item) {
         if (item) {
             $scope.selectedCandidate = item;
-        }
-    }
-    
-    $scope.addInterviewer = function(interviewer) {
-        if (interviewer && !$scope.interviewers[interviewer]) {
-            $scope.interviewers[interviewer] = {name: interviewer};
-            $scope.selectedInterviewer = interviewer;
-            $http.post('/interviewer', $scope.interviewers[interviewer]).success(function(created) {
-               $scope.interviewers[interviewer].id = created.data.id;
-            });
-        }
-    }
-    
-    $scope.queryInterviewer = function(query) {
-        var interv = $.map($scope.interviewers, function(value, index) {
-            return value.name;
-        });
-        if (query == null) {
-            query = "";
-        }
-        text = query.toLowerCase();
-        var ret = interv.filter(function(d) {
-            var test = d.toLowerCase();
-            return test.startsWith(text);
-        });
-        return ret;
-    }
-    
-    $scope.interviewerTextChange = function(text) {
-        var interv = $.map($scope.interviewers, function(value, index) {
-            return value.name;
-        });
-    }
-    
-    $scope.interviewerItemChange = function(item) {
-        if (item) {
-            $scope.selectedInterviewer = item;
         }
     }
     

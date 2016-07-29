@@ -1,8 +1,8 @@
 function conduct_interview_list_controller($scope, $http, socket) {
 
-    $scope.sortType     = 'id'; // set the default sort type
-    $scope.sortReverse  = false;  // set the default sort order
-    $scope.searchInterview  = '';     // set the default search/filter term
+    $scope.sortType     = 'id';
+    $scope.sortReverse  = false;
+    $scope.searchInterview  = '';
 
     $scope.interviews = [];
     

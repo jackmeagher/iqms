@@ -42,7 +42,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     }
     
     $http.get('/interview/' + interviewId).success(function (data) {
-        $scope.interview = data.interview;
+        $scope.interview = data.interview;    
         $http.get('/interview/' + interviewId +'/tags/').success(function(result) {
             result.tags.forEach(function(tag, index) {
                 if (tag.name != "Intro" && tag.name != "Technical" && tag.name != "Close") {
@@ -369,6 +369,13 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     
     $scope.endInterview = function() {
         window.location.href = '#/';
+        $http.get('/interview/' + interviewId).success(function (data) {
+            $scope.interview = data.interview;
+            $scope.interview.conducted = true;
+            $http.put('/interview/' + interviewId, $scope.interview).success(function(data) {
+                
+            });
+        });
     }
     
     socket.on('notify-change-state' + interviewId, function(data) {
