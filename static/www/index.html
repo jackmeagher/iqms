@@ -211,45 +211,26 @@
                     });
                     
                 } else if (order[0] == "difficulty") {
-                    var jun = 3;
-                    var mid = 6;
-                    var sen = 10;
+                    var jun = [];
+                    var mid = [];
+                    var sen = [];
                     
                     tags.forEach(function(tag, index) {
                         for (var i = 0; i < items.length; i++) {
-                            if (items[i].difficulty <= jun) {
-                                if (items[i].tags[tag.label]) {
-                                    filtered.push(items[i]);
-                                    items.splice(i, 1);
-                                    i--;
+                            if (items[i].tags[tag.label]) {
+                                if (items[i].difficulty <= 3) {
+                                    jun.push(items[i]);
+                                } else if (items[i].difficulty > 3 && items[i].difficulty <= 6) {
+                                    mid.push(items[i]);
+                                } else {
+                                    sen.push(items[i]);
                                 }
                             }
                         }
                     });
                     
-                    tags.forEach(function(tag, index) {
-                        for (var i = 0; i < items.length; i++) {
-                            if (items[i].difficulty > jun && items[i].difficulty <= mid) {
-                                if (items[i].tags[tag.label]) {
-                                    filtered.push(items[i]);
-                                    items.splice(i, 1);
-                                    i--;
-                                }
-                            }
-                        } 
-                    });
-                    
-                    tags.forEach(function(tag, index) {
-                        for (var i = 0; i < items.length; i++) {
-                            if (items[i].difficulty > mid) {
-                                if (items[i].tags[tag.label]) {
-                                    filtered.push(items[i]);
-                                    items.splice(i, 1);
-                                    i--;
-                                }
-                            }
-                        } 
-                    });
+                    filtered = $.merge(jun, mid);
+                    filtered = $.merge(filtered, sen);
                 }
 
                 if(reverse) filtered.reverse();
