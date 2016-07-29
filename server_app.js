@@ -4,29 +4,23 @@ var server = require('http').Server(server_app);
 var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-  
-  
-  socket.on('question-feedback', function(data) {
-    io.emit('notify-question-feedback' + data.interviewId, {
+    socket.on('question-feedback', function(data) {
+        io.emit('notify-question-feedback' + data.interviewId, {
+        });
     });
-  });
   
-  socket.on('question-reorder', function(data) {
-    io.emit('notify-question-reorder' + data.interviewId, {
-        queue: data.queue
+    socket.on('question-reorder', function(data) {
+        io.emit('notify-question-reorder' + data.interviewId, {
+            queue: data.queue
+        });
     });
-  });
   
-  socket.on('question-skip', function(data) {
-    io.emit('notify-question-skip' + data.interviewId, {
-       id: data.id,
-       message: data.user + " skipped question."
+    socket.on('question-skip', function(data) {
+        io.emit('notify-question-skip' + data.interviewId, {
+            id: data.id,
+            message: data.user + " skipped question."
+        });
     });
-  });
   
     socket.on('update-filter', function(data) {
         data.message = "Filter updated.";
