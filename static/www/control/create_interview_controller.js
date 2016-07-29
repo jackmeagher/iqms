@@ -1,5 +1,4 @@
 function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window, taggingService, popupService, flaggingService) {
-
     $scope.positions = {};
     $scope.selectedPosition = null;
     $scope.positionText = "";
@@ -48,111 +47,33 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.createInterview = function () {
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ie') {
-            var interviewID = loc.id;
-            flaggingService.persistQuestions(interviewID);
-            $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
-                   + '/position/' + $scope.positions[$scope.selectedPosition].id)
-            .success(function() {
-                $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
-                   + '/position/' + $scope.positions[$scope.selectedPosition].id)
-                .success(function(canPos) {
-                    var candidatePositionID = canPos.candidatePosition.c_id;
-                    var interviewData = {
-                      candidatePositionCId: candidatePositionID
-                    };
-                    $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
-                        $window.location.href = './#li';
-                        var techTag = false;
-                        var introTag = false;
-                        var closeTag = false;
-                        $scope.taglist.forEach(function(tag, index) {
-                            if (taggingService.countTag(tag) > 0) {
-                                $http.post('/tag/' + tag
-                                       + '/interview/' + interviewID).success(function(created) {
-                                });
-                            }
-                            if (tag == "Intro") {
-                                introTag = true;
-                            } else if (tag == "Technical") {
-                                techTag = true;
-                            } else if (tag == "Close") {
-                                closeTag = true;
-                            }
-                        });
-                        if (!introTag) {
-                            $http.post('/tag/' + "Intro"
-                                       + '/interview/' + interviewID).success(function(created) {
-                            });
-                        }
-                        if (!techTag) {
-                            $http.post('/tag/' + "Technical"
-                                       + '/interview/' + interviewID).success(function(created) {
-                            });
-                        }
-                        if (!closeTag) {
-                            $http.post('/tag/' + "Close"
-                                       + '/interview/' + interviewID).success(function(created) {
-                            });
-                        }
-                    });
-                });
-            });
+            $scope.saveInterview(loc.id);
         } else {
             $http.post('/interview').success(function(created) {
-                var interviewID = created.interview.id;
-                flaggingService.persistQuestions(interviewID);
-                $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
-                       + '/position/' + $scope.positions[$scope.selectedPosition].id)
-                .success(function() {
-                    $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
-                       + '/position/' + $scope.positions[$scope.selectedPosition].id)
-                    .success(function(canPos) {
-                        var candidatePositionID = canPos.candidatePosition.c_id;
-                        var interviewData = {
-                          candidatePositionCId: candidatePositionID
-                        };
-                        $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
-                            $window.location.href = './#li';
-                            var techTag = false;
-                            var introTag = false;
-                            var closeTag = false;
-                            $scope.taglist.forEach(function(tag, index) {
-                                if (taggingService.countTag(tag) > 0) {
-                                    $http.post('/tag/' + tag
-                                           + '/interview/' + interviewID).success(function(created) {
-                                    });
-                                }
-                                if (tag == "Intro") {
-                                    introTag = true;
-                                } else if (tag == "Technical") {
-                                    techTag = true;
-                                } else if (tag == "Close") {
-                                    closeTag = true;
-                                }
-                            });
-                            if (!introTag) {
-                                $http.post('/tag/' + "Intro"
-                                           + '/interview/' + interviewID).success(function(created) {
-                                });
-                            }
-                            if (!techTag) {
-                                $http.post('/tag/' + "Technical"
-                                           + '/interview/' + interviewID).success(function(created) {
-                                });
-                            }
-                            if (!closeTag) {
-                                $http.post('/tag/' + "Close"
-                                           + '/interview/' + interviewID).success(function(created) {
-                                });
-                            }
-                        });
-                    });
-                });
+                $scope.saveInterview(created.interview.id);
             });
         }
-        
-        
     };
+    
+    $scope.saveInterview = function(interviewID) {
+        flaggingService.persistQuestions(interviewID);
+        $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
+               + '/position/' + $scope.positions[$scope.selectedPosition].id)
+        .success(function() {
+            $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
+               + '/position/' + $scope.positions[$scope.selectedPosition].id)
+            .success(function(canPos) {
+                var candidatePositionID = canPos.candidatePosition.c_id;
+                var interviewData = {
+                  candidatePositionCId: candidatePositionID
+                };
+                $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
+                    $window.location.href = './#li';
+                    $scope.checkForMainTags();
+                });
+            });
+        });
+    }
 
     var addQuestions = function(id){
         $scope.current_questions.forEach(q => $http.post('/interview/' + id + '/questions/' + q.id));
@@ -291,7 +212,41 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             $scope.taglist.splice($scope.taglist.indexOf(event.item), 1);
         }
     });
-
+    
+    $scope.checkForMainTags = function() {
+        var techTag = false;
+        var introTag = false;
+        var closeTag = false;
+        $scope.taglist.forEach(function(tag, index) {
+            if (taggingService.countTag(tag) > 0) {
+                $http.post('/tag/' + tag
+                       + '/interview/' + interviewID).success(function(created) {
+                });
+            }
+            if (tag == "Intro") {
+                introTag = true;
+            } else if (tag == "Technical") {
+                techTag = true;
+            } else if (tag == "Close") {
+                closeTag = true;
+            }
+        });
+        if (!introTag) {
+            $http.post('/tag/' + "Intro"
+                       + '/interview/' + interviewID).success(function(created) {
+            });
+        }
+        if (!techTag) {
+            $http.post('/tag/' + "Technical"
+                       + '/interview/' + interviewID).success(function(created) {
+            });
+        }
+        if (!closeTag) {
+            $http.post('/tag/' + "Close"
+                       + '/interview/' + interviewID).success(function(created) {
+            });
+        }
+    }
     
     $scope.loadScreen();
 }
