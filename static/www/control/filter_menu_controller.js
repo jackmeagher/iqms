@@ -40,7 +40,7 @@ function filter_menu_controller ($scope, $rootScope, filterService, socket) {
         socket.emit('update-filter', {
            tags: $scope.tags,
            difficulties: $scope.difficulties,
-           order: orderBy,
+           order: $scope.orderBy,
            id: filterService.getInterviewId()
         });
     }

@@ -270,7 +270,9 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             
         });      
         
-        qsId = $filter('orderBy')(qsId, filterService.getOrderBy());
+        if ($scope.state == 1) {
+            qsId = $filter('orderTechnicalQuestions')(qsId, filterService.getOrderBy(), filterService.getTags(), false);
+        }
         
         if (qsId.length > 0) {
             $scope.queuedQuestions.push(qsId[0]);

@@ -192,7 +192,34 @@
                         templateUrl: 'directives/tag.html'
                     };
         });
+        
+        app.filter('orderTechnicalQuestions', function() {
+            return function(items, order, tags, reverse) {
+                var filtered = [];
+                if (order[0] == "tags") {   
+                    tags.forEach(function(tag, index) {
+                         for (var i = 0; i < items.length; i++) {
+                            if (items[i].tags[tag.label]) {
+                                filtered.push(items[i]);
+                                items.splice(i, 1);
+                                i--;
+                            }
+                         }
+                    });
+                    
+                } else if (order[0] == "difficulty") {
+                    angular.forEach(items, function(item) {
+                        filtered.push(item);
+                    });
+                    filtered.sort(function (a, b) {
+                        return (a["difficulty"] > b["difficulty"] ? 1 : -1);
+                    });
+                }
 
+                if(reverse) filtered.reverse();
+                return filtered;
+            };
+        });
 
     </script>
 
@@ -264,8 +291,8 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a ng-click="">Tags</a></li>
-                                <li><a hng-click="">Difficulty</a></li>
+                                <li><a ng-click="changeFilter(0)">Tags</a></li>
+                                <li><a ng-click="changeFilter(1)">Difficulty</a></li>
                             </ul>
                         </div>
                     </div>
