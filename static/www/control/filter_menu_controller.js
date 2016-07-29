@@ -12,24 +12,12 @@ function filter_menu_controller ($scope, $rootScope, filterService, socket) {
     
     $scope.changeDifficulty = function() {
         filterService.setDifficulties($scope.difficulties);
-        $scope.orderBy = filterService.getOrderBy();
-        socket.emit('update-filter', {
-           tags: $scope.tags,
-           difficulties: $scope.difficulties,
-           order: $scope.orderBy,
-           id: filterService.getInterviewId()
-        });
+        $scope.emitRequest();
     }
     
     $scope.changeTag = function() {
         filterService.setTags($scope.tags);
-        $scope.orderBy = filterService.getOrderBy();
-        socket.emit('update-filter', {
-           tags: $scope.tags,
-           difficulties: $scope.difficulties,
-           order: $scope.orderBy,
-           id: filterService.getInterviewId()
-        });
+        $scope.emitRequest();
     }
     
     $scope.changeFilter = function(id) {
@@ -42,11 +30,15 @@ function filter_menu_controller ($scope, $rootScope, filterService, socket) {
                 break;
         }
         filterService.setOrderBy($scope.orderBy);
+        $scope.emitRequest();
+    }
+    
+    $scope.emitRequest = function() {
         socket.emit('update-filter', {
            tags: $scope.tags,
            difficulties: $scope.difficulties,
            order: $scope.orderBy,
            id: filterService.getInterviewId()
-        });
+        });  
     }
 }
