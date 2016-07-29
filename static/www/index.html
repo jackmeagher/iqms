@@ -132,6 +132,10 @@
                     .when('/conaction/:id/', {
                         templateUrl: 'conductInterviewAction.html'
                     })
+                    
+                    .when('/view/:id', {
+                        templateUrl: 'interpretInterview.html'
+                    })
 
                     .when('/login', {
                         templateUrl: 'login.html'
@@ -240,6 +244,17 @@
 
     </script>
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+         var data;
+         var chart;
+    
+          // Load the Visualization API and the piechart package.
+          google.charts.load('current', {'packages':['corechart']});
+    
+          // Set a callback to run when the Google Visualization API is loaded.
+         
+    </script>
 </head>
 <body>
 <div id="wrapper" ng-controller="index_controller">

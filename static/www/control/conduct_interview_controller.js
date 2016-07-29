@@ -166,7 +166,6 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             $scope.pullQuestion();
         }
         $scope.currentQuestion = $scope.queuedQuestions.shift();
-
         console.log($scope.currentQuestion);
     });
     
@@ -231,8 +230,10 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     $http.get('/interview/' + interviewId).success(function (data) {
         $scope.interview = data.interview;    
         $http.get('/interview/' + interviewId +'/tags/').success(function(result) {
-            var tags = [];
+            var tags = [],
+            tagPromises = [];
             result.tags.forEach(function(tag, index) {
+                var tagPromise;
                 if (tag.name != "Intro" && tag.name != "Technical" && tag.name != "Close") {
                     tags.push({
                         label: tag.name,
@@ -240,7 +241,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                     });
                 }
                 $scope.questionList[tag.name] = [];
-                $http.get('/tag/' + tag.name + '/questions/').success(function(res) {
+                tagPromise = $http.get('/tag/' + tag.name + '/questions/').success(function(res) {
                     $scope.questionList[tag.name] = res.questions;
                     $scope.questionList[tag.name].forEach(function(q, index) {
                         if (!$scope.questionsByID[q.id]) {
@@ -252,15 +253,16 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                             $scope.questionsByID[q.id].tags[tag.name] = true;
                         }
                     });
-                   
-                    if (index + 1 === result.tags.length) {
-                         $rootScope.$emit('updateFilter');
-                    } else if (tag.name == "Intro") {
-                        $rootScope.$emit('updateFilter');
-                    }
                 });
+                tagPromises.push(tagPromise);
             });
-            filterService.setTags(tags);
+            Promise.all(tagPromises).then(function(result) {
+                filterService.setTags(tags);
+                $scope.$apply();
+                $rootScope.$emit('updateFilter');
+                
+            });
+            
         });
     });
 }
