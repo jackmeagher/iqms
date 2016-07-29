@@ -92,8 +92,6 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                 }
             
                 var del = false;
-                
-                
                 tags.forEach(function(tag, index) {
                     if(!tag.checked && question.tags[tag.label]) {
                         del = true;
@@ -105,19 +103,16 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                 }
                 
                 del = false;
-                
                 for(var i = 0; i < tags.length; i++) {
                     if(tags[i].checked && question.tags[tags[i].label]) {
                         del = true;
                         i = tags.length;
                     }
-                }
-                
+                } 
                 return !question.queued && del;
             } else {
                 return !question.queued && question.tags["Close"];
             }
-            
         });      
         
         if ($scope.state == 1) {
@@ -153,8 +148,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         $http.get('/interview/' + interviewId).success(function (data) {
             $scope.interview = data.interview;
             $scope.interview.conducted = true;
-            $http.put('/interview/' + interviewId, $scope.interview).success(function(data) {
-                
+            $http.put('/interview/' + interviewId, $scope.interview).success(function(data) { 
             });
         });
     }
@@ -249,10 +243,11 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                         if (!$scope.questionsByID[q.id]) {
                             $scope.questionsByID[q.id] = q;
                             $scope.questionsByID[q.id].queued = false;
-                            $scope.questionsByID[q.id].tags = {};
+                            if (!$scope.questionsByID[q.id].tags) {
+                                $scope.questionsByID[q.id].tags = {};
+                            }
                             $scope.questionsByID[q.id].tags[tag.name] = true;
                         }
-                    
                     });
                    
                     if (index + 1 === result.tags.length) {
