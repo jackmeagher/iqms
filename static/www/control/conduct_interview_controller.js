@@ -153,7 +153,8 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         });
     }
     
-    $rootScope.$on('updateFilter', function() {
+    $rootScope.$on('updateFilter', function() { 
+
         $scope.queuedQuestions.forEach(function(q, index) {
             $scope.questionsByID[q.id].queued = false;
         });
@@ -165,6 +166,8 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             $scope.pullQuestion();
         }
         $scope.currentQuestion = $scope.queuedQuestions.shift();
+
+        console.log($scope.currentQuestion);
     });
     
     socket.on('notify-change-state' + interviewId, function(data) {
@@ -234,7 +237,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                     tags.push({
                         label: tag.name,
                         checked: true
-                    });    
+                    });
                 }
                 $scope.questionList[tag.name] = [];
                 $http.get('/tag/' + tag.name + '/questions/').success(function(res) {
@@ -252,6 +255,8 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                    
                     if (index + 1 === result.tags.length) {
                          $rootScope.$emit('updateFilter');
+                    } else if (tag.name == "Intro") {
+                        $rootScope.$emit('updateFilter');
                     }
                 });
             });
