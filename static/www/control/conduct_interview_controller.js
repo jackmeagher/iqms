@@ -18,66 +18,22 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         $('.collapse-prev').collapse('hide');
         $('#collapse' + id).collapse('toggle');
     }
-    
-    $http.get('/interview/' + interviewId).success(function (data) {
-        $scope.interview = data.interview;    
-        $http.get('/interview/' + interviewId +'/tags/').success(function(result) {
-            var tags = [];
-            result.tags.forEach(function(tag, index) {
-                if (tag.name != "Intro" && tag.name != "Technical" && tag.name != "Close") {
-                    tags.push({
-                        label: tag.name,
-                        checked: true
-                    });    
-                }
-                $scope.questionList[tag.name] = [];
-                $http.get('/tag/' + tag.name + '/questions/').success(function(res) {
-                    $scope.questionList[tag.name] = res.questions;
-                    $scope.questionList[tag.name].forEach(function(q, index) {
-                        if (!$scope.questionsByID[q.id]) {
-                            $scope.questionsByID[q.id] = q;
-                            $scope.questionsByID[q.id].queued = false;
-                            $scope.questionsByID[q.id].tags = {};
-                            $scope.questionsByID[q.id].tags[tag.name] = true;
-                        }
-                    
-                    });
-                   
-                    if (index + 1 === result.tags.length) {
-                         $rootScope.$emit('updateFilter');
-                    }
-                });
-            });
-            filterService.setTags(tags);
-        });
-    });
 
     $scope.respond = function(id, value) {
+        var feedback = {
+            user: $scope.interviewerName,
+            rating: value,
+            question_id: id
+        };
+        var creating = false;
         if ($scope.currentQuestion.id == id) {
             socket.emit('question-feedback', {interviewId: interviewId, user: $scope.interviewerName});
             $scope.currentQuestion.response = value;
-            var feedback = {
-                user: $scope.interviewerName,
-                rating: value,
-                note: $scope.currentQuestion.note,
-                question_id: id
-            };
-            $http.post('/feedback', feedback).then(function(created) {
-                $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id).then(function(added) {
-                });
-            });
+            feedback.note = $scope.currentQuestion.note;
+            creating = true;
         } else if($scope.lastQuestion.id == id) {
             $scope.lastQuestion.response = value;
-            var feedback = {
-                user: $scope.interviewerName,
-                rating: value,
-                note: $scope.lastQuestion.note,
-                question_id: id
-            };
-            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
-               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
-               });
-            });
+            feedback.note = $scope.lastQuestion.note;
         } else {
             var index;
             for(var i = 0; i < $scope.previousQuestions.length; i++) {
@@ -87,108 +43,27 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                     i = $scope.previousQuestions.length;
                 }
             }
-            
-            var feedback = {
-                user: $scope.interviewerName,
-                rating: value,
-                note: $scope.previousQuestions[index].note,
-                question_id: id
-            };
-            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
-               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
-               });
-            });
+            feedback.note = $scope.previousQuestions[index].note;
         }
-    }
-    
-    $scope.saveNote = function(id) {
-        if ($scope.currentQuestion.id == id) {
-            socket.emit('question-feedback', {interviewId: interviewId, user: $scope.interviewerName});
-            var feedback = {
-                user: $scope.interviewerName,
-                note: $scope.currentQuestion.note,
-                question_id: id
-            };
-            $http.post('/feedback', feedback).then(function(created) {
-                $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id).then(function(added) {
-                });
-            });
-        } else if($scope.lastQuestion.id == id) {
-            var feedback = {
-                user: $scope.interviewerName,
-                note: $scope.lastQuestion.note,
-                question_id: id
-            };
-            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
-               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
-               });
-            });
-        } else {
-            var index;
-            for(var i = 0; i < $scope.previousQuestions.length; i++) {
-                if ($scope.previousQuestions[i].id == id) {
-                    index = i;
-                    i = $scope.previousQuestions.length;
-                }
-            }
-            
-            var feedback = {
-                user: $scope.interviewerName,
-                note: $scope.previousQuestions[index].note,
-                question_id: id
-            };
-            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
-               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
-               });
-            });
-        }
+        $scope.recordFeedback(feedback, creating);
     }
     
     $scope.skip = function(id) {
         socket.emit('question-skip', {id: id, interviewId: interviewId, user: $scope.interviewerName});
-        if ($scope.currentQuestion.id == id) {
-            socket.emit('question-feedback', {interviewId: interviewId, user: $scope.interviewerName});
-            $scope.currentQuestion.response = -1;
-            var feedback = {
-                user: $scope.interviewerName,
-                rating: -1,
-                note: $scope.currentQuestion.note,
-                question_id: id
-            };
-            $http.post('/feedback', feedback).then(function(created) {
+        $scope.respond(id, -1);
+    }
+    
+    $scope.recordFeedback = function(feedback, creating) {
+        if (creating) {
+           $http.post('/feedback', feedback).then(function(created) {
                 $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id).then(function(added) {
                 });
-            });
-        } else if($scope.lastQuestion.id == id) {
-            $scope.lastQuestion.response = -1;
-             var feedback = {
-                user: $scope.interviewerName,
-                rating: -1,
-                note: $scope.lastQuestion.note,
-                question_id: id
-            };
-            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
-               $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
-               });
-            });
+            });  
         } else {
-            var index;
-            for(var i = 0; i < $scope.previousQuestions.length; i++) {
-                if ($scope.previousQuestions[i].id == id) {
-                    $scope.previousQuestions[i].response = -1;
-                    i = $scope.previousQuestions.length;
-                }
-            }
-            var feedback = {
-                user: $scope.interviewerName,
-                rating: -1,
-                note: $scope.previousQuestions[index].note,
-                question_id: id
-            };
-            $http.get('/interview/' + interviewId + '/feedback/' + id).then(function(feedbacks) {
+            $http.get('/interview/' + interviewId + '/feedback/' + feedback.question_id).then(function(feedbacks) {
                $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function(update) {
                });
-            });
+            }); 
         }
     }
     
@@ -255,20 +130,70 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         }
     }
     
-    socket.on('notify-question-feedback' + interviewId, function(data) {
-        $scope.$apply(function() {
-            if ($scope.lastQuestion) {
-                $scope.previousQuestions.push($scope.lastQuestion);
-            }
-            $scope.lastQuestion = $scope.currentQuestion;
-            if ($scope.queuedQuestions.length >= 1) {
-                $scope.currentQuestion = $scope.queuedQuestions.shift();
-                $scope.currentQuestion.response = null;  
-            } else {
-                $scope.currentQuestion = null;   
-            }
+    $scope.sendQuestionOrder = function() {
+        socket.emit('question-reorder', {queue: $scope.queuedQuestions, interviewId: interviewId, user: $scope.interviewerName});
+    }
+    
+    $scope.difficultyMap = function(num) {
+        if (num <= 3) {
+            return "Junior";
+        } else if (num <= 6) {
+            return "Mid";
+        }
+        return "Senior";
+    }
+    
+    $scope.changeState = function(add) {
+        $scope.state += add;
+        socket.emit('change-state', {interviewId: interviewId, state: $scope.state});
+    }
+    
+    $scope.endInterview = function() {
+        window.location.href = '#/';
+        $http.get('/interview/' + interviewId).success(function (data) {
+            $scope.interview = data.interview;
+            $scope.interview.conducted = true;
+            $http.put('/interview/' + interviewId, $scope.interview).success(function(data) {
+                
+            });
+        });
+    }
+    
+    $rootScope.$on('updateFilter', function() {
+        $scope.queuedQuestions.forEach(function(q, index) {
+            $scope.questionsByID[q.id].queued = false;
+        });
+        if ($scope.currentQuestion && $scope.currentQuestion.id) {
+            $scope.questionsByID[$scope.currentQuestion.id].queued = false;
+        }
+        $scope.queuedQuestions = [];
+        for (var i = 0; i < 6; i++) {
             $scope.pullQuestion();
-        }); 
+        }
+        $scope.currentQuestion = $scope.queuedQuestions.shift();
+    });
+    
+    socket.on('notify-change-state' + interviewId, function(data) {
+         $scope.$apply(function() {
+            $rootScope.$emit('updateFilter');
+            $scope.state = data.state;
+         });
+    });
+    
+    socket.on('notify-question-reorder' + interviewId, function(data) {
+       $scope.$apply(function() {
+        $scope.queuedQuestions = data.queue;
+       });
+    });
+    
+    socket.on('notify-update-filter' + interviewId, function(data) {
+       $scope.$apply(function() {
+            filterService.setTags(data.tags);
+            filterService.setDifficulties(data.difficulties);
+            filterService.setOrderBy(data.order);
+            toast.info(data.message);
+            $rootScope.$emit('updateFilter');
+       });
     });
     
     socket.on('notify-question-skip' + interviewId, function(data) {
@@ -290,68 +215,52 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         });
     });
     
-    $scope.sendQuestionOrder = function() {
-        socket.emit('question-reorder', {queue: $scope.queuedQuestions, interviewId: interviewId, user: $scope.interviewerName});
-    }
-    
-    socket.on('notify-question-reorder' + interviewId, function(data) {
-       $scope.$apply(function() {
-        $scope.queuedQuestions = data.queue;
-       });
-    });
-    
-    $scope.difficultyMap = function(num) {
-        if (num <= 3) {
-            return "Junior";
-        } else if (num <= 6) {
-            return "Mid";
-        }
-        return "Senior";
-    }
-    
-    socket.on('notify-update-filter' + interviewId, function(data) {
-       $scope.$apply(function() {
-            filterService.setTags(data.tags);
-            filterService.setDifficulties(data.difficulties);
-            filterService.setOrderBy(data.order);
-            toast.info(data.message);
-       });
-    });
-    
-    $rootScope.$on('updateFilter', function() {
-        $scope.queuedQuestions.forEach(function(q, index) {
-            $scope.questionsByID[q.id].queued = false;
-        });
-        if ($scope.currentQuestion && $scope.currentQuestion.id) {
-            $scope.questionsByID[$scope.currentQuestion.id].queued = false;
-        }
-        $scope.queuedQuestions = [];
-        for (var i = 0; i < 6; i++) {
+    socket.on('notify-question-feedback' + interviewId, function(data) {
+        $scope.$apply(function() {
+            if ($scope.lastQuestion) {
+                $scope.previousQuestions.push($scope.lastQuestion);
+            }
+            $scope.lastQuestion = $scope.currentQuestion;
+            if ($scope.queuedQuestions.length >= 1) {
+                $scope.currentQuestion = $scope.queuedQuestions.shift();
+                $scope.currentQuestion.response = null;  
+            } else {
+                $scope.currentQuestion = null;   
+            }
             $scope.pullQuestion();
-        }
-        $scope.currentQuestion = $scope.queuedQuestions.shift();
+        }); 
     });
     
-    $scope.changeState = function(add) {
-        $scope.state += add;
-        socket.emit('change-state', {interviewId: interviewId, state: $scope.state});
-    }
-    
-    $scope.endInterview = function() {
-        window.location.href = '#/';
-        $http.get('/interview/' + interviewId).success(function (data) {
-            $scope.interview = data.interview;
-            $scope.interview.conducted = true;
-            $http.put('/interview/' + interviewId, $scope.interview).success(function(data) {
-                
+    $http.get('/interview/' + interviewId).success(function (data) {
+        $scope.interview = data.interview;    
+        $http.get('/interview/' + interviewId +'/tags/').success(function(result) {
+            var tags = [];
+            result.tags.forEach(function(tag, index) {
+                if (tag.name != "Intro" && tag.name != "Technical" && tag.name != "Close") {
+                    tags.push({
+                        label: tag.name,
+                        checked: true
+                    });    
+                }
+                $scope.questionList[tag.name] = [];
+                $http.get('/tag/' + tag.name + '/questions/').success(function(res) {
+                    $scope.questionList[tag.name] = res.questions;
+                    $scope.questionList[tag.name].forEach(function(q, index) {
+                        if (!$scope.questionsByID[q.id]) {
+                            $scope.questionsByID[q.id] = q;
+                            $scope.questionsByID[q.id].queued = false;
+                            $scope.questionsByID[q.id].tags = {};
+                            $scope.questionsByID[q.id].tags[tag.name] = true;
+                        }
+                    
+                    });
+                   
+                    if (index + 1 === result.tags.length) {
+                         $rootScope.$emit('updateFilter');
+                    }
+                });
             });
+            filterService.setTags(tags);
         });
-    }
-    
-    socket.on('notify-change-state' + interviewId, function(data) {
-         $scope.$apply(function() {
-            $rootScope.$emit('updateFilter');
-            $scope.state = data.state;
-         });
     });
 }

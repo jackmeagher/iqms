@@ -136,7 +136,7 @@
                                         <div class="collapse noteBox" id="noteBox{{question.id}}">
                                             <h4 class="h4">Notes:</h4>
                                             <input type class="form-input" id='response{{question.id}}' ng-model="question.note" style="width:100%; height:15%; font-size:22px;"></input>
-                                            <button class="btn btn-success center-block" ng-click="saveNote(question.id)">Save Note</button>
+                                            <button class="btn btn-success center-block" ng-click="respond(question.id, null)">Save Note</button>
                                         </div>
                                     </div>
                                 </div>
@@ -206,7 +206,7 @@
                             <div class="collapse noteBox" id="noteBox{{lastQuestion.id}}">
                                 <h4 class="h4">Notes:</h4>
                                 <input type class="form-input" id='response{{lastQuestion.id}}' ng-model="lastQuestion.note" style="width:100%; height:15%; font-size:22px;"></input>
-                                <button class="btn btn-success center-block" ng-click="saveNote(lastQuestion.id)">Save Note</button>
+                                <button class="btn btn-success center-block" ng-click="respond(lastQuestion.id, null)">Save Note</button>
                             </div>
                         </div>
                     </div>
@@ -273,7 +273,7 @@
                             <div class="collapse noteBox" id="noteBox{{currentQuestion.id}}">
                                 <h4 class="h4">Notes:</h4>
                                 <input type class="form-input" id='response{{currentQuestion.id}}' ng-model="currentQuestion.note" style="width:100%; height:15%; font-size:22px;"></input>
-                                <button class="btn btn-success center-block" ng-click="saveNote(currentQuestion.id)">Save Note</button>
+                                <button class="btn btn-success center-block" ng-click="respond(currentQuestion.id, null)">Save Note</button>
                             </div>
                         </div>
                     </div>
