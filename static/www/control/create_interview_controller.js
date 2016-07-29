@@ -74,13 +74,6 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             });
         });
     }
-
-    var addQuestions = function(id){
-        $scope.current_questions.forEach(q => $http.post('/interview/' + id + '/questions/' + q.id));
-        $scope.current_questions.forEach(q => $http.post('/answer/',{interviewId : id, questionId: q.id}));
-    };
-    
-    taggingService.resetTags();  
     
     $scope.addPosition = function(position) {
         if (position && !$scope.positions[position]) {
@@ -100,11 +93,16 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         var pos = $.map($scope.positions, function(value, index) {
            return value.name; 
         });
+        
+        return $scope.queryFunction(query, pos);
+    }
+    
+    $scope.queryFunction = function(query, data) {
         if (query == null) {
             query = "";
         }
         text = query.toLowerCase();
-        var ret = pos.filter(function(d) {
+        var ret = data.filter(function(d) {
            var test = d.toLowerCase();
            return test.startsWith(text);
         });
@@ -137,15 +135,8 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         var can = $.map($scope.candidates, function(value, index) {
            return value.name; 
         });
-        if (query == null) {
-            query = "";
-        }
-        text = query.toLowerCase();
-        var ret = can.filter(function(d) {
-           var test = d.toLowerCase();
-           return test.startsWith(text);
-        });
-        return ret;
+        
+        return $scope.queryFunction(query, can);
     }
     
     $scope.candidateTextChange = function(text) {
@@ -248,6 +239,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         }
     }
     
+    taggingService.resetTags();  
     $scope.loadScreen();
 }
 
