@@ -7,22 +7,27 @@ function filter_menu_controller ($scope, $rootScope, filterService, socket) {
     $rootScope.$on('updateFilter', function(event, args) {
         $scope.difficulties = filterService.getDifficulties();
         $scope.tags = filterService.getTags();
+        $scope.orderBy = filterService.getOrderBy();
     });
     
     $scope.changeDifficulty = function() {
         filterService.setDifficulties($scope.difficulties);
+        $scope.orderBy = filterService.getOrderBy();
         socket.emit('update-filter', {
            tags: $scope.tags,
            difficulties: $scope.difficulties,
+           order: $scope.orderBy,
            id: filterService.getInterviewId()
         });
     }
     
     $scope.changeTag = function() {
         filterService.setTags($scope.tags);
+        $scope.orderBy = filterService.getOrderBy();
         socket.emit('update-filter', {
            tags: $scope.tags,
            difficulties: $scope.difficulties,
+           order: $scope.orderBy,
            id: filterService.getInterviewId()
         });
     }

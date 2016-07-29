@@ -198,21 +198,59 @@
                 var filtered = [];
                 if (order[0] == "tags") {   
                     tags.forEach(function(tag, index) {
+                        var temp = [];
                          for (var i = 0; i < items.length; i++) {
                             if (items[i].tags[tag.label]) {
-                                filtered.push(items[i]);
+                                temp.push(items[i]);
                                 items.splice(i, 1);
                                 i--;
                             }
                          }
+                        temp.sort(function (a, b) {
+                            return (a["difficulty"] > b["difficulty"] ? 1 : -1);
+                        });
+                        filtered = $.merge(filtered, temp);
                     });
                     
                 } else if (order[0] == "difficulty") {
-                    angular.forEach(items, function(item) {
-                        filtered.push(item);
+                    var jun = 3;
+                    var mid = 6;
+                    var sen = 10;
+                    
+                    tags.forEach(function(tag, index) {
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i].difficulty <= jun) {
+                                if (items[i].tags[tag.label]) {
+                                    filtered.push(items[i]);
+                                    items.splice(i, 1);
+                                    i--;
+                                }
+                            }
+                        }
                     });
-                    filtered.sort(function (a, b) {
-                        return (a["difficulty"] > b["difficulty"] ? 1 : -1);
+                    
+                    tags.forEach(function(tag, index) {
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i].difficulty > jun && items[i].difficulty <= mid) {
+                                if (items[i].tags[tag.label]) {
+                                    filtered.push(items[i]);
+                                    items.splice(i, 1);
+                                    i--;
+                                }
+                            }
+                        } 
+                    });
+                    
+                    tags.forEach(function(tag, index) {
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i].difficulty > mid) {
+                                if (items[i].tags[tag.label]) {
+                                    filtered.push(items[i]);
+                                    items.splice(i, 1);
+                                    i--;
+                                }
+                            }
+                        } 
                     });
                 }
 
@@ -287,7 +325,7 @@
                         <hr style="margin: 0px">
                         <div class="dropdown" style="text-align: center">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Order By
+                                {{orderBy[0]}}
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">

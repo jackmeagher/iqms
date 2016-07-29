@@ -221,7 +221,6 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     $scope.pullQuestion = function() {
         $scope.difficulties = filterService.getDifficulties();
         $scope.tags = filterService.getTags();
-        console.log($scope.tags); 
         var qsId = $.map($scope.questionsByID, function(value, index) {
             return value;
         });
