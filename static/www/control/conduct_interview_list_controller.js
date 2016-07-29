@@ -23,7 +23,11 @@ function conduct_interview_list_controller($scope, $http, socket) {
             $http.get('/position/' + result.result.positionId).success(function(result) {
                 interview.position = result.position.name;
             });
-         });
+        });
+    }
+    
+    $scope.conductInterview = function(id) {
+        window.location.href = "#conaction/" + id;
     }
     
     $scope.loadScreen();

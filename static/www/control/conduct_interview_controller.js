@@ -1,15 +1,9 @@
-/**
- * Created by nick on 4/12/16.
- */
-
-
 function conduct_interview_controller ($scope,$rootScope,$http,$window,$routeParams,$filter, $interval, socket, filterService, toast) {
     var interviewId = $routeParams.id;
     filterService.setInterviewId(interviewId);
     $scope.interview = {};
     $scope.questionList = {};
     $scope.questionsByID = {};
-    $scope.currentTag = "";
     
     $scope.previousQuestions = [];
     $scope.lastQuestion = null;
@@ -20,23 +14,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     
     $scope.state = 0;
     
-    $scope.difficulties = [{
-        label: "Junior",
-        checked: true
-    }, {
-        label: "Mid",
-        checked: true
-    }, {
-        label: "Senior",
-        checked: true
-    }];
-    
-    filterService.setDifficulties($scope.difficulties);
-    
-    $scope.tags = [];
-    
     $scope.collapseQuestion = function(id) {
-        console.log(id);
         $('.collapse-prev').collapse('hide');
         $('#collapse' + id).collapse('toggle');
     }
@@ -44,19 +22,17 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     $http.get('/interview/' + interviewId).success(function (data) {
         $scope.interview = data.interview;    
         $http.get('/interview/' + interviewId +'/tags/').success(function(result) {
+            var tags = [];
             result.tags.forEach(function(tag, index) {
                 if (tag.name != "Intro" && tag.name != "Technical" && tag.name != "Close") {
-                    $scope.tags.push({
+                    tags.push({
                         label: tag.name,
                         checked: true
-                     });
-                     filterService.setTags($scope.tags);
+                    });    
                 }
                 $scope.questionList[tag.name] = [];
                 $http.get('/tag/' + tag.name + '/questions/').success(function(res) {
                     $scope.questionList[tag.name] = res.questions;
-                    console.log(res.questions);
-                    $scope.currentTag = "Technical";
                     $scope.questionList[tag.name].forEach(function(q, index) {
                         if (!$scope.questionsByID[q.id]) {
                             $scope.questionsByID[q.id] = q;
@@ -68,13 +44,11 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                     });
                    
                     if (index + 1 === result.tags.length) {
-                        for(var i = 0; i < 6; i++)
-                            $scope.pullQuestion();
-                       
-                        $scope.currentQuestion = $scope.queuedQuestions.shift();
+                         $rootScope.$emit('updateFilter');
                     }
                 });
             });
+            filterService.setTags(tags);
         });
     });
 
@@ -219,8 +193,9 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     }
     
     $scope.pullQuestion = function() {
-        $scope.difficulties = filterService.getDifficulties();
-        $scope.tags = filterService.getTags();
+        var difficulties = filterService.getDifficulties();
+        var tags = filterService.getTags();
+        
         var qsId = $.map($scope.questionsByID, function(value, index) {
             return value;
         });
@@ -233,17 +208,18 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                     return false;
                 }
                 
-                if (!$scope.difficulties[0].checked && question.difficulty <= 3) {
+                if (!difficulties[0].checked && question.difficulty <= 3) {
                     return false
-                } else if (!$scope.difficulties[1].checked && question.difficulty > 3 && question.difficulty <= 6) {
+                } else if (!difficulties[1].checked && question.difficulty > 3 && question.difficulty <= 6) {
                     return false;
-                } else if (!$scope.difficulties[2].checked && question.difficulty > 6) {
+                } else if (!difficulties[2].checked && question.difficulty > 6) {
                     return false
                 }
             
                 var del = false;
                 
-                $scope.tags.forEach(function(tag, index) {
+                
+                tags.forEach(function(tag, index) {
                     if(!tag.checked && question.tags[tag.label]) {
                         del = true;
                     }
@@ -255,10 +231,10 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                 
                 del = false;
                 
-                for(var i = 0; i < $scope.tags.length; i++) {
-                    if($scope.tags[i].checked && question.tags[$scope.tags[i].label]) {
+                for(var i = 0; i < tags.length; i++) {
+                    if(tags[i].checked && question.tags[tags[i].label]) {
                         del = true;
-                        i = $scope.tags.length;
+                        i = tags.length;
                     }
                 }
                 
@@ -342,7 +318,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
        });
     });
     
-    $rootScope.$on('updateFilter', function(data) {
+    $rootScope.$on('updateFilter', function() {
         $scope.queuedQuestions.forEach(function(q, index) {
             $scope.questionsByID[q.id].queued = false;
         });
@@ -357,13 +333,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     });
     
     $scope.changeState = function(add) {
-        
-        if (add) {
-            $scope.state++;
-        } else {
-            $scope.state--;
-        }
-        
+        $scope.state += add;
         socket.emit('change-state', {interviewId: interviewId, state: $scope.state});
     }
     

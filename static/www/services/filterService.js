@@ -1,5 +1,14 @@
 function filterService($rootScope) {
-    var difficulties = [];
+    var difficulties = [{
+        label: "Junior",
+        checked: true
+    }, {
+        label: "Mid",
+        checked: true
+    }, {
+        label: "Senior",
+        checked: true
+    }];
     var tags = [];
     
     var interviewId = 0;
