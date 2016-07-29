@@ -8,7 +8,7 @@ function filterService($rootScope) {
     
     var setOrderBy = function(order) {
         orderBy = order;
-        $rootScope.$emit('updateFilter');
+        emitRequest();
     }
     
     var getOrderBy = function() {
@@ -25,7 +25,7 @@ function filterService($rootScope) {
     
     var setTags = function(tagArray) {
         tags = tagArray;
-        $rootScope.$emit('updateFilter');
+        emitRequest();
     }
     
     var getTags = function() {
@@ -34,7 +34,7 @@ function filterService($rootScope) {
     
     var setDifficulties = function(difficultyArray) {
         difficulties = difficultyArray;
-        $rootScope.$emit('updateFilter');
+        emitRequest();
     }
     
     var getDifficulties = function() {
@@ -43,16 +43,10 @@ function filterService($rootScope) {
     
     var setTagByIndex = function(index) {
         tags[index].checked = !tags[index].checked;
-        $rootScope.$emit('updateFilter');
+        emitRequest();
     }
     
-    var setDifficultyByIndex = function(index) {
-        if (difficulties[index].checked) {
-            difficulties[index].checked = false;
-        } else {
-            difficulties[index].checked = true;
-        }
-        
+    var emitRequest = function() {
         $rootScope.$emit('updateFilter');
     }
     
@@ -65,7 +59,6 @@ function filterService($rootScope) {
         getTags: getTags,
         setDifficulties: setDifficulties,
         getDifficulties: getDifficulties,
-        setTagByIndex: setTagByIndex,
-        setDifficultyByIndex: setDifficultyByIndex
+        setTagByIndex: setTagByIndex
     }
 }
