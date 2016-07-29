@@ -251,7 +251,25 @@
         </div>
         
         <div class="sidebar-collapse" ng-show="interviewScreen">
-            <ul class="nav" id="main-menu" ng-controller="filter_menu_controller">
+            <ul class="nav" id="main-menu" ng-controller="filter_menu_controller" style="padding: 10px">
+                <li>
+                    <div>
+                        <h4>
+                            Question Filter
+                        </h4>
+                        <hr style="margin: 0px">
+                        <div class="dropdown" style="text-align: center">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Order By
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a ng-click="">Tags</a></li>
+                                <li><a hng-click="">Difficulty</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
                 <li>
                     <div>
                         <h4>

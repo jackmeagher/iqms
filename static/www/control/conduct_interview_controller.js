@@ -45,11 +45,13 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         $scope.interview = data.interview;
         $http.get('/interview/' + interviewId +'/tags/').success(function(result) {
             result.tags.forEach(function(tag, index) {
-                $scope.tags.push({
-                   label: tag.name,
-                   checked: true
-                });
-                filterService.setTags($scope.tags);
+                if (tag.name != "Intro" && tag.name != "Technical" && tag.name != "Close") {
+                    $scope.tags.push({
+                        label: tag.name,
+                        checked: true
+                     });
+                     filterService.setTags($scope.tags);
+                }
                 $scope.questionList[tag.name] = [];
                 $http.get('/tag/' + tag.name + '/questions/').success(function(res) {
                     $scope.questionList[tag.name] = res.questions;
@@ -219,7 +221,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     $scope.pullQuestion = function() {
         $scope.difficulties = filterService.getDifficulties();
         $scope.tags = filterService.getTags();
-        
+        console.log($scope.tags); 
         var qsId = $.map($scope.questionsByID, function(value, index) {
             return value;
         });
@@ -251,15 +253,24 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                 if (del) {
                     return false;
                 }
-            
-                return !question.queued;
+                
+                del = false;
+                
+                for(var i = 0; i < $scope.tags.length; i++) {
+                    if($scope.tags[i].checked && question.tags[$scope.tags[i].label]) {
+                        del = true;
+                        i = $scope.tags.length;
+                    }
+                }
+                
+                return !question.queued && del;
             } else {
                 return !question.queued && question.tags["Close"];
             }
             
         });      
         
-        qsId = $filter('orderBy')(qsId, ['tags', 'difficulty']);
+        qsId = $filter('orderBy')(qsId, filterService.getOrderBy());
         
         if (qsId.length > 0) {
             $scope.queuedQuestions.push(qsId[0]);
@@ -325,6 +336,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
        $scope.$apply(function() {
             filterService.setTags(data.tags);
             filterService.setDifficulties(data.difficulties);
+            filterService.setOrderBy(data.order);
             toast.info(data.message);
        });
     });

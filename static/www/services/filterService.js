@@ -4,6 +4,17 @@ function filterService($rootScope) {
     
     var interviewId = 0;
     
+    var orderBy = ['tags', 'difficulty'];
+    
+    var setOrderBy = function(order) {
+        orderBy = order;
+        $rootScope.$emit('updateFilter');
+    }
+    
+    var getOrderBy = function() {
+        return orderBy;
+    }
+    
     var setInterviewId = function(id) {
         interviewId = id;
     }
@@ -46,6 +57,8 @@ function filterService($rootScope) {
     }
     
     return {
+        setOrderBy: setOrderBy,
+        getOrderBy: getOrderBy,
         setInterviewId: setInterviewId,
         getInterviewId: getInterviewId,
         setTags: setTags,
