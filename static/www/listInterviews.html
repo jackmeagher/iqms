@@ -67,8 +67,12 @@
                                     <td>{{interview.position}}</td>
                                     <td>
                                         <button class="btn btn-warning"
-                                                ng-click="loadInterview(interview.id)" >
+                                                ng-click="loadInterview(interview.id)" ng-show="!interview.conducted">
                                             Edit
+                                        </button>
+                                        <button class="btn btn-success"
+                                                ng-click="loadInterview(interview.id)" ng-show="interview.conducted">
+                                            View Results
                                         </button>
                                     </td>
                                     <td>
