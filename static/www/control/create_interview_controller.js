@@ -69,7 +69,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                 };
                 $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
                     $window.location.href = './#li';
-                    $scope.checkForMainTags();
+                    $scope.checkForMainTags(interviewID);
                 });
             });
         });
@@ -204,7 +204,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         }
     });
     
-    $scope.checkForMainTags = function() {
+    $scope.checkForMainTags = function(interviewID) {
         var techTag = false;
         var introTag = false;
         var closeTag = false;

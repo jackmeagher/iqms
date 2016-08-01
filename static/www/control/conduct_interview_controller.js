@@ -72,11 +72,9 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     $scope.pullQuestion = function() {
         var difficulties = filterService.getDifficulties();
         var tags = filterService.getTags();
-        
         var qsId = $.map($scope.questionsByID, function(value, index) {
             return value;
         });
-        
         qsId = $filter('filter')(qsId, function(question){
             if ($scope.state == 0) {
                 return !question.queued && question.tags["Intro"];
@@ -158,7 +156,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     }
     
     $rootScope.$on('updateFilter', function() { 
-
+    
         $scope.queuedQuestions.forEach(function(q, index) {
             $scope.questionsByID[q.id].queued = false;
         });
@@ -170,7 +168,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             $scope.pullQuestion();
         }
         $scope.currentQuestion = $scope.queuedQuestions.shift();
-        console.log($scope.currentQuestion);
+        //console.log($scope.currentQuestion);
     });
     
     socket.on('notify-change-state' + interviewId, function(data) {
