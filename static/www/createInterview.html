@@ -77,33 +77,6 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label>Interviewer</label>
-                                    <button class="btn btn-success btn-add btn-xs" type="button" ng-click="addInterviewer(interviewerText)" style="margin-left:4px;">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                    <md-autocomplete
-                                        id="interviewer-box"
-                                        md-no-cache="true"
-                                        md-selected-item="selectedInterviewer"
-                                        md-search-text-change="interviewerTextChange(interviewerText)"
-                                        md-search-text="interviewerText"
-                                        md-selected-item-change="interviewerItemChange(selectedInterviewer)"
-                                        md-items="interviewer in queryInterviewer(interviewerText)"
-                                        md-item-text="interviewer"
-                                        md-min-length="0"
-                                        placeholder="Search for Interviewer">
-                                    <md-item-template>
-                                                    <span md-highlight-text="interviewerText"
-                                                          md-highlight-flags="^i">{{interviewer}}</span>
-                                    </md-item-template>
-                                    <md-not-found>
-                                        Click the plus to create "{{interviewerText}}"
-                                    </md-not-found>
-                                </md-autocomplete>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
                                     <label>Tags</label>
                                     <br>
                                     <select id="tagbox" multiple data-role="tagsinput">

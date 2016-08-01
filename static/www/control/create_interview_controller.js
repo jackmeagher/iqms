@@ -1,5 +1,4 @@
 function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window, taggingService, popupService, flaggingService) {
-
     $scope.positions = {};
     $scope.selectedPosition = null;
     $scope.positionText = "";
@@ -7,10 +6,6 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.candidates = {};
     $scope.selectedCandidate = null;
     $scope.candidateText = "";
-    
-    $scope.interviewers = {};
-    $scope.selectedInterviewer = null;
-    $scope.interviewerText = "";
     
     $scope.taglist = [];
     
@@ -28,19 +23,10 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             });
         });
         
-        $http.get('/interviewer').success(function(data) {
-            data.interviewers.forEach(function(interviewer, index) {
-               $scope.interviewers[interviewer.name] = interviewer; 
-            });
-        });
-        
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ie') {
             flaggingService.loadQuestionList(loc.id);
             $http.get('/interview/' + loc.id).success(function(data) {
-                $http.get('/interviewer/' + data.interview.interviewerId).success(function(result) {
-                    $scope.interviewerItemChange(result.result.name);
-                });
                 $http.get('/candidatePosition/' + data.interview.candidatePositionCId).success(function(result) {
                     $http.get('/candidate/' + result.result.candidateId).success(function(result) {
                         $scope.candidateItemChange(result.candidate.name);
@@ -61,72 +47,33 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.createInterview = function () {
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ie') {
-            var interviewID = loc.id;
-            flaggingService.persistQuestions(interviewID);
-            $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
-                   + '/position/' + $scope.positions[$scope.selectedPosition].id)
-            .success(function() {
-                $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
-                   + '/position/' + $scope.positions[$scope.selectedPosition].id)
-                .success(function(canPos) {
-                    var candidatePositionID = canPos.candidatePosition.c_id;
-                    var interviewData = {
-                      candidatePositionCId: candidatePositionID,
-                      interviewerId: $scope.interviewers[$scope.selectedInterviewer].id
-                    };
-                    $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
-                        $window.location.href = './#li'; 
-                        $scope.taglist.forEach(function(tag, index) {
-                            if (taggingService.countTag(tag) > 0) {
-                                $http.post('/tag/' + tag
-                                       + '/interview/' + interviewID).success(function(created) {
-                                });
-                            }
-                            
-                        });
-                    });
-                });
-            });
+            $scope.saveInterview(loc.id);
         } else {
             $http.post('/interview').success(function(created) {
-                var interviewID = created.interview.id;
-                flaggingService.persistQuestions(interviewID);
-                $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
-                       + '/position/' + $scope.positions[$scope.selectedPosition].id)
-                .success(function() {
-                    $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
-                       + '/position/' + $scope.positions[$scope.selectedPosition].id)
-                    .success(function(canPos) {
-                        var candidatePositionID = canPos.candidatePosition.c_id;
-                        var interviewData = {
-                          candidatePositionCId: candidatePositionID,
-                          interviewerId: $scope.interviewers[$scope.selectedInterviewer].id
-                        };
-                        $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
-                            $window.location.href = './#li'; 
-                            $scope.taglist.forEach(function(tag, index) {
-                                if (taggingService.countTag(tag) > 0) {
-                                    $http.post('/tag/' + tag
-                                           + '/interview/' + interviewID).success(function(created) {
-                                    });
-                                }
-                                
-                            });
-                        });
-                    });
-                });
+                $scope.saveInterview(created.interview.id);
             });
         }
-        
-        
-    };
-
-    var addQuestions = function(id){
-        $scope.current_questions.forEach(q => $http.post('/interview/' + id + '/questions/' + q.id));
-        $scope.current_questions.forEach(q => $http.post('/answer/',{interviewId : id, questionId: q.id}));
     };
     
-    taggingService.resetTags();  
+    $scope.saveInterview = function(interviewID) {
+        flaggingService.persistQuestions(interviewID);
+        $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
+               + '/position/' + $scope.positions[$scope.selectedPosition].id)
+        .success(function() {
+            $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
+               + '/position/' + $scope.positions[$scope.selectedPosition].id)
+            .success(function(canPos) {
+                var candidatePositionID = canPos.candidatePosition.c_id;
+                var interviewData = {
+                  candidatePositionCId: candidatePositionID
+                };
+                $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
+                    $window.location.href = './#li';
+                    $scope.checkForMainTags();
+                });
+            });
+        });
+    }
     
     $scope.addPosition = function(position) {
         if (position && !$scope.positions[position]) {
@@ -146,11 +93,16 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         var pos = $.map($scope.positions, function(value, index) {
            return value.name; 
         });
+        
+        return $scope.queryFunction(query, pos);
+    }
+    
+    $scope.queryFunction = function(query, data) {
         if (query == null) {
             query = "";
         }
         text = query.toLowerCase();
-        var ret = pos.filter(function(d) {
+        var ret = data.filter(function(d) {
            var test = d.toLowerCase();
            return test.startsWith(text);
         });
@@ -183,15 +135,8 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         var can = $.map($scope.candidates, function(value, index) {
            return value.name; 
         });
-        if (query == null) {
-            query = "";
-        }
-        text = query.toLowerCase();
-        var ret = can.filter(function(d) {
-           var test = d.toLowerCase();
-           return test.startsWith(text);
-        });
-        return ret;
+        
+        return $scope.queryFunction(query, can);
     }
     
     $scope.candidateTextChange = function(text) {
@@ -203,43 +148,6 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.candidateItemChange = function(item) {
         if (item) {
             $scope.selectedCandidate = item;
-        }
-    }
-    
-    $scope.addInterviewer = function(interviewer) {
-        if (interviewer && !$scope.interviewers[interviewer]) {
-            $scope.interviewers[interviewer] = {name: interviewer};
-            $scope.selectedInterviewer = interviewer;
-            $http.post('/interviewer', $scope.interviewers[interviewer]).success(function(created) {
-               $scope.interviewers[interviewer].id = created.data.id;
-            });
-        }
-    }
-    
-    $scope.queryInterviewer = function(query) {
-        var interv = $.map($scope.interviewers, function(value, index) {
-            return value.name;
-        });
-        if (query == null) {
-            query = "";
-        }
-        text = query.toLowerCase();
-        var ret = interv.filter(function(d) {
-            var test = d.toLowerCase();
-            return test.startsWith(text);
-        });
-        return ret;
-    }
-    
-    $scope.interviewerTextChange = function(text) {
-        var interv = $.map($scope.interviewers, function(value, index) {
-            return value.name;
-        });
-    }
-    
-    $scope.interviewerItemChange = function(item) {
-        if (item) {
-            $scope.selectedInterviewer = item;
         }
     }
     
@@ -284,12 +192,54 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     });
     
     $('#tagbox').on('beforeItemRemove', function(event) {
+        var loc = $scope.getWindowLocation();
+        if (loc.location === 'ie') {
+            var interviewID = loc.id;
+            $http.delete('/tag/' + event.item
+                + '/interview/' + interviewID).success(function(created) {
+            });
+        }
         if($scope.taglist.indexOf(event.item) > -1) {
             $scope.taglist.splice($scope.taglist.indexOf(event.item), 1);
         }
     });
-
     
+    $scope.checkForMainTags = function() {
+        var techTag = false;
+        var introTag = false;
+        var closeTag = false;
+        $scope.taglist.forEach(function(tag, index) {
+            if (taggingService.countTag(tag) > 0) {
+                $http.post('/tag/' + tag
+                       + '/interview/' + interviewID).success(function(created) {
+                });
+            }
+            if (tag == "Intro") {
+                introTag = true;
+            } else if (tag == "Technical") {
+                techTag = true;
+            } else if (tag == "Close") {
+                closeTag = true;
+            }
+        });
+        if (!introTag) {
+            $http.post('/tag/' + "Intro"
+                       + '/interview/' + interviewID).success(function(created) {
+            });
+        }
+        if (!techTag) {
+            $http.post('/tag/' + "Technical"
+                       + '/interview/' + interviewID).success(function(created) {
+            });
+        }
+        if (!closeTag) {
+            $http.post('/tag/' + "Close"
+                       + '/interview/' + interviewID).success(function(created) {
+            });
+        }
+    }
+    
+    taggingService.resetTags();  
     $scope.loadScreen();
 }
 

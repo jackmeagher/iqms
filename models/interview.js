@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
-            }
+            },
+            conducted: DataTypes.BOOLEAN
         },
 
         {
@@ -14,6 +15,7 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 interview.belongsToMany(models.question, {through: models.interviewQuestion});
                 interview.belongsToMany(models.tag, {through: "interviewTag"});
+                interview.belongsToMany(models.feedback, {through: "interviewFeedback"});
             }
         }
     });

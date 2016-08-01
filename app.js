@@ -6,6 +6,11 @@ var models = require('./models');
 var bodyParser  = require('body-parser');
 var jwt = require('jsonwebtoken');
 const secret = 'tg6bhr5dxddrtcx';
+                   
+var http           = require('http').createServer(app);
+var io             = require('socket.io').listen(http);
+
+app.set('port', process.env.PORT || 5000);
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -31,6 +36,7 @@ app.use((req, res, next) => {
 });
 
 
+
 var answer_routes = require('./routes/answer');
 var role_routes = require('./routes/role');
 var interview_routes = require('./routes/interview');
@@ -42,6 +48,7 @@ var candidate_routes = require('./routes/candidate');
 var interviewer_routes = require('./routes/interviewer');
 var candidatePosition_routes = require('./routes/candidatePosition');
 var interviewQuestion_routes = require('./routes/interviewQuestion');
+var feedback_routes = require('./routes/feedback');
 
 question_routes.register(app,'');
 interview_routes.register(app,'');
@@ -54,9 +61,9 @@ candidate_routes.register(app, '');
 interviewer_routes.register(app, '');
 candidatePosition_routes.register(app, '');
 interviewQuestion_routes.register(app, '');
+feedback_routes.register(app, '');
 
 app.use('/static', express.static('../static'));
-
 
 // middleware to add headers for cross origin requests
 
@@ -65,8 +72,5 @@ app.all('/*', function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type,X-Requested-With');
     next();
 });
-
-
-//var testq = require('./testData');
 
 module.exports = app;

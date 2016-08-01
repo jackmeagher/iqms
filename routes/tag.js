@@ -65,7 +65,7 @@ exports = module.exports = new Resource('tag', '/tag', {
                                 name: req.params.name
                         }
                 }).then(function(tag) {
-                        tag.getQuestions().then ( function(questions) {
+                        tag.getQuestions({order: [['difficulty', 'ASC']]}).then ( function(questions) {
                                         res.status(200).json({
                                             questions: questions
                                         })
@@ -91,6 +91,23 @@ exports = module.exports = new Resource('tag', '/tag', {
                                                 added: added
                                         });
                                 })
+                        })
+                })
+        },
+        delete: (req, res) => {
+                models.tag.findOne({
+                        where: {
+                                name: req.params.name
+                        }
+                }).then(function(tag) {
+                        models.interview.findOne({
+                                where: {
+                                        id: req.params.interview_id
+                                }
+                        }).then(function(interview) {
+                          tag.removeInterview(interview).then(function(removed) {
+                            res.status(204).json({});  
+                          })  
                         })
                 })
         }

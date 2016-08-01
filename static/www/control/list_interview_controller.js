@@ -4,7 +4,7 @@
 
 function list_interview_controller($scope, $http) {
 
-    $scope.sortType     = 'interviewee'; // set the default sort type
+    $scope.sortType     = 'id'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
     $scope.searchInterview  = '';     // set the default search/filter term
 
@@ -14,8 +14,11 @@ function list_interview_controller($scope, $http) {
         window.location.href = "#ie#" + id;
     }
     
+    $scope.viewInterview = function(id) {
+         window.location.href = "#view/" + id;
+    }
+    
     $scope.deleteInterview = function (index,interview) {
-        console.log("DELETING");
         $http.delete('/interview/' + interview.id + '/tags').success(function() {
            $http.delete('/interview/' + interview.id + '/questions').success(function() {
             $http.delete('/interview/' + interview.id).success(function() {
@@ -29,15 +32,8 @@ function list_interview_controller($scope, $http) {
         $http.get('/interview').success(function(data) {
             $scope.interviews = data.interviews;
             $scope.interviews.forEach(function(i, index) {
-                $scope.loadInterviewer(i);
                 $scope.loadCandidatePosition(i);
             });
-        });
-    }
-    
-    $scope.loadInterviewer = function(interview) {
-        $http.get('/interviewer/' + interview.interviewerId).success(function(result) {
-            interview.interviewer = result.result.name;
         });
     }
     

@@ -2,6 +2,7 @@
 "use strict";
 require("use-strict");
 var app = require('../app');
+var server_app = require('../server_app');
 var models = require('../models');
 app.set('view engine', 'jade');
 

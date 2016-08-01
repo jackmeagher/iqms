@@ -4,6 +4,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
     <link rel="icon" href="assets/img/favicon.ico"/>
 
     <title>IQMS</title>
@@ -29,8 +31,8 @@
     <!-- Angular -->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
-
     
+    <link rel="stylesheet" href="assets/css/toastr.min.css">
 
     <style>
         .md-transition-in {
@@ -45,7 +47,9 @@
     <script src="assets/js/angularjs/1.5.0/angular-messages.min.js"></script>
     <script src="assets/js/angular_material/1.1.0/angular-material.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-route.js"></script>
+    <script src="assets/js/angular-dragdrop.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/slider.js"></script>
+    <script src="assets/js/toastr.min.js"></script>
    
     <!-- CONTROLLERS -->
     <script src="control/create_interview_controller.js"></script>
@@ -62,13 +66,25 @@
     <script src="control/slider_controller.js"></script>
     <script src="control/topic_autocomplete_controller.js"></script>
     <script src="control/question_flagger_controller.js"></script>
+    <script src="control/filter_menu_controller.js"></script>
+    
     <!-- SERVICES -->
     <script src="services/taggingService.js"></script>
     <script src="services/popupService.js"></script>
     <script src="services/flaggingService.js"></script>
+    <script src="services/filterService.js"></script>
 
     <script>
         function index_controller($scope) {
+            
+            $scope.interviewScreen = false;
+            
+            $scope.$on('$routeChangeStart', function(event) {
+                var loc = "" + window.location;
+                loc = loc.substr(loc.lastIndexOf('#') + 2);
+                $scope.interviewScreen = loc.startsWith("conaction");
+            });
+            
             $scope.hide_side = function () {
                 angular.element('#hidethis').css('visibility', 'hidden');
             };
@@ -77,11 +93,10 @@
             }
         }
 
-        var app = angular.module('app', ['ngRoute', 'ngMaterial']);
+        var app = angular.module('app', ['ngRoute', 'ngMaterial', 'ngDragDrop']);
 
         app.config(function ($routeProvider) {
             $routeProvider
-
                     .when('/', {
                         templateUrl: 'welcome.html'
                     })
@@ -117,6 +132,10 @@
                     .when('/conaction/:id/', {
                         templateUrl: 'conductInterviewAction.html'
                     })
+                    
+                    .when('/view/:id', {
+                        templateUrl: 'interpretInterview.html'
+                    })
 
                     .when('/login', {
                         templateUrl: 'login.html'
@@ -141,10 +160,33 @@
         app.controller("slider_controller", slider_controller);
         app.controller("topic_autocomplete_controller", topic_autocomplete_controller);
         app.controller("question_flagger_controller", question_flagger_controller);
+        app.controller("filter_menu_controller", filter_menu_controller);
         
         app.service("taggingService", ['$http', '$rootScope', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
         app.service('flaggingService', ['$http', '$rootScope', flaggingService]);
+        app.service('filterService', ['$rootScope', filterService]);
+        
+        app.factory('socket', ['$rootScope', function($rootScope) {
+          var socket = io.connect('http://127.0.0.1:4041');
+          
+            return {
+               on: function(eventName, callback){
+                  socket.on(eventName, callback);
+                },
+                emit: function(eventName, data) {
+                  socket.emit(eventName, data);
+                }
+            };
+        }]);
+        
+        app.factory('toast', function() {
+            return {
+                info: function(text) {
+                    toastr.info(text);
+                }
+            }
+        });
         
         app.directive("tag", function() {
             return {
@@ -152,10 +194,67 @@
                         templateUrl: 'directives/tag.html'
                     };
         });
+        
+        app.filter('orderTechnicalQuestions', function() {
+            return function(items, order, tags, reverse) {
+                var filtered = [];
+                if (order[0] == "tags") {   
+                    tags.forEach(function(tag, index) {
+                        var temp = [];
+                         for (var i = 0; i < items.length; i++) {
+                            if (items[i].tags[tag.label]) {
+                                temp.push(items[i]);
+                                items.splice(i, 1);
+                                i--;
+                            }
+                         }
+                        temp.sort(function (a, b) {
+                            return (a["difficulty"] > b["difficulty"] ? 1 : -1);
+                        });
+                        filtered = $.merge(filtered, temp);
+                    });
+                    
+                } else if (order[0] == "difficulty") {
+                    var jun = [];
+                    var mid = [];
+                    var sen = [];
+                    
+                    tags.forEach(function(tag, index) {
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i].tags[tag.label]) {
+                                if (items[i].difficulty <= 3) {
+                                    jun.push(items[i]);
+                                } else if (items[i].difficulty > 3 && items[i].difficulty <= 6) {
+                                    mid.push(items[i]);
+                                } else {
+                                    sen.push(items[i]);
+                                }
+                            }
+                        }
+                    });
+                    
+                    filtered = $.merge(jun, mid);
+                    filtered = $.merge(filtered, sen);
+                }
 
+                if(reverse) filtered.reverse();
+                return filtered;
+            };
+        });
 
     </script>
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+         var data;
+         var chart;
+    
+          // Load the Visualization API and the piechart package.
+          google.charts.load('current', {'packages':['corechart']});
+    
+          // Set a callback to run when the Google Visualization API is loaded.
+         
+    </script>
 </head>
 <body>
 <div id="wrapper" ng-controller="index_controller">
@@ -167,7 +266,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/">IQMS</a>
+            <a class="navbar-brand" href="#/" ng-show="!interviewScreen">IQMS</a>
         </div>
 
         <div class="header-right" ng-click="hide_side();">
@@ -177,7 +276,7 @@
     </nav>
     <!-- /. NAV TOP  -->
     <nav id='hidethis' class="navbar-default navbar-side" role="navigation">
-        <div class="sidebar-collapse">
+        <div class="sidebar-collapse" ng-show="!interviewScreen">
             <ul class="nav" id="main-menu">
                 <li>
                     <div class="user-img-div">
@@ -209,6 +308,55 @@
                 </li>
             </ul>
         </div>
+        
+        <div class="sidebar-collapse" ng-show="interviewScreen">
+            <ul class="nav" id="main-menu" ng-controller="filter_menu_controller" style="padding: 10px">
+                <li>
+                    <div>
+                        <h4>
+                            Question Filter
+                        </h4>
+                        <hr style="margin: 0px">
+                        <div class="dropdown" style="text-align: center">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{orderBy[0]}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a ng-click="changeFilter(0)">Tags</a></li>
+                                <li><a ng-click="changeFilter(1)">Difficulty</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h4>
+                            Difficulties
+                        </h4>
+                        <hr style="margin: 0px;">
+                        <div class="checkbox" style="text-align: center">
+                            <label class="checkbox-inline" ng-repeat="diff in difficulties">  
+                                <input type="checkbox" ng-model="diff.checked" ng-click="changeDifficulty()"> {{diff.label}}
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h4>
+                            Tags
+                        </h4>
+                        <hr style="margin: 0px;">
+                        <div class="checkbox" style="text-align: center">
+                            <label class="checkbox-inline" ng-model="tags" ng-repeat="tag in tags track by tag.label" ng-show="tag.label != 'Technical' && tag.label != 'Intro' && tag.label != 'Close'">  
+                                <input type="checkbox" ng-model="tag.checked" ng-click="changeTag()"> {{tag.label}}
+                            </label>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
     </nav>
     <!-- /. NAV SIDE  -->
@@ -224,9 +372,10 @@
             </div>
             <!-- /. WRAPPER  -->
             <!-- /. FOOTER  -->
-            
+            <script src="socket.io/socket.io.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            
             <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
             <!-- JQUERY SCRIPTS -->
            <!-- <script src="assets/js/jquery-1.10.2.js"></script>-->
