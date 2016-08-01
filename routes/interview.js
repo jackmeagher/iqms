@@ -209,6 +209,22 @@ exports = module.exports = new Resource('interview', '/interview', {
 
         }),
         
+        new Resource('get_feedback_from_interview', '/:id/feedback', {
+                get: (req, res) => {
+                        models.interview.findOne({
+                                where: {
+                                        id: req.params.id
+                                }
+                        }).then(function(interview) {
+                                interview.getFeedbacks().then(function(feedbacks) {
+                                        res.status(200).json({
+                                           feedbacks: feedbacks     
+                                        });
+                                })
+                        })
+                }
+        }),
+        
         new Resource('add_feedback_to_interview', '/:id/feedback/:feedback_id', {
                 post: (req, res) => {
                         models.interview.findOne({

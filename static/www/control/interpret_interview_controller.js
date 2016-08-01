@@ -1,4 +1,6 @@
-function interpret_interview_controller($scope, $http) {
+function interpret_interview_controller($scope, $http, $routeParams) {
+    
+    var interviewId = $routeParams.id;
     
     $scope.overallResultsChart = {};
     $scope.overallResultsChart.type = "PieChart";
@@ -92,4 +94,33 @@ function interpret_interview_controller($scope, $http) {
         },
         colors: ['#5cb85c', '#d9534f', '#f5f5f5']
     };
+    
+    var updateOverallResults = function() {
+        var good = 0;
+        var poor = 0;
+        var skipped = 0;
+        $http.get('/interview/' + interviewId + '/feedback/').then(function(feedbacks) {
+            feedbacks.data.feedbacks.forEach(function(f, index) {
+                for (var k in f.data) {
+                    if (f.data.hasOwnProperty(k)) {
+                        if (f.data[k].rating == -1) {
+                            skipped++;
+                        } else if (f.data[k].rating <= 2) {
+                            poor++;
+                        } else {
+                            good++;
+                        }
+                    }
+                }
+            });
+            $scope.overallResultsChart.data = [
+                ['Score', 'amount'],
+                ['Good', good],
+                ['Poor', poor],
+                ['Skipped', skipped]
+            ];
+        });
+    }
+    
+    updateOverallResults();
 }
