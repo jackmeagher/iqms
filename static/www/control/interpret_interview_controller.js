@@ -5,6 +5,9 @@ function interpret_interview_controller($scope, $http, $routeParams) {
     var savedTags = {};
     var savedQuestions = {};
     
+    $scope.interview;
+    $scope.recs = [];
+    
     $scope.overallResultsChart = {};
     $scope.overallResultsChart.type = "PieChart";
     $scope.overallResultsChart.data = [
@@ -164,6 +167,33 @@ function interpret_interview_controller($scope, $http, $routeParams) {
         });
     }
     
+    var queryInterview = function() {
+        $http.get('/interview/' + interviewId).then(function(interview) {
+           console.log(interview);
+           $scope.interview = interview.data.interview;
+           updateInterview();
+        });
+    }
+    
+    var updateInterview = function() {
+        var rec = $scope.interview.recommendation;
+        for(var k in rec) {
+            var obj = {};
+            if (rec.hasOwnProperty(k)) {
+                obj.name = k;
+                if (rec[k].recommendation == -1) {
+                    obj.recommendation = "No";
+                } else if (rec[k].recommendation == 0) {
+                    obj.recommendation = "Maybe";
+                } else {
+                    obj.recommendation = "Yes";
+                }
+                $scope.recs.push(obj);
+            }
+        }
+        $scope.interview.recommendation = rec;
+    }
+    
     var queryDatabaseForFeedback = function() {
         $http.get('/interview/' + interviewId + '/feedback/').then(function(feedbacks) {
             savedFeedbacks = feedbacks.data.feedbacks;
@@ -201,5 +231,7 @@ function interpret_interview_controller($scope, $http, $routeParams) {
         });
     }
     
+    queryInterview();
     queryDatabaseForFeedback();
+    
 }
