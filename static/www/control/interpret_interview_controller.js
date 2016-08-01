@@ -1,6 +1,8 @@
 function interpret_interview_controller($scope, $http, $routeParams) {
     
     var interviewId = $routeParams.id;
+    var savedFeedbacks;
+    var savedQuestions = {};
     
     $scope.overallResultsChart = {};
     $scope.overallResultsChart.type = "PieChart";
@@ -67,21 +69,21 @@ function interpret_interview_controller($scope, $http, $routeParams) {
     ], "rows": [
         {c: [
             {v: "Junior"},
-            {v: 25},
-            {v: 1},
-            {v: 1}
+            {v: 0},
+            {v: 0},
+            {v: 0}
         ]},
         {c: [
             {v: "Mid"},
-            {v: 8},
-            {v: 2},
+            {v: 0},
+            {v: 0},
             {v: 0}
         ]},
         {c: [
             {v: "Senior"},
-            {v: 4},
-            {v: 9},
-            {v: 2}
+            {v: 0},
+            {v: 0},
+            {v: 0}
         ]}
     ]};
     $scope.diffResultsChart.options = {
@@ -99,28 +101,79 @@ function interpret_interview_controller($scope, $http, $routeParams) {
         var good = 0;
         var poor = 0;
         var skipped = 0;
-        $http.get('/interview/' + interviewId + '/feedback/').then(function(feedbacks) {
-            feedbacks.data.feedbacks.forEach(function(f, index) {
-                for (var k in f.data) {
-                    if (f.data.hasOwnProperty(k)) {
-                        if (f.data[k].rating == -1) {
-                            skipped++;
-                        } else if (f.data[k].rating <= 2) {
-                            poor++;
-                        } else {
-                            good++;
-                        }
+        
+        savedFeedbacks.forEach(function(f, index) {
+            for (var k in f.data) {
+                if (f.data.hasOwnProperty(k)) {
+                    if (f.data[k].rating == -1) {
+                        skipped++;
+                    } else if (f.data[k].rating <= 2) {
+                        poor++;
+                    } else {
+                        good++;
                     }
                 }
-            });
-            $scope.overallResultsChart.data = [
-                ['Score', 'amount'],
-                ['Good', good],
-                ['Poor', poor],
-                ['Skipped', skipped]
-            ];
+            }
+        });
+        $scope.overallResultsChart.data = [
+            ['Score', 'amount'],
+            ['Good', good],
+            ['Poor', poor],
+            ['Skipped', skipped]
+        ];
+    }
+    
+    var updateTagResults = function() {
+        
+        
+    }
+    
+    var updateDiffResults = function() {
+        console.log(savedQuestions);
+        savedFeedbacks.forEach(function(f, index) {
+            var diff = savedQuestions[f.question_id].difficulty;
+            if (diff <= 3) {
+                diff = 0; 
+            } else if (diff <= 6) {
+                diff = 1;
+            } else {
+                diff = 2;
+            }
+            for (var k in f.data) {
+                if (f.data.hasOwnProperty(k)) {
+                    if (f.data[k].rating == -1) {
+                        $scope.diffResultsChart.data.rows[diff].c[3].v++;
+                    } else if (f.data[k].rating <= 2) {
+                        $scope.diffResultsChart.data.rows[diff].c[2].v++;
+                    } else {
+                        $scope.diffResultsChart.data.rows[diff].c[1].v++;
+                    }
+                }
+            }
         });
     }
     
-    updateOverallResults();
+    var queryDatabaseForFeedback = function() {
+        $http.get('/interview/' + interviewId + '/feedback/').then(function(feedbacks) {
+            savedFeedbacks = feedbacks.data.feedbacks;
+            console.log(savedFeedbacks);
+            updateOverallResults();
+            queryDatabaseForQuestions();
+        });
+    }
+    
+    var queryDatabaseForQuestions = function() {
+        var questionPromises = [];
+        savedFeedbacks.forEach(function(f, index) {
+            var questionPromise = $http.get('/question/' + f.question_id).then(function(question) {
+                savedQuestions[f.question_id] = question.data.question;
+            });
+            questionPromises.push(questionPromise);
+        });
+        Promise.all(questionPromises).then(function(result) {
+            updateDiffResults();
+        });
+    }
+    
+    queryDatabaseForFeedback();
 }
