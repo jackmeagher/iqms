@@ -315,6 +315,20 @@
                     </div>
                 </div>
             </div>
+            <div class="row" ng-show="state == 2">
+                <div class="col-md-12">
+                    <h3>Recommendation: </h3>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioRecs" id="inlineRecs1" value="1" ng-model="recommendation"> Yes
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioRecs" id="inlineRecs2" value="0" ng-model="recommendation"> Maybe
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioRecs" id="inlineRecs3" value="-1" ng-model="recommendation"> No
+                    </label>
+                </div>
+            </div>
             <div style="text-align: center">
                 <button class="btn btn-success btn-lg" type="button" 
                     style="margin-top: 1%;" ng-show="state > 0" ng-click="changeState(-1)">

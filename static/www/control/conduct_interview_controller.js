@@ -14,6 +14,8 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     
     $scope.state = 0;
     
+    $scope.recommendation = 0;
+    
     $scope.collapseQuestion = function(id) {
         $('.collapse-prev').collapse('hide');
         $('#collapse' + id).collapse('toggle');
