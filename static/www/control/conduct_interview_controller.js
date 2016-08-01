@@ -150,6 +150,8 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         $http.get('/interview/' + interviewId).success(function (data) {
             $scope.interview = data.interview;
             $scope.interview.conducted = true;
+            $scope.interview.user = $scope.interviewerName;
+            $scope.interview.recommendation = $scope.recommendation;
             $http.put('/interview/' + interviewId, $scope.interview).success(function(data) { 
             });
         });
