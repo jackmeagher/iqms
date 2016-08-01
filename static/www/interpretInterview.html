@@ -1,4 +1,4 @@
-<script>
+<!--<script>
      google.charts.setOnLoadCallback(drawChart);
     
           // Callback that creates and populates a data table,
@@ -27,8 +27,8 @@
               };
     
             // Instantiate and draw our chart, passing in some options.
-            chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-            google.visualization.events.addListener(chart, 'select', selectHandler);
+            chart = new google.visualization.BarChart(document.getElementById('tag-results'));
+           // google.visualization.events.addListener(chart, 'select', selectHandler);
             chart.draw(data, options);
           }
     
@@ -37,15 +37,29 @@
             var value = data.getValue(selectedItem.row, 0);
             alert('The user selected ' + value);
           }
-</script>
-<div>
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="page-head-line">Interpret Interview Results</h1>
-            <h1 class="page-subhead-line">View how an interview candidate did</h1>
-            <div class="col-md-6" style="width:100%;">
-                <div id="chart_div"></div>
-            </div>
-        </div>
-    </div>
+</script>-->
+<div ng-controller="interpret_interview_controller">
+     <div class="row">
+          <div class="col-md-12">
+               <h1 class="page-head-line">Interpret Interview Results</h1>
+               <h1 class="page-subhead-line">View how an interview candidate did</h1>
+               <div class="col-md-6" style="width:100%;">
+                    <div class="row">
+                         <h3 class="h3">Overall Results</h3>
+                         <div class="col-md-12">
+                              <div id="overall-results" google-chart chart="resultsChart"></div>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <h3 class="h3">Breakdown by Tags</h3>
+                         <div class="col-md-12">
+                              <div id="tag-results"></div>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <h3 class="h3">Recommendations: </h3>
+                    </div>
+               </div>
+          </div>
+     </div>
 </div>

@@ -67,12 +67,15 @@
     <script src="control/topic_autocomplete_controller.js"></script>
     <script src="control/question_flagger_controller.js"></script>
     <script src="control/filter_menu_controller.js"></script>
+    <script src="control/interpret_interview_controller.js"></script>
     
     <!-- SERVICES -->
     <script src="services/taggingService.js"></script>
     <script src="services/popupService.js"></script>
     <script src="services/flaggingService.js"></script>
     <script src="services/filterService.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/0.1.0/ng-google-chart.js" type="text/javascript"></script>
 
     <script>
         function index_controller($scope) {
@@ -93,7 +96,7 @@
             }
         }
 
-        var app = angular.module('app', ['ngRoute', 'ngMaterial', 'ngDragDrop']);
+        var app = angular.module('app', ['ngRoute', 'ngMaterial', 'ngDragDrop', 'googlechart']);
 
         app.config(function ($routeProvider) {
             $routeProvider
@@ -161,6 +164,7 @@
         app.controller("topic_autocomplete_controller", topic_autocomplete_controller);
         app.controller("question_flagger_controller", question_flagger_controller);
         app.controller("filter_menu_controller", filter_menu_controller);
+        app.controller("interpret_interview_controller", interpret_interview_controller);
         
         app.service("taggingService", ['$http', '$rootScope', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
@@ -244,7 +248,7 @@
 
     </script>
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
          var data;
          var chart;
@@ -254,7 +258,8 @@
     
           // Set a callback to run when the Google Visualization API is loaded.
          
-    </script>
+    </script>-->
+    
 </head>
 <body>
 <div id="wrapper" ng-controller="index_controller">
