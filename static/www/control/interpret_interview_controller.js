@@ -2,6 +2,7 @@ function interpret_interview_controller($scope, $http, $routeParams) {
     
     var interviewId = $routeParams.id;
     var savedFeedbacks;
+    var savedTags = {};
     var savedQuestions = {};
     
     $scope.overallResultsChart = {};
@@ -14,7 +15,6 @@ function interpret_interview_controller($scope, $http, $routeParams) {
     ];
     $scope.overallResultsChart.options = {
         displayExactValues: true,
-        width: 800,
         height: 600,
         is3D: true,
         chartArea: {left:10,top:10,bottom:0,height:"100%"},
@@ -28,26 +28,7 @@ function interpret_interview_controller($scope, $http, $routeParams) {
         {id: "r", label: "Good", type: "number"},
         {id: "w", label: "Poor", type: "number"},
         {id: "s", label: "Skipped", type: "number"}
-    ], "rows": [
-        {c: [
-            {v: "Java"},
-            {v: 15},
-            {v: 4},
-            {v: 1}
-        ]},
-        {c: [
-            {v: "OOP"},
-            {v: 8},
-            {v: 2},
-            {v: 0}
-        ]},
-        {c: [
-            {v: "Javascript"},
-            {v: 24},
-            {v: 1},
-            {v: 2}
-        ]}
-    ]};
+    ], "rows": []};
     $scope.tagResultsChart.options = {
         isStacked: 'percent',
         height: 600,
@@ -124,12 +105,42 @@ function interpret_interview_controller($scope, $http, $routeParams) {
     }
     
     var updateTagResults = function() {
-        
+        console.log("Updating tags: ");
+        console.log(savedTags);
+        for (var k in savedTags) {
+            console.log(k);
+            var empty = [
+                {v: ''},
+                {v: 0},
+                {v: 0},
+                {v: 0}
+            ];
+            if (savedTags.hasOwnProperty(k)) {
+                empty[0].v = savedTags[k];
+                savedFeedbacks.forEach(function(f, index) {
+                    if (savedQuestions[f.question_id].tags[k]) {
+                        console.log("Found question for: " + k);
+                        for (var j in f.data) {
+                            if (f.data.hasOwnProperty(j)) {
+                                if (f.data[j].rating == -1) {
+                                    empty[3].v++;
+                                } else if (f.data[j].rating <= 2) {
+                                    empty[2].v++;
+                                } else {
+                                    empty[1].v++;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            $scope.tagResultsChart.data.rows.push({c: empty});
+        }
         
     }
     
     var updateDiffResults = function() {
-        console.log(savedQuestions);
         savedFeedbacks.forEach(function(f, index) {
             var diff = savedQuestions[f.question_id].difficulty;
             if (diff <= 3) {
@@ -156,7 +167,6 @@ function interpret_interview_controller($scope, $http, $routeParams) {
     var queryDatabaseForFeedback = function() {
         $http.get('/interview/' + interviewId + '/feedback/').then(function(feedbacks) {
             savedFeedbacks = feedbacks.data.feedbacks;
-            console.log(savedFeedbacks);
             updateOverallResults();
             queryDatabaseForQuestions();
         });
@@ -164,14 +174,30 @@ function interpret_interview_controller($scope, $http, $routeParams) {
     
     var queryDatabaseForQuestions = function() {
         var questionPromises = [];
+        var tagPromises = [];
         savedFeedbacks.forEach(function(f, index) {
             var questionPromise = $http.get('/question/' + f.question_id).then(function(question) {
                 savedQuestions[f.question_id] = question.data.question;
+                savedQuestions[f.question_id].tags = {};
+                var tagPromise = $http.get('/question/' + f.question_id + '/tags/').then(function(tags) {
+                    tags.data.tags.forEach(function(tag, index) {
+                        if (tag.name != "Intro" && tag.name != "Technical" && tag.name != "Close") {
+                            savedQuestions[f.question_id].tags[tag.name] = true;
+                            savedTags[tag.name] = tag.name;
+                        }
+                    });
+                });
+                tagPromises.push(tagPromise);
             });
             questionPromises.push(questionPromise);
+            
         });
         Promise.all(questionPromises).then(function(result) {
             updateDiffResults();
+            Promise.all(tagPromises).then(function(result) {
+                console.log("Tag promises completed: ");
+                updateTagResults();
+            });
         });
     }
     
