@@ -41,6 +41,21 @@
     </style>
 
 
+    <!-- Firebase -->
+    
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAxAWtjmUKx50x8lvpsm2idvOzEEn_4LVw",
+        authDomain: "test-iqms.firebaseapp.com",
+        databaseURL: "https://test-iqmss.firebaseio.com",
+        storageBucket: "",
+      };
+      firebase.initializeApp(config);
+    </script>
+    
+
     <script src="assets/js/angularjs/1.5.0/angular.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-animate.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-aria.min.js"></script>
@@ -74,18 +89,48 @@
     <script src="services/popupService.js"></script>
     <script src="services/flaggingService.js"></script>
     <script src="services/filterService.js"></script>
+    <script src="services/userService.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/0.1.0/ng-google-chart.js" type="text/javascript"></script>
 
     <script>
-        function index_controller($scope) {
+        function index_controller($scope, $rootScope, userService) {
             
             $scope.interviewScreen = false;
+            $scope.name = userService.getUserName();
+            $scope.loginTime;
+            
+            var loc = "";
+            
+            $scope.logout = function() {
+                firebase.auth().signOut().then(function() {
+                    userService.setUserName(null);
+                    $scope.loginTime = null;
+                    window.location.href = '#/login';
+                  }, function(error) {
+                    // An error happened.
+                  });
+            }
             
             $scope.$on('$routeChangeStart', function(event) {
-                var loc = "" + window.location;
-                loc = loc.substr(loc.lastIndexOf('#') + 2);
-                $scope.interviewScreen = loc.startsWith("conaction");
+                if ($scope.name == null && loc != "login") {
+                    window.location.href = '#/login';
+                    loc = "" + window.location;
+                    loc = loc.substr(loc.lastIndexOf('#') + 1);
+                } else if($scope.name) {
+                    loc = "" + window.location;
+                    loc = loc.substr(loc.lastIndexOf('#') + 2);
+                    $scope.interviewScreen = loc.startsWith("conaction");
+                }
+               
+            });
+            
+            $rootScope.$on('updateName', function() {
+               $scope.name = userService.getUserName();
+               if ($scope.name) {
+                $scope.loginTime = Date.now();
+                $scope.$apply();
+               }
             });
             
             $scope.hide_side = function () {
@@ -170,6 +215,7 @@
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
         app.service('flaggingService', ['$http', '$rootScope', flaggingService]);
         app.service('filterService', ['$rootScope', filterService]);
+        app.service('userService', ['$rootScope', userService]);
         
         app.factory('socket', ['$rootScope', function($rootScope) {
           var socket = io.connect('http://127.0.0.1:4041');
@@ -271,25 +317,26 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/" ng-show="!interviewScreen">IQMS</a>
+            <a class="navbar-brand"ng-show="!interviewScreen">IQMS</a>
         </div>
 
-        <div class="header-right" ng-click="hide_side();">
+        <!--<div class="header-right" ng-click="hide_side();">
             <a href="#login" class="btn btn-danger" title="Logout"><i
                     class="fa fa-exclamation-circle fa-2x"></i></a>
-        </div>
+        </div>-->
     </nav>
     <!-- /. NAV TOP  -->
-    <nav id='hidethis' class="navbar-default navbar-side" role="navigation">
+    <nav id='hidethis' class="navbar-default navbar-side" role="navigation" ng-show="name">
         <div class="sidebar-collapse" ng-show="!interviewScreen">
             <ul class="nav" id="main-menu">
                 <li>
                     <div class="user-img-div">
                         <div class="inner-text">
-                            Byrd
+                            {{name}}
                             <br/>
-                            <small>Last Login : Now</small>
+                            <small ng-show="loginTime">Last Login : {{loginTime | date:'medium'}}</small>
                         </div>
+                        <button class="btn btn-danger" ng-click="logout()">Logout</button>
                     </div>
 
                 </li>

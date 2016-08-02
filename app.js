@@ -10,6 +10,9 @@ const secret = 'tg6bhr5dxddrtcx';
 var http           = require('http').createServer(app);
 var io             = require('socket.io').listen(http);
 
+var request = require('request');
+var cheerio = require('cheerio');
+
 app.set('port', process.env.PORT || 5000);
 
 app.use(bodyParser.json());
@@ -34,7 +37,6 @@ app.use((req, res, next) => {
         next();
     }
 });
-
 
 
 var answer_routes = require('./routes/answer');
@@ -66,6 +68,51 @@ feedback_routes.register(app, '');
 app.use('/static', express.static('../static'));
 
 // middleware to add headers for cross origin requests
+
+app.get('/scrape', function(req, res){
+
+  //All the web scraping magic will happen here
+    var url = 'https://geocent.icims.com/icims2/servlet/icims2?module=Root&action=login';
+    var htmlRes = "";
+    /*request(url, function(error, response, html){
+
+        // First we'll check to make sure no errors occurred when making the request
+
+        if(!error){
+            // Next, we'll utilize the cheerio library on the returned html which will essentially give us jQuery functionality
+
+            var $ = cheerio.load(html);
+
+            console.log("FOUND: ");
+            htmlRes = html;
+            res.send(htmlRes);
+        }
+    })*/
+    
+    var c = new Date();
+    var d = new Date("1 Jan 2006 00:00:00 UTC");
+    var b = new Date("1 Jan 2006 00:00:00");
+    var jan1offset = (d - b) / 1000 / 60;
+    var e = new Date("1 Jun 2006 00:00:00 UTC");
+    var a = new Date("1 Jun 2006 00:00:00");
+    var jun1offset = (e - a) / 1000 / 60;
+    var RemoteHost = "H" + new Date().getTime();
+    request.post(url, {
+        form: {
+            LoginName: 'aaronwhitn4540',
+            LoginPassword: 'EVW38Jik*W0f',
+            RemoteHost: RemoteHost,
+            jan1offset: jan1offset,
+            jun1offset: jun1offset,
+            browserInfo: "chrome"
+        }
+    }, function(error, response, body) {
+        console.log("COMPLETE");
+        console.log(body);
+        res.send(body);
+    });
+})
+
 
 app.all('/*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
