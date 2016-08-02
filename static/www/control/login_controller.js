@@ -7,6 +7,8 @@
 
 function login_controller($scope, $http, userService) {
     $scope.create = false;
+    $scope.emailReset = 0;
+    
     $scope.user = {
         email: "",
         password: ""
@@ -39,10 +41,19 @@ function login_controller($scope, $http, userService) {
           });
     }
     
+    $scope.resetPassword = function() {
+        firebase.auth().sendPasswordResetEmail($scope.user.email).then(function() {
+            $scope.emailReset = 2;
+          }, function(error) {
+            // An error happened.
+          });
+    }
+    
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           console.log(user);
           userService.setUserName(user.email);
+          window.location = "#/";
         } else {
           console.log("NONE");
         }

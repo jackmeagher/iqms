@@ -10,17 +10,17 @@
         <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
 
             <div class="panel-body">
-                <form role="form" ng-show="!create">
+                <form role="form" ng-show="!create && emailReset == 0">
                     <hr/>
                     <h5>Enter Details to Login</h5>
                     <br/>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="fa fa-tag"></i></span>
-                        <input type="text" class="form-control" placeholder="Your Username " ng-model="user.email"/>
+                        <input type="text" class="form-control" placeholder="Your email" ng-model="user.email"/>
                     </div>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="Your Password" ng-model="user.password"/>
+                        <input type="password" class="form-control" placeholder="Your password" ng-model="user.password"/>
                     </div>
                    <!-- <div class="form-group">
                         <label class="checkbox-inline">
@@ -31,26 +31,44 @@
                         </span>
                     </div>-->
 
-                    <a href="#/" class="btn btn-primary " ng-click="loginUser()">Login Now</a>
+                    <a class="btn btn-primary " ng-click="loginUser()">Login Now</a>
                     <hr/>
                     Not registered? <a ng-click="create = true">click here</a> to create account
+                    <br>
+                    Forgot password? <a ng-click="emailReset = 1">Reset here</a>
                 </form>
-                <form role="form" ng-show="create">
+                <form role="form" ng-show="create && emailReset == 0">
                     <hr/>
                     <h5>Enter Details to Create Account</h5>
                     <br/>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="fa fa-tag"></i></span>
-                        <input type="text" class="form-control" placeholder="Your Username " ng-model="user.email"/>
+                        <input type="text" class="form-control" placeholder="Your email " ng-model="user.email"/>
                     </div>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="Your Password" ng-model="user.password"/>
+                        <input type="password" class="form-control" placeholder="Your password" ng-model="user.password"/>
                     </div>
 
-                    <a href="#/" class="btn btn-primary " ng-click="createUser()">Create Account</a>
+                    <a class="btn btn-primary " ng-click="createUser()">Create Account</a>
                     <hr/>
                     Registered? <a ng-click="create = false">click here</a> to login
+                </form>
+                <form role="form" ng-show="emailReset == 1">
+                    <hr/>
+                    <h5>Enter Email to Reset Password</h5>
+                    <br/>
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                        <input type="text" class="form-control" placeholder="Your email " ng-model="user.email"/>
+                    </div>
+
+                    <a class="btn btn-primary " ng-click="resetPassword()">Reset password</a>
+                    <hr/>
+                    Registered? <a ng-click="create = false; emailReset = 0;">click here</a> to login
+                </form>
+                <form role="form" ng-show="emailReset == 2">
+                    Email sent to {{user.email}}.
                 </form>
             </div>
 
