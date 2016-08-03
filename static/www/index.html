@@ -104,9 +104,9 @@
                   }, function(error) {
                     // An error happened.
                   });
-            }
+            };
             
-            $scope.$on('$routeChangeStart', function(event) {
+            $scope.$on('$routeChangeStart', function() {
                 var currentPath = $location.path();
                 if($scope.name) {
                     loc = "" + window.location;
