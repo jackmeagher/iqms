@@ -48,14 +48,4 @@ function login_controller($scope, $http, userService) {
             // An error happened.
           });
     }
-    
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          console.log(user);
-          userService.setUserName(user.email);
-          window.location = "#/";
-        } else {
-          console.log("NONE");
-        }
-    });
 }

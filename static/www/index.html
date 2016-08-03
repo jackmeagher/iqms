@@ -34,12 +34,6 @@
     
     <link rel="stylesheet" href="assets/css/toastr.min.css">
 
-    <style>
-        .md-transition-in {
-            width: 75%;
-        }
-    </style>
-
 
     <!-- Firebase -->
     
@@ -50,7 +44,7 @@
         apiKey: "AIzaSyAxAWtjmUKx50x8lvpsm2idvOzEEn_4LVw",
         authDomain: "test-iqms.firebaseapp.com",
         databaseURL: "https://test-iqmss.firebaseio.com",
-        storageBucket: "",
+        storageBucket: ""
       };
       firebase.initializeApp(config);
     </script>
@@ -94,14 +88,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/0.1.0/ng-google-chart.js" type="text/javascript"></script>
 
     <script>
-        function index_controller($scope, $rootScope, userService) {
+        function index_controller($scope, $rootScope, $location, userService) {
             
             $scope.interviewScreen = false;
-            $scope.name = userService.getUserName();
-            $scope.loginTime;
+            $scope.name = null;
+            $scope.loginTime = null;
             
             var loc = "";
-            
+
             $scope.logout = function() {
                 firebase.auth().signOut().then(function() {
                     userService.setUserName(null);
@@ -113,23 +107,21 @@
             }
             
             $scope.$on('$routeChangeStart', function(event) {
-                if ($scope.name == null && loc != "login") {
-                    window.location.href = '#/login';
-                    loc = "" + window.location;
-                    loc = loc.substr(loc.lastIndexOf('#') + 1);
-                } else if($scope.name) {
+                if($scope.name) {
                     loc = "" + window.location;
                     loc = loc.substr(loc.lastIndexOf('#') + 2);
                     $scope.interviewScreen = loc.startsWith("conaction");
+                } else if(!firebase.auth().currentUser && $location.path() != '/login') {
+                    window.location = "#/login";
                 }
-               
+                console.log($location.path());
             });
             
             $rootScope.$on('updateName', function() {
                $scope.name = userService.getUserName();
                if ($scope.name) {
-                $scope.loginTime = Date.now();
-                $scope.$apply();
+                    $scope.loginTime = Date.now();
+                    $scope.$apply();
                }
             });
             
@@ -139,6 +131,16 @@
             $scope.show_side = function () {
                 angular.element('#hidethis').css('visibility', 'visible');
             }
+
+            firebase.auth().onAuthStateChanged(function(user) {
+                console.log("Auth changed");
+                if (user) {
+                    userService.setUserName(user.email);
+                    window.location = "#/";
+                } else {
+                    window.location = "#/login";
+                }
+            });
         }
 
         var app = angular.module('app', ['ngRoute', 'ngMaterial', 'ngDragDrop', 'googlechart']);
@@ -318,7 +320,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand"ng-show="!interviewScreen">IQMS</a>
+            <a class="navbar-brand" ng-show="!interviewScreen">IQMS</a>
         </div>
 
         <!--<div class="header-right" ng-click="hide_side();">
@@ -363,7 +365,7 @@
         </div>
         
         <div class="sidebar-collapse" ng-show="interviewScreen">
-            <ul class="nav" id="main-menu" ng-controller="filter_menu_controller" style="padding: 10px">
+            <ul class="nav" id="main-menu2" ng-controller="filter_menu_controller" style="padding: 10px">
                 <li>
                     <div>
                         <h4>
