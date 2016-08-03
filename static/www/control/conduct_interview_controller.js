@@ -1,4 +1,4 @@
-function conduct_interview_controller ($scope,$rootScope,$http,$window,$routeParams,$filter, $interval, socket, filterService, toast) {
+function conduct_interview_controller ($scope,$rootScope,$http,$window,$routeParams,$filter, $interval, socket, filterService, toast, userService) {
     var interviewId = $routeParams.id;
     filterService.setInterviewId(interviewId);
     $scope.interview = {};
@@ -10,7 +10,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     $scope.currentQuestion = {};
     $scope.queuedQuestions = [];
     
-    $scope.interviewerName = "User";
+    $scope.interviewerName = userService.getUserName();
     
     $scope.state = 0;
     
@@ -144,13 +144,13 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     }
     
     $scope.endInterview = function() {
-        window.location.href = '#/';
         $http.get('/interview/' + interviewId).success(function (data) {
             $scope.interview = data.interview;
             $scope.interview.conducted = true;
             $scope.interview.user = $scope.interviewerName;
             $scope.interview.recommendation = $scope.recommendation;
             $http.put('/interview/' + interviewId, $scope.interview).success(function(data) { 
+                window.location.href = '#/';
             });
         });
     }
@@ -249,11 +249,9 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
                         if (!$scope.questionsByID[q.id]) {
                             $scope.questionsByID[q.id] = q;
                             $scope.questionsByID[q.id].queued = false;
-                            if (!$scope.questionsByID[q.id].tags) {
-                                $scope.questionsByID[q.id].tags = {};
-                            }
-                            $scope.questionsByID[q.id].tags[tag.name] = true;
+                            $scope.questionsByID[q.id].tags = {};
                         }
+                        $scope.questionsByID[q.id].tags[tag.name] = true;
                     });
                 });
                 tagPromises.push(tagPromise);

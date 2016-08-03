@@ -127,6 +127,8 @@ function interpret_interview_controller($scope, $http, $routeParams) {
                             if (f.data.hasOwnProperty(j)) {
                                 if (f.data[j].rating == -1) {
                                     empty[3].v++;
+                                } else if(f.data[j].rating == -2) {
+                                
                                 } else if (f.data[j].rating <= 2) {
                                     empty[2].v++;
                                 } else {
@@ -157,6 +159,8 @@ function interpret_interview_controller($scope, $http, $routeParams) {
                 if (f.data.hasOwnProperty(k)) {
                     if (f.data[k].rating == -1) {
                         $scope.diffResultsChart.data.rows[diff].c[3].v++;
+                    } else if (f.data[k].rating == -2) {
+                        
                     } else if (f.data[k].rating <= 2) {
                         $scope.diffResultsChart.data.rows[diff].c[2].v++;
                     } else {

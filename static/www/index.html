@@ -330,11 +330,11 @@
         <div class="sidebar-collapse" ng-show="!interviewScreen">
             <ul class="nav" id="main-menu">
                 <li>
-                    <div class="user-img-div">
+                    <div class="user-img-div" style="text-align: center;">
                         <div class="inner-text">
                             {{name}}
                             <br/>
-                            <small ng-show="loginTime">Last Login : {{loginTime | date:'medium'}}</small>
+                            <small ng-show="loginTime">Last Login: {{loginTime | date:'medium'}}</small>
                         </div>
                         <button class="btn btn-danger" ng-click="logout()">Logout</button>
                     </div>

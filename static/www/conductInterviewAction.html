@@ -75,7 +75,7 @@
             <!-- Previous Questions -->
             <div class="collapse well" id="showPrevCollapse">
                 <div class="panel-group" id="accordionPrev" role="tablist" aria-multiselectable="true">
-                    <div class="panel" ng-repeat="question in previousQuestions track by $index" ng-class="{'panel-danger': question.response == null, 'panel-success': question.response >= -1}" id="collapsePanel{{question.id}}">
+                    <div class="panel" ng-repeat="question in previousQuestions track by $index" ng-class="{'panel-danger': question.response == null, 'panel-success': question.response >= -2}" id="collapsePanel{{question.id}}">
                             <div class="panel-heading" role="tab" id="heading{{question.id}}" ng-click="collapseQuestion(question.id);">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordionPrev" aria-expanded="true" aria-controls="collapseOne">
@@ -136,7 +136,7 @@
                                         <div class="collapse noteBox" id="noteBox{{question.id}}">
                                             <h4 class="h4">Notes:</h4>
                                             <input type class="form-input" id='response{{question.id}}' ng-model="question.note" style="width:100%; height:15%; font-size:22px;"></input>
-                                            <button class="btn btn-success center-block" ng-click="respond(question.id, null)">Save Note</button>
+                                            <button class="btn btn-success center-block" ng-click="respond(question.id, -2)">Save Note</button>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
             </div>
         
             <!-- Last Question -->
-            <div class="panel" ng-show="lastQuestion" ng-class="{'panel-danger': lastQuestion.response == null, 'panel-success': lastQuestion.response >= -1}">
+            <div class="panel" ng-show="lastQuestion" ng-class="{'panel-danger': lastQuestion.response == null, 'panel-success': lastQuestion.response >= -2}">
                 <div class="panel-heading" role="tab" id="heading{{lastQuestion.id}}">
                     <h4 class="panel-title">
                         <div class="row">
@@ -206,7 +206,7 @@
                             <div class="collapse noteBox" id="noteBox{{lastQuestion.id}}">
                                 <h4 class="h4">Notes:</h4>
                                 <input type class="form-input" id='response{{lastQuestion.id}}' ng-model="lastQuestion.note" style="width:100%; height:15%; font-size:22px;"></input>
-                                <button class="btn btn-success center-block" ng-click="respond(lastQuestion.id, null)">Save Note</button>
+                                <button class="btn btn-success center-block" ng-click="respond(lastQuestion.id, -2)">Save Note</button>
                             </div>
                         </div>
                     </div>
@@ -273,7 +273,7 @@
                             <div class="collapse noteBox" id="noteBox{{currentQuestion.id}}">
                                 <h4 class="h4">Notes:</h4>
                                 <input type class="form-input" id='response{{currentQuestion.id}}' ng-model="currentQuestion.note" style="width:100%; height:15%; font-size:22px;"></input>
-                                <button class="btn btn-success center-block" ng-click="respond(currentQuestion.id, null)">Save Note</button>
+                                <button class="btn btn-success center-block" ng-click="respond(currentQuestion.id, -2)">Save Note</button>
                             </div>
                         </div>
                     </div>

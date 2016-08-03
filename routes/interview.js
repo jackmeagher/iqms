@@ -64,7 +64,7 @@ exports = module.exports = new Resource('interview', '/interview', {
                   var rec = {};
                   if (req.body.user) {
                     rec[req.body.user] = {
-                        recommendation: req.body.recommendation ? req.body.recommendation : interview.data[req.body.user].recommendation
+                        recommendation: req.body.recommendation ? req.body.recommendation : 0
                     }
                     interview.set('recommendation', rec);
                   }
