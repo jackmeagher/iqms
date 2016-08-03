@@ -4,15 +4,14 @@ var server = require('http').Server(server_app);
 var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
+    
     socket.on('question-feedback', function(data) {
         io.emit('notify-question-feedback' + data.interviewId, {
         });
     });
   
     socket.on('question-reorder', function(data) {
-        io.emit('notify-question-reorder' + data.interviewId, {
-            queue: data.queue
-        });
+        io.emit('notify-question-reorder' + data.interviewId, data);
     });
   
     socket.on('question-skip', function(data) {

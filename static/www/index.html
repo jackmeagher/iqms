@@ -247,6 +247,7 @@
         
         app.filter('orderTechnicalQuestions', function() {
             return function(items, order, tags, reverse) {
+                console.log("Filtereing");
                 var filtered = [];
                 if (order[0] == "tags") {   
                     tags.forEach(function(tag, index) {

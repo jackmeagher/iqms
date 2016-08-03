@@ -126,6 +126,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     }
     
     $scope.sendQuestionOrder = function() {
+        $scope.queuedQuestions[0].test = false;
         socket.emit('question-reorder', {queue: $scope.queuedQuestions, interviewId: interviewId, user: $scope.interviewerName});
     }
     
@@ -168,7 +169,6 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             $scope.pullQuestion();
         }
         $scope.currentQuestion = $scope.queuedQuestions.shift();
-        //console.log($scope.currentQuestion);
     });
     
     socket.on('notify-change-state' + interviewId, function(data) {
@@ -179,9 +179,15 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     });
     
     socket.on('notify-question-reorder' + interviewId, function(data) {
-       $scope.$apply(function() {
-        $scope.queuedQuestions = data.queue;
-       });
+        if (data.user == $scope.interviewerName && data.queue[0].test) {
+            $scope.queuedQuestions = data.queue;
+        } else if (data.user == $scope.interviewerName) {
+            $scope.queuedQuestions[0].test = true;
+            socket.emit('question-reorder', {queue: $scope.queuedQuestions, interviewId: interviewId, user: $scope.interviewerName});
+        } else {
+            $scope.queuedQuestions = data.queue;
+        }
+       $scope.$apply();
     });
     
     socket.on('notify-update-filter' + interviewId, function(data) {
