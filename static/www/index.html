@@ -107,14 +107,24 @@
             }
             
             $scope.$on('$routeChangeStart', function(event) {
+                var currentPath = $location.path();
                 if($scope.name) {
                     loc = "" + window.location;
                     loc = loc.substr(loc.lastIndexOf('#') + 2);
                     $scope.interviewScreen = loc.startsWith("conaction");
-                } else if(!firebase.auth().currentUser && $location.path() != '/login') {
-                    window.location = "#/login";
+                } else if(!$scope.name && $location.path() != '/login') {
+                    console.log($location.path());
+                    $location.path("/loading");
+                    firebase.auth().onAuthStateChanged(function(user) {
+                        if (user) {
+                            userService.setUserName(user.email);
+                            if(currentPath != '/loading')
+                                $location.path(currentPath);
+                        } else {
+                            $location.path("/login");
+                        }
+                    });
                 }
-                console.log($location.path());
             });
             
             $rootScope.$on('updateName', function() {
@@ -132,15 +142,7 @@
                 angular.element('#hidethis').css('visibility', 'visible');
             }
 
-            firebase.auth().onAuthStateChanged(function(user) {
-                console.log("Auth changed");
-                if (user) {
-                    userService.setUserName(user.email);
-                    window.location = "#/";
-                } else {
-                    window.location = "#/login";
-                }
-            });
+
         }
 
         var app = angular.module('app', ['ngRoute', 'ngMaterial', 'ngDragDrop', 'googlechart']);
@@ -189,6 +191,10 @@
 
                     .when('/login', {
                         templateUrl: 'login.html'
+                    })
+
+                    .when('/loading', {
+                        templateUrl: 'loading.html'
                     })
                     
                     .otherwise({redirectTo: '/'});
