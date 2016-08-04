@@ -5,7 +5,7 @@
  * Created by nick on 3/31/16.
  */
 
-function login_controller($scope, $http, userService) {
+function login_controller($scope, $http, userService, $location) {
     $scope.create = false;
     $scope.emailReset = 0;
     
@@ -24,21 +24,29 @@ function login_controller($scope, $http, userService) {
     }
     
     $scope.loginUser = function() {
-        firebase.auth().signInWithEmailAndPassword($scope.user.email, $scope.user.password).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-        });
+        firebase.auth().signInWithEmailAndPassword($scope.user.email, $scope.user.password)
+            .catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+            })
+            .then(function() {
+                $location.path("/");
+            });
     }
     
     $scope.createUser = function() {
-        firebase.auth().createUserWithEmailAndPassword($scope.user.email, $scope.user.password).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-          });
+        firebase.auth().createUserWithEmailAndPassword($scope.user.email, $scope.user.password)
+            .catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+            })
+            .then(function() {
+                $location.path("/");
+            });
     }
     
     $scope.resetPassword = function() {
