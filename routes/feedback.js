@@ -15,7 +15,7 @@ exports = module.exports = new Resource('feedback', '/feedback', {
         
         var data = {};
         data[req.body.user] = {
-            rating: req.body.rating ? req.body.rating : -1,
+            rating: req.body.rating ? req.body.rating : -2,
             note: req.body.note ? req.body.note : null
         };
         
