@@ -42,7 +42,7 @@
       var config = {
         apiKey: "AIzaSyAxAWtjmUKx50x8lvpsm2idvOzEEn_4LVw",
         authDomain: "test-iqms.firebaseapp.com",
-        databaseURL: "https://test-iqmss.firebaseio.com",
+        databaseURL: "https://test-iqms.firebaseio.com",
         storageBucket: ""
       };
       firebase.initializeApp(config);
@@ -223,9 +223,14 @@
         app.service('flaggingService', ['$http', '$rootScope', flaggingService]);
         app.service('filterService', ['$rootScope', filterService]);
         app.service('userService', ['$rootScope', userService]);
-        
+
         app.factory('socket', ['$rootScope', function($rootScope) {
-          var socket = io.connect('http://127.0.0.1:4041');
+            var socket;
+
+            firebase.database().ref('config').on('value', function(snapshot) {
+                var data = snapshot.val();
+                socket = io.connect('http://' + data.webSockHost + ':' + data.webSockPort);
+            });
           
             return {
                on: function(eventName, callback){

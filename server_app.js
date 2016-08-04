@@ -3,6 +3,9 @@ var server_app = express();
 var server = require('http').Server(server_app);
 var io = require('socket.io')(server);
 
+server_app.set('web_socket_host', process.env.WEB_SOCKET_HOST || '127.0.0.1');
+server_app.set('web_socket_port', process.env.WEB_SOCKET_PORT || 4041);
+
 io.on('connection', function (socket) {
     
     socket.on('question-feedback', function(data) {
@@ -32,6 +35,6 @@ io.on('connection', function (socket) {
   
 });
 
-server.listen(4041, "127.0.0.1", function() {
-  console.log('Interview server up and running at 4041 port');
+server.listen(server_app.get('web_socket_port'), server_app.get('web_socket_host'), function() {
+  console.log('Interview server up and running at ' + server.address().port);
 });
