@@ -140,8 +140,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     }
     
     $scope.changeState = function(add) {
-        $scope.state += add;
-        socket.emit('change-state', {interviewId: interviewId, state: $scope.state});
+        socket.emit('change-state', {interviewId: interviewId, state: add});
     }
     
     $scope.endInterview = function() {
@@ -174,7 +173,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     socket.on('notify-change-state' + interviewId, function(data) {
          $scope.$apply(function() {
             $rootScope.$emit('updateFilter');
-            $scope.state = data.state;
+            $scope.state += data.state;
          });
     });
     
