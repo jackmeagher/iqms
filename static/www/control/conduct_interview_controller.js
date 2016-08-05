@@ -154,6 +154,12 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             });
         });
     }
+
+    $scope.swapQuestion = function(index) {
+        var temp = $scope.queuedQuestions[index];
+        $scope.queuedQuestions[index] = $scope.currentQuestion;
+        $scope.currentQuestion = temp;
+    }
     
     $rootScope.$on('updateFilter', function() { 
     

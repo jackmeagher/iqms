@@ -286,11 +286,14 @@
                     <h4 class="panel-title">
                         <a role="button">
                             <div class="row">
-                                <div class="col-xs-10">
+                                <div class="col-xs-8">
                                     {{question.text}}
                                 </div>
                                 <div class="col-xs-2" style="text-align: center;">
                                     {{difficultyMap(question.difficulty)}}
+                                </div>
+                                <div class="col-xs-2">
+                                    <button class="btn btn-primary" ng-click="swapQuestion($index)">Ask</button>
                                 </div>
                             </div>
                         </a>
