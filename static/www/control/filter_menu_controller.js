@@ -1,4 +1,4 @@
-function filter_menu_controller ($scope, $rootScope, filterService, socket) {
+function filter_menu_controller ($scope, $rootScope, $http, $routeParams, filterService, socket, popupService) {
     $scope.difficulties = [];
     $scope.tags = [];
     
@@ -54,5 +54,22 @@ function filter_menu_controller ($scope, $rootScope, filterService, socket) {
         }
         filterService.setTags($scope.tags);
         $scope.emitRequest();
+    }
+
+    $scope.addInterviewTag = function() {
+        popupService.init("Tag", "Add tag to interview ", "" ,"");
+        popupService.showPrompt(this, function() {
+            var interviewId = $routeParams.id;
+            var tag = {};
+            tag.label = popupService.getResult();
+            tag.checked = true;
+            $scope.tags.push(tag);
+            filterService.setTags($scope.tags);
+            console.log($scope.tags);
+            $scope.emitRequest();
+            $http.post('/tag/' + tag.label
+                + '/interview/' + interviewId).success(function(created) {
+            });
+        });
     }
 }

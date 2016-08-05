@@ -81,17 +81,21 @@ exports = module.exports = new Resource('tag', '/tag', {
                                 name: req.params.name
                         }
                 }).then(function(tag) {
+                    if(tag) {
                         models.interview.findOne({
-                                where: {
-                                        id: req.params.interview_id
-                                }
+                            where: {
+                                id: req.params.interview_id
+                            }
                         }).then(function(interview) {
-                                tag.addInterview(interview).then(function(added) {
-                                        res.status(200).json({
-                                                added: added
-                                        });
-                                })
+                            console.log(tag);
+                            tag.addInterview(interview).then(function(added) {
+                                res.status(200).json({
+                                    added: added
+                                });
+                            })
                         })
+                    }
+
                 })
         },
         delete: (req, res) => {
