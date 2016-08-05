@@ -55,19 +55,14 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" ng-model="tech" ng-change="updateTech(tech);"> Skills
-                                    </label>
-                                </div>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Intro"> Intro
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Intro" ng-model="category" ng-change="updateCategory(Intro)"> Intro
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Skills"> Skills
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Skills" ng-model="category" ng-change="updateCategory(Skills)"> Skills
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Close"> Close
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Close" ng-model="category" ng-change="updateCategory(Close)"> Close
                                 </label>
                             </div>
                         </div>

@@ -7,34 +7,35 @@ function taggingService($http, $rootScope) {
     var removedTags = [];
     var savedTags = [];
     
-    var isTech = false;
-    
     var clickedTag = "";
-    
-    var setTech = function(tech) { 
-        isTech = tech;
-        return isTech;
+
+    var category = 'Skills';
+
+    var setCategory = function(tag) {
+        removeTag('Intro');
+        removeTag('Skills');
+        removeTag('Close');
+        addTag(tag);
+        category = tag;
+    };
+
+    var getCategory = function() {
+        return category;
     }
-    
-    var updateTech = function(tech) {
-        if (tech) {
-            addTag('Technical');
-        } else {
-            removeTag('Technical');
-        }
-        return setTech(tech);
-    }
-    
+
     var loadSavedTags = function(questionId) {
         
         $http.get('/question/' + questionId + '/tags/').success(function(data) {
             data.tags.forEach(function(tag, index) {
                 savedTags.push(tag.name);
-            })
+                if(tag.name == "Intro" || tag.name == "Skills" || tag.name == "Close") {
+                    category = tag.name;
+                }
+            });
             $rootScope.$emit('tagNotification');
         });
 
-    }
+    };
     
     var getTags = function() {
         return tags;
@@ -219,22 +220,22 @@ function taggingService($http, $rootScope) {
     }
     
     return {
-      setTech: setTech,
-      updateTech: updateTech,
-      loadSavedTags: loadSavedTags,
-      getTags: getTags,
-      getSelectedTags: getSelectedTags,
-      getSelectedTagsAsArray: getSelectedTagsAsArray,
-      getTech: getTech,
-      createNewTag: createNewTag,
-      addTag: addTag,
-      removeTag: removeTag,
-      resetTags: resetTags,
-      countTag: countTag,
-      updateTags: updateTags,
-      deleteQuestionTags: deleteQuestionTags,
-      persistQuestionTag: persistQuestionTag,
-      getClickedTag: getClickedTag,
-      setClickedTag: setClickedTag
+        setCategory: setCategory,
+        getCategory: getCategory,
+        loadSavedTags: loadSavedTags,
+        getTags: getTags,
+        getSelectedTags: getSelectedTags,
+        getSelectedTagsAsArray: getSelectedTagsAsArray,
+        getTech: getTech,
+        createNewTag: createNewTag,
+        addTag: addTag,
+        removeTag: removeTag,
+        resetTags: resetTags,
+        countTag: countTag,
+        updateTags: updateTags,
+        deleteQuestionTags: deleteQuestionTags,
+        persistQuestionTag: persistQuestionTag,
+        getClickedTag: getClickedTag,
+        setClickedTag: setClickedTag
     };
 }

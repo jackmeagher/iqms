@@ -5,10 +5,10 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
     $scope.selectedTags = {};
     $scope.answers = [''];
     $scope.difficulty = 0;
-    $scope.tech = true;
+    $scope.category = 'Skills';
     
-    $scope.updateTech = function(tech) {
-        $scope.tech = taggingService.updateTech(tech);
+    $scope.updateCategory = function() {
+        taggingService.setCategory($scope.category);
         $scope.refreshTags();
     }
     
@@ -17,12 +17,7 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
     });
     
     $scope.removeTag = function(tag) {
-        if (tag != "Skills") {
-            taggingService.removeTag(tag);
-        } else {
-            $scope.tech = taggingService.updateTech(false);
-        }
-        
+        taggingService.removeTag(tag);
         $scope.refreshTags();
     }
     
@@ -41,14 +36,12 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
             text: '',
             tags: [],
             difficulty: 0,
-            tech: true,
             answers: []
         };
         
         questionData.text = $scope.questionText;
         questionData.tags = taggingService.getSelectedTagsAsArray();
         questionData.difficulty = parseInt($("#modelValue").val());
-        questionData.tech = $scope.tech;
         questionData.answers = $scope.answers;
         
         var loc = $scope.getWindowLocation();
@@ -81,8 +74,7 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ce') {
             $http.get('/question/' + loc.id).success(function(data) {
-                $scope.questionText = data.question.text;     
-                $scope.tech = taggingService.setTech(data.question.tech);
+                $scope.questionText = data.question.text;
                 taggingService.loadSavedTags(data.question.id);
                 $scope.refreshTags();
                 $('#modelValue').val(data.question.difficulty);
@@ -99,6 +91,7 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
     }
     
     $scope.refreshTags = function() {
+        $scope.category = taggingService.getCategory();
         $scope.tags = taggingService.getTags();
         $scope.selectedTags = taggingService.getSelectedTags();
     }
