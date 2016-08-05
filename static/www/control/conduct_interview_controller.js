@@ -247,7 +247,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             tagPromises = [];
             result.tags.forEach(function(tag, index) {
                 var tagPromise;
-                if (tag.name != "Intro" && tag.name != "Technical" && tag.name != "Close") {
+                if (tag.name != "Intro" && tag.name != "Skills" && tag.name != "Close") {
                     tags.push({
                         label: tag.name,
                         checked: true

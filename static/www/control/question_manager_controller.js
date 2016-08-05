@@ -19,8 +19,16 @@ function question_manager_controller($scope, $http, taggingService) {
                tags[tag.name] = tag; 
             });
             
-            if (!tags['Technical']) {
-                taggingService.createNewTag('Technical');
+            if (!tags['Skills']) {
+                taggingService.createNewTag('Skills');
+            }
+
+            if(!tags['Intro']) {
+                taggingService.createNewTag('Intro');
+            }
+
+            if(!tags['Close']) {
+                taggingService.createNewTag('Close');
             }
         });
     });

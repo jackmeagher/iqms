@@ -17,7 +17,7 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
     });
     
     $scope.removeTag = function(tag) {
-        if (tag != "Technical") {
+        if (tag != "Skills") {
             taggingService.removeTag(tag);
         } else {
             $scope.tech = taggingService.updateTech(false);
@@ -89,7 +89,7 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
                 $scope.answers = data.question.answers;
             })
         } else if (loc.location === 'cq') {
-            taggingService.addTag('Technical');
+            taggingService.addTag('Skills');
             $scope.refreshTags();
         }
     }

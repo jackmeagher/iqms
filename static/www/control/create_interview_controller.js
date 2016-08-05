@@ -205,7 +205,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     });
     
     $scope.checkForMainTags = function(interviewID) {
-        var techTag = false;
+        var skillTag = false;
         var introTag = false;
         var closeTag = false;
         $scope.taglist.forEach(function(tag, index) {
@@ -216,8 +216,8 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             }
             if (tag == "Intro") {
                 introTag = true;
-            } else if (tag == "Technical") {
-                techTag = true;
+            } else if (tag == "Skills") {
+                skillTag = true;
             } else if (tag == "Close") {
                 closeTag = true;
             }
@@ -227,8 +227,8 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                        + '/interview/' + interviewID).success(function(created) {
             });
         }
-        if (!techTag) {
-            $http.post('/tag/' + "Technical"
+        if (!skillTag) {
+            $http.post('/tag/' + "Skills"
                        + '/interview/' + interviewID).success(function(created) {
             });
         }

@@ -215,7 +215,7 @@ function interpret_interview_controller($scope, $http, $routeParams) {
                 savedQuestions[f.question_id].tags = {};
                 var tagPromise = $http.get('/question/' + f.question_id + '/tags/').then(function(tags) {
                     tags.data.tags.forEach(function(tag, index) {
-                        if (tag.name != "Intro" && tag.name != "Technical" && tag.name != "Close") {
+                        if (tag.name != "Intro" && tag.name != "Skills" && tag.name != "Close") {
                             savedQuestions[f.question_id].tags[tag.name] = true;
                             savedTags[tag.name] = tag.name;
                         }
