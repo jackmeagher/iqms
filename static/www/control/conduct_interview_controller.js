@@ -1,4 +1,4 @@
-function conduct_interview_controller ($scope,$rootScope,$http,$window,$routeParams,$filter, filterService, socket, toast, userService) {
+function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDialog, $routeParams,$filter, filterService, socket, toast, userService) {
     var interviewId = $routeParams.id;
     filterService.setInterviewId(interviewId);
     $scope.interview = {};
@@ -76,6 +76,10 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
             return value;
         });
         qsId = $filter('filter')(qsId, function (question) {
+            if(question.tags['Inline']) {
+                return false;
+            }
+            
             if ($scope.state == 0) {
                 return !question.queued && question.tags["Intro"];
             } else if ($scope.state == 1) {
@@ -163,6 +167,46 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
         var temp = $scope.queuedQuestions[index];
         $scope.queuedQuestions[index] = $scope.currentQuestion;
         $scope.currentQuestion = temp;
+    }
+
+    $scope.addQuestion = function(ev) {
+        var useFullScreen = ($mdMedia('xs') || $mdMedia('sm') || $mdMedia('md') || $mdMedia('lg') || $mdMedia('xl'));
+        console.log(useFullScreen);
+        $mdDialog.show({
+            controller: DialogController,
+            controllerAs: 'diag',
+            templateUrl: 'createQuestion.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: useFullScreen
+        })
+            .then(function(question) {
+                //$scope.status = 'You said the information was "' + question + '".'
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+            });
+        $scope.$watch(function() {
+            return $mdMedia('xl');
+        }, function(wantsFullScreen) {
+            $scope.customFullscreen = true;
+        });
+    }
+
+    $rootScope.$on('interviewQuestion', function(event, data) {
+       $scope.addQuestionToQueue(data);
+    });
+
+    $scope.addQuestionToQueue = function(question) {
+        if(question.id) {
+            $scope.currentQuestion.queued = false;
+            $scope.currentQuestion = question;
+            $scope.questionsByID[question.id] = question;
+            $scope.questionsByID[question.id].queued = true;
+            $scope.questionsByID[question.id].tags = {};
+        }
+
+        console.log(question);
     }
 
     $rootScope.$on('updateFilter', function () {
@@ -285,4 +329,16 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
 
         });
     });
+}
+
+function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+        $mdDialog.hide();
+    };
+    $scope.cancel = function() {
+        $mdDialog.cancel();
+    };
+    $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+    };
 }

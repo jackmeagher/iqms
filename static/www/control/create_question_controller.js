@@ -1,54 +1,48 @@
-function create_question_controller ($scope, $rootScope, $location,$http,$window, taggingService, popupService) {
-    
-    $scope.questionText = '';
-    $scope.tags = [];
-    $scope.selectedTags = {};
-    $scope.answers = [''];
-    $scope.difficulty = 0;
-    $scope.category = 'Skills';
+function create_question_controller ($scope, $rootScope, $location, $http,$window, taggingService) {
+
+    $scope.questionData = {
+        text: '',
+        tags: [],
+        selectedTags: {},
+        answers: [''],
+        difficulty: 0,
+        category: 'Skills'
+    };
+
     
     $scope.updateCategory = function() {
-        taggingService.setCategory($scope.category);
+        taggingService.setCategory($scope.questionData.category);
         $scope.refreshTags();
     }
     
     $rootScope.$on("tagNotification", function(event, args) {
         $scope.refreshTags();
     });
-    
+
     $scope.removeTag = function(tag) {
         taggingService.removeTag(tag);
         $scope.refreshTags();
     }
     
     $scope.addAnswer = function() {
-        $scope.answers.push('');
+        $scope.questionData.answers.push('');
     }
     
     $scope.removeAnswer = function() {
-        if ($scope.answers.length > 1) {
-            $scope.answers.pop();
+        if ($scope.questionData.answers.length > 1) {
+            $scope.questionData.answers.pop();
         }
     }
     
     $scope.compileData = function () {
-        var questionData = {
-            text: '',
-            tags: [],
-            difficulty: 0,
-            answers: []
-        };
-        
-        questionData.text = $scope.questionText;
-        questionData.tags = taggingService.getSelectedTagsAsArray();
-        questionData.difficulty = parseInt($("#modelValue").val());
-        questionData.answers = $scope.answers;
-        
+        $scope.questionData.difficulty = parseInt($("#modelValue").val());
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ce') {
-            $scope.submitQuestion(questionData, loc.id);
+            $scope.submitQuestion($scope.questionData, loc.id);
         } else if (loc.location === 'cq') {
-            $scope.submitQuestion(questionData, -1);
+            $scope.submitQuestion($scope.questionData, -1);
+        } else if($location.path() != '/cq' && $location.path() != '/ce') {
+            $scope.submitQuestion($scope.questionData, -2);
         }
     }
     
@@ -59,14 +53,21 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
                 $window.location.href = './#qm';
                 taggingService.persistQuestionTag(id);
             });
-        } else {
+        } else if(id == -1) {
            $http.post('/question',  questionData).success(function(created) {
                 taggingService.updateTags(false);
                 $window.location.href = './#qm';
                 taggingService.persistQuestionTag(created.question.id);
             }); 
+        } else if(id == -2) {
+            $http.post('/question',  questionData).success(function(created) {
+                $scope.questionData = created.question;
+                $rootScope.$broadcast('interviewQuestion', $scope.questionData);
+                taggingService.updateTags(false);
+                taggingService.addTag("Inline");
+                taggingService.persistQuestionTag(created.question.id);
+            });
         }
-        
     }
     
     $scope.loadQuestion = function() {
@@ -74,13 +75,16 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ce') {
             $http.get('/question/' + loc.id).success(function(data) {
-                $scope.questionText = data.question.text;
+                $scope.questionData.questionText = data.question.text;
                 taggingService.loadSavedTags(data.question.id);
                 $scope.refreshTags();
                 $('#modelValue').val(data.question.difficulty);
-                $scope.answers = data.question.answers;
+                $scope.questionData.answers = data.question.answers;
             })
         } else if (loc.location === 'cq') {
+            taggingService.addTag('Skills');
+            $scope.refreshTags();
+        } else {
             taggingService.addTag('Skills');
             $scope.refreshTags();
         }
@@ -91,9 +95,9 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
     }
     
     $scope.refreshTags = function() {
-        $scope.category = taggingService.getCategory();
-        $scope.tags = taggingService.getTags();
-        $scope.selectedTags = taggingService.getSelectedTags();
+        $scope.questionData.category = taggingService.getCategory();
+        $scope.questionData.tags = taggingService.getTags();
+        $scope.questionData.selectedTags = taggingService.getSelectedTags();
     }
     
     $scope.getWindowLocation = function() {
@@ -102,6 +106,12 @@ function create_question_controller ($scope, $rootScope, $location,$http,$window
         winLoc.location = loc.substr(loc.lastIndexOf('/') + 1, 2);
         winLoc.id = $window.location.hash.substr(5);
         return winLoc;  
+    }
+
+    $scope.cancelQuestion = function() {
+        if($location.path() == '/cq' || $location.path() == '/ce') {
+            $location.path('/qm');
+        }
     }
     
     $scope.loadQuestion();

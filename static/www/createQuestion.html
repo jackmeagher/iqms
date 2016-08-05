@@ -16,7 +16,7 @@
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <label>Question</label>
                         <input id='question_text' class="form-control" type="text" style="width:95%;
-                                     text-align:left;" ng-model="questionText">
+                                     text-align:left;" ng-model="questionData.text">
                     </div>
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <div class="row">
@@ -50,19 +50,19 @@
                             <div class="col-md-8" id="subtopic-box">
                                 <label>Tag List</label>
                                 <br>
-                                <tag ng-repeat="(key, value) in selectedTags track by $index"></tag>
+                                <tag ng-repeat="(key, value) in questionData.selectedTags track by $index"></tag>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Intro" ng-model="category" ng-change="updateCategory(Intro)"> Intro
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Intro" ng-model="questionData.category" ng-change="updateCategory(Intro)"> Intro
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Skills" ng-model="category" ng-change="updateCategory(Skills)"> Skills
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Skills" ng-model="questionData.category" ng-change="updateCategory(Skills)"> Skills
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Close" ng-model="category" ng-change="updateCategory(Close)"> Close
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Close" ng-model="questionData.category" ng-change="updateCategory(Close)"> Close
                                 </label>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                         <div class="form-group" style="margin-top:2%; text-align:left; width:95%">
                             <label>Answers</label>
                             <div>
-                                <input ng-repeat="answer in answers track by $index" ng-model="answers[$index]" id="answer{{$index}}"class="form-control answer-box" type="text" style="text-align:left; margin-bottom:1%;" value="{{answer}}">
+                                <input ng-repeat="answer in questionData.answers track by $index" ng-model="questionData.answers[$index]" id="questionDataanswer{{$index}}"class="form-control answer-box" type="text" style="text-align:left; margin-bottom:1%;" value="{{answer}}">
                             </div>
                      
                             <button class="btn btn-success btn-add" type="button" ng-click="addAnswer()">
@@ -127,13 +127,13 @@
                 <div class='row'>
                     <div class='col-xs-6' style="text-align:right;">
                         <button type="button" class="btn btn-lg btn-success"
-                                ng-click="compileData()">
+                                ng-click="compileData(); answer(questionData);">
                             Submit
                         </button>
                     </div>
                     <div class='col-xs-6'>
                         <button type="button" class="btn btn-lg btn-danger"
-                                onclick="window.location.href='#qm'">
+                                ng-click="cancelQuestion(); answer(' ');">
                             Cancel
                         </button>
                     </div>
@@ -143,4 +143,3 @@
         </div>
     </div>
 </div>
-

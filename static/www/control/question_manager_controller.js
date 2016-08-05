@@ -30,6 +30,10 @@ function question_manager_controller($scope, $http, taggingService) {
             if(!tags['Close']) {
                 taggingService.createNewTag('Close');
             }
+
+            if(!tags['Inline']) {
+                taggingService.createNewTag('Inline');
+            }
         });
     });
 
@@ -46,6 +50,9 @@ function question_manager_controller($scope, $http, taggingService) {
         $http.delete('/question/' + question.id).success(function() {
             $http.get('/question').success(function(data){
                     $scope._question = data.questions;
+                    $scope._question.forEach(function(q, index) {
+                        $scope.stringifyTags(q);
+                    });
             })
         })
         
