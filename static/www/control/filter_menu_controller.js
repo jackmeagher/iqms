@@ -41,4 +41,18 @@ function filter_menu_controller ($scope, $rootScope, filterService, socket) {
            id: filterService.getInterviewId()
         });  
     }
+
+    $scope.alterAllTags = function(all) {
+        if(all) {
+            $scope.tags.forEach(function(tag, index) {
+               tag.checked = true;
+            });
+        } else {
+            $scope.tags.forEach(function(tag, index) {
+                tag.checked = false;
+            });
+        }
+        filterService.setTags($scope.tags);
+        $scope.emitRequest();
+    }
 }

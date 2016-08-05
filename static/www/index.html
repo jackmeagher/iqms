@@ -413,6 +413,9 @@
                         <h4>
                             Tags
                         </h4>
+                        Select
+                        <a ng-click="alterAllTags(true);"> all</a>
+                        <a ng-click="alterAllTags(false);" style+="text-align: right;"> none</a>
                         <hr style="margin: 0px;">
                         <div class="checkbox" style="text-align: center">
                             <label class="checkbox-inline" ng-model="tags" ng-repeat="tag in tags track by tag.label" ng-show="tag.label != 'Technical' && tag.label != 'Intro' && tag.label != 'Close'">  
