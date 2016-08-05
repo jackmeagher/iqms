@@ -172,8 +172,8 @@ function conduct_interview_controller ($scope,$rootScope,$http,$window,$routePar
     
     socket.on('notify-change-state' + interviewId, function(data) {
          $scope.$apply(function() {
-            $rootScope.$emit('updateFilter');
-            $scope.state += data.state;
+             $scope.state += data.state;
+             $rootScope.$emit('updateFilter');
          });
     });
     
