@@ -45,7 +45,7 @@ function list_interview_controller($scope, $http, $location) {
         $http.get('/candidatePosition/' + interview.candidatePositionCId).success(function(result) {
             $http.get('/candidate/' + result.result.candidateId).success(function(result) {
                 interview.candidate = result.candidate.name;
-                interview.candidate += " (#" + getCandidateID({type: "Internal", info: result.candidate}) + ")";
+                interview.candidate += getCandidateID({type: "Internal", info: result.candidate});
             });
             $http.get('/position/' + result.result.positionId).success(function(result) {
                 interview.position = result.position.name;

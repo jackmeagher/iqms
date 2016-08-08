@@ -1,4 +1,4 @@
-function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMedia, $window, taggingService, popupService, flaggingService) {
+function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMedia, $window, taggingService, flaggingService) {
 
     var interviewID = $routeParams.id;
 

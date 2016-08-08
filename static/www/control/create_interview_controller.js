@@ -16,15 +16,17 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         flaggingService.clearQuestions();
         $http.get('/position').success(function(data) {
             data.positions.forEach(function(position, index) {
-                $scope.positions[position.name] = position;
-                $scope.positions[position.name].name += getPositionID({type: "Internal", info: position});
+                var fullName = position.name + getPositionID({type: "Internal", info: position});
+                $scope.positions[fullName] = position;
+                $scope.positions[fullName].name = fullName;
             });
         });
         
         $http.get('/candidate').success(function(data) {
             data.candidates.forEach(function(candidate, index) {
-                $scope.candidates[candidate.name] = candidate;
-                $scope.candidates[candidate.name].name += getCandidateID({type: "Internal", info: candidate});
+                var fullName = candidate.name + getCandidateID({type: "Internal", info: candidate});
+                $scope.candidates[fullName] = candidate;
+                $scope.candidates[fullName].name = fullName;
             });
         });
         
@@ -90,9 +92,11 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                 $scope.positions[position].description = popupService.getResult();
                 $scope.selectedPosition = position;
                 $http.post('/position', $scope.positions[position]).success(function(created) {
-                    $scope.positions[position].id = created.data.id;
-                    $scope.positions[position].name += getPositionID({type: "Internal", info: created.data});
-                    $scope.selectedPosition = $scope.positions[position].name;
+                    var fullName = position + getPositionID({type: "Internal", info: created.data});
+                    $scope.positions[fullName] = created.data;
+                    $scope.positions[fullName].name = fullName;
+                    $scope.selectedPosition = fullName;
+                    delete $scope.positions[position];
                 });
             });
         }
@@ -135,9 +139,11 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             $scope.candidates[candidate] = {name: candidate};
             $scope.selectedCandidate = candidate;
             $http.post('/candidate', $scope.candidates[candidate]).success(function(created) {
-                $scope.candidates[candidate].id = created.data.id;
-                $scope.candidates[candidate].name += getCandidateID({type: "Internal", info: created.data});
-                $scope.selectedCandidate = $scope.candidates[candidate].name;
+                var fullName = candidate + getCandidateID({type: "Internal", info: created.data});
+                $scope.candidates[fullName] = created.data;
+                $scope.candidates[fullName].name = fullName;
+                $scope.selectedCandidate = fullName;
+                delete $scope.candidates[candidate];
             });
         }
     }
