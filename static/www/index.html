@@ -82,6 +82,7 @@
     <script src="control/question_flagger_controller.js"></script>
     <script src="control/filter_menu_controller.js"></script>
     <script src="control/interpret_interview_controller.js"></script>
+    <script src="control/plan_interview_controller.js"></script>
     
     <!-- SERVICES -->
     <script src="services/taggingService.js"></script>
@@ -170,6 +171,10 @@
                         templateUrl: 'listInterviews.html'
                     })
 
+                    .when('/plan/:id', {
+                        templateUrl: 'planInterview.html'
+                    })
+
                     .when('/cq', {
                         templateUrl: 'createQuestion.html'
                     })
@@ -223,6 +228,7 @@
         app.controller("question_flagger_controller", question_flagger_controller);
         app.controller("filter_menu_controller", filter_menu_controller);
         app.controller("interpret_interview_controller", interpret_interview_controller);
+        app.controller("plan_interview_controller", plan_interview_controller);
         
         app.service("taggingService", ['$http', '$rootScope', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);

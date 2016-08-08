@@ -2,7 +2,7 @@
  * Created by nick on 3/31/16.
  */
 
-function list_interview_controller($scope, $http) {
+function list_interview_controller($scope, $http, $location) {
 
     $scope.sortType     = 'id'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
@@ -11,7 +11,7 @@ function list_interview_controller($scope, $http) {
     $scope.interviews = [];
 
     $scope.loadInterview = function(id) {
-        window.location.href = "#ie#" + id;
+        $location.path('/plan/' + id);
     }
     
     $scope.viewInterview = function(id) {
