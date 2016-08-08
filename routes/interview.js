@@ -15,6 +15,7 @@ exports = module.exports = new Resource('interview', '/interview', {
             models.interview.create({
                 candidatePositionId : req.body.candidatePositionCId ? req.body.candidatePositionCId : null,
                 conducted: req.body.conducted ? req.body.conducted : false,
+                started: req.body.started ? req.body.started : false,
                 recommendation: req.body.recommendation ? req.body.recommendation : {},
                 date: req.body.date ? req.body.date : "",
                 location: req.body.date ? req.body.date : ""
@@ -76,6 +77,10 @@ exports = module.exports = new Resource('interview', '/interview', {
                         interview.location = req.body.location;
                     }
 
+                    if(req.body.started) {
+                        interview.started = req.body.started;
+                    }
+
                     var rec = {};
                     if (req.body.user) {
                         rec[req.body.user] = {
@@ -86,7 +91,7 @@ exports = module.exports = new Resource('interview', '/interview', {
                   
         
                   
-                    interview.save({fields: ['candidatePositionCId', 'conducted', 'recommendation', 'date', 'location']}).then(function(interview) {
+                    interview.save({fields: ['candidatePositionCId', 'conducted', 'recommendation', 'date', 'location', 'started']}).then(function(interview) {
                         res.status(200).json({interview: interview});
                     })
                 })

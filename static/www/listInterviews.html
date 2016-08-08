@@ -122,8 +122,12 @@
                                     </td>
                                     <td>
                                         <button class="btn btn-warning"
-                                                ng-click="conductInterview(interview.id)" ng-show="!interview.conducted">
+                                                ng-click="conductInterview(interview.id)" ng-show="!interview.conducted && !interview.started">
                                             Conduct
+                                        </button>
+                                        <button class="btn btn-warning"
+                                                ng-click="conductInterview(interview.id)" ng-show="!interview.conducted && interview.started">
+                                            Resume
                                         </button>
                                     </td>
                                     <td>

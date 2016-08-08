@@ -79,7 +79,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
             if(question.tags['Inline']) {
                 return false;
             }
-            
+
             if ($scope.state == 0) {
                 return !question.queued && question.tags["Intro"];
             } else if ($scope.state == 1) {
@@ -209,8 +209,28 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
         console.log(question);
     }
 
-    $rootScope.$on('updateFilter', function () {
+    var loadPreviousFeedbacks = function() {
+        $http.get('/interview/' + interviewId + '/feedback/').then(function(feedbacks) {
+            var savedFeedbacks = feedbacks.data.feedbacks;
+            savedFeedbacks.forEach(function(f, index) {
+                $scope.questionsByID[f.question_id].queued = true;
+                if(f.data[$scope.interviewerName]) {
+                    $scope.questionsByID[f.question_id].response = f.data[$scope.interviewerName].rating;
+                    if(f.data[$scope.interviewerName].note) {
+                        $scope.questionsByID[f.question_id].note = f.data[$scope.interviewerName].note;
+                    }
+                }
+                $scope.previousQuestions.push($scope.questionsByID[f.question_id]);
+                $scope.queuedQuestions = [];
+                $scope.currentQuestion = {};
+            });
+            $scope.lastQuestion = $scope.previousQuestions.pop();
+            $rootScope.$emit('updateFilter');
+        });
+    }
 
+    $rootScope.$on('updateFilter', function () {
+        console.log($scope.queuedQuestions);
         $scope.queuedQuestions.forEach(function (q, index) {
             $scope.questionsByID[q.id].queued = false;
         });
@@ -293,6 +313,46 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
         });
     });
 
+    socket.on('notify-request-interview' + interviewId, function(data) {
+        if(data.interviewerName != $scope.interviewerName) {
+            var prev = [];
+            $scope.previousQuestions.forEach(function(q, index) {
+               prev.push(q.id);
+            });
+            var queued = [];
+            $scope.queuedQuestions.forEach(function(q, index) {
+                queued.push(q.id);
+            });
+            var interview = {
+                prev: prev,
+                last: $scope.lastQuestion.id,
+                cur: $scope.currentQuestion.id,
+                queued: queued,
+                id: interviewId
+            };
+            socket.emit('broadcast-interview', interview);
+        }
+    });
+
+    socket.on('notify-broadcast-interview' + interviewId, function(data) {
+        if($scope.currentQuestion.id != data.cur) {
+            $scope.previousQuestions = [];
+            data.prev.forEach(function(num, index) {
+                $scope.questionsByID[num].queued = true;
+                $scope.previousQuestions.push($scope.questionsByID[num]);
+            });
+            $scope.questionsByID[data.last].queued = true;
+            $scope.lastQuestion = $scope.questionsByID[data.last];
+            $scope.questionsByID[data.cur].queued = true;
+            $scope.currentQuetsion = $scope.questionsByID[data.cur];
+            data.queued.forEach(function(num, index) {
+                $scope.questionsByID[num].queued = true;
+                $scope.queuedQuestions.push($scope.questionsByID[num]);
+            });
+        }
+        $scope.$apply();
+    });
+
     $http.get('/interview/' + interviewId).success(function (data) {
         $scope.interview = data.interview;
         $http.get('/interview/' + interviewId + '/tags/').success(function (result) {
@@ -324,7 +384,15 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
                 filterService.setTags(tags);
                 $scope.$apply();
                 $rootScope.$emit('updateFilter');
+                if($scope.interview.started) {
+                    loadPreviousFeedbacks();
+                    socket.emit('request-interview', {id: interviewId, interviewerName: $scope.interviewerName});
+                } else {
+                    $scope.interview.started = true;
+                    $http.put('/interview/' + interviewId, $scope.interview).success(function() {
 
+                    });
+                }
             });
 
         });

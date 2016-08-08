@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
             conducted: DataTypes.BOOLEAN,
             recommendation: DataTypes.JSON,
             date: DataTypes.TEXT,
-            location: DataTypes.TEXT
+            location: DataTypes.TEXT,
+            started: DataTypes.BOOLEAN
         },
 
         {
