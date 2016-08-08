@@ -16,13 +16,15 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         flaggingService.clearQuestions();
         $http.get('/position').success(function(data) {
             data.positions.forEach(function(position, index) {
-               $scope.positions[position.name] = position;
+                $scope.positions[position.name] = position;
+                $scope.positions[position.name].name += getPositionID({type: "Internal", info: position});
             });
         });
         
         $http.get('/candidate').success(function(data) {
             data.candidates.forEach(function(candidate, index) {
-               $scope.candidates[candidate.name] = candidate; 
+                $scope.candidates[candidate.name] = candidate;
+                $scope.candidates[candidate.name].name += getCandidateID({type: "Internal", info: candidate});
             });
         });
         
@@ -88,7 +90,9 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                 $scope.positions[position].description = popupService.getResult();
                 $scope.selectedPosition = position;
                 $http.post('/position', $scope.positions[position]).success(function(created) {
-                   $scope.positions[position].id = created.data.id;
+                    $scope.positions[position].id = created.data.id;
+                    $scope.positions[position].name += getPositionID({type: "Internal", info: created.data});
+                    $scope.selectedPosition = $scope.positions[position].name;
                 });
             });
         }
@@ -131,7 +135,9 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             $scope.candidates[candidate] = {name: candidate};
             $scope.selectedCandidate = candidate;
             $http.post('/candidate', $scope.candidates[candidate]).success(function(created) {
-               $scope.candidates[candidate].id = created.data.id;
+                $scope.candidates[candidate].id = created.data.id;
+                $scope.candidates[candidate].name += getCandidateID({type: "Internal", info: created.data});
+                $scope.selectedCandidate = $scope.candidates[candidate].name;
             });
         }
     }
@@ -242,6 +248,42 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                        + '/interview/' + interviewID).success(function(created) {
             });
         }
+    }
+
+    var getCandidateID = function(options) {
+        switch(options.type) {
+            default:
+            case("Internal"):
+                var year = options.info.createdAt.substr(0, 4);
+                return formatID(options.info.id, year);
+        }
+    }
+
+    var getPositionID = function(options) {
+        switch(options.type) {
+            default:
+            case("Internal"):
+                var year = options.info.createdAt.substr(0, 4);
+                return formatID(options.info.id, year);
+        }
+    }
+
+    var formatID = function(id, year) {
+        var formatted = " (#" + year + "-";
+
+        if(id < 10) {
+            formatted += "000" + id;
+        } else if(id < 100) {
+            formatted += "00" + id;
+        } else if(id < 1000) {
+            formatted += "0" + id;
+        } else {
+            formatted += id;
+        }
+
+        formatted += ")";
+
+        return formatted;
     }
     
     taggingService.resetTags();  

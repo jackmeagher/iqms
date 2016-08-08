@@ -45,12 +45,50 @@ function list_interview_controller($scope, $http, $location) {
         $http.get('/candidatePosition/' + interview.candidatePositionCId).success(function(result) {
             $http.get('/candidate/' + result.result.candidateId).success(function(result) {
                 interview.candidate = result.candidate.name;
+                interview.candidate += " (#" + getCandidateID({type: "Internal", info: result.candidate}) + ")";
             });
             $http.get('/position/' + result.result.positionId).success(function(result) {
                 interview.position = result.position.name;
+                interview.position += getPositionID({type: "Internal", info: result.position});
             });
          });
     }
-    
+
+    var getCandidateID = function(options) {
+        switch(options.type) {
+            default:
+            case("Internal"):
+                var year = options.info.createdAt.substr(0, 4);
+                return formatID(options.info.id, year);
+        }
+    }
+
+    var getPositionID = function(options) {
+        switch(options.type) {
+            default:
+            case("Internal"):
+                var year = options.info.createdAt.substr(0, 4);
+                return formatID(options.info.id, year);
+        }
+    }
+
+    var formatID = function(id, year) {
+        var formatted = " (#" + year + "-";
+
+        if(id < 10) {
+            formatted += "000" + id;
+        } else if(id < 100) {
+            formatted += "00" + id;
+        } else if(id < 1000) {
+            formatted += "0" + id;
+        } else {
+            formatted += id;
+        }
+
+        formatted += ")";
+
+        return formatted;
+    }
+
     $scope.loadScreen();
 };

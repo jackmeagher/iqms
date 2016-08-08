@@ -17,9 +17,11 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
             $http.get('/candidatePosition/' + data.interview.candidatePositionCId).success(function(result) {
                 $http.get('/candidate/' + result.result.candidateId).success(function(result) {
                     $scope.candidateText = result.candidate.name;
+                    $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});
                 });
                 $http.get('/position/' + result.result.positionId).success(function(result) {
                     $scope.positionText = result.position.name;
+                    $scope.positionText += getPositionID({type: "Internal", info: result.position});
                     $scope.positionDescription = result.position.description;
                 });
             });
@@ -118,6 +120,42 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
                 + '/interview/' + interviewID).success(function(created) {
             });
         }
+    }
+
+    var getCandidateID = function(options) {
+        switch(options.type) {
+            default:
+            case("Internal"):
+                var year = options.info.createdAt.substr(0, 4);
+                return formatID(options.info.id, year);
+        }
+    }
+
+    var getPositionID = function(options) {
+        switch(options.type) {
+            default:
+            case("Internal"):
+                var year = options.info.createdAt.substr(0, 4);
+                return formatID(options.info.id, year);
+        }
+    }
+
+    var formatID = function(id, year) {
+        var formatted = " (#" + year + "-";
+
+        if(id < 10) {
+            formatted += "000" + id;
+        } else if(id < 100) {
+            formatted += "00" + id;
+        } else if(id < 1000) {
+            formatted += "0" + id;
+        } else {
+            formatted += id;
+        }
+
+        formatted += ")";
+
+        return formatted;
     }
 
     taggingService.resetTags();
