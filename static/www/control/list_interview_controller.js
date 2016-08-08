@@ -17,7 +17,11 @@ function list_interview_controller($scope, $http) {
     $scope.viewInterview = function(id) {
          window.location.href = "#view/" + id;
     }
-    
+
+    $scope.conductInterview = function(id) {
+        window.location.href = "#conaction/" + id;
+    }
+
     $scope.deleteInterview = function (index,interview) {
         $http.delete('/interview/' + interview.id + '/tags').success(function() {
            $http.delete('/interview/' + interview.id + '/questions').success(function() {
