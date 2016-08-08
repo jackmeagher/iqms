@@ -20,6 +20,7 @@ module.exports = function(sequelize, DataTypes) {
                 interview.belongsToMany(models.question, {through: models.interviewQuestion});
                 interview.belongsToMany(models.tag, {through: "interviewTag"});
                 interview.belongsToMany(models.feedback, {through: "interviewFeedback"});
+                interview.belongsToMany(models.user, {through: "interviewUser"});
             }
         }
     });

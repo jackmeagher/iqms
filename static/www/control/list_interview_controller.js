@@ -2,13 +2,15 @@
  * Created by nick on 3/31/16.
  */
 
-function list_interview_controller($scope, $http, $location) {
+function list_interview_controller($scope, $http, $location, userService) {
 
     $scope.sortType     = 'id'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
     $scope.searchInterview  = '';     // set the default search/filter term
 
     $scope.interviews = [];
+
+    $scope.name = userService.getUserName();
 
     $scope.loadInterview = function(id) {
         $location.path('/plan/' + id);
@@ -33,7 +35,8 @@ function list_interview_controller($scope, $http, $location) {
     };
 
     $scope.loadScreen = function() {
-        $http.get('/interview').success(function(data) {
+        $http.get('/user/' + $scope.name + '/interviews/').success(function(data) {
+            console.log(data);
             $scope.interviews = data.interviews;
             $scope.interviews.forEach(function(i, index) {
                 $scope.loadCandidatePosition(i);

@@ -88,6 +88,26 @@
                                 <div class="col-md-1"></div>
                             </div>
                             <div class="row">
+                                <div class="col-md-5">
+                                    <label>Assign Interviewers</label>
+                                    <select class="form-control" ng-model="selectedUser" ng-change="addUser()">
+                                        <option ng-repeat="user in userList track by $index">{{user}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-5">
+                                    <label>Assigned Users</label>
+                                    <div class="well well-sm">
+                                        <p  ng-repeat="user in addedList track by $index">
+                                            {{user}} <button class="btn btn-danger btn-xs" ng-click="removeUser(user)">X</button>
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <label>Tags</label>
                                     <br>

@@ -45,7 +45,14 @@ function login_controller($scope, $http, userService, $location) {
                 // ...
             })
             .then(function() {
-                $location.path("/");
+                var user = {
+                    name: $scope.user.email,
+                    role: "Interviewer"
+                };
+                $http.post('/user/', user).success(function(data) {
+                    console.log(data);
+                    $location.path("/");
+                });
             });
     }
     

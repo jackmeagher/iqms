@@ -3,20 +3,16 @@
 module.exports = function(sequelize, DataTypes) {
     var user = sequelize.define("user", {
         // TODO: figure out what val means what role
-        username: DataTypes.STRING,
-        pw_hash: DataTypes.STRING,
-        salt: DataTypes.STRING,
-        first_name: DataTypes.STRING,
-        last_name : DataTypes.STRING,
-        email : DataTypes.STRING
+        name: {
+            type: DataTypes.TEXT,
+            primaryKey: true
+        },
+        role: DataTypes.TEXT
 
-    }
-
-
-    , {
+    }, {
         classMethods: {
             associate: function(models) {
-
+                user.belongsToMany(models.interview, {through: "interviewUser"});
             }
         }
     });

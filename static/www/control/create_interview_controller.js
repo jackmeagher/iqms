@@ -11,7 +11,12 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.locationText = "";
 
     $scope.taglist = [];
-    
+
+    $scope.userList = [];
+    $scope.selectedUser = "";
+    $scope.addedList = [];
+
+
     $scope.loadScreen = function() {
         flaggingService.clearQuestions();
         $http.get('/position').success(function(data) {
@@ -27,6 +32,12 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                 var fullName = candidate.name + getCandidateID({type: "Internal", info: candidate});
                 $scope.candidates[fullName] = candidate;
                 $scope.candidates[fullName].name = fullName;
+            });
+        });
+
+        $http.get('/user/').success(function(users) {
+            users.users.forEach(function(user, index) {
+                $scope.userList.push(user.name);
             });
         });
         
@@ -64,6 +75,12 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     
     $scope.saveInterview = function(interviewID) {
         flaggingService.persistQuestions(interviewID);
+        $scope.addedList.forEach(function(name, index) {
+            $http.post('/interview/' + interviewID + '/user/' + name).success(function(added) {
+
+            });
+        });
+
         $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
                + '/position/' + $scope.positions[$scope.selectedPosition].id)
         .success(function() {
@@ -253,6 +270,18 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             $http.post('/tag/' + "Close"
                        + '/interview/' + interviewID).success(function(created) {
             });
+        }
+    }
+
+    $scope.addUser = function() {
+        if($scope.addedList.indexOf($scope.selectedUser) < 0) {
+            $scope.addedList.push($scope.selectedUser);
+        }
+    }
+
+    $scope.removeUser = function(name) {
+        if($scope.addedList.indexOf(name) > -1) {
+            $scope.addedList.splice($scope.addedList.indexOf(name), 1);
         }
     }
 

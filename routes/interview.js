@@ -286,16 +286,19 @@ exports = module.exports = new Resource('interview', '/interview', {
                 }
         }),
 
-        new Resource('get_answers_from_interview', '/:id/answers', {
-            /// get all answers from interview
+        new Resource('get_users_for_interview', '/:id/users', {
             get: (req, res) => {
-                models.sequelize.query('SELECT * FROM answers WHERE "interviewId" =' + req.params.id
-                    , {type: models.sequelize.QueryTypes.SELECT}
-                    )
-                    .then(function (answers) {
-                        res.status(200).json(answers);
+                models.interview.findOne({
+                    where: {
+                        id: req.params.id
+                    }
+                }).then(function(interview) {
+                    interview.getUsers().then(function(users) {
+                        res.status(200).json({
+                            users: users
+                        });
                     })
-
+                })
             },
             /// delete all answers from interview
             delete: (req, res) => {
@@ -310,6 +313,28 @@ exports = module.exports = new Resource('interview', '/interview', {
                     })
             }
         }),
+        new Resource('add_user_to_interview', '/:id/user/:user_name', {
+                post: (req, res) => {
+                    models.interview.findOne({
+                        where: {
+                            id: req.params.id
+                        }
+                    }).then(function (interview) {
+                        models.user.findOne({
+                            where: {
+                                name: req.params.user_name
+                            }
+                        }).then(function (user) {
+                            interview.addUser(user).then(function (added) {
+                                res.status(200).json({
+                                    added: added
+                                });
+                            })
+
+                        })
+                    })
+                }
+        })
 
     ]
 );
