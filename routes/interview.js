@@ -15,7 +15,9 @@ exports = module.exports = new Resource('interview', '/interview', {
             models.interview.create({
                 candidatePositionId : req.body.candidatePositionCId ? req.body.candidatePositionCId : null,
                 conducted: req.body.conducted ? req.body.conducted : false,
-                recommendation: req.body.recommendation ? req.body.recommendation : {}
+                recommendation: req.body.recommendation ? req.body.recommendation : {},
+                date: req.body.date ? req.body.date : "",
+                location: req.body.date ? req.body.date : ""
             }).then(function (created) {
                     res.status(201).json({
                         interview: created.dataValues
@@ -58,22 +60,35 @@ exports = module.exports = new Resource('interview', '/interview', {
                     }
                 })
                 .then(function(interview) {
-                  interview.candidatePositionCId = req.body.candidatePositionCId;
-                  interview.conducted = req.body.conducted ? req.body.conducted : false;
-                  
-                  var rec = {};
-                  if (req.body.user) {
-                    rec[req.body.user] = {
-                        recommendation: req.body.recommendation ? req.body.recommendation : 0
+                    if(req.body.candidatePositionCId) {
+                        interview.candidatePositionCId = req.body.candidatePositionCId;
                     }
-                    interview.set('recommendation', rec);
-                  }
+
+                    if(req.body.conducted) {
+                        interview.conducted = req.body.conducted ? req.body.conducted : false;
+                    }
+
+                    if(req.body.date) {
+                        interview.date = req.body.date;
+                    }
+
+                    if(req.body.location) {
+                        interview.location = req.body.location;
+                    }
+
+                    var rec = {};
+                    if (req.body.user) {
+                        rec[req.body.user] = {
+                            recommendation: req.body.recommendation ? req.body.recommendation : 0
+                        }
+                        interview.set('recommendation', rec);
+                    }
                   
         
                   
-                  interview.save({fields: ['candidatePositionCId', 'conducted', 'recommendation']}).then(function(interview) {
-                    res.status(200).json({interview: interview});
-                  })
+                    interview.save({fields: ['candidatePositionCId', 'conducted', 'recommendation', 'date', 'location']}).then(function(interview) {
+                        res.status(200).json({interview: interview});
+                    })
                 })
             }
 

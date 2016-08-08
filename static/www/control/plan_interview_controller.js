@@ -28,6 +28,9 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
                     $('#tagbox').tagsinput('add', tag.name);
                 });
             })
+
+            $scope.dateText = data.interview.date;
+            $scope.locationText = data.interview.location;
         });
     }
 

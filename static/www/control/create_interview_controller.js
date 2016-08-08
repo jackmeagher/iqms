@@ -6,7 +6,10 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.candidates = {};
     $scope.selectedCandidate = null;
     $scope.candidateText = "";
-    
+
+    $scope.dateText = "";
+    $scope.locationText = "";
+
     $scope.taglist = [];
     
     $scope.loadScreen = function() {
@@ -65,7 +68,9 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             .success(function(canPos) {
                 var candidatePositionID = canPos.candidatePosition.c_id;
                 var interviewData = {
-                  candidatePositionCId: candidatePositionID
+                    candidatePositionCId: candidatePositionID,
+                    date: $scope.dateText,
+                    location: $scope.locationText
                 };
                 $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
                     $window.location.href = './#li';

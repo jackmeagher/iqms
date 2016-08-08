@@ -8,7 +8,9 @@ module.exports = function(sequelize, DataTypes) {
                 autoIncrement: true
             },
             conducted: DataTypes.BOOLEAN,
-            recommendation: DataTypes.JSON
+            recommendation: DataTypes.JSON,
+            date: DataTypes.TEXT,
+            location: DataTypes.TEXT
         },
 
         {
