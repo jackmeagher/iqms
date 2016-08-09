@@ -18,6 +18,9 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
         self.tags = $.map(taggingService.getTags(), function(value, index) {
             return value.name; 
         });
+
+        self.tags = removeMainTags(self.tags);
+
         if (query == null) {
             query = "";
         }
@@ -39,5 +42,20 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
         if (item) {
             taggingService.addTag(item);
         }
+    }
+
+    function removeMainTags(t) {
+        if(t) {
+            if(t.indexOf('Intro') > -1) {
+                t.splice(t.indexOf('Intro'), 1);
+            }
+            if(t.indexOf('Skills') > -1) {
+                t.splice(t.indexOf('Skills'), 1);
+            }
+            if(t.indexOf('Close') > -1) {
+                t.splice(t.indexOf('Close'), 1);
+            }
+        }
+        return t;
     }
 }
