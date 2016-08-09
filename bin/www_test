@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 "use strict";
-require("use-strict");
 var app = require('../app');
 var server_app = require('../server_app');
 var models = require('../models');

@@ -11,7 +11,8 @@
     "webSocketPort": 4041,
     "firebaseApiKey": "AIzaSyAxAWtjmUKx50x8lvpsm2idvOzEEn_4LVw",
     "firebaseAuthDomain": "test-iqms.firebaseapp.com",
-    "firebaseDatabaseURL": "https://test-iqms.firebaseio.com"
+    "firebaseDatabaseURL": "https://test-iqms.firebaseio.com",
+    "firebaseServiceAccount": "../config/IQMS-c785656b0c69.json"
   },
   "test": {
     "username": "root",
