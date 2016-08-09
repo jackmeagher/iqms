@@ -43,7 +43,7 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
     $scope.saveInterview = function(interviewID) {
         flaggingService.persistQuestions(interviewID);
         $window.location.href = './#li';
-        $scope.checkFoMainTags(interviewID);
+        $scope.checkForMainTags(interviewID);
     }
 
     $scope.showInterviewWithTag = function(ev, tag) {
