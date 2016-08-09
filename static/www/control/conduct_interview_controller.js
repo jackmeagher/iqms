@@ -221,10 +221,18 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
                     }
                 }
                 $scope.previousQuestions.push($scope.questionsByID[f.question_id]);
+
+                $scope.queuedQuestions.forEach(function (q, index) {
+                    $scope.questionsByID[q.id].queued = false;
+                });
                 $scope.queuedQuestions = [];
+                if ($scope.currentQuestion && $scope.currentQuestion.id) {
+                    $scope.questionsByID[$scope.currentQuestion.id].queued = false;
+                }
                 $scope.currentQuestion = {};
             });
             $scope.lastQuestion = $scope.previousQuestions.pop();
+            console.log($scope.queuedQuestions);
             $rootScope.$emit('updateFilter');
         });
     }
@@ -315,6 +323,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
 
     socket.on('notify-request-interview' + interviewId, function(data) {
         if(data.interviewerName != $scope.interviewerName) {
+            console.log($scope.queuedQuestions);
             var prev = [];
             $scope.previousQuestions.forEach(function(q, index) {
                prev.push(q.id);
