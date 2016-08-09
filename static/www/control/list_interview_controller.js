@@ -11,6 +11,7 @@ function list_interview_controller($scope, $http, $location, userService) {
     $scope.interviews = [];
 
     $scope.name = userService.getUserName();
+    $scope.role = userService.getUserRole();
 
     $scope.loadInterview = function(id) {
         $location.path('/plan/' + id);
@@ -35,13 +36,24 @@ function list_interview_controller($scope, $http, $location, userService) {
     };
 
     $scope.loadScreen = function() {
-        $http.get('/user/' + $scope.name + '/interviews/').success(function(data) {
-            console.log(data);
-            $scope.interviews = data.interviews;
-            $scope.interviews.forEach(function(i, index) {
-                $scope.loadCandidatePosition(i);
+        if($scope.role != 'Admin' && $scope.role != 'Manager') {
+            $http.get('/user/' + $scope.name + '/interviews/').success(function(data) {
+                console.log(data);
+                $scope.interviews = data.interviews;
+                $scope.interviews.forEach(function(i, index) {
+                    $scope.loadCandidatePosition(i);
+                });
             });
-        });
+        } else {
+            $http.get('/interview/').success(function(data) {
+                console.log(data);
+                $scope.interviews = data.interviews;
+                $scope.interviews.forEach(function(i, index) {
+                    $scope.loadCandidatePosition(i);
+                });
+            });
+        }
+
     }
     
     $scope.loadCandidatePosition = function(interview) {
