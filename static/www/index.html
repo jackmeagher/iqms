@@ -126,8 +126,8 @@
                         if (user) {
                             userService.setUserName(user.email);
                             if(currentPath != '/loading') {
-                                $location.path(currentPath);
                                 $route.reload();
+                                $location.path(currentPath);
                             }
                         } else {
                             $location.path("/login");
@@ -142,6 +142,7 @@
                     $scope.loginTime = Date.now();
                     $scope.$apply();
                }
+
             });
             
             $scope.hide_side = function () {
@@ -242,7 +243,7 @@
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
         app.service('flaggingService', ['$http', '$rootScope', flaggingService]);
         app.service('filterService', ['$rootScope', filterService]);
-        app.service('userService', ['$rootScope', '$http', userService]);
+        app.service('userService', ['$rootScope', '$http', '$route', userService]);
 
         app.factory('socket', ['$rootScope', function($rootScope) {
             var socket;

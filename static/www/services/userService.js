@@ -1,4 +1,4 @@
-function userService($rootScope, $http) {
+function userService($rootScope, $http, $route) {
     var userName = null;
     var userRole = null;
 
@@ -7,7 +7,7 @@ function userService($rootScope, $http) {
         if(name) {
             $http.get('/user/' + name).success(function (user) {
                 if(user.user) {
-                    userRole = user.user.role;
+                    setUserRole(user.user.role);
                 }
             });
         }
@@ -20,6 +20,7 @@ function userService($rootScope, $http) {
 
     var setUserRole = function(role) {
         userRole = role;
+        $route.reload();
     }
 
     var getUserRole = function() {
