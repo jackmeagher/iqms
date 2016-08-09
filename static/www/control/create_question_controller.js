@@ -8,8 +8,8 @@ function create_question_controller ($scope, $rootScope, $location, $http,$windo
         difficulty: 0,
         category: 'Skills'
     };
-
     
+
     $scope.updateCategory = function() {
         taggingService.setCategory($scope.questionData.category);
         $scope.refreshTags();
@@ -82,8 +82,9 @@ function create_question_controller ($scope, $rootScope, $location, $http,$windo
                 $scope.questionData.answers = data.question.answers;
             })
         } else if (loc.location === 'cq') {
-            taggingService.addTag('Skills');
+            taggingService.addTag($scope.questionData.category);
             $scope.refreshTags();
+            $scope.updateCategory();
         } else {
             taggingService.addTag('Skills');
             $scope.refreshTags();
