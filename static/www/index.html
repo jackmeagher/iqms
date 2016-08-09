@@ -44,14 +44,15 @@
     
     <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
     <script>
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyAxAWtjmUKx50x8lvpsm2idvOzEEn_4LVw",
-        authDomain: "test-iqms.firebaseapp.com",
-        databaseURL: "https://test-iqms.firebaseio.com",
-        storageBucket: ""
-      };
-      firebase.initializeApp(config);
+        $.getJSON('/config/config.json', {format: "json"}).done(function(config) {
+            var apiConfig = {
+                apiKey: config.development.firebaseApiKey,
+                authDomain: config.development.firebaseAuthDomain,
+                databaseURL: config.development.firebaseDatabaseURL,
+                storageBucket: ""
+            };
+            firebase.initializeApp(apiConfig);
+        });
     </script>
     
 
@@ -135,7 +136,7 @@
                     });
                 }
             });
-            
+
             $rootScope.$on('updateName', function() {
                $scope.name = userService.getUserName();
                if ($scope.name) {
@@ -245,12 +246,12 @@
         app.service('filterService', ['$rootScope', filterService]);
         app.service('userService', ['$rootScope', '$http', '$route', userService]);
 
-        app.factory('socket', ['$rootScope', function($rootScope) {
+        app.factory('socket', ['$http', function($http) {
             var socket;
 
-            firebase.database().ref('config').on('value', function(snapshot) {
-                var data = snapshot.val();
-                socket = io.connect('http://' + data.webSockHost + ':' + data.webSockPort);
+            $http.get('/config/config.json').success(function(config) {
+
+                socket = io.connect('http://' + config.development.webSocketHost + ':' + config.development.webSocketPort);
             });
           
             return {

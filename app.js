@@ -4,8 +4,6 @@ var app = express();
 var Resource = require('./lib/Resource');
 var models = require('./models');
 var bodyParser  = require('body-parser');
-var jwt = require('jsonwebtoken');
-const secret = 'tg6bhr5dxddrtcx';
                    
 var http           = require('http').createServer(app);
 var io             = require('socket.io').listen(http);
@@ -13,27 +11,6 @@ var io             = require('socket.io').listen(http);
 app.set('port', process.env.PORT || 5000);
 
 app.use(bodyParser.json());
-app.use((req, res, next) => {
-    var token = req.get('token');
-    if (token) {
-        jwt.verify(token, secret, (err, decoded) => {
-            if (err) {
-                res.status(403).json({
-                    'success': false,
-                    'msg': "Invalid token (perhaps expired).",
-                    'error' : err
-                });
-            } else {
-                req.user = decoded.user;
-                next();
-            }
-        });
-    } else {
-        req.auth = false;
-        req.user = undefined;
-        next();
-    }
-});
 
 
 var answer_routes = require('./routes/answer');
@@ -63,6 +40,7 @@ interviewQuestion_routes.register(app, '');
 feedback_routes.register(app, '');
 
 app.use('/static', express.static('../static'));
+app.use('/config', express.static('../config'))
 
 // middleware to add headers for cross origin requests
 

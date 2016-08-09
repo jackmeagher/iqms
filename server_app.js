@@ -2,9 +2,10 @@ var express = require('express');
 var server_app = express();
 var server = require('http').Server(server_app);
 var io = require('socket.io')(server);
+var config = require('./config/config.json');
 
-server_app.set('web_socket_host', process.env.WEB_SOCKET_HOST || '127.0.0.1');
-server_app.set('web_socket_port', process.env.WEB_SOCKET_PORT || 4041);
+server_app.set('web_socket_host', config.development.webSocketHost || '127.0.0.1');
+server_app.set('web_socket_port', config.development.webSocketPort || 4041);
 
 io.on('connection', function (socket) {
 

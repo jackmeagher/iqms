@@ -5,7 +5,13 @@
     "database": "iqms_development",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "port" : 5432
+    "port" : 5432,
+    "mainPort": 3000,
+    "webSocketHost": "127.0.0.1",
+    "webSocketPort": 4041,
+    "firebaseApiKey": "AIzaSyAxAWtjmUKx50x8lvpsm2idvOzEEn_4LVw",
+    "firebaseAuthDomain": "test-iqms.firebaseapp.com",
+    "firebaseDatabaseURL": "https://test-iqms.firebaseio.com"
   },
   "test": {
     "username": "root",
