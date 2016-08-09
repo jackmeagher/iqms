@@ -443,6 +443,35 @@
                         </div>
                     </div>
                 </li>
+                <div style="visibility: hidden">
+                    <div class="md-dialog-container" id="myDialog">
+                        <md-dialog layout-padding>
+                            <h2>Add a Tag</h2>
+                            <div class="col-md-12" style="text-align: center">
+                                <md-autocomplete
+                                        id="tagAdd-box"
+                                        md-no-cache="true"
+                                        md-selected-item="selectedTag"
+                                        md-search-text-change="tagTextChange(tagText)"
+                                        md-search-text="tagText"
+                                        md-selected-item-change="tagItemChange(selectedTag)"
+                                        md-items="tag in queryTag(tagText)"
+                                        md-item-text="tag"
+                                        md-min-length="0"
+                                        placeholder="Search for Tag">
+                                    <md-item-template>
+                                                        <span md-highlight-text="tagText"
+                                                              md-highlight-flags="^i">{{tag}}</span>
+                                    </md-item-template>
+                                    <md-not-found>
+                                        "{{tagText}}" is not found.
+                                    </md-not-found>
+                                </md-autocomplete>
+                                <button class="btn btn-success" ng-click="addTheTag()" style="margin-top: 3px;">Add Tag</button>
+                            </div>
+                        </md-dialog>
+                    </div>
+                </div>
             </ul>
         </div>
 
