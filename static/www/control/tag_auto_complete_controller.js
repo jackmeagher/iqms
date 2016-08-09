@@ -55,6 +55,9 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
             if(t.indexOf('Close') > -1) {
                 t.splice(t.indexOf('Close'), 1);
             }
+            if(t.indexOf('Inline') > -1) {
+                t.splice(t.indexOf('Inline'), 1);
+            }
         }
         return t;
     }
