@@ -6,8 +6,9 @@ function userService($rootScope, $http) {
         userName = name;
         if(name) {
             $http.get('/user/' + name).success(function (user) {
-                userRole = user.user.role;
-                console.log(userRole);
+                if(user.user) {
+                    userRole = user.user.role;
+                }
             });
         }
         $rootScope.$emit('updateName');
@@ -17,6 +18,10 @@ function userService($rootScope, $http) {
         return userName;
     }
 
+    var setUserRole = function(role) {
+        userRole = role;
+    }
+
     var getUserRole = function() {
         return userRole;
     }
@@ -24,6 +29,7 @@ function userService($rootScope, $http) {
     return {
         setUserName: setUserName,
         getUserName: getUserName,
-        getUserRole: getUserRole
+        getUserRole: getUserRole,
+        setUserRole: setUserRole
     }
 }

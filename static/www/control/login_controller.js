@@ -49,6 +49,7 @@ function login_controller($scope, $http, userService, $location) {
                     name: $scope.user.email,
                     role: "Interviewer"
                 };
+                userService.setUserRole(user.role);
                 $http.post('/user/', user).success(function(data) {
                     console.log(data);
                     $location.path("/");
