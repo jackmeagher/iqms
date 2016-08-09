@@ -14,6 +14,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
 
     $scope.userList = [];
     $scope.selectedUser = "";
+    $scope.userText;
     $scope.addedList = [];
 
     $scope.userRole = userService.getUserRole();
@@ -124,7 +125,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         var pos = $.map($scope.positions, function(value, index) {
            return value.name; 
         });
-        
+
         return $scope.queryFunction(query, pos);
     }
     
@@ -132,6 +133,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         if (query == null) {
             query = "";
         }
+
         text = query.toLowerCase();
         var ret = data.filter(function(d) {
            var test = d.toLowerCase();
@@ -151,7 +153,22 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             $scope.selectedPosition = item;
         }
     }
-    
+
+    $scope.queryUser = function(query) {
+        return $scope.queryFunction(query, $scope.userList);
+    }
+
+    $scope.userTextChange = function(text) {
+
+    }
+
+    $scope.userItemChange = function(user) {
+        if(user) {
+            $scope.selectedUser = user;
+            $scope.addUser();
+        }
+    }
+
     $scope.addCandidate = function(candidate) {
         if (candidate && !$scope.candidates[candidate]) {
             $scope.candidates[candidate] = {name: candidate};
@@ -321,7 +338,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
 
         return formatted;
     }
-    
+
     taggingService.resetTags();  
     $scope.loadScreen();
 }

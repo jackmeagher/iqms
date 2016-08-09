@@ -58,14 +58,14 @@
                                         md-item-text="candidate"
                                         md-min-length="0"
                                         placeholder="Search for Candidate">
-                                    <md-item-template>
-                                                    <span md-highlight-text="candidateText"
-                                                          md-highlight-flags="^i">{{candidate}}</span>
-                                    </md-item-template>
-                                    <md-not-found>
-                                        Click the plus to create "{{candidateText}}"
-                                    </md-not-found>
-                                </md-autocomplete>
+                                        <md-item-template>
+                                                        <span md-highlight-text="candidateText"
+                                                              md-highlight-flags="^i">{{candidate}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            Click the plus to create "{{candidateText}}"
+                                        </md-not-found>
+                                    </md-autocomplete>
                                 </div>
                                 <div class="col-md-1"></div>
                             </div>
@@ -90,9 +90,25 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <label>Assign Interviewers</label>
-                                    <select class="form-control" ng-model="selectedUser" ng-change="addUser()">
-                                        <option ng-repeat="user in userList track by $index">{{user}}</option>
-                                    </select>
+                                    <md-autocomplete
+                                            id="user-box"
+                                            md-no-cache="true"
+                                            md-selected-item="selectedUser"
+                                            md-search-text-change="userTextChange(userText)"
+                                            md-search-text="userText"
+                                            md-selected-item-change="userItemChange(selectedUser)"
+                                            md-items="user in queryUser(userText)"
+                                            md-item-text="user"
+                                            md-min-length="0"
+                                            placeholder="Search for User">
+                                        <md-item-template>
+                                                        <span md-highlight-text="userText"
+                                                              md-highlight-flags="^i">{{user}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            "{{userText}}" is not found.
+                                        </md-not-found>
+                                    </md-autocomplete>
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-5">
