@@ -1,4 +1,4 @@
-function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window, taggingService, popupService, flaggingService) {
+function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window, taggingService, popupService, flaggingService, userService) {
     $scope.positions = {};
     $scope.selectedPosition = null;
     $scope.positionText = "";
@@ -16,7 +16,8 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.selectedUser = "";
     $scope.addedList = [];
 
-
+    $scope.userRole = userService.getUserRole();
+    
     $scope.loadScreen = function() {
         flaggingService.clearQuestions();
         $http.get('/position').success(function(data) {

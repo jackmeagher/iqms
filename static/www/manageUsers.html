@@ -1,0 +1,85 @@
+<div ng-controller="manage_user_controller">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-head-line">List of users</h1>
+            <h1 class="page-subhead-line">View or edit users</h1>
+            <div class="col-md-6" style="width:100%;">
+                <!--    Context Classes  -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <form>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                    <input type="text" class="form-control" placeholder="Search Users"
+                                           ng-model="searchUser">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="panel-body" ng-show="role == 'Admin' || role == 'Manager'">
+                        <div class="table-responsive">
+                            <h2>Users</h2>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <a ng-click="sortType = 'name'; sortReverse = !sortReverse"
+                                           style="cursor:pointer;">
+                                            Name
+                                                <span ng-show="sortType == 'candidate' && !sortReverse"
+                                                      class="fa fa-caret-down"></span>
+                                                <span ng-show="sortType == 'candidate' && sortReverse"
+                                                      class="fa fa-caret-up"></span>
+                                        </a>
+
+                                    </th>
+                                    <th>
+                                        <a ng-click="sortType = 'role'; sortReverse = !sortReverse"
+                                           style="cursor:pointer;">
+                                            Role
+                                                <span ng-show="sortType == 'position' && !sortReverse"
+                                                      class="fa fa-caret-down"></span>
+                                                <span ng-show="sortType == 'position' && sortReverse"
+                                                      class="fa fa-caret-up"></span>
+                                        </a>
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody ng-repeat="user in users | orderBy:sortType:sortReverse | filter:searchUser">
+                                <tr class="success">
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.role}}</td>
+                                    <td>
+                                        <select class="form-control" ng-model="user.role" ng-change="updateUser(user)">
+                                            <option ng-repeat="role in roleList track by $index">{{role}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger"
+                                                ng-click="deleteUser(user.name)">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="role != 'Admin' && role != 'Manager'">
+                        <div class="col-md-12">
+                            <h4 class="h4" style="text-align: center">I'm sorry, but you do not have permission to create an interview at this time.</h4>
+                        </div>
+                    </div>
+                </div>
+                <!--  end  Context Classes  -->
+            </div>
+        </div>
+    </div>
+    <!-- /. PAGE INNER  -->
+</div>
+<!-- /. PAGE WRAPPER  -->

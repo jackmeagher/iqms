@@ -83,6 +83,7 @@
     <script src="control/filter_menu_controller.js"></script>
     <script src="control/interpret_interview_controller.js"></script>
     <script src="control/plan_interview_controller.js"></script>
+    <script src="control/manage_user_controller.js"></script>
     
     <!-- SERVICES -->
     <script src="services/taggingService.js"></script>
@@ -94,7 +95,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/0.1.0/ng-google-chart.js" type="text/javascript"></script>
 
     <script>
-        function index_controller($scope, $rootScope, $location, userService) {
+        function index_controller($scope, $rootScope, $location, $route, userService) {
             
             $scope.interviewScreen = false;
             $scope.name = null;
@@ -124,8 +125,10 @@
                     firebase.auth().onAuthStateChanged(function(user) {
                         if (user) {
                             userService.setUserName(user.email);
-                            if(currentPath != '/loading')
+                            if(currentPath != '/loading') {
                                 $location.path(currentPath);
+                                $route.reload();
+                            }
                         } else {
                             $location.path("/login");
                         }
@@ -199,6 +202,10 @@
                         templateUrl: 'interpretInterview.html'
                     })
 
+                    .when('/users', {
+                        templateUrl: 'manageUsers.html'
+                    })
+
                     .when('/login', {
                         templateUrl: 'login.html'
                     })
@@ -229,12 +236,13 @@
         app.controller("filter_menu_controller", filter_menu_controller);
         app.controller("interpret_interview_controller", interpret_interview_controller);
         app.controller("plan_interview_controller", plan_interview_controller);
+        app.controller("manage_user_controller", manage_user_controller);
         
         app.service("taggingService", ['$http', '$rootScope', taggingService]);
         app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
         app.service('flaggingService', ['$http', '$rootScope', flaggingService]);
         app.service('filterService', ['$rootScope', filterService]);
-        app.service('userService', ['$rootScope', userService]);
+        app.service('userService', ['$rootScope', '$http', userService]);
 
         app.factory('socket', ['$rootScope', function($rootScope) {
             var socket;
@@ -377,11 +385,10 @@
                     <a href="#li"><i class="fa fa-edit "></i>List Interviews</a>
                 </li>
                 <li>
-                    <a href="#coni"><i class="fa fa-briefcase "></i>Conduct
-                        Interview</a>
+                    <a href="#qm"><i class="fa fa-question"></i>Question Manager</a>
                 </li>
                 <li>
-                    <a href="#qm"><i class="fa fa-question"></i>Question Manager</a>
+                    <a href="#users"><i class="fa fa-users"></i>Manage Users</a>
                 </li>
             </ul>
         </div>

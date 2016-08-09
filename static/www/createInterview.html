@@ -11,7 +11,7 @@
             <div class="panel-heading" ng-click="showInterviewWithTag($event);">
                 Interview
             </div>
-            <div class="control-group" id="fields">
+            <div class="control-group" id="fields" ng-show="userRole == 'Admin' || userRole == 'Manager'">
                 <div class="controls">
                     <form role="form" autocomplete="on" style="margin-left:5%;">
                         <div class="form-group" style="margin-top:2%; text-align:left;">
@@ -124,6 +124,11 @@
                         Submit Interview
                     </button>
                     <br>
+                </div>
+            </div>
+            <div class="row" ng-show="userRole != 'Admin' && userRole != 'Manager'">
+                <div class="col-md-12">
+                    <h4 class="h4" style="text-align: center">I'm sorry, but you do not have permission to create an interview at this time.</h4>
                 </div>
             </div>
         </div>

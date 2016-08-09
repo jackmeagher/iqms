@@ -45,11 +45,26 @@ exports = module.exports = new Resource('user', '/user', {
                 });
             })
         },
+        put: (req, res) => {
+            models.user.find({
+                where: {
+                    name: req.params.user_name
+                }
+            })
+                .then(function (user) {
+                    user.role = req.body.role;
+                    user.save({fields: ['role']}).then(function() {
+                        res.status(200).json({});
+                    })
+
+                })
+
+        },
         // delete user by id
         delete: (req, res) => {
             models.user.destroy({
                 where: {
-                    id: req.params.id
+                    name: req.params.user_name
                 }
             }).then(function(destroyed) {
                 res.status(204).json({
