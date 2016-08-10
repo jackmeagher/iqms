@@ -1,7 +1,6 @@
 var models = require('../models');
 var Resource = require('../lib/Resource');
 var exports = module.exports = {};
-var config = require('../config/config.json');
 var firebase = require('firebase');
 
 exports = module.exports = new Resource('question', '/question', {
