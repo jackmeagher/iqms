@@ -1,91 +1,128 @@
-/**
- * Created by nick on 3/15/16.
- */
-
 var models = require('../models');
 var Resource = require('../lib/Resource');
 var exports = module.exports = {};
-const crypto = require('crypto');
-var jwt = require('jsonwebtoken');
-
-const secret = 'tg6bhr5dxddrtcx';
-
-
+var firebase = require('firebase');
 
 exports = module.exports = new Resource('user', '/user', {
         get: (req, res) => {
-            models.user.findAll().then(function(users) {
-                res.status(200).json({
-                        success: true,
-                        users: users
-                    });
-                })
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.findAll().then(function(users) {
+                        res.status(200).json({
+                            success: true,
+                            users: users
+                        });
+                    })
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
+                });
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
         },
-        // create new user
         post: (req, res) => {
-            models.user.create({
-                name: req.body.name ? req.body.name : "NULL NAME",
-                role: req.body.role ? req.body.role : "Interviewer"
-            }).then(function(user) {
-                res.status(201).json({
-                    user: user.dataValues
-                })
-            })
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.create({
+                        name: req.body.name ? req.body.name : "NULL NAME",
+                        role: req.body.role ? req.body.role : "Interviewer"
+                    }).then(function(user) {
+                        res.status(201).json({
+                            user: user.dataValues
+                        })
+                    })
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
+                });
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
         }
     }, [new Resource('get_user_by_id', '/:user_name', {
-        // get user by id
         get: (req, res) => { //get answer by id
-            models.user.find({
-                where: {
-                    name: req.params.user_name
-                }
-            }).then(function(user) {
-                res.status(200).json({
-                    user: user
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.find({
+                        where: {
+                            name: req.params.user_name
+                        }
+                    }).then(function(user) {
+                        res.status(200).json({
+                            user: user
+                        });
+                    })
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
                 });
-            })
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
         },
         put: (req, res) => {
-            models.user.find({
-                where: {
-                    name: req.params.user_name
-                }
-            })
-                .then(function (user) {
-                    user.role = req.body.role;
-                    user.save({fields: ['role']}).then(function() {
-                        res.status(200).json({});
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.find({
+                        where: {
+                            name: req.params.user_name
+                        }
+                    }).then(function (user) {
+                        user.role = req.body.role;
+                        user.save({fields: ['role']}).then(function() {
+                            res.status(200).json({});
+                        })
                     })
-
-                })
-
-        },
-        // delete user by id
-        delete: (req, res) => {
-            models.user.destroy({
-                where: {
-                    name: req.params.user_name
-                }
-            }).then(function(destroyed) {
-                res.status(204).json({
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
                 });
-            });
-
-        }
-    }),
-    new Resource('get_interviews_by_user', '/:user_name/interviews', {
-        get: (req, res) => {
-            models.user.findOne({
-                where: {
-                    name: req.params.user_name
-                }
-            }).then(function(user) {
-                user.getInterviews().then(function(interviews) {
-                    res.status(200).json({
-                       interviews: interviews
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
+        },
+        delete: (req, res) => {
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.destroy({
+                        where: {
+                            name: req.params.user_name
+                        }
+                    }).then(function(destroyed) {
+                        res.status(204).json({
+                        });
                     });
-                })
-            })
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
+                });
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
+        }
+    }), new Resource('get_interviews_by_user', '/:user_name/interviews', {
+        get: (req, res) => {
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.findOne({
+                        where: {
+                            name: req.params.user_name
+                        }
+                    }).then(function(user) {
+                        user.getInterviews().then(function(interviews) {
+                            res.status(200).json({
+                                interviews: interviews
+                            });
+                        })
+                    })
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
+                });
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
         }
     })
 ]);
