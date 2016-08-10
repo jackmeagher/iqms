@@ -8,7 +8,7 @@ var bodyParser  = require('body-parser');
 var http           = require('http').createServer(app);
 var io             = require('socket.io').listen(http);
 var config = require('./config/config.json');
-var firebase = require('firebase');
+var firebase = require('firebase'); 
 firebase.initializeApp({
     serviceAccount: config.development.firebaseServiceAccount,
     databaseURL: config.development.firebaseDatabaseURL

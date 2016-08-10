@@ -92,6 +92,7 @@
     <script src="services/flaggingService.js"></script>
     <script src="services/filterService.js"></script>
     <script src="services/userService.js"></script>
+    <script src ="services/authService.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/0.1.0/ng-google-chart.js" type="text/javascript"></script>
 
@@ -245,6 +246,7 @@
         app.service('flaggingService', ['$http', '$rootScope', flaggingService]);
         app.service('filterService', ['$rootScope', filterService]);
         app.service('userService', ['$rootScope', '$http', '$route', userService]);
+        app.service('authService', [authService]);
 
         app.factory('socket', ['$http', function($http) {
             var socket;
