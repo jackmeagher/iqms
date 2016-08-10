@@ -2,7 +2,7 @@
  * Created by nick on 3/31/16.
  */
 
-function list_interview_controller($scope, $http, $location, userService) {
+function list_interview_controller($scope, $http, $location, userService, authService) {
 
     $scope.sortType     = 'id'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
@@ -57,16 +57,19 @@ function list_interview_controller($scope, $http, $location, userService) {
     }
     
     $scope.loadCandidatePosition = function(interview) {
-        $http.get('/candidatePosition/' + interview.candidatePositionCId).success(function(result) {
-            $http.get('/candidate/' + result.result.candidateId).success(function(result) {
-                interview.candidate = result.candidate.name;
-                interview.candidate += getCandidateID({type: "Internal", info: result.candidate});
+        authService.getUserToken(function(idToken) {
+            $http.get('/candidatePosition/' + interview.candidatePositionCId).success(function(result) {
+                $http.get('/candidate/' + result.result.candidateId + "?idToken=" + idToken).success(function(result) {
+                    interview.candidate = result.candidate.name;
+                    interview.candidate += getCandidateID({type: "Internal", info: result.candidate});
+                });
+                $http.get('/position/' + result.result.positionId).success(function(result) {
+                    interview.position = result.position.name;
+                    interview.position += getPositionID({type: "Internal", info: result.position});
+                });
             });
-            $http.get('/position/' + result.result.positionId).success(function(result) {
-                interview.position = result.position.name;
-                interview.position += getPositionID({type: "Internal", info: result.position});
-            });
-         });
+        });
+
     }
 
     var getCandidateID = function(options) {
