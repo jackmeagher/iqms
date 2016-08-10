@@ -206,10 +206,12 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
     }
     
     var queryInterview = function() {
-        $http.get('/interview/' + interviewId).then(function(interview) {
-           console.log(interview);
-           $scope.interview = interview.data.interview;
-           updateInterview();
+        authService.getUserToken(function(idToken) {
+            $http.get('/interview/' + interviewId + "?idToken=" + idToken).then(function(interview) {
+                console.log(interview);
+                $scope.interview = interview.data.interview;
+                updateInterview();
+            });
         });
     }
     
@@ -233,10 +235,12 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
     }
     
     var queryDatabaseForFeedback = function() {
-        $http.get('/interview/' + interviewId + '/feedback/').then(function(feedbacks) {
-            savedFeedbacks = feedbacks.data.feedbacks;
-            updateOverallResults();
-            queryDatabaseForQuestions();
+        authService.getUserToken(function(idToken) {
+            $http.get('/interview/' + interviewId + '/feedback/?idToken=' + idToken).then(function(feedbacks) {
+                savedFeedbacks = feedbacks.data.feedbacks;
+                updateOverallResults();
+                queryDatabaseForQuestions();
+            });
         });
     }
     

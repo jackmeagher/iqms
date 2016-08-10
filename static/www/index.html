@@ -240,13 +240,13 @@
         app.controller("interpret_interview_controller", interpret_interview_controller);
         app.controller("plan_interview_controller", plan_interview_controller);
         app.controller("manage_user_controller", manage_user_controller);
-        
-        app.service("taggingService", ['$http', '$rootScope', taggingService]);
-        app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
-        app.service('flaggingService', ['$http', '$rootScope', flaggingService]);
-        app.service('filterService', ['$rootScope', filterService]);
-        app.service('userService', ['$rootScope', '$http', '$route', userService]);
+
         app.service('authService', [authService]);
+        app.service("taggingService", ['$http', '$rootScope', 'authService', taggingService]);
+        app.service("popupService", ['$mdDialog', '$mdMedia', '$rootScope', popupService]);
+        app.service('flaggingService', ['$http', '$rootScope', 'authService', flaggingService]);
+        app.service('filterService', ['$rootScope', filterService]);
+        app.service('userService', ['$rootScope', '$http', '$route', 'authService', userService]);
 
         app.factory('socket', ['$http', function($http) {
             var socket;

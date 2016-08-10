@@ -48,7 +48,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         if (loc.location === 'ie') {
             authService.getUserToken(function(idToken) {
                 flaggingService.loadQuestionList(loc.id);
-                $http.get('/interview/' + loc.id).success(function(data) {
+                $http.get('/interview/' + loc.id + "?idToken=" + idToken).success(function(data) {
                     $http.get('/candidatePosition/' + data.interview.candidatePositionCId + "?idToken=" + idToken).success(function(result) {
                         $http.get('/candidate/' + result.result.candidateId + "?idToken=" + idToken).success(function(result) {
                             $scope.candidateItemChange(result.candidate.name);
@@ -57,7 +57,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                             $scope.positionItemChange(result.position.name);
                         });
                     });
-                    $http.get('/interview/' + loc.id + '/tags').success(function(data) {
+                    $http.get('/interview/' + loc.id + '/tags?idToken=' + idToken).success(function(data) {
                         data.tags.forEach(function(tag, index) {
                             $('#tagbox').tagsinput('add', tag.name);
                         });
@@ -72,8 +72,10 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         if (loc.location === 'ie') {
             $scope.saveInterview(loc.id);
         } else {
-            $http.post('/interview').success(function(created) {
-                $scope.saveInterview(created.interview.id);
+            authService.getUserToken(function(idToken) {
+                $http.post('/interview?idToken=' + idToken).success(function(created) {
+                    $scope.saveInterview(created.interview.id);
+                });
             });
         }
     };
@@ -82,7 +84,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         authService.getUserToken(function(idToken) {
             flaggingService.persistQuestions(interviewID);
             $scope.addedList.forEach(function(name, index) {
-                $http.post('/interview/' + interviewID + '/user/' + name).success(function(added) {
+                $http.post('/interview/' + interviewID + '/user/' + name + "?idToken=" + idToken).success(function(added) {
 
                 });
             });
@@ -99,7 +101,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                                 date: $scope.dateText,
                                 location: $scope.locationText
                             };
-                            $http.put('/interview/' + interviewID, interviewData).success(function(updated) {
+                            $http.put('/interview/' + interviewID + "?idToken=" + idToken, interviewData).success(function(updated) {
                                 $window.location.href = './#li';
                                 $scope.checkForMainTags(interviewID);
                             });

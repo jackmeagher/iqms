@@ -59,11 +59,11 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
         authService.getUserToken(function(idToken) {
             if (creating) {
                 $http.post('/feedback?idToken=' + idToken, feedback).then(function (created) {
-                    $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id).then(function (added) {
+                    $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id + "?idToken=" + idToken).then(function (added) {
                     });
                 });
             } else {
-                $http.get('/interview/' + interviewId + '/feedback/' + feedback.question_id).then(function (feedbacks) {
+                $http.get('/interview/' + interviewId + '/feedback/' + feedback.question_id + "?idToken=" + idToken).then(function (feedbacks) {
                     $http.put('/feedback/' + feedbacks.data.feedbacks[0].id + "?idToken=" + idToken, feedback).then(function (update) {
                     });
                 });
@@ -154,13 +154,15 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
     }
 
     $scope.endInterview = function () {
-        $http.get('/interview/' + interviewId).success(function (data) {
-            $scope.interview = data.interview;
-            $scope.interview.conducted = true;
-            $scope.interview.user = $scope.interviewerName;
-            $scope.interview.recommendation = $scope.recommendation;
-            $http.put('/interview/' + interviewId, $scope.interview).success(function (data) {
-                window.location.href = '#/';
+        authService.getUserToken(function(idToken) {
+            $http.get('/interview/' + interviewId + "?idToken=" + idToken).success(function (data) {
+                $scope.interview = data.interview;
+                $scope.interview.conducted = true;
+                $scope.interview.user = $scope.interviewerName;
+                $scope.interview.recommendation = $scope.recommendation;
+                $http.put('/interview/' + interviewId + "?idToken=" + idToken, $scope.interview).success(function (data) {
+                    window.location.href = '#/';
+                });
             });
         });
     }
@@ -212,30 +214,32 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
     }
 
     var loadPreviousFeedbacks = function() {
-        $http.get('/interview/' + interviewId + '/feedback/').then(function(feedbacks) {
-            var savedFeedbacks = feedbacks.data.feedbacks;
-            savedFeedbacks.forEach(function(f, index) {
-                $scope.questionsByID[f.question_id].queued = true;
-                if(f.data[$scope.interviewerName]) {
-                    $scope.questionsByID[f.question_id].response = f.data[$scope.interviewerName].rating;
-                    if(f.data[$scope.interviewerName].note) {
-                        $scope.questionsByID[f.question_id].note = f.data[$scope.interviewerName].note;
+        authService.getUserToken(function(idToken) {
+            $http.get('/interview/' + interviewId + '/feedback/?idToken=' + idToken).then(function(feedbacks) {
+                var savedFeedbacks = feedbacks.data.feedbacks;
+                savedFeedbacks.forEach(function(f, index) {
+                    $scope.questionsByID[f.question_id].queued = true;
+                    if(f.data[$scope.interviewerName]) {
+                        $scope.questionsByID[f.question_id].response = f.data[$scope.interviewerName].rating;
+                        if(f.data[$scope.interviewerName].note) {
+                            $scope.questionsByID[f.question_id].note = f.data[$scope.interviewerName].note;
+                        }
                     }
-                }
-                $scope.previousQuestions.push($scope.questionsByID[f.question_id]);
+                    $scope.previousQuestions.push($scope.questionsByID[f.question_id]);
 
-                $scope.queuedQuestions.forEach(function (q, index) {
-                    $scope.questionsByID[q.id].queued = false;
+                    $scope.queuedQuestions.forEach(function (q, index) {
+                        $scope.questionsByID[q.id].queued = false;
+                    });
+                    $scope.queuedQuestions = [];
+                    if ($scope.currentQuestion && $scope.currentQuestion.id) {
+                        $scope.questionsByID[$scope.currentQuestion.id].queued = false;
+                    }
+                    $scope.currentQuestion = {};
                 });
-                $scope.queuedQuestions = [];
-                if ($scope.currentQuestion && $scope.currentQuestion.id) {
-                    $scope.questionsByID[$scope.currentQuestion.id].queued = false;
-                }
-                $scope.currentQuestion = {};
+                $scope.lastQuestion = $scope.previousQuestions.pop();
+                console.log($scope.queuedQuestions);
+                $rootScope.$emit('updateFilter');
             });
-            $scope.lastQuestion = $scope.previousQuestions.pop();
-            console.log($scope.queuedQuestions);
-            $rootScope.$emit('updateFilter');
         });
     }
 
@@ -364,48 +368,50 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
         $scope.$apply();
     });
 
-    $http.get('/interview/' + interviewId).success(function (data) {
-        $scope.interview = data.interview;
-        $http.get('/interview/' + interviewId + '/tags/').success(function (result) {
-            var tags = [],
-                tagPromises = [];
-            result.tags.forEach(function (tag, index) {
-                var tagPromise;
-                if (tag.name != "Intro" && tag.name != "Skills" && tag.name != "Close") {
-                    tags.push({
-                        label: tag.name,
-                        checked: true
+    authService.getUserToken(function(idToken) {
+        $http.get('/interview/' + interviewId + "?idToken=" + idToken).success(function (data) {
+            $scope.interview = data.interview;
+            $http.get('/interview/' + interviewId + '/tags/?idToken=' + idToken).success(function (result) {
+                var tags = [],
+                    tagPromises = [];
+                result.tags.forEach(function (tag, index) {
+                    var tagPromise;
+                    if (tag.name != "Intro" && tag.name != "Skills" && tag.name != "Close") {
+                        tags.push({
+                            label: tag.name,
+                            checked: true
+                        });
+                    }
+                    $scope.questionList[tag.name] = [];
+                    tagPromise = $http.get('/tag/' + tag.name + '/questions/').success(function (res) {
+                        $scope.questionList[tag.name] = res.questions;
+                        $scope.questionList[tag.name].forEach(function (q, index) {
+                            if (!$scope.questionsByID[q.id]) {
+                                $scope.questionsByID[q.id] = q;
+                                $scope.questionsByID[q.id].queued = false;
+                                $scope.questionsByID[q.id].tags = {};
+                            }
+                            $scope.questionsByID[q.id].tags[tag.name] = true;
+                        });
                     });
-                }
-                $scope.questionList[tag.name] = [];
-                tagPromise = $http.get('/tag/' + tag.name + '/questions/').success(function (res) {
-                    $scope.questionList[tag.name] = res.questions;
-                    $scope.questionList[tag.name].forEach(function (q, index) {
-                        if (!$scope.questionsByID[q.id]) {
-                            $scope.questionsByID[q.id] = q;
-                            $scope.questionsByID[q.id].queued = false;
-                            $scope.questionsByID[q.id].tags = {};
-                        }
-                        $scope.questionsByID[q.id].tags[tag.name] = true;
-                    });
+                    tagPromises.push(tagPromise);
                 });
-                tagPromises.push(tagPromise);
-            });
-            Promise.all(tagPromises).then(function (result) {
-                filterService.setTags(tags);
-                $scope.$apply();
-                $rootScope.$emit('updateFilter');
-                if($scope.interview.started) {
-                    loadPreviousFeedbacks();
-                    socket.emit('request-interview', {id: interviewId, interviewerName: $scope.interviewerName});
-                } else {
-                    $scope.interview.started = true;
-                    $http.put('/interview/' + interviewId, $scope.interview).success(function() {
+                Promise.all(tagPromises).then(function (result) {
+                    filterService.setTags(tags);
+                    $scope.$apply();
+                    $rootScope.$emit('updateFilter');
+                    if($scope.interview.started) {
+                        loadPreviousFeedbacks();
+                        socket.emit('request-interview', {id: interviewId, interviewerName: $scope.interviewerName});
+                    } else {
+                        $scope.interview.started = true;
+                        $http.put('/interview/' + interviewId + "?idToken=" + idToken, $scope.interview).success(function() {
 
-                    });
-                }
-            });
+                        });
+                    }
+                });
 
+            });
         });
     });
 }

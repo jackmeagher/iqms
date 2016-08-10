@@ -26,34 +26,37 @@ function list_interview_controller($scope, $http, $location, userService, authSe
     }
 
     $scope.deleteInterview = function (index,interview) {
-        $http.delete('/interview/' + interview.id + '/tags').success(function() {
-           $http.delete('/interview/' + interview.id + '/questions').success(function() {
-            $http.delete('/interview/' + interview.id).success(function() {
-               $scope.loadScreen(); 
+        authService.getUserToken(function(idToken) {
+            $http.delete('/interview/' + interview.id + '/tags?idToken=' + idToken).success(function() {
+                $http.delete('/interview/' + interview.id + '/questions?idToken=' + idToken).success(function() {
+                    $http.delete('/interview/' + interview.id + "?idToken=" + idToken).success(function() {
+                        $scope.loadScreen();
+                    });
+                });
             });
-           });
         });
     };
 
     $scope.loadScreen = function() {
-        if($scope.role != 'Admin' && $scope.role != 'Manager') {
-            $http.get('/user/' + $scope.name + '/interviews/').success(function(data) {
-                console.log(data);
-                $scope.interviews = data.interviews;
-                $scope.interviews.forEach(function(i, index) {
-                    $scope.loadCandidatePosition(i);
+        authService.getUserToken(function(idToken) {
+            if($scope.role != 'Admin' && $scope.role != 'Manager') {
+                $http.get('/user/' + $scope.name + '/interviews/').success(function(data) {
+                    console.log(data);
+                    $scope.interviews = data.interviews;
+                    $scope.interviews.forEach(function(i, index) {
+                        $scope.loadCandidatePosition(i);
+                    });
                 });
-            });
-        } else {
-            $http.get('/interview/').success(function(data) {
-                console.log(data);
-                $scope.interviews = data.interviews;
-                $scope.interviews.forEach(function(i, index) {
-                    $scope.loadCandidatePosition(i);
+            } else {
+                $http.get('/interview/?idToken=' + idToken).success(function(data) {
+                    console.log(data);
+                    $scope.interviews = data.interviews;
+                    $scope.interviews.forEach(function(i, index) {
+                        $scope.loadCandidatePosition(i);
+                    });
                 });
-            });
-        }
-
+            }
+        });
     }
     
     $scope.loadCandidatePosition = function(interview) {
