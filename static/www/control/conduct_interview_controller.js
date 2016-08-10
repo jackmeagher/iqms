@@ -1,4 +1,4 @@
-function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDialog, $routeParams,$filter, filterService, socket, toast, userService) {
+function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDialog, $routeParams,$filter, filterService, socket, toast, userService, authService) {
     var interviewId = $routeParams.id;
     filterService.setInterviewId(interviewId);
     $scope.interview = {};
@@ -56,17 +56,19 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
     }
 
     $scope.recordFeedback = function (feedback, creating) {
-        if (creating) {
-            $http.post('/feedback', feedback).then(function (created) {
-                $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id).then(function (added) {
+        authService.getUserToken(function(idToken) {
+            if (creating) {
+                $http.post('/feedback?idToken=' + idToken, feedback).then(function (created) {
+                    $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id).then(function (added) {
+                    });
                 });
-            });
-        } else {
-            $http.get('/interview/' + interviewId + '/feedback/' + feedback.question_id).then(function (feedbacks) {
-                $http.put('/feedback/' + feedbacks.data.feedbacks[0].id, feedback).then(function (update) {
+            } else {
+                $http.get('/interview/' + interviewId + '/feedback/' + feedback.question_id).then(function (feedbacks) {
+                    $http.put('/feedback/' + feedbacks.data.feedbacks[0].id + "?idToken=" + idToken, feedback).then(function (update) {
+                    });
                 });
-            });
-        }
+            }
+        });
     }
 
     $scope.pullQuestion = function () {
