@@ -1,4 +1,4 @@
-function create_question_controller ($scope, $rootScope, $location, $http,$window, taggingService) {
+function create_question_controller ($scope, $rootScope, $location, $http,$window, taggingService, authService) {
 
     $scope.questionData = {
         text: '',
@@ -48,25 +48,33 @@ function create_question_controller ($scope, $rootScope, $location, $http,$windo
     
     $scope.submitQuestion = function(questionData, id) {
         if (id > 0) {
-            $http.put('/question/' + id, questionData).success(function(created) {
-                taggingService.updateTags(true);
-                $window.location.href = './#qm';
-                taggingService.persistQuestionTag(id);
+            authService.getUserToken(function(idToken) {
+                $http.put('/question/' + id + "?idToken=" + idToken, questionData).success(function(created) {
+                    taggingService.updateTags(true);
+                    $window.location.href = './#qm';
+                    taggingService.persistQuestionTag(id);
+                });
             });
         } else if(id == -1) {
-           $http.post('/question',  questionData).success(function(created) {
-                taggingService.updateTags(false);
-                $window.location.href = './#qm';
-                taggingService.persistQuestionTag(created.question.id);
-            }); 
-        } else if(id == -2) {
-            $http.post('/question',  questionData).success(function(created) {
-                $scope.questionData = created.question;
-                $rootScope.$broadcast('interviewQuestion', $scope.questionData);
-                taggingService.updateTags(false);
-                taggingService.addTag("Inline");
-                taggingService.persistQuestionTag(created.question.id);
+            authService.getUserToken(function(idToken) {
+                $http.post('/question?idToken=' + idToken,  questionData).success(function(created) {
+                    taggingService.updateTags(false);
+                    $window.location.href = './#qm';
+                    taggingService.persistQuestionTag(created.question.id);
+                });
             });
+
+        } else if(id == -2) {
+            authService.getUserToken(function(idToken) {
+                $http.post('/question?idToken=' + idToken,  questionData).success(function(created) {
+                    $scope.questionData = created.question;
+                    $rootScope.$broadcast('interviewQuestion', $scope.questionData);
+                    taggingService.updateTags(false);
+                    taggingService.addTag("Inline");
+                    taggingService.persistQuestionTag(created.question.id);
+                });
+            });
+
         }
     }
     
@@ -74,13 +82,15 @@ function create_question_controller ($scope, $rootScope, $location, $http,$windo
         taggingService.resetTags();
         var loc = $scope.getWindowLocation();
         if (loc.location === 'ce') {
-            $http.get('/question/' + loc.id).success(function(data) {
-                $scope.questionData.questionText = data.question.text;
-                taggingService.loadSavedTags(data.question.id);
-                $scope.refreshTags();
-                $('#modelValue').val(data.question.difficulty);
-                $scope.questionData.answers = data.question.answers;
-            })
+            authService.getUserToken(function(idToken) {
+                $http.get('/question/' + loc.id + "?idToken=" + idToken).success(function(data) {
+                    $scope.questionData.text = data.question.text;
+                    taggingService.loadSavedTags(data.question.id, idToken);
+                    $scope.refreshTags();
+                    $('#modelValue').val(data.question.difficulty);
+                    $scope.questionData.answers = data.question.answers;
+                })
+            });
         } else if (loc.location === 'cq') {
             taggingService.addTag($scope.questionData.category);
             $scope.refreshTags();

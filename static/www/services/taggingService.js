@@ -23,9 +23,8 @@ function taggingService($http, $rootScope) {
         return category;
     }
 
-    var loadSavedTags = function(questionId) {
-        
-        $http.get('/question/' + questionId + '/tags/').success(function(data) {
+    var loadSavedTags = function(questionId, idToken) {
+        $http.get('/question/' + questionId + '/tags/?idToken=' + idToken).success(function(data) {
             data.tags.forEach(function(tag, index) {
                 savedTags.push(tag.name);
                 if(tag.name == "Intro" || tag.name == "Skills" || tag.name == "Close") {
