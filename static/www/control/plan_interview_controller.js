@@ -15,7 +15,7 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
             flaggingService.clearQuestions();
             flaggingService.loadQuestionList(interviewID);
             $http.get('/interview/' + interviewID).success(function(data) {
-                $http.get('/candidatePosition/' + data.interview.candidatePositionCId).success(function(result) {
+                $http.get('/candidatePosition/' + data.interview.candidatePositionCId + "?idToken=" + idToken).success(function(result) {
                     $http.get('/candidate/' + result.result.candidateId + "?idToken=" + idToken).success(function(result) {
                         $scope.candidateText = result.candidate.name;
                         $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});

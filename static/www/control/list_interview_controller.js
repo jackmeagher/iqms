@@ -58,7 +58,7 @@ function list_interview_controller($scope, $http, $location, userService, authSe
     
     $scope.loadCandidatePosition = function(interview) {
         authService.getUserToken(function(idToken) {
-            $http.get('/candidatePosition/' + interview.candidatePositionCId).success(function(result) {
+            $http.get('/candidatePosition/' + interview.candidatePositionCId + "?idToken=" + idToken).success(function(result) {
                 $http.get('/candidate/' + result.result.candidateId + "?idToken=" + idToken).success(function(result) {
                     interview.candidate = result.candidate.name;
                     interview.candidate += getCandidateID({type: "Internal", info: result.candidate});

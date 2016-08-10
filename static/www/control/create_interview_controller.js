@@ -49,7 +49,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             authService.getUserToken(function(idToken) {
                 flaggingService.loadQuestionList(loc.id);
                 $http.get('/interview/' + loc.id).success(function(data) {
-                    $http.get('/candidatePosition/' + data.interview.candidatePositionCId).success(function(result) {
+                    $http.get('/candidatePosition/' + data.interview.candidatePositionCId + "?idToken=" + idToken).success(function(result) {
                         $http.get('/candidate/' + result.result.candidateId + "?idToken=" + idToken).success(function(result) {
                             $scope.candidateItemChange(result.candidate.name);
                         });
@@ -91,7 +91,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                 + '/position/' + $scope.positions[$scope.selectedPosition].id + "?idToken=" + idToken)
                 .success(function() {
                     $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
-                        + '/position/' + $scope.positions[$scope.selectedPosition].id)
+                        + '/position/' + $scope.positions[$scope.selectedPosition].id + "?idToken=" + idToken)
                         .success(function(canPos) {
                             var candidatePositionID = canPos.candidatePosition.c_id;
                             var interviewData = {

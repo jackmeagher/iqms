@@ -142,7 +142,44 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
         });
 
         savedFeedbacks.forEach(function(f, index) {
-            if (savedQuestions[f.question_id].tags[$scope.selectedTag]) {
+            if(savedQuestions[f.question_id]) {
+                if (savedQuestions[f.question_id].tags[$scope.selectedTag]) {
+                    var diff = savedQuestions[f.question_id].difficulty;
+                    if (diff <= 3) {
+                        diff = 0;
+                    } else if (diff <= 6) {
+                        diff = 1;
+                    } else {
+                        diff = 2;
+                    }
+                    for (var k in f.data) {
+                        if (f.data.hasOwnProperty(k)) {
+                            if (f.data[k].rating == -1) {
+                                $scope.tagResultChart.data.rows[diff].c[3].v++;
+                            } else if (f.data[k].rating == -2) {
+
+                            } else if (f.data[k].rating <= 2) {
+                                $scope.tagResultChart.data.rows[diff].c[2].v++;
+                            } else {
+                                $scope.tagResultChart.data.rows[diff].c[1].v++;
+                            }
+
+                            if(f.data[k].note) {
+                                if(!$scope.selectedTagNotes[savedQuestions[f.question_id].text]) {
+                                    $scope.selectedTagNotes[savedQuestions[f.question_id].text] = "";
+                                }
+                                $scope.selectedTagNotes[savedQuestions[f.question_id].text] += k + ": " + f.data[k].note + "\n";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    var updateDiffResults = function() {
+        savedFeedbacks.forEach(function(f, index) {
+            if(savedQuestions[f.question_id]) {
                 var diff = savedQuestions[f.question_id].difficulty;
                 if (diff <= 3) {
                     diff = 0;
@@ -154,47 +191,14 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
                 for (var k in f.data) {
                     if (f.data.hasOwnProperty(k)) {
                         if (f.data[k].rating == -1) {
-                            $scope.tagResultChart.data.rows[diff].c[3].v++;
+                            $scope.diffResultsChart.data.rows[diff].c[3].v++;
                         } else if (f.data[k].rating == -2) {
 
                         } else if (f.data[k].rating <= 2) {
-                            $scope.tagResultChart.data.rows[diff].c[2].v++;
+                            $scope.diffResultsChart.data.rows[diff].c[2].v++;
                         } else {
-                            $scope.tagResultChart.data.rows[diff].c[1].v++;
+                            $scope.diffResultsChart.data.rows[diff].c[1].v++;
                         }
-
-                        if(f.data[k].note) {
-                            if(!$scope.selectedTagNotes[savedQuestions[f.question_id].text]) {
-                                $scope.selectedTagNotes[savedQuestions[f.question_id].text] = "";
-                            }
-                            $scope.selectedTagNotes[savedQuestions[f.question_id].text] += k + ": " + f.data[k].note + "\n";
-                        }
-                    }
-                }
-            }
-        });
-    }
-    
-    var updateDiffResults = function() {
-        savedFeedbacks.forEach(function(f, index) {
-            var diff = savedQuestions[f.question_id].difficulty;
-            if (diff <= 3) {
-                diff = 0; 
-            } else if (diff <= 6) {
-                diff = 1;
-            } else {
-                diff = 2;
-            }
-            for (var k in f.data) {
-                if (f.data.hasOwnProperty(k)) {
-                    if (f.data[k].rating == -1) {
-                        $scope.diffResultsChart.data.rows[diff].c[3].v++;
-                    } else if (f.data[k].rating == -2) {
-                        
-                    } else if (f.data[k].rating <= 2) {
-                        $scope.diffResultsChart.data.rows[diff].c[2].v++;
-                    } else {
-                        $scope.diffResultsChart.data.rows[diff].c[1].v++;
                     }
                 }
             }
