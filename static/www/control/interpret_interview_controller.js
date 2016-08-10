@@ -1,4 +1,4 @@
-function interpret_interview_controller($scope, $http, $routeParams) {
+function interpret_interview_controller($scope, $http, $routeParams, authService) {
     
     var interviewId = $routeParams.id;
     var savedFeedbacks;
@@ -237,31 +237,35 @@ function interpret_interview_controller($scope, $http, $routeParams) {
     }
     
     var queryDatabaseForQuestions = function() {
-        var questionPromises = [];
-        var tagPromises = [];
-        savedFeedbacks.forEach(function(f, index) {
-            var questionPromise = $http.get('/question/' + f.question_id).then(function(question) {
-                savedQuestions[f.question_id] = question.data.question;
-                savedQuestions[f.question_id].tags = {};
-                var tagPromise = $http.get('/question/' + f.question_id + '/tags/').then(function(tags) {
-                    tags.data.tags.forEach(function(tag, index) {
-                        if (tag.name != "Intro" && tag.name != "Skills" && tag.name != "Close") {
-                            savedQuestions[f.question_id].tags[tag.name] = true;
-                            $scope.savedTags[tag.name] = tag.name;
-                        }
-                    });
+        authService.getUserToken(function(idToken) {
+            var questionPromises = [];
+            var tagPromises = [];
+            savedFeedbacks.forEach(function(f, index) {
+                var questionPromise = $http.get('/question/' + f.question_id + "?idToken=" + idToken).then(function(question) {
+                    savedQuestions[f.question_id] = question.data.question;
+                    if(savedQuestions[f.question_id]) {
+                        savedQuestions[f.question_id].tags = {};
+                        var tagPromise = $http.get('/question/' + f.question_id + '/tags/?idToken=' + idToken).then(function(tags) {
+                            tags.data.tags.forEach(function(tag, index) {
+                                if (tag.name != "Intro" && tag.name != "Skills" && tag.name != "Close") {
+                                    savedQuestions[f.question_id].tags[tag.name] = true;
+                                    $scope.savedTags[tag.name] = tag.name;
+                                }
+                            });
+                        });
+                        tagPromises.push(tagPromise);
+                    }
                 });
-                tagPromises.push(tagPromise);
+                questionPromises.push(questionPromise);
+
             });
-            questionPromises.push(questionPromise);
-            
-        });
-        Promise.all(questionPromises).then(function(result) {
-            updateDiffResults();
-            Promise.all(tagPromises).then(function(result) {
-                console.log("Tag promises completed: ");
-                $scope.updateTagResult();
-                $scope.$apply();
+            Promise.all(questionPromises).then(function(result) {
+                updateDiffResults();
+                Promise.all(tagPromises).then(function(result) {
+                    console.log("Tag promises completed: ");
+                    $scope.updateTagResult();
+                    $scope.$apply();
+                });
             });
         });
     }
