@@ -1,16 +1,18 @@
-function question_flagger_controller($scope, $http, $rootScope, taggingService, flaggingService) {
+function question_flagger_controller($scope, $http, $rootScope, taggingService, flaggingService, authService) {
     $scope.sortType     = 'id'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
     $scope.searchQuestion   = '';     // set the default search/filter term
 
     $scope.tag = taggingService.getClickedTag();
-    $http.get('/tag/' + $scope.tag + '/questions/').success(function (data) {
-        $scope._question = data.questions;
-        var flaggedQuestions = flaggingService.getQuestions();
-        $scope._question.forEach(function(question, index) {
-            if (flaggedQuestions[question.id]) {
-                question.state = flaggedQuestions[question.id].state; 
-            }
+    authService.getUserToken(function(idToken) {
+        $http.get('/tag/' + $scope.tag + '/questions/?idToken=' + idToken).success(function (data) {
+            $scope._question = data.questions;
+            var flaggedQuestions = flaggingService.getQuestions();
+            $scope._question.forEach(function(question, index) {
+                if (flaggedQuestions[question.id]) {
+                    question.state = flaggedQuestions[question.id].state;
+                }
+            });
         });
     });
     

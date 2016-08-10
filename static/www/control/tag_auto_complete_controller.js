@@ -1,4 +1,4 @@
-function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingService) {
+function tag_auto_complete_controller (taggingService) {
     var self = this;
     self.tags = taggingService.getTags();
     self.searchText = "";

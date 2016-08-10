@@ -1,7 +1,3 @@
-/**
- * Created by nick on 4/5/16.
- */
-
 function question_manager_controller($scope, $http, taggingService, authService) {
     $scope.sortType     = 'id'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
@@ -15,7 +11,7 @@ function question_manager_controller($scope, $http, taggingService, authService)
             });
             var tags = {};
 
-            $http.get('/tag').success(function (data) {
+            $http.get('/tag?idToken=' + idToken).success(function (data) {
                 data.tags.forEach(function(tag, index) {
                     tags[tag.name] = tag;
                 });

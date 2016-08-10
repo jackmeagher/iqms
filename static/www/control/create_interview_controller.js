@@ -20,8 +20,8 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     $scope.userRole = userService.getUserRole();
     
     $scope.loadScreen = function() {
-        flaggingService.clearQuestions();
         authService.getUserToken(function(idToken) {
+            flaggingService.clearQuestions();
             $http.get('/candidate?idToken=' + idToken).success(function(data) {
                 data.candidates.forEach(function(candidate, index) {
                     var fullName = candidate.name + getCandidateID({type: "Internal", info: candidate});
@@ -29,55 +29,29 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
                     $scope.candidates[fullName].name = fullName;
                 });
             });
-        });
-        $http.get('/position').success(function(data) {
-            data.positions.forEach(function(position, index) {
-                var fullName = position.name + getPositionID({type: "Internal", info: position});
-                $scope.positions[fullName] = position;
-                $scope.positions[fullName].name = fullName;
-            });
-        });
-
-        $http.get('/user/').success(function(users) {
-            users.users.forEach(function(user, index) {
-                $scope.userList.push(user.name);
-            });
-        });
-        
-        var loc = $scope.getWindowLocation();
-        if (loc.location === 'ie') {
-            authService.getUserToken(function(idToken) {
-                flaggingService.loadQuestionList(loc.id);
-                $http.get('/interview/' + loc.id + "?idToken=" + idToken).success(function(data) {
-                    $http.get('/candidatePosition/' + data.interview.candidatePositionCId + "?idToken=" + idToken).success(function(result) {
-                        $http.get('/candidate/' + result.result.candidateId + "?idToken=" + idToken).success(function(result) {
-                            $scope.candidateItemChange(result.candidate.name);
-                        });
-                        $http.get('/position/' + result.result.positionId).success(function(result) {
-                            $scope.positionItemChange(result.position.name);
-                        });
-                    });
-                    $http.get('/interview/' + loc.id + '/tags?idToken=' + idToken).success(function(data) {
-                        data.tags.forEach(function(tag, index) {
-                            $('#tagbox').tagsinput('add', tag.name);
-                        });
-                    })
+            $http.get('/position?idToken=' + idToken).success(function(data) {
+                data.positions.forEach(function(position, index) {
+                    var fullName = position.name + getPositionID({type: "Internal", info: position});
+                    $scope.positions[fullName] = position;
+                    $scope.positions[fullName].name = fullName;
                 });
             });
-        }
+
+            $http.get('/user/?idToken=' + idToken).success(function(users) {
+                users.users.forEach(function(user, index) {
+                    $scope.userList.push(user.name);
+                });
+            });
+            
+        });
     }
     
     $scope.createInterview = function () {
-        var loc = $scope.getWindowLocation();
-        if (loc.location === 'ie') {
-            $scope.saveInterview(loc.id);
-        } else {
-            authService.getUserToken(function(idToken) {
-                $http.post('/interview?idToken=' + idToken).success(function(created) {
-                    $scope.saveInterview(created.interview.id);
-                });
+        authService.getUserToken(function(idToken) {
+            $http.post('/interview?idToken=' + idToken).success(function(created) {
+                $scope.saveInterview(created.interview.id);
             });
-        }
+        });
     };
     
     $scope.saveInterview = function(interviewID) {
@@ -118,12 +92,14 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             popupService.showPrompt(this, function() {
                 $scope.positions[position].description = popupService.getResult();
                 $scope.selectedPosition = position;
-                $http.post('/position', $scope.positions[position]).success(function(created) {
-                    var fullName = position + getPositionID({type: "Internal", info: created.data});
-                    $scope.positions[fullName] = created.data;
-                    $scope.positions[fullName].name = fullName;
-                    $scope.selectedPosition = fullName;
-                    delete $scope.positions[position];
+                authService.getUserToken(function(idToken) {
+                    $http.post('/position?idToken=' + idToken, $scope.positions[position]).success(function(created) {
+                        var fullName = position + getPositionID({type: "Internal", info: created.data});
+                        $scope.positions[fullName] = created.data;
+                        $scope.positions[fullName].name = fullName;
+                        $scope.selectedPosition = fullName;
+                        delete $scope.positions[position];
+                    });
                 });
             });
         }
@@ -246,19 +222,22 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
             });
         }
     }
-    
+
     $('#tagbox').on('beforeItemAdd', function(event) {
         event.itemValue = taggingService.countTag(event.item);
         event.itemText = event.item + " (" + event.itemValue + ")";
         $scope.taglist.push(event.item);
     });
-    
+
     $('#tagbox').on('beforeItemRemove', function(event) {
         var loc = $scope.getWindowLocation();
+        console.log("Removed");
         if (loc.location === 'ie') {
             var interviewID = loc.id;
-            $http.delete('/tag/' + event.item
-                + '/interview/' + interviewID).success(function(created) {
+            authService.getUserToken(function(idToken) {
+                $http.delete('/tag/' + event.item
+                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
+                });
             });
         }
         if($scope.taglist.indexOf(event.item) > -1) {
@@ -267,38 +246,40 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
     });
     
     $scope.checkForMainTags = function(interviewID) {
-        var skillTag = false;
-        var introTag = false;
-        var closeTag = false;
-        $scope.taglist.forEach(function(tag, index) {
-            if (taggingService.countTag(tag) > 0) {
-                $http.post('/tag/' + tag
-                       + '/interview/' + interviewID).success(function(created) {
+        authService.getUserToken(function(idToken) {
+            var skillTag = false;
+            var introTag = false;
+            var closeTag = false;
+            $scope.taglist.forEach(function(tag, index) {
+                if (taggingService.countTag(tag) > 0) {
+                    $http.post('/tag/' + tag
+                        + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
+                    });
+                }
+                if (tag == "Intro") {
+                    introTag = true;
+                } else if (tag == "Skills") {
+                    skillTag = true;
+                } else if (tag == "Close") {
+                    closeTag = true;
+                }
+            });
+            if (!introTag) {
+                $http.post('/tag/' + "Intro"
+                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
                 });
             }
-            if (tag == "Intro") {
-                introTag = true;
-            } else if (tag == "Skills") {
-                skillTag = true;
-            } else if (tag == "Close") {
-                closeTag = true;
+            if (!skillTag) {
+                $http.post('/tag/' + "Skills"
+                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
+                });
+            }
+            if (!closeTag) {
+                $http.post('/tag/' + "Close"
+                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
+                });
             }
         });
-        if (!introTag) {
-            $http.post('/tag/' + "Intro"
-                       + '/interview/' + interviewID).success(function(created) {
-            });
-        }
-        if (!skillTag) {
-            $http.post('/tag/' + "Skills"
-                       + '/interview/' + interviewID).success(function(created) {
-            });
-        }
-        if (!closeTag) {
-            $http.post('/tag/' + "Close"
-                       + '/interview/' + interviewID).success(function(created) {
-            });
-        }
     }
 
     $scope.addUser = function() {
@@ -349,7 +330,7 @@ function create_interview_controller($scope, $http, $mdDialog, $mdMedia, $window
         return formatted;
     }
 
-    taggingService.resetTags();  
+    taggingService.resetTags();
     $scope.loadScreen();
 }
 

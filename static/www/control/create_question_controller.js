@@ -50,7 +50,6 @@ function create_question_controller ($scope, $rootScope, $location, $http,$windo
         if (id > 0) {
             authService.getUserToken(function(idToken) {
                 $http.put('/question/' + id + "?idToken=" + idToken, questionData).success(function(created) {
-                    taggingService.updateTags(true);
                     $window.location.href = './#qm';
                     taggingService.persistQuestionTag(id);
                 });
@@ -58,7 +57,6 @@ function create_question_controller ($scope, $rootScope, $location, $http,$windo
         } else if(id == -1) {
             authService.getUserToken(function(idToken) {
                 $http.post('/question?idToken=' + idToken,  questionData).success(function(created) {
-                    taggingService.updateTags(false);
                     $window.location.href = './#qm';
                     taggingService.persistQuestionTag(created.question.id);
                 });
@@ -69,7 +67,6 @@ function create_question_controller ($scope, $rootScope, $location, $http,$windo
                 $http.post('/question?idToken=' + idToken,  questionData).success(function(created) {
                     $scope.questionData = created.question;
                     $rootScope.$broadcast('interviewQuestion', $scope.questionData);
-                    taggingService.updateTags(false);
                     taggingService.addTag("Inline");
                     taggingService.persistQuestionTag(created.question.id);
                 });

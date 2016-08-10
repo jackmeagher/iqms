@@ -20,7 +20,7 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
                         $scope.candidateText = result.candidate.name;
                         $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});
                     });
-                    $http.get('/position/' + result.result.positionId).success(function(result) {
+                    $http.get('/position/' + result.result.positionId + "?idToken=" + idToken).success(function(result) {
                         $scope.positionText = result.position.name;
                         $scope.positionText += getPositionID({type: "Internal", info: result.position});
                         $scope.positionDescription = result.position.description;
@@ -81,8 +81,10 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
     });
 
     $('#tagbox').on('beforeItemRemove', function(event) {
-        $http.delete('/tag/' + event.item
-            + '/interview/' + interviewID).success(function(created) {
+        authService.getUserToken(function(idToken) {
+            $http.delete('/tag/' + event.item
+                + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
+            });
         });
         if($scope.taglist.indexOf(event.item) > -1) {
             $scope.taglist.splice($scope.taglist.indexOf(event.item), 1);
@@ -90,38 +92,40 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
     });
 
     $scope.checkForMainTags = function(interviewID) {
-        var skillTag = false;
-        var introTag = false;
-        var closeTag = false;
-        $scope.taglist.forEach(function(tag, index) {
-            if (taggingService.countTag(tag) > 0) {
-                $http.post('/tag/' + tag
-                    + '/interview/' + interviewID).success(function(created) {
+        authService.getUserToken(function(idToken) {
+            var skillTag = false;
+            var introTag = false;
+            var closeTag = false;
+            $scope.taglist.forEach(function(tag, index) {
+                if (taggingService.countTag(tag) > 0) {
+                    $http.post('/tag/' + tag
+                        + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
+                    });
+                }
+                if (tag == "Intro") {
+                    introTag = true;
+                } else if (tag == "Skills") {
+                    skillTag = true;
+                } else if (tag == "Close") {
+                    closeTag = true;
+                }
+            });
+            if (!introTag) {
+                $http.post('/tag/' + "Intro"
+                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
                 });
             }
-            if (tag == "Intro") {
-                introTag = true;
-            } else if (tag == "Skills") {
-                skillTag = true;
-            } else if (tag == "Close") {
-                closeTag = true;
+            if (!skillTag) {
+                $http.post('/tag/' + "Skills"
+                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
+                });
+            }
+            if (!closeTag) {
+                $http.post('/tag/' + "Close"
+                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
+                });
             }
         });
-        if (!introTag) {
-            $http.post('/tag/' + "Intro"
-                + '/interview/' + interviewID).success(function(created) {
-            });
-        }
-        if (!skillTag) {
-            $http.post('/tag/' + "Skills"
-                + '/interview/' + interviewID).success(function(created) {
-            });
-        }
-        if (!closeTag) {
-            $http.post('/tag/' + "Close"
-                + '/interview/' + interviewID).success(function(created) {
-            });
-        }
     }
 
     var getCandidateID = function(options) {

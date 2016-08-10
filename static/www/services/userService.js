@@ -1,14 +1,16 @@
-function userService($rootScope, $http, $route) {
+function userService($rootScope, $http, $route, authService) {
     var userName = null;
     var userRole = null;
 
     var setUserName = function(name) {
         userName = name;
         if(name) {
-            $http.get('/user/' + name).success(function (user) {
-                if(user.user) {
-                    setUserRole(user.user.role);
-                }
+            authService.getUserToken(function(idToken) {
+                $http.get('/user/' + name + "?idToken=" + idToken).success(function (user) {
+                    if(user.user) {
+                        setUserRole(user.user.role);
+                    }
+                });
             });
         }
         $rootScope.$emit('updateName');

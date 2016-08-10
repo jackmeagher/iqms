@@ -383,7 +383,7 @@ function conduct_interview_controller ($scope,$rootScope,$http,$mdMedia, $mdDial
                         });
                     }
                     $scope.questionList[tag.name] = [];
-                    tagPromise = $http.get('/tag/' + tag.name + '/questions/').success(function (res) {
+                    tagPromise = $http.get('/tag/' + tag.name + '/questions/?idToken=' + idToken).success(function (res) {
                         $scope.questionList[tag.name] = res.questions;
                         $scope.questionList[tag.name].forEach(function (q, index) {
                             if (!$scope.questionsByID[q.id]) {

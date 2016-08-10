@@ -1,4 +1,4 @@
-function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routeParams, filterService, socket, popupService, taggingService) {
+function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routeParams, filterService, socket, authService, taggingService) {
     $scope.difficulties = [];
     $scope.tags = [];
     
@@ -141,8 +141,10 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
 
     $scope.addTheTag = function() {
         $scope.tags.push({checked: true, label: $scope.selectedTag});
-        $http.post('/tag/' + $scope.selectedTag
-            + '/interview/' + $routeParams.id).success(function(created) {
+        authService.getUserToken(function(idToken) {
+            $http.post('/tag/' + $scope.selectedTag
+                + '/interview/' + $routeParams.id + "?idToken=" + idToken).success(function(created) {
+            });
         });
         $mdDialog.hide();
     }

@@ -5,7 +5,7 @@
  * Created by nick on 3/31/16.
  */
 
-function login_controller($scope, $http, userService, $location) {
+function login_controller($scope, $http, userService, authService, $location) {
     $scope.create = false;
     $scope.emailReset = 0;
     
@@ -13,15 +13,6 @@ function login_controller($scope, $http, userService, $location) {
         email: "",
         password: ""
     };
-    $scope.PostLogin = function () {
-        $http.post('/user/auth', $scope.user)
-            .then(function(data) {
-                $scope.show_side();
-                if (data.token) {
-                    $scope.successful=true;
-                }
-            });
-    }
     
     $scope.loginUser = function() {
         firebase.auth().signInWithEmailAndPassword($scope.user.email, $scope.user.password)
@@ -50,9 +41,11 @@ function login_controller($scope, $http, userService, $location) {
                     role: "Interviewer"
                 };
                 userService.setUserRole(user.role);
-                $http.post('/user/', user).success(function(data) {
-                    console.log(data);
-                    $location.path("/");
+                authService.getUserToken(function(idToken) {
+                    $http.post('/user/?idToken=' + idToken, user).success(function(data) {
+                        console.log(data);
+                        $location.path("/");
+                    });
                 });
             });
     }

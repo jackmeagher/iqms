@@ -40,7 +40,7 @@ function list_interview_controller($scope, $http, $location, userService, authSe
     $scope.loadScreen = function() {
         authService.getUserToken(function(idToken) {
             if($scope.role != 'Admin' && $scope.role != 'Manager') {
-                $http.get('/user/' + $scope.name + '/interviews/').success(function(data) {
+                $http.get('/user/' + $scope.name + '/interviews/?idToken=' + idToken).success(function(data) {
                     console.log(data);
                     $scope.interviews = data.interviews;
                     $scope.interviews.forEach(function(i, index) {
@@ -66,7 +66,7 @@ function list_interview_controller($scope, $http, $location, userService, authSe
                     interview.candidate = result.candidate.name;
                     interview.candidate += getCandidateID({type: "Internal", info: result.candidate});
                 });
-                $http.get('/position/' + result.result.positionId).success(function(result) {
+                $http.get('/position/' + result.result.positionId + "?idToken=" + idToken).success(function(result) {
                     interview.position = result.position.name;
                     interview.position += getPositionID({type: "Internal", info: result.position});
                 });
