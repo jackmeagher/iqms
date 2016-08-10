@@ -1,4 +1,4 @@
-function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMedia, $window, taggingService, flaggingService) {
+function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMedia, $window, taggingService, flaggingService, authService) {
 
     var interviewID = $routeParams.id;
 
@@ -11,28 +11,30 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
     $scope.taglist = [];
 
     $scope.loadScreen = function() {
-        flaggingService.clearQuestions();
-        flaggingService.loadQuestionList(interviewID);
-        $http.get('/interview/' + interviewID).success(function(data) {
-            $http.get('/candidatePosition/' + data.interview.candidatePositionCId).success(function(result) {
-                $http.get('/candidate/' + result.result.candidateId).success(function(result) {
-                    $scope.candidateText = result.candidate.name;
-                    $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});
+        authService.getUserToken(function(idToken) {
+            flaggingService.clearQuestions();
+            flaggingService.loadQuestionList(interviewID);
+            $http.get('/interview/' + interviewID).success(function(data) {
+                $http.get('/candidatePosition/' + data.interview.candidatePositionCId).success(function(result) {
+                    $http.get('/candidate/' + result.result.candidateId + "?idToken=" + idToken).success(function(result) {
+                        $scope.candidateText = result.candidate.name;
+                        $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});
+                    });
+                    $http.get('/position/' + result.result.positionId).success(function(result) {
+                        $scope.positionText = result.position.name;
+                        $scope.positionText += getPositionID({type: "Internal", info: result.position});
+                        $scope.positionDescription = result.position.description;
+                    });
                 });
-                $http.get('/position/' + result.result.positionId).success(function(result) {
-                    $scope.positionText = result.position.name;
-                    $scope.positionText += getPositionID({type: "Internal", info: result.position});
-                    $scope.positionDescription = result.position.description;
-                });
-            });
-            $http.get('/interview/' + interviewID + '/tags').success(function(data) {
-                data.tags.forEach(function(tag, index) {
-                    $('#tagbox').tagsinput('add', tag.name);
-                });
-            })
+                $http.get('/interview/' + interviewID + '/tags').success(function(data) {
+                    data.tags.forEach(function(tag, index) {
+                        $('#tagbox').tagsinput('add', tag.name);
+                    });
+                })
 
-            $scope.dateText = data.interview.date;
-            $scope.locationText = data.interview.location;
+                $scope.dateText = data.interview.date;
+                $scope.locationText = data.interview.location;
+            });
         });
     }
 
