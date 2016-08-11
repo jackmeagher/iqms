@@ -7,15 +7,12 @@ function manage_user_controller($scope, $http, authService, userService) {
     $scope.users = [];
     $scope.roleList = ["Interviewer", "Manager", "Admin"];
 
-    $scope.name = userService.getUserName();
     $scope.role = userService.getUserRole();
     
     $scope.updateUser = function(user) {
         authService.getUserToken(function(idToken) {
             $http.put('/user/' + user.name + "?idToken=" + idToken, user).success(function(user) {
-                $http.get('/user/?idToken='+ idToken).success(function(data) {
-                    $scope.users = data.users;
-                });
+                loadUserList(idToken);
             });
         });
     }
@@ -23,20 +20,20 @@ function manage_user_controller($scope, $http, authService, userService) {
     $scope.deleteUser = function(user) {
         authService.getUserToken(function(idToken) {
             $http.delete('/user/' + user + "?idToken=" + idToken).success(function() {
-                $http.get('/user/?idToken=' + idToken).success(function(data) {
-                    $scope.users = data.users;
-                });
+                loadUserList(idToken);
             });
         });
     };
 
-    $scope.loadScreen = function() {
-        authService.getUserToken(function(idToken) {
-            $http.get('/user/?idToken=' + idToken).success(function(data) {
-                $scope.users = data.users;
-            });
-        });
-    }
+    var loadScreen = function() {
+        authService.getUserToken(loadUserList);
+    };
 
-    $scope.loadScreen();
-};
+    var loadUserList = function(idToken) {
+        $http.get('/user/?idToken=' + idToken).success(function(data) {
+            $scope.users = data.users;
+        });
+    };
+
+    loadScreen();
+}

@@ -9,7 +9,7 @@ function create_question_controller ($scope, $rootScope, $location, $http, taggi
         category: 'Skills'
     };
 
-    $scope.loadQuestion = function() {
+    var loadQuestion = function() {
         taggingService.resetTags();
         if ($location.path() === '/ce') {
             instantiateOldQuestion();
@@ -106,5 +106,5 @@ function create_question_controller ($scope, $rootScope, $location, $http, taggi
         $scope.questionData.selectedTags = taggingService.getSelectedTags();
     };
     
-    $scope.loadQuestion();
+    loadQuestion();
 }
