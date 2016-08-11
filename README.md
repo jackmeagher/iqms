@@ -9,6 +9,10 @@
     <td>Node</td>
     <td>https://nodejs.org/en/download/package-manager/</td>
   </tr>
+  <tr>
+    <td>Firebase</td>
+    <td>https://console.firebase.google.com/</td>
+  </tr>
 </table>
 
 
@@ -16,7 +20,7 @@
 Clone the project from the repository  
 
 ```	
-	$git clone https://github.com/Geocent/iqms
+$ git clone https://github.com/Geocent/iqms
 ```
 
 
@@ -36,23 +40,23 @@ $ npm install
 Set up psql in separate terminal  
 
 ```
-	$ psql
-	$ ALTER USER postgres WITH PASSWORD '1233456';
-	$ CREATE DATABASE iqms_development;  
+$ psql
+$ ALTER USER postgres WITH PASSWORD '1233456';
+$ CREATE DATABASE iqms_development;
 ```
 
 To start: back in /iqms  
 
 ```
-	$ chmod +x bin/www_test
-	$ cd bin
-	$ ./www_test
+$ chmod +x bin/www_test
+$ cd bin
+$ ./www_test
 ```	
 
 To open app: from a browser, go to  
 
 ```
-	http://localhost:3000/static/www/
+http://localhost:3000/static/www/
 ```	
 
 ###Notes:
@@ -60,8 +64,64 @@ To open app: from a browser, go to
 bin/www is daemonized, bin/www_test is not  
 tests can be ran with `$ mocha`
 
+####Setting Up Firebase
 
-###Command Line for PostgreSQL
+Open up browser and go to
+```
+https://console.firebase.google.com/
+```
+
+Click the Create New Project button and fill out details about the project (the name).
+
+Once your project has been created, you should be able to gather the majority of the needed configuration information for the config.json.
+
+After your project is created, click the button that reads 'Add Firebase to your web app'. After loading, it will generate information for your project.
+
+Fill out the config.json fields:
+
+<table>
+    <thead>
+        <tr>
+            <td>config.json key</td<
+            <td>Corresponding Firebase information</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>firebaseApiKey</td>
+            <td>apiKey</td>
+        </tr>
+        <tr>
+            <td>firebaseAuthDomain</td>
+            <td>authDomain</td>
+        </tr>
+        <tr>
+            <td>firebaseDatabaseURL</td>
+            <td>databaseURL</td>
+        </tr>
+    </tbody>
+<table>
+
+Once those fields are configured, you need to generate the authentication JSON for the server to authenticate users.
+
+To do this, click the settings gear in the top left corner of the Firebase console and select Permissions from the menu.
+
+Select Service accounts in the left sidebar menu.
+
+At the top of the screen click Create Service Account and fill out the Service account name.
+
+Be sure to select the 'Furnish a new private key' option and make sure you choose JSON for the output.
+
+Click create and it should create your new Service account and download a JSON file to your machine.
+
+Move this JSON file to your config folder in the root of your project and change the key of your config.json to match this model:
+```
+     "firebaseServiceAccount": "../config/<filename>.json"
+```
+Firebase should be operational at this point and all authentication (frontend and backend) should be working.
+
+
+####Command Line for PostgreSQL
 
 ```
 $ psql (starts PostgreSQL so that other commands can be run)
@@ -75,9 +135,9 @@ CREATE DATABASE <name> (creates the database)
 Whenever any of the model files are modified, the database must be dropped and re-created, and the server must be restarted. Otherwise, the changes will not take place and errors can occur.
 
 
-###Config:
+####Configuration:
 
-The config.json should be placed in the config folder of the root of the project
+A config.json should be created and placed in the config folder of the root of the project. default.config.json is a template of the properties needed for the config.json file.
 
 <table>
   <tr>
