@@ -252,7 +252,6 @@
             var socket;
 
             $http.get('/config/config.json').success(function(config) {
-
                 socket = io.connect('http://' + config.development.webSocketHost + ':' + config.development.webSocketPort);
             });
           

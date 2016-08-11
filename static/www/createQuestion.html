@@ -37,6 +37,7 @@
                                         md-items="tag in ctrl.querySearch(ctrl.searchText)"
                                         md-item-text="tag"
                                         md-min-length="0"
+                                        md-input-id="tagBox"
                                         placeholder="Search for Tag">
                                     <md-item-template>
                                                     <span md-highlight-text="ctrl.searchText"
@@ -75,21 +76,21 @@
                                     <p>
                                         Junior
                                         <br>
-                                        <input type="radio" name="level" ng-model="value" value="0" checked ng-click="updateLimits()">
+                                        <input id="juniorDiff" type="radio" name="level" ng-model="value" value="0" checked ng-click="updateLimits()">
                                     </p>
                                 </div>
                                 <div class='col-xs-4' style="text-align: center; padding: 0px !important;">
                                     <p>
                                         Mid
                                         <br>
-                                        <input type="radio" name="level" ng-model="value" value="5" ng-click="updateLimits()">
+                                        <input id="midDiff" type="radio" name="level" ng-model="value" value="5" ng-click="updateLimits()">
                                     </p>
                                 </div>
                                 <div class='col-xs-4' style="text-align: right; padding: 0px !important;">
                                     <p>
                                         Senior
                                         <br>
-                                        <input type="radio" name="level" ng-model="value" value="10" ng-click="updateLimits()">
+                                        <input id="seniorDiff" type="radio" name="level" ng-model="value" value="10" ng-click="updateLimits()">
                                     </p>
                                 </div>
                             </div>
@@ -114,10 +115,12 @@
                                 <input ng-repeat="answer in questionData.answers track by $index" ng-model="questionData.answers[$index]" id="questionDataanswer{{$index}}"class="form-control answer-box" type="text" style="text-align:left; margin-bottom:1%;" value="{{answer}}">
                             </div>
                      
-                            <button class="btn btn-success btn-add" type="button" ng-click="addAnswer()">
+                            <button class="btn btn-success btn-add" type="button" ng-click="addAnswer()"
+                                    id="addAnswerButton">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
-                            <button class="btn btn-danger btn-add" type="button" ng-click="removeAnswer()" style="float:right;">
+                            <button class="btn btn-danger btn-add" type="button" ng-click="removeAnswer()" style="float:right;"
+                                    id="removeAnswerButton">
                                 <span class="glyphicon glyphicon-minus"></span>
                             </button>
                         </div>
@@ -127,7 +130,8 @@
                 <div class='row'>
                     <div class='col-xs-6' style="text-align:right;">
                         <button type="button" class="btn btn-lg btn-success"
-                                ng-click="compileData(); answer(questionData);">
+                                ng-click="compileData(); answer(questionData);"
+                                id="submitQuestion">
                             Submit
                         </button>
                     </div>
