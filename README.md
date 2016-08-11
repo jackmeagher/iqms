@@ -80,26 +80,22 @@ After your project is created, click the button that reads 'Add Firebase to your
 Fill out the config.json fields:
 
 <table>
-    <thead>
-        <tr>
-            <td>config.json key</td>
-            <td>Corresponding Firebase information</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>firebaseApiKey</td>
-            <td>apiKey</td>
-        </tr>
-        <tr>
-            <td>firebaseAuthDomain</td>
-            <td>authDomain</td>
-        </tr>
-        <tr>
-            <td>firebaseDatabaseURL</td>
-            <td>databaseURL</td>
-        </tr>
-    </tbody>
+    <tr>
+        <td>config.json key</td>
+        <td>Corresponding Firebase information</td>
+    </tr>
+    <tr>
+        <td>firebaseApiKey</td>
+        <td>apiKey</td>
+    </tr>
+    <tr>
+        <td>firebaseAuthDomain</td>
+        <td>authDomain</td>
+    </tr>
+    <tr>
+        <td>firebaseDatabaseURL</td>
+        <td>databaseURL</td>
+    </tr>
 <table>
 
 
