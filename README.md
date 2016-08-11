@@ -6,44 +6,36 @@
 | Node | https://nodejs.org/en/download/package-manager/ |
 | Firebase | https://console.firebase.google.com/ |
 
-Clone the project from the repository  
-
+Clone the project from the repository:
 ```	
 $ git clone https://github.com/Geocent/iqms
 ```
 
-
-Change directory to project  
-
+Change directory to project:
 ```	
 $ cd iqms
 ```
 
-
-Install node dependencies via npm  
-
+Install node dependencies via npm:
 ```	
 $ npm install
 ```
 
-Set up psql in separate terminal  
-
+Set up psql in separate terminal:
 ```
 $ psql
 $ ALTER USER postgres WITH PASSWORD '1233456';
 $ CREATE DATABASE iqms_development;
 ```
 
-To start: back in /iqms  
-
+To start: back in /iqms:
 ```
 $ chmod +x bin/www_test
 $ cd bin
 $ ./www_test
 ```	
 
-To open app: from a browser, go to  
-
+To open app: from a browser, go to:
 ```
 http://localhost:3000/static/www/
 ```	
@@ -55,7 +47,7 @@ tests can be ran with `$ mocha`
 
 ####Setting Up Firebase
 
-Open up browser and go to
+Open up browser and go to:
 ```
 https://console.firebase.google.com/
 ```
@@ -68,30 +60,11 @@ After your project is created, click the button that reads 'Add Firebase to your
 
 Fill out the config.json fields:
 
-<table>
-    <thead>
-        <tr>
-            <td>config.json key</td>
-            <td>Corresponding Firebase information</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>firebaseApiKey</td>
-            <td>apiKey</td>
-        </tr>
-        <tr>
-            <td>firebaseAuthDomain</td>
-            <td>authDomain</td>
-        </tr>
-        <tr>
-            <td>firebaseDatabaseURL</td>
-            <td>databaseURL</td>
-        </tr>
-    </tbody>
-<table>
-
-
+| config.json key | Corresponding Firebase information |
+| --- | ---|
+| firebaseApiKey | apiKey |
+| firebaseAuthDomain | authDomain |
+| firebaseDatabaseURL | databaseURL |
 
 Once those fields are configured, you need to generate the authentication JSON for the server to authenticate users.
 
