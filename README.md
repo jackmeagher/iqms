@@ -82,7 +82,7 @@ Fill out the config.json fields:
 <table>
     <thead>
         <tr>
-            <td>config.json key</td<
+            <td>config.json key</td>
             <td>Corresponding Firebase information</td>
         </tr>
     </thead>
