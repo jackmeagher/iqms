@@ -18,7 +18,6 @@ app.set('port', process.env.PORT || 5000);
 
 app.use(bodyParser.json());
 
-var role_routes = require('./routes/role');
 var interview_routes = require('./routes/interview');
 var question_routes = require('./routes/question');
 var user_routes = require('./routes/user');
@@ -32,7 +31,6 @@ var feedback_routes = require('./routes/feedback');
 question_routes.register(app,'');
 interview_routes.register(app,'');
 user_routes.register(app,'');
-role_routes.register(app,'');
 tag_routes.register(app,'');
 position_routes.register(app,'');
 candidate_routes.register(app, '');
