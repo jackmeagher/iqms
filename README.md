@@ -1,21 +1,10 @@
 
 ##Required
-<table>
-  <tr>
-    <td>PostgreSQL</td>
-    <td>http://www.postgresql.org/download/</td>
-  </tr>
-  <tr>
-    <td>Node</td>
-    <td>https://nodejs.org/en/download/package-manager/</td>
-  </tr>
-  <tr>
-    <td>Firebase</td>
-    <td>https://console.firebase.google.com/</td>
-  </tr>
-</table>
-
-
+| Technology | Site |
+| --- | --- |
+| PostgreSQL | http://www.postgresql.org/download/ |
+| Node | https://nodejs.org/en/download/package-manager/ |
+| Firebase | https://console.firebase.google.com/ |
 
 Clone the project from the repository  
 
@@ -80,22 +69,26 @@ After your project is created, click the button that reads 'Add Firebase to your
 Fill out the config.json fields:
 
 <table>
-    <tr>
-        <td>config.json key</td>
-        <td>Corresponding Firebase information</td>
-    </tr>
-    <tr>
-        <td>firebaseApiKey</td>
-        <td>apiKey</td>
-    </tr>
-    <tr>
-        <td>firebaseAuthDomain</td>
-        <td>authDomain</td>
-    </tr>
-    <tr>
-        <td>firebaseDatabaseURL</td>
-        <td>databaseURL</td>
-    </tr>
+    <thead>
+        <tr>
+            <td>config.json key</td>
+            <td>Corresponding Firebase information</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>firebaseApiKey</td>
+            <td>apiKey</td>
+        </tr>
+        <tr>
+            <td>firebaseAuthDomain</td>
+            <td>authDomain</td>
+        </tr>
+        <tr>
+            <td>firebaseDatabaseURL</td>
+            <td>databaseURL</td>
+        </tr>
+    </tbody>
 <table>
 
 
