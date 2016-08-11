@@ -18,7 +18,7 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <label>Position</label>
-                                    <button class="btn btn-success btn-add btn-xs" type="button" ng-click="addPosition(positionText)" style="margin-left:4px;">
+                                    <button id="addPositionButton" class="btn btn-success btn-add btn-xs" type="button" ng-click="addPosition(positionText)" style="margin-left:4px;">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                     <md-autocomplete
@@ -31,6 +31,7 @@
                                         md-items="position in queryPosition(positionText)"
                                         md-item-text="position"
                                         md-min-length="0"
+                                        md-input-id="positionBox"
                                         placeholder="Search for Position">
                                     <md-item-template>
                                                     <span md-highlight-text="positionText"
@@ -44,7 +45,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-5">
                                     <label>Candidate</label>
-                                    <button class="btn btn-success btn-add btn-xs" type="button" ng-click="addCandidate(candidateText)" style="margin-left:4px;">
+                                    <button id="addCandidateButton" class="btn btn-success btn-add btn-xs" type="button" ng-click="addCandidate(candidateText)" style="margin-left:4px;">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                     <md-autocomplete
@@ -57,6 +58,7 @@
                                         md-items="candidate in queryCandidate(candidateText)"
                                         md-item-text="candidate"
                                         md-min-length="0"
+                                        md-input-id="canBox"
                                         placeholder="Search for Candidate">
                                         <md-item-template>
                                                         <span md-highlight-text="candidateText"
@@ -100,6 +102,7 @@
                                             md-items="user in queryUser(userText)"
                                             md-item-text="user"
                                             md-min-length="0"
+                                            md-input-id="intBox"
                                             placeholder="Search for User">
                                         <md-item-template>
                                                         <span md-highlight-text="userText"
@@ -136,7 +139,7 @@
                     </form>
                     <br><br>
                     <button type="button" class="btn btn-lg btn-success" ng-click="createInterview()"
-                            style="margin-left:43%; margin-bottom:2%;">
+                            style="margin-left:43%; margin-bottom:2%;" id="submitInterviewButton">
                         Submit Interview
                     </button>
                     <br>

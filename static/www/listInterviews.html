@@ -111,7 +111,7 @@
                                     <td>{{interview.candidate}}</td>
                                     <td>{{interview.position}}</td>
                                     <td>
-                                        <button class="btn btn-success"
+                                        <button class="btn btn-success plan-interview"
                                                 ng-click="loadInterview(interview.id)" ng-show="!interview.conducted">
                                             Plan
                                         </button>
@@ -131,7 +131,7 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger" ng-show="!interview.conducted"
+                                        <button class="btn btn-danger delete-interview" ng-show="!interview.conducted"
                                                 ng-click="deleteInterview($index, interview)">
                                             Delete
                                         </button>
