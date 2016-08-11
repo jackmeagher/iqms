@@ -38,7 +38,3 @@ node_modules
 .node_repl_history
 
 .idea
-
-conf.js
-
-todo-spec.js
