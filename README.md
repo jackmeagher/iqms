@@ -104,20 +104,28 @@ Fill out the config.json fields:
 
 Once those fields are configured, you need to generate the authentication JSON for the server to authenticate users.
 
+
 To do this, click the settings gear in the top left corner of the Firebase console and select Permissions from the menu.
+
 
 Select Service accounts in the left sidebar menu.
 
+
 At the top of the screen click Create Service Account and fill out the Service account name.
+
 
 Be sure to select the 'Furnish a new private key' option and make sure you choose JSON for the output.
 
+
 Click create and it should create your new Service account and download a JSON file to your machine.
 
+
 Move this JSON file to your config folder in the root of your project and change the key of your config.json to match this model:
+
 ```
      "firebaseServiceAccount": "../config/<filename>.json"
 ```
+
 Firebase should be operational at this point and all authentication (frontend and backend) should be working.
 
 
