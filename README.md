@@ -61,19 +61,14 @@ bin/www is daemonized, bin/www_test is not
 tests can be ran with `$ mocha`
 
 
-###Hunter’s Notes
-To load new models:  
-Close test  
-Modify models  
-Delete database (DROP DATABASE ‘name’;)  
-Create Database (CREATE DATABASE ‘name’;)  
-Open test  
-
-To check database  
+###Command Line for PostgreSQL
 
 ```
+DROP DATABASE <name> (deletes the database)
+CREATE DATABASE <name> (creates the database)
 /l (lists databases)
 /c <name> (connects to database <name>)
 /dt (lists all tables in connected database)
 /d <table> (displays columns of <table> in connected database)
 ```
+Whenever any of the model files are modified, the database must be dropped and re-created, and the server must be restarted. Otherwise, the changes will not take place and errors can occur.
