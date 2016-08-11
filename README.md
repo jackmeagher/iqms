@@ -102,6 +102,8 @@ Fill out the config.json fields:
     </tbody>
 <table>
 
+
+
 Once those fields are configured, you need to generate the authentication JSON for the server to authenticate users.
 
 
