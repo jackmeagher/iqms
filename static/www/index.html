@@ -122,7 +122,6 @@
                     loc = loc.substr(loc.lastIndexOf('#') + 2);
                     $scope.interviewScreen = loc.startsWith("conaction");
                 } else if(!$scope.name && $location.path() != '/login') {
-                    console.log($location.path());
                     $location.path("/loading");
                     firebase.auth().onAuthStateChanged(function(user) {
                         if (user) {

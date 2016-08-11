@@ -1,4 +1,4 @@
-function create_question_controller ($scope, $rootScope, $location, $http,$window, taggingService, authService) {
+function create_question_controller ($scope, $rootScope, $location, $http, taggingService, authService) {
 
     $scope.questionData = {
         text: '',
@@ -8,120 +8,103 @@ function create_question_controller ($scope, $rootScope, $location, $http,$windo
         difficulty: 0,
         category: 'Skills'
     };
-    
 
-    $scope.updateCategory = function() {
-        taggingService.setCategory($scope.questionData.category);
-        $scope.refreshTags();
-    }
-    
-    $rootScope.$on("tagNotification", function(event, args) {
-        $scope.refreshTags();
-    });
-
-    $scope.removeTag = function(tag) {
-        taggingService.removeTag(tag);
-        $scope.refreshTags();
-    }
-    
-    $scope.addAnswer = function() {
-        $scope.questionData.answers.push('');
-    }
-    
-    $scope.removeAnswer = function() {
-        if ($scope.questionData.answers.length > 1) {
-            $scope.questionData.answers.pop();
+    $scope.loadQuestion = function() {
+        taggingService.resetTags();
+        if ($location.path() === '/ce') {
+            instantiateOldQuestion();
+        } else {
+            instantiateNewQuestion();
         }
-    }
-    
+    };
+
+    var instantiateOldQuestion = function() {
+        authService.getUserToken(function(idToken) {
+            $http.get('/question/' + $location.hash() + "?idToken=" + idToken).success(function(data) {
+                $scope.questionData.text = data.question.text;
+                taggingService.loadSavedTags(data.question.id, idToken);
+                refreshTags();
+                $('#modelValue').val(data.question.difficulty);
+                $scope.questionData.answers = data.question.answers;
+            })
+        });
+    };
+
+    var instantiateNewQuestion = function() {
+        taggingService.addTag($scope.questionData.category);
+        refreshTags();
+        $scope.updateCategory();
+    };
+
     $scope.compileData = function () {
-        $scope.questionData.difficulty = parseInt($("#modelValue").val());
-        var loc = $scope.getWindowLocation();
-        if (loc.location === 'ce') {
-            $scope.submitQuestion($scope.questionData, loc.id);
-        } else if (loc.location === 'cq') {
-            $scope.submitQuestion($scope.questionData, -1);
+        $scope.questionData.difficulty = parseInt($('#modelValue').val());
+        if ($location.path() === '/ce') {
+            submitQuestion($scope.questionData, $location.hash());
+        } else if ($location.path() === '/cq') {
+            submitQuestion($scope.questionData, -1);
         } else if($location.path() != '/cq' && $location.path() != '/ce') {
-            $scope.submitQuestion($scope.questionData, -2);
+            submitQuestion($scope.questionData, -2);
         }
-    }
-    
-    $scope.submitQuestion = function(questionData, id) {
-        if (id > 0) {
-            authService.getUserToken(function(idToken) {
+    };
+
+    var submitQuestion = function(questionData, id) {
+        authService.getUserToken(function(idToken) {
+            if(id > 0) {
                 $http.put('/question/' + id + "?idToken=" + idToken, questionData).success(function(created) {
-                    $window.location.href = './#qm';
+                    $location.path('/qm');
                     taggingService.persistQuestionTag(id);
                 });
-            });
-        } else if(id == -1) {
-            authService.getUserToken(function(idToken) {
+            } else if(id == -1) {
                 $http.post('/question?idToken=' + idToken,  questionData).success(function(created) {
-                    $window.location.href = './#qm';
+                    $location.path('/qm');
                     taggingService.persistQuestionTag(created.question.id);
                 });
-            });
-
-        } else if(id == -2) {
-            authService.getUserToken(function(idToken) {
+            } else if(id == -2) {
                 $http.post('/question?idToken=' + idToken,  questionData).success(function(created) {
                     $scope.questionData = created.question;
                     $rootScope.$broadcast('interviewQuestion', $scope.questionData);
                     taggingService.addTag("Inline");
                     taggingService.persistQuestionTag(created.question.id);
                 });
-            });
+            }
+        });
+    };
 
+    $scope.addAnswer = function() {
+        $scope.questionData.answers.push('');
+    };
+
+    $scope.removeAnswer = function() {
+        if ($scope.questionData.answers.length > 1) {
+            $scope.questionData.answers.pop();
         }
-    }
-    
-    $scope.loadQuestion = function() {
-        taggingService.resetTags();
-        var loc = $scope.getWindowLocation();
-        if (loc.location === 'ce') {
-            authService.getUserToken(function(idToken) {
-                $http.get('/question/' + loc.id + "?idToken=" + idToken).success(function(data) {
-                    $scope.questionData.text = data.question.text;
-                    taggingService.loadSavedTags(data.question.id, idToken);
-                    $scope.refreshTags();
-                    $('#modelValue').val(data.question.difficulty);
-                    $scope.questionData.answers = data.question.answers;
-                })
-            });
-        } else if (loc.location === 'cq') {
-            taggingService.addTag($scope.questionData.category);
-            $scope.refreshTags();
-            $scope.updateCategory();
-        } else {
-            taggingService.addTag('Skills');
-            $scope.refreshTags();
-        }
-    }
-    
-    $scope.getTagCount = function(tag) {
-        return taggingService.countTag(tag);
-    }
-    
-    $scope.refreshTags = function() {
-        $scope.questionData.category = taggingService.getCategory();
-        $scope.questionData.tags = taggingService.getTags();
-        $scope.questionData.selectedTags = taggingService.getSelectedTags();
-    }
-    
-    $scope.getWindowLocation = function() {
-        var winLoc = {};
-        var loc = "" + $window.location;
-        winLoc.location = loc.substr(loc.lastIndexOf('/') + 1, 2);
-        winLoc.id = $window.location.hash.substr(5);
-        return winLoc;  
-    }
+    };
 
     $scope.cancelQuestion = function() {
         if($location.path() == '/cq' || $location.path() == '/ce') {
             $location.path('/qm');
         }
-    }
+    };
+
+    $scope.updateCategory = function() {
+        taggingService.setCategory($scope.questionData.category);
+        refreshTags();
+    };
+    
+    $rootScope.$on("tagNotification", function() {
+        refreshTags();
+    });
+
+    $scope.removeTag = function(tag) {
+        taggingService.removeTag(tag);
+        refreshTags();
+    };
+    
+    var refreshTags = function() {
+        $scope.questionData.category = taggingService.getCategory();
+        $scope.questionData.tags = taggingService.getTags();
+        $scope.questionData.selectedTags = taggingService.getSelectedTags();
+    };
     
     $scope.loadQuestion();
 }
-
