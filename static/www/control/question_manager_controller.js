@@ -41,7 +41,7 @@ function question_manager_controller($scope, $http, $location, taggingService, a
     var loadAllTags = function(idToken) {
         var tags = {};
         $http.get('/tag?idToken=' + idToken).success(function (data) {
-            data.tags.forEach(function(tag, index) {
+            data.tags.forEach(function(tag) {
                 tags[tag.name] = tag;
             });
             addMissingTags(tags);

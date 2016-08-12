@@ -7,7 +7,9 @@ function tag_auto_complete_controller (taggingService) {
     self.selectedItemChange = selectedItemChange;
     self.searchTextChange = searchTextChange;
     self.newTag = newTag;
-    
+
+    var mainTags = ['Intro', 'Skills', 'Close', 'Inline'];
+
     function newTag(tag) {
         if (tag) {
             taggingService.createNewTag(tag);
@@ -32,12 +34,6 @@ function tag_auto_complete_controller (taggingService) {
         return ret;
     }
     
-    function searchTextChange(text) {
-        self.tags = $.map(taggingService.getTags(), function(value, index) {
-            return value.name; 
-        });
-    }
-    
     function selectedItemChange(item) {
         if (item) {
             taggingService.addTag(item);
@@ -45,20 +41,13 @@ function tag_auto_complete_controller (taggingService) {
     }
 
     function removeMainTags(t) {
-        if(t) {
-            if(t.indexOf('Intro') > -1) {
-                t.splice(t.indexOf('Intro'), 1);
-            }
-            if(t.indexOf('Skills') > -1) {
-                t.splice(t.indexOf('Skills'), 1);
-            }
-            if(t.indexOf('Close') > -1) {
-                t.splice(t.indexOf('Close'), 1);
-            }
-            if(t.indexOf('Inline') > -1) {
-                t.splice(t.indexOf('Inline'), 1);
-            }
-        }
+        mainTags.forEach(function(tag) {
+           if(t) {
+               if(t.indexOf(tag) > -1) {
+                   t.splice(t.indexOf(tag), 1);
+               }
+           }
+        });
         return t;
     }
 }

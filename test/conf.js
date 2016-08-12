@@ -4,7 +4,7 @@
 exports.config = {
     framework: 'jasmine',
     seleniumAddress: 'http://localhost:4444/wd/hub',
-    specs: ['createInterview.js'],
+    specs: ['questions.js'],
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
