@@ -1,4 +1,6 @@
-function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMedia, $window, taggingService, flaggingService, authService) {
+function plan_interview_controller($scope, $http, $mdDialog, $routeParams,
+                                   $mdMedia, $location, taggingService,
+                                   flaggingService, authService) {
 
     var interviewID = $routeParams.id;
 
@@ -10,33 +12,81 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
 
     $scope.taglist = [];
 
-    $scope.loadScreen = function() {
+    var loadScreen = function() {
         authService.getUserToken(function(idToken) {
             flaggingService.clearQuestions();
             flaggingService.loadQuestionList(interviewID);
             $http.get('/interview/' + interviewID + "?idToken=" + idToken).success(function(data) {
-                $http.get('/candidatePosition/' + data.interview.candidatePositionCId + "?idToken=" + idToken).success(function(result) {
-                    $http.get('/candidate/' + result.result.candidateId + "?idToken=" + idToken).success(function(result) {
-                        $scope.candidateText = result.candidate.name;
-                        $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});
-                    });
-                    $http.get('/position/' + result.result.positionId + "?idToken=" + idToken).success(function(result) {
-                        $scope.positionText = result.position.name;
-                        $scope.positionText += getPositionID({type: "Internal", info: result.position});
-                        $scope.positionDescription = result.position.description;
-                    });
-                });
-                $http.get('/interview/' + interviewID + '/tags?idToken=' + idToken).success(function(data) {
-                    data.tags.forEach(function(tag, index) {
-                        $('#tagbox').tagsinput('add', tag.name);
-                    });
-                })
-
+                loadCandidatePosition(idToken, data.interview.candidatePositionCId);
+                loadTags(idToken);
                 $scope.dateText = data.interview.date;
                 $scope.locationText = data.interview.location;
             });
         });
-    }
+    };
+
+    var loadCandidatePosition = function(idToken, id) {
+        $http.get('/candidatePosition/' + id + "?idToken=" + idToken).success(function(result) {
+            loadCandidate(idToken, result.result.candidateId);
+            loadPosition(idToken, result.result.positionId);
+        });
+    };
+
+    var loadCandidate = function(idToken, id) {
+        $http.get('/candidate/' + id + "?idToken=" + idToken).success(function(result) {
+            $scope.candidateText = result.candidate.name;
+            $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});
+        });
+    };
+
+    var getCandidateID = function(options) {
+        switch(options.type) {
+            default:
+            case("Internal"):
+                var year = options.info.createdAt.substr(0, 4);
+                return formatID(options.info.id, year);
+        }
+    };
+
+    var loadPosition = function(idToken, id) {
+        $http.get('/position/' + id + "?idToken=" + idToken).success(function(result) {
+            $scope.positionText = result.position.name;
+            $scope.positionText += getPositionID({type: "Internal", info: result.position});
+            $scope.positionDescription = result.position.description;
+        });
+    };
+
+    var getPositionID = function(options) {
+        switch(options.type) {
+            default:
+            case("Internal"):
+                var year = options.info.createdAt.substr(0, 4);
+                return formatID(options.info.id, year);
+        }
+    };
+
+    var formatID = function(id, year) {
+        var formatted = " (#" + year + "-";
+        if(id < 10) {
+            formatted += "000" + id;
+        } else if(id < 100) {
+            formatted += "00" + id;
+        } else if(id < 1000) {
+            formatted += "0" + id;
+        } else {
+            formatted += id;
+        }
+        formatted += ")";
+        return formatted;
+    };
+
+    var loadTags = function(idToken) {
+        $http.get('/interview/' + interviewID + '/tags?idToken=' + idToken).success(function(data) {
+            data.tags.forEach(function(tag, index) {
+                $('#tagbox').tagsinput('add', tag.name);
+            });
+        })
+    };
 
     $scope.createInterview = function () {
         $scope.saveInterview(interviewID);
@@ -44,15 +94,34 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
 
     $scope.saveInterview = function(interviewID) {
         flaggingService.persistQuestions(interviewID);
-        $window.location.href = './#li';
-        $scope.checkForMainTags(interviewID);
-    }
+        $location.path('/li');
+        authService.getUserToken(function(idToken) {
+            checkForMainTags(interviewID, idToken);
+        });
+    };
+
+    var checkForMainTags = function(interviewID, idToken) {
+        var mainTags = ['Intro', 'Skills', 'Close'];
+        $scope.taglist.forEach(function(tag) {
+            if (taggingService.countTag(tag) > 0) {
+                addTagToInterview(idToken, interviewID, tag);
+            }
+            if(mainTags.indexOf(tag) > -1)
+                mainTags.splice(mainTags.indexOf(tag), 1);
+        });
+        mainTags.forEach(function(tag) {
+            addTagToInterview(idToken, interviewID, tag);
+        });
+    };
+
+    var addTagToInterview = function(idToken, interviewID, tag) {
+        $http.post('/tag/' + tag + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {});
+    };
 
     $scope.showInterviewWithTag = function(ev, tag) {
         taggingService.setClickedTag(tag);
         flaggingService.setSelectedTag(tag);
         if (taggingService.countTag(tag) > 0) {
-            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             $mdDialog.show({
                 controller: DialogController,
                 templateUrl: 'questionFlagger.html',
@@ -60,19 +129,9 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
                 targetEvent: ev,
                 clickOutsideToClose:true,
                 fullscreen: useFullScreen
-            })
-                .then(function(answer) {
-                    $scope.status = 'You said the information was "' + answer + '".';
-                }, function() {
-                    $scope.status = 'You cancelled the dialog.';
-                });
-            $scope.$watch(function() {
-                return $mdMedia('xs') || $mdMedia('sm');
-            }, function(wantsFullScreen) {
-                $scope.customFullscreen = (wantsFullScreen === true);
             });
         }
-    }
+    };
 
     $('#tagbox').on('beforeItemAdd', function(event) {
         event.itemValue = taggingService.countTag(event.item);
@@ -91,81 +150,8 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams, $mdMe
         }
     });
 
-    $scope.checkForMainTags = function(interviewID) {
-        authService.getUserToken(function(idToken) {
-            var skillTag = false;
-            var introTag = false;
-            var closeTag = false;
-            $scope.taglist.forEach(function(tag, index) {
-                if (taggingService.countTag(tag) > 0) {
-                    $http.post('/tag/' + tag
-                        + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
-                    });
-                }
-                if (tag == "Intro") {
-                    introTag = true;
-                } else if (tag == "Skills") {
-                    skillTag = true;
-                } else if (tag == "Close") {
-                    closeTag = true;
-                }
-            });
-            if (!introTag) {
-                $http.post('/tag/' + "Intro"
-                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
-                });
-            }
-            if (!skillTag) {
-                $http.post('/tag/' + "Skills"
-                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
-                });
-            }
-            if (!closeTag) {
-                $http.post('/tag/' + "Close"
-                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
-                });
-            }
-        });
-    }
-
-    var getCandidateID = function(options) {
-        switch(options.type) {
-            default:
-            case("Internal"):
-                var year = options.info.createdAt.substr(0, 4);
-                return formatID(options.info.id, year);
-        }
-    }
-
-    var getPositionID = function(options) {
-        switch(options.type) {
-            default:
-            case("Internal"):
-                var year = options.info.createdAt.substr(0, 4);
-                return formatID(options.info.id, year);
-        }
-    }
-
-    var formatID = function(id, year) {
-        var formatted = " (#" + year + "-";
-
-        if(id < 10) {
-            formatted += "000" + id;
-        } else if(id < 100) {
-            formatted += "00" + id;
-        } else if(id < 1000) {
-            formatted += "0" + id;
-        } else {
-            formatted += id;
-        }
-
-        formatted += ")";
-
-        return formatted;
-    }
-
     taggingService.resetTags();
-    $scope.loadScreen();
+    loadScreen();
 }
 
 function DialogController($scope, $mdDialog) {
