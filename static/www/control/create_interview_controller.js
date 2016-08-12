@@ -163,12 +163,12 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
             popupService.showPrompt(this, function() {
                 $scope.positions[position].description = popupService.getResult();
                 $scope.selectedPosition = position;
-                savePosition();
+                savePosition(position);
             });
         }
     };
 
-    var savePosition = function() {
+    var savePosition = function(position) {
         authService.getUserToken(function(idToken) {
             $http.post('/position?idToken=' + idToken, $scope.positions[position]).success(function(created) {
                 var fullName = position + getPositionID({type: "Internal", info: created.data});
@@ -211,11 +211,11 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
         if (candidate && !$scope.candidates[candidate]) {
             $scope.candidates[candidate] = {name: candidate};
             $scope.selectedCandidate = candidate;
-            saveCandidate();
+            saveCandidate(candidate);
         }
     };
 
-    var saveCandidate = function() {
+    var saveCandidate = function(candidate) {
         authService.getUserToken(function(idToken) {
             $http.post('/candidate?idToken=' + idToken, $scope.candidates[candidate]).success(function(created) {
                 var fullName = candidate + getCandidateID({type: "Internal", info: created.data});
