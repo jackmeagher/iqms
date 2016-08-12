@@ -267,7 +267,6 @@
         
         app.filter('orderTechnicalQuestions', function() {
             return function(items, order, tags, reverse) {
-                console.log("Filtereing");
                 var filtered = [];
                 if (order[0] == "tags") {   
                     tags.forEach(function(tag, index) {
@@ -314,18 +313,6 @@
         });
 
     </script>
-
-    <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-         var data;
-         var chart;
-    
-          // Load the Visualization API and the piechart package.
-          google.charts.load('current', {'packages':['corechart']});
-    
-          // Set a callback to run when the Google Visualization API is loaded.
-         
-    </script>-->
     
 </head>
 <body>
@@ -340,13 +327,7 @@
             </button>
             <a class="navbar-brand" ng-show="!interviewScreen">IQMS</a>
         </div>
-
-        <!--<div class="header-right" ng-click="hide_side();">
-            <a href="#login" class="btn btn-danger" title="Logout"><i
-                    class="fa fa-exclamation-circle fa-2x"></i></a>
-        </div>-->
     </nav>
-    <!-- /. NAV TOP  -->
     <nav id='hidethis' class="navbar-default navbar-side" role="navigation" ng-show="name">
         <div class="sidebar-collapse" ng-show="!interviewScreen">
             <ul class="nav" id="main-menu">
@@ -438,8 +419,7 @@
                                 <md-autocomplete
                                         id="tagAdd-box"
                                         md-no-cache="true"
-                                        md-selected-item="selectedTag"
-                                        md-search-text-change="tagTextChange(tagText)"
+                                        md-selected-item="selectedTag"s
                                         md-search-text="tagText"
                                         md-selected-item-change="tagItemChange(selectedTag)"
                                         md-items="tag in queryTag(tagText)"

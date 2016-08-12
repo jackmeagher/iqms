@@ -1,4 +1,5 @@
-function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routeParams, filterService, socket, authService, taggingService) {
+function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routeParams,
+                                 filterService, socket, authService, taggingService) {
     $scope.difficulties = [];
     $scope.tags = [];
     
@@ -7,24 +8,8 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
     $scope.selectedTag = null;
     $scope.tagText = "";
 
-    taggingService.resetTags();
+    var mainTags = ['Intro', 'Skills', 'Close', 'Inline'];
 
-    $rootScope.$on('updateFilter', function(event, args) {
-        $scope.difficulties = filterService.getDifficulties();
-        $scope.tags = filterService.getTags();
-        $scope.orderBy = filterService.getOrderBy();
-    });
-    
-    $scope.changeDifficulty = function() {
-        filterService.setDifficulties($scope.difficulties);
-        $scope.emitRequest();
-    }
-    
-    $scope.changeTag = function() {
-        filterService.setTags($scope.tags);
-        $scope.emitRequest();
-    }
-    
     $scope.changeFilter = function(id) {
         switch (id) {
             case(0):
@@ -35,36 +20,46 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
                 break;
         }
         filterService.setOrderBy($scope.orderBy);
-        $scope.emitRequest();
-    }
-    
-    $scope.emitRequest = function() {
+        emitRequest();
+    };
+
+    var emitRequest = function() {
         socket.emit('update-filter', {
-           tags: $scope.tags,
-           difficulties: $scope.difficulties,
-           order: $scope.orderBy,
-           id: filterService.getInterviewId()
-        });  
-    }
+            tags: $scope.tags,
+            difficulties: $scope.difficulties,
+            order: $scope.orderBy,
+            id: filterService.getInterviewId()
+        });
+    };
+
+    $rootScope.$on('updateFilter', function() {
+        $scope.difficulties = filterService.getDifficulties();
+        $scope.tags = filterService.getTags();
+        $scope.orderBy = filterService.getOrderBy();
+    });
+    
+    $scope.changeDifficulty = function() {
+        filterService.setDifficulties($scope.difficulties);
+        emitRequest();
+    };
+    
+    $scope.changeTag = function() {
+        filterService.setTags($scope.tags);
+        emitRequest();
+    };
 
     $scope.alterAllTags = function(all) {
-        if(all) {
-            $scope.tags.forEach(function(tag, index) {
-               tag.checked = true;
-            });
-        } else {
-            $scope.tags.forEach(function(tag, index) {
-                tag.checked = false;
-            });
-        }
+        $scope.tags.forEach(function(tag) {
+            tag.checked = all;
+        });
         filterService.setTags($scope.tags);
-        $scope.emitRequest();
-    }
+        emitRequest();
+    };
 
     $scope.addInterviewTag = function(ev) {
         $scope.tagList = taggingService.getTags();
         $scope.showTagDialog(ev);
-    }
+    };
 
     $scope.showTagDialog = function(ev) {
         $mdDialog.show({
@@ -80,12 +75,10 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
         var pos = $.map($scope.tagList, function(value, index) {
             return value.name;
         });
-
         pos = removeMainTags(pos);
         pos = removeSelectedTags(pos);
-
         return $scope.queryFunction(query, pos);
-    }
+    };
 
     $scope.queryFunction = function(query, data) {
         if (query == null) {
@@ -98,46 +91,33 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
             return test.startsWith(text);
         });
         return ret;
-    }
-
-    $scope.tagTextChange = function(text) {
-        var pos = $.map($scope.tagList, function(value, index) {
-            return value.name;
-        });
-    }
+    };
 
     $scope.tagItemChange = function(item) {
         if (item) {
             $scope.selectedTag = item;
         }
-    }
+    };
 
-    function removeMainTags(t) {
-        if(t) {
-            if(t.indexOf('Intro') > -1) {
-                t.splice(t.indexOf('Intro'), 1);
-            }
-            if(t.indexOf('Skills') > -1) {
-                t.splice(t.indexOf('Skills'), 1);
-            }
-            if(t.indexOf('Close') > -1) {
-                t.splice(t.indexOf('Close'), 1);
-            }
-            if(t.indexOf('Inline') > -1) {
-                t.splice(t.indexOf('Inline'), 1);
-            }
-        }
+    var removeMainTags = function(t) {
+        mainTags.forEach(function(tag) {
+           if(t) {
+               if(t.indexOf(tag) > -1) {
+                   t.splice(t.indexOf(tag), 1);
+               }
+           }
+        });
         return t;
-    }
+    };
 
-    function removeSelectedTags(t) {
-        $scope.tags.forEach(function(tag, index) {
+    var removeSelectedTags = function(t) {
+        $scope.tags.forEach(function(tag) {
             if(t.indexOf(tag.label) > -1) {
                 t.splice(t.indexOf(tag.label), 1);
             }
         });
         return t;
-    }
+    };
 
     $scope.addTheTag = function() {
         $scope.tags.push({checked: true, label: $scope.selectedTag});
@@ -147,7 +127,9 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
             });
         });
         $mdDialog.hide();
-    }
+    };
+
+    taggingService.resetTags();
 }
 
 function DialogController($scope, $mdDialog) {
