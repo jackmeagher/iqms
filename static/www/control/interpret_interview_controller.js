@@ -210,7 +210,7 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
         question.tags = {};
         var tagPromise = $http.get('/question/' + id + '/tags/?idToken=' + idToken).then(function(tags) {
             tags.data.tags.forEach(function(tag) {
-                if (tag.name != "Intro" && tag.name != "Skills" && tag.name != "Close") {
+                if (tag.name != "Skills") {
                     question.tags[tag.name] = true;
                     $scope.savedTags[tag.name] = tag.name;
                     if($scope.selectedTag == "") {
