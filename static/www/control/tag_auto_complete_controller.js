@@ -5,7 +5,6 @@ function tag_auto_complete_controller (taggingService) {
     self.selectedItem = null;
     self.querySearch = querySearch;
     self.selectedItemChange = selectedItemChange;
-    self.searchTextChange = searchTextChange;
     self.newTag = newTag;
 
     var mainTags = ['Intro', 'Skills', 'Close', 'Inline'];
