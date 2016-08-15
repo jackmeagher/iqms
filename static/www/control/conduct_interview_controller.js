@@ -32,6 +32,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
                 tagPromises.push(loadTagQuestions(idToken, tag.name));
             });
             Promise.all(tagPromises).then(function() {
+                loadQuestionStates(idToken);
                 triggerDoneLoading(tags, interview, idToken);
             });
 
@@ -61,6 +62,17 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             return "Mid";
         }
         return "Senior";
+    };
+
+    var loadQuestionStates = function(idToken) {
+        $http.get('/interview/' + interviewId + '/questions?idToken=' + idToken).success(function(data) {
+            data.questions.forEach(function(question) {
+                $http.get('/interviewQuestion/' + interviewId + '/question/' + question.id + '?idToken=' + idToken).success(function(joined) {
+                    questionsByID[question.id].blacklisted = joined.interviewQuestion.state == "Blacklisted";
+                    questionsByID[question.id].highlighted = joined.interviewQuestion.state == "Pinned";
+                });
+            });
+        });
     };
 
     var triggerDoneLoading = function(tags, interview, idToken) {
@@ -123,6 +135,11 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             return value;
         });
         qsId = $filter('filter')(qsId, function (question) {
+
+            if(question.blacklisted) {
+                return false;
+            }
+
             if(question.tags['Inline']) {
                 return false;
             }

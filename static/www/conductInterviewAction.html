@@ -289,7 +289,7 @@
             </div>
             
             <!-- Queued Questions -->
-            <div class="panel panel-default vthumbnail" ng-mouseup="sendQuestionOrder()" ng-repeat="question in queuedQuestions" id="collapsePanel{{question.id}}" data-drop="true" data-drag="true" ng-model="queuedQuestions" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection'}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}">
+            <div class="panel vthumbnail" ng-class="{'panel-default': !question.highlighted, 'panel-warning': question.highlighted}" ng-mouseup="sendQuestionOrder()" ng-repeat="question in queuedQuestions" id="collapsePanel{{question.id}}" data-drop="true" data-drag="true" ng-model="queuedQuestions" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection'}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}">
                 <div class="panel-heading" role="tab" id="heading{{question.id}}" ng-click="">
                     <h4 class="panel-title">
                         <a role="button">
