@@ -4,6 +4,8 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     var questionsByID = {};
 
+    var loaded = false;
+
     $scope.previousQuestions = [];
     $scope.lastQuestion = null;
     $scope.currentQuestion = {};
@@ -95,7 +97,8 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             savedFeedbacks.forEach(function(f) {
                 updatePreviousQuestion(questionsByID[f.question_id], f.data, userService.getUserName());
             });
-            $scope.lastQuestion = $scope.previousQuestions.pop();
+            if(!loaded)
+                $scope.lastQuestion = $scope.previousQuestions.pop();
             $rootScope.$emit('updateFilter');
         });
     };
@@ -106,7 +109,8 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             question.response = data[user].rating;
             question.note = data[user].note ? data[user].note : null;
         }
-        $scope.previousQuestions.push(question);
+        if(!loaded)
+            $scope.previousQuestions.push(question);
     };
 
     var resetUnansweredQuestions = function() {
@@ -274,7 +278,11 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     };
 
     $rootScope.$on('interviewQuestion', function(event, data) {
-        $scope.addQuestionToQueue(data);
+        var obj = {
+            id: interviewId,
+            question: data
+        };
+        socket.emit('inline', obj);
     });
 
     $scope.addQuestionToQueue = function(question) {
@@ -297,6 +305,10 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             $scope.state += data.state;
             $rootScope.$emit('updateFilter');
         });
+    });
+
+    socket.on('notify-inline' + interviewId, function(question) {
+        $scope.addQuestionToQueue(question);
     });
 
     socket.on('notify-question-reorder' + interviewId, function (data) {
@@ -382,7 +394,8 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     });
 
     socket.on('notify-broadcast-interview' + interviewId, function(data) {
-        if($scope.currentQuestion.id != data.cur) {
+        if($scope.currentQuestion.id != data.cur && !loaded) {
+            loaded = true;
             $scope.state = data.state;
             $scope.previousQuestions = [];
             data.prev.forEach(function(num) {
@@ -398,7 +411,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
                 $scope.queuedQuestions.push(questionsByID[num]);
             });
         }
-        $scope.$apply();
+        $rootScope.$emit('updateFilter');
     });
 
     filterService.setInterviewId(interviewId);

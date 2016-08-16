@@ -8,7 +8,7 @@ server_app.set('web_socket_host', config.development.webSocketHost || '127.0.0.1
 server_app.set('web_socket_port', config.development.webSocketPort || 4041);
 
 io.on('connection', function (socket) {
-    
+
     socket.on('question-feedback', function(data) {
         io.emit('notify-question-feedback' + data.interviewId, {
         });
@@ -40,6 +40,10 @@ io.on('connection', function (socket) {
 
     socket.on('broadcast-interview', function(data) {
         io.emit("notify-broadcast-interview" + data.id, data);
+    });
+
+    socket.on('inline', function(data) {
+       io.emit('notify-inline' + data.id, data.question);
     });
   
 });
