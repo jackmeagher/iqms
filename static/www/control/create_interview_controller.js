@@ -247,6 +247,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
 
     $scope.userItemChange = function(user) {
         if(user) {
+            $scope.userText = "";
             $scope.selectedUser = user;
             $scope.addUser();
         }
@@ -255,6 +256,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     $scope.addUser = function() {
         if($scope.addedList.indexOf($scope.selectedUser) < 0) {
             $scope.addedList.push($scope.selectedUser);
+            $scope.selectedUser = null;
         }
     };
 

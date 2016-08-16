@@ -374,7 +374,8 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
                 last: $scope.lastQuestion.id,
                 cur: $scope.currentQuestion.id,
                 queued: queued,
-                id: interviewId
+                id: interviewId,
+                state: $scope.state
             };
             socket.emit('broadcast-interview', interview);
         }
@@ -382,6 +383,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     socket.on('notify-broadcast-interview' + interviewId, function(data) {
         if($scope.currentQuestion.id != data.cur) {
+            $scope.state = data.state;
             $scope.previousQuestions = [];
             data.prev.forEach(function(num) {
                 questionsByID[num].queued = true;

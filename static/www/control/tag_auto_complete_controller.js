@@ -36,6 +36,8 @@ function tag_auto_complete_controller (taggingService) {
     function selectedItemChange(item) {
         if (item) {
             taggingService.addTag(item);
+            self.searchText = "";
+            self.selectedItem = null;
         }
     }
 
