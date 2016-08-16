@@ -20,6 +20,8 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     $scope.addedList = [];
 
     $scope.userRole = userService.getUserRole();
+
+    var interviewID = 0;
     
     var loadScreen = function() {
         authService.getUserToken(function(idToken) {
@@ -27,6 +29,9 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
             loadCandidates(idToken);
             loadPositions(idToken);
             loadUsers(idToken);
+            if($location.hash() && $location.hash() > 0) {
+                loadInterview(idToken, $location.hash());
+            }
         });
     };
 
@@ -88,17 +93,72 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
 
     var loadUsers = function(idToken) {
         $http.get('/user/?idToken=' + idToken).success(function(users) {
-            users.users.forEach(function(user, index) {
+            users.users.forEach(function(user) {
                 $scope.userList.push(user.name);
+            });
+        });
+    };
+
+    var loadInterview = function(idToken, id) {
+        interviewID = id;
+        $http.get('/interview/' + interviewID + "?idToken=" + idToken).success(function(data) {
+            loadCandidatePosition(idToken, data.interview.candidatePositionCId);
+            loadTags(idToken);
+            loadAddedUsers(idToken, id);
+            $scope.dateText = data.interview.date;
+            $scope.locationText = data.interview.location;
+        });
+    };
+
+    var loadCandidatePosition = function(idToken, id) {
+        $http.get('/candidatePosition/' + id + "?idToken=" + idToken).success(function(result) {
+            loadCandidate(idToken, result.result.candidateId);
+            loadPosition(idToken, result.result.positionId);
+        });
+    };
+
+    var loadCandidate = function(idToken, id) {
+        $http.get('/candidate/' + id + "?idToken=" + idToken).success(function(result) {
+            $scope.candidateText = result.candidate.name;
+            $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});
+            $scope.selectedCandidate = $scope.candidateText;
+        });
+    };
+
+    var loadPosition = function(idToken, id) {
+        $http.get('/position/' + id + "?idToken=" + idToken).success(function(result) {
+            $scope.positionText = result.position.name;
+            $scope.positionText += getPositionID({type: "Internal", info: result.position});
+            $scope.selectedPosition = $scope.positionText;
+            $scope.positionDescription = result.position.description;
+        });
+    };
+
+    var loadTags = function(idToken) {
+        $http.get('/interview/' + interviewID + '/tags?idToken=' + idToken).success(function(data) {
+            data.tags.forEach(function(tag) {
+                $('#tagbox').tagsinput('add', tag.name);
+            });
+        })
+    };
+
+    var loadAddedUsers = function(idToken, id) {
+        $http.get('/interview/' + id + '/users/?idToken=' + idToken).success(function(data) {
+            data.users.forEach(function(user) {
+                $scope.addedList.push(user.name);
             });
         });
     };
 
     $scope.createInterview = function () {
         authService.getUserToken(function(idToken) {
-            $http.post('/interview?idToken=' + idToken).success(function(created) {
-                saveInterview(created.interview.id, idToken);
-            });
+            if(interviewID == 0 || !$location.hash()) {
+                $http.post('/interview?idToken=' + idToken).success(function(created) {
+                    saveInterview(created.interview.id, idToken);
+                });
+            } else {
+                saveInterview(interviewID, idToken);
+            }
         });
     };
     
@@ -110,19 +170,28 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
 
     var addUsersToInterview = function(idToken, interviewID) {
         $scope.addedList.forEach(function(name) {
-            $http.post('/interview/' + interviewID + '/user/' + name + "?idToken=" + idToken).success(function(added) {});
+            $http.post('/interview/' + interviewID + '/user/' + name + "?idToken=" + idToken).success(function(added) {
+            });
         });
     };
 
     var createCandidatePosition = function(idToken, interviewID) {
-        $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
+        $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
             + '/position/' + $scope.positions[$scope.selectedPosition].id + "?idToken=" + idToken)
-            .success(function() {
-                $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
-                    + '/position/' + $scope.positions[$scope.selectedPosition].id + "?idToken=" + idToken)
-                    .success(function(canPos) {
-                        updateInterviewDetails(idToken, canPos.candidatePosition.c_id, interviewID);
-                    });
+            .success(function(canPos) {
+                if(canPos.candidatePosition) {
+                    updateInterviewDetails(idToken, canPos.candidatePosition.c_id, interviewID);
+                } else {
+                    $http.post('/candidate/' + $scope.candidates[$scope.selectedCandidate].id
+                        + '/position/' + $scope.positions[$scope.selectedPosition].id + "?idToken=" + idToken)
+                        .success(function() {
+                            $http.get('/candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
+                                + '/position/' + $scope.positions[$scope.selectedPosition].id + "?idToken=" + idToken)
+                                .success(function(canPos) {
+                                    updateInterviewDetails(idToken, canPos.candidatePosition.c_id, interviewID);
+                                });
+                        });
+                }
             });
     };
 
@@ -261,6 +330,13 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     $scope.removeUser = function(name) {
+        if(interviewID > 0) {
+            authService.getUserToken(function(idToken) {
+                $http.delete('/interview/' + interviewID
+                    + '/user/' + name + "?idToken=" + idToken).success(function(created) {
+                });
+            });
+        }
         if($scope.addedList.indexOf(name) > -1) {
             $scope.addedList.splice($scope.addedList.indexOf(name), 1);
         }
@@ -287,6 +363,13 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     });
 
     $('#tagbox').on('beforeItemRemove', function(event) {
+        if(interviewID > 0) {
+            authService.getUserToken(function(idToken) {
+                $http.delete('/tag/' + event.item
+                    + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
+                });
+            });
+        }
         if($scope.taglist.indexOf(event.item) > -1) {
             $scope.taglist.splice($scope.taglist.indexOf(event.item), 1);
         }

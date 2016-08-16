@@ -414,6 +414,32 @@ exports = module.exports = new Resource('interview', '/interview', {
                     } else {
                         res.status(401).json({error: "Forbidden"});
                     }
+                },
+                delete: (req, res) => {
+                    if(req.query.idToken) {
+                        firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                            var uid = decodedToken.sub;
+                            models.interview.findOne({
+                                where: {
+                                    id: req.params.id
+                                }
+                            }).then(function(interview) {
+                                models.user.findOne({
+                                    where: {
+                                        name: req.params.user_name
+                                    }
+                                }).then(function(user) {
+                                    interview.removeUser(user).then(function(removed) {
+                                        res.status(204).json({});
+                                    })
+                                })
+                            })
+                        }).catch(function(error) {
+                            res.status(511).json({error: "Error"});
+                        });
+                    } else {
+                        res.status(401).json({error: "Forbidden"});
+                    }
                 }
         })
 

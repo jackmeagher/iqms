@@ -23,6 +23,7 @@ function list_interview_controller($scope, $http, $location, userService, authSe
             $scope.interviews = data.interviews;
             $scope.interviews.forEach(function(i) {
                 loadCandidatePosition(i, idToken);
+                i.canSee = true;
             });
         });
     };
@@ -32,6 +33,7 @@ function list_interview_controller($scope, $http, $location, userService, authSe
             $scope.interviews = data.interviews;
             $scope.interviews.forEach(function(i) {
                 loadCandidatePosition(i, idToken);
+                loadUsers(i, idToken);
             });
         });
     };
@@ -88,6 +90,22 @@ function list_interview_controller($scope, $http, $location, userService, authSe
         }
         formatted += ")";
         return formatted;
+    };
+
+    var loadUsers = function(interview, idToken) {
+        interview.canSee = false;
+        $http.get('/interview/' + interview.id + '/users/?idToken=' + idToken).success(function(data) {
+            data.users.forEach(function(user) {
+                if(user.name == $scope.name) {
+                    interview.canSee = true;
+                }
+            });
+        });
+    };
+
+    $scope.editInterview = function(id) {
+        $location.path('/ci/');
+        $location.hash(id);
     };
 
     $scope.loadInterview = function(id) {
