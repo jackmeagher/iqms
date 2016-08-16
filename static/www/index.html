@@ -43,16 +43,30 @@
     <!-- Firebase -->
     
     <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
-    <script>
-        $.getJSON('/config/config.json', {format: "json"}).done(function(config) {
-            var apiConfig = {
-                apiKey: config.development.firebaseApiKey,
-                authDomain: config.development.firebaseAuthDomain,
-                databaseURL: config.development.firebaseDatabaseURL,
-                storageBucket: ""
-            };
-            firebase.initializeApp(apiConfig);
-        });
+   <script>
+        if(firebase.apps.length < 1) {
+            $.getJSON('/config/config.json', {format: "json"}).done(function(config) {
+                var apiConfig = {
+                    apiKey: config.development.firebaseApiKey,
+                    authDomain: config.development.firebaseAuthDomain,
+                    databaseURL: config.development.firebaseDatabaseURL,
+                    storageBucket: ""
+                };
+                firebase.initializeApp(apiConfig);
+            });
+        } else {
+            firebase.app().delete().then(function() {
+                $.getJSON('/config/config.json', {format: "json"}).done(function(config) {
+                    var apiConfig = {
+                        apiKey: config.development.firebaseApiKey,
+                        authDomain: config.development.firebaseAuthDomain,
+                        databaseURL: config.development.firebaseDatabaseURL,
+                        storageBucket: ""
+                    };
+                    firebase.initializeApp(apiConfig);
+                });
+            });
+        }
     </script>
     
 
@@ -82,17 +96,18 @@
     <script src="control/manage_user_controller.js"></script>
     
     <!-- SERVICES -->
+    <script src="services/authService.js"></script>
     <script src="services/taggingService.js"></script>
     <script src="services/popupService.js"></script>
     <script src="services/flaggingService.js"></script>
     <script src="services/filterService.js"></script>
     <script src="services/userService.js"></script>
-    <script src="services/authService.js"></script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/0.1.0/ng-google-chart.js" type="text/javascript"></script>
 
     <script>
-        function index_controller($scope, $rootScope, $location, $route, userService) {
+        function index_controller($scope, $rootScope, $window, $location, $route, userService) {
             
             $scope.interviewScreen = false;
             $scope.name = null;
@@ -113,22 +128,35 @@
             $scope.$on('$routeChangeStart', function() {
                 var currentPath = $location.path();
                 if($scope.name) {
+                    if($location.path() == '/loading')
+                            $location.path('/');
                     loc = "" + window.location;
                     loc = loc.substr(loc.lastIndexOf('#') + 2);
                     $scope.interviewScreen = loc.startsWith("conaction");
                 } else if(!$scope.name && $location.path() != '/login') {
                     $location.path("/loading");
-                    firebase.auth().onAuthStateChanged(function(user) {
-                        if (user) {
-                            userService.setUserName(user.email);
-                            if(currentPath != '/loading') {
-                                $route.reload();
-                                $location.path(currentPath);
+                    try {
+                        firebase.auth().onAuthStateChanged(function(user) {
+                            if (user) {
+                                userService.setUserName(user.email);
+                                if(currentPath != '/loading') {
+                                    $route.reload();
+                                    $location.path(currentPath);
+                                }
+                            } else {
+                                $location.path("/login");
                             }
-                        } else {
-                            $location.path("/login");
+                        });
+                    } catch(error) {
+                        switch(error.message) {
+                            default:
+                                $window.alert('Something went wrong :/');
+                                break;
+                            case("No Firebase App '[DEFAULT]' has been created - call Firebase App.initializeApp()."):
+                                $window.alert('Looks like you tried to refresh! Please use Ctrl + Shift + R (Cmd + Shift + R on Mac) to refresh the page.');
+                                break;
                         }
-                    });
+                    }
                 }
             });
 

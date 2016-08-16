@@ -1,5 +1,4 @@
 function authService() {
-
     var getUserToken = function(callback) {
         if(firebase.auth().currentUser) {
             firebase.auth().currentUser.getToken(false).then(function(idToken) {
@@ -8,6 +7,7 @@ function authService() {
                 // Handle error
             });
         }
+
     };
 
     return {
