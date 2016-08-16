@@ -275,8 +275,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
                 templateUrl: 'questionFlagger.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                clickOutsideToClose:true,
-                fullscreen: useFullScreen
+                clickOutsideToClose:true
             });
         }
     };
