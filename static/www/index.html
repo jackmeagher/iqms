@@ -124,15 +124,28 @@
                     // An error happened.
                   });
             };
-            
+
+            $scope.goHome = function() {
+                $scope.interviewScreen = false;
+                $location.path('/');
+            };
+
             $scope.$on('$routeChangeStart', function() {
                 var currentPath = $location.path();
                 if($scope.name) {
                     if($location.path() == '/loading')
                             $location.path('/');
+
+                    /*if($location.path() == '/conaction') {
+                        $scope.interviewScreen = true;
+                    }
                     loc = "" + window.location;
                     loc = loc.substr(loc.lastIndexOf('#') + 2);
-                    $scope.interviewScreen = loc.startsWith("conaction");
+                    $scope.interviewScreen = loc.startsWith("conaction");*/
+                    $scope.interviewScreen = $location.path().startsWith('/conaction');
+
+                    $scope.checkScreenSize();
+
                 } else if(!$scope.name && $location.path() != '/login') {
                     $location.path("/loading");
                     try {
@@ -175,17 +188,18 @@
                 angular.element('#hidethis').css('visibility', 'visible');
             };
 
-            if(!$mdMedia('gt-sm')) {
-                $('.sidebar-collapse').collapse('toggle');
-            }
+            $scope.checkScreenSize = function() {
+                var big = $mdMedia('gt-sm');
+                if(big) {
+                    $('.sidebar-collapse').collapse('show');
+                } else {
+                    $('.sidebar-collapse').collapse('hide');
+                }
+            };
+
             $scope.$watch(function() {
                 return $mdMedia('gt-sm');
-            }, function(small) {
-                if(!small)
-                    $('.sidebar-collapse').collapse('hide');
-                else
-                    $('.sidebar-collapse').collapse('show');
-            });
+            }, $scope.checkScreenSize);
         }
 
         var app = angular.module('app', ['ngRoute', 'ngMaterial', 'ngDragDrop', 'googlechart']);
@@ -353,7 +367,7 @@
     
 </head>
 <body>
-<div id="wrapper" ng-controller="index_controller">
+<div id="wrapper" ng-controller="index_controller as index">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
         <div class="navbar-header" style="height:20%;">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
@@ -362,7 +376,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/">IQMS</a>
+            <a class="navbar-brand" href="" ng-click="goHome()">IQMS</a>
         </div>
     </nav>
     <nav id='hidethis' class="navbar-default navbar-side" role="navigation" ng-show="name">
@@ -399,7 +413,7 @@
             </ul>
         </div>
         
-        <div class="sidebar-collapse" ng-show="interviewScreen">
+        <div class="" ng-show="interviewScreen">
             <ul class="nav" id="main-menu2" ng-controller="filter_menu_controller" style="padding: 10px">
                 <li>
                     <div>
