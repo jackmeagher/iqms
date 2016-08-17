@@ -37,7 +37,11 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
         $scope.tags = filterService.getTags();
         $scope.orderBy = filterService.getOrderBy();
     });
-    
+
+    $rootScope.$on('tagNotification', function() {
+        $scope.tagList = taggingService.getTags();
+    });
+
     $scope.changeDifficulty = function() {
         filterService.setDifficulties($scope.difficulties);
         emitRequest();
@@ -57,6 +61,7 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
     };
 
     $scope.addInterviewTag = function(ev) {
+        taggingService.resetTags();
         $scope.tagList = taggingService.getTags();
         $scope.showTagDialog(ev);
     };
