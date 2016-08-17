@@ -220,7 +220,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         reference.response = value ? value : (reference.response ? reference.response : null);
         feedback.rating = reference.response;
         feedback.note = reference.note;
-        $scope.recordFeedback(feedback, $scope.currentQuestion.id == id);
+        $scope.recordFeedback(feedback, $scope.currentQuestion ? $scope.currentQuestion.id == id : false);
     };
 
     $scope.recordFeedback = function (feedback, creating) {
