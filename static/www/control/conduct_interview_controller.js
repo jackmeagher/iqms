@@ -250,7 +250,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     };
 
     $scope.changeState = function (add) {
-        socket.emit('change-state', {interviewId: interviewId, state: add});
+        socket.emit('change-state', {interviewId: interviewId, add: add});
     };
 
     $scope.endInterview = function () {
@@ -302,7 +302,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     socket.on('notify-change-state' + interviewId, function (data) {
         $scope.$apply(function () {
-            $scope.state += data.state;
+            $scope.state = data.state;
             $rootScope.$emit('updateFilter');
         });
     });
@@ -406,8 +406,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
                 last: $scope.lastQuestion ? $scope.lastQuestion.id : null,
                 cur: $scope.currentQuestion ? $scope.currentQuestion.id : null,
                 queued: queued,
-                id: interviewId,
-                state: $scope.state
+                id: interviewId
             };
             socket.emit('broadcast-interview', interview);
         }

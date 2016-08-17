@@ -7,9 +7,9 @@ var config = require('./config/config.json');
 server_app.set('web_socket_host', config.development.webSocketHost || '127.0.0.1');
 server_app.set('web_socket_port', config.development.webSocketPort || 4041);
 
-io.on('connection', function (socket) {
+var interviewStates = {};
 
-    var interviewStates = {};
+io.on('connection', function (socket) {
 
     socket.on('question-feedback', function(data) {
         io.emit('notify-question-feedback' + data.interviewId, data);
@@ -32,7 +32,10 @@ io.on('connection', function (socket) {
     });
     
     socket.on('change-state', function(data) {
-        interviewStates[data.interviewId] += data.state;
+        if(data.add)
+            interviewStates[data.interviewId]++;
+        else
+            interviewStates[data.interviewId]--;
         data.state = interviewStates[data.interviewId];
         io.emit('notify-change-state' + data.interviewId, data);
     });

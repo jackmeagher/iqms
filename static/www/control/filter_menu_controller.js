@@ -125,7 +125,7 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
     };
 
     $scope.addTheTag = function() {
-        $scope.tags.push({checked: true, label: $scope.selectedTag});
+        $scope.tags.push({checked: false, label: $scope.selectedTag});
         authService.getUserToken(function(idToken) {
             $http.post('/tag/' + $scope.selectedTag
                 + '/interview/' + $routeParams.id + "?idToken=" + idToken).success(function(created) {
