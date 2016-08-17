@@ -42,16 +42,14 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
     };
 
     $scope.alterAllTags = function(all) {
-        $scope.tags.forEach(function(tag) {
-            tag.checked = all;
-        });
-        filterService.setTags($scope.tags);
-        emitRequest();
+        socket.emit('update-all-tags', {id: filterService.getInterviewId(), value: all});
     };
 
     $scope.addInterviewTag = function(ev) {
         taggingService.resetTags();
         $scope.tagList = taggingService.getTags();
+        $scope.selectedTag = null;
+        $scope.tagText = "";
         $scope.showTagDialog(ev);
     };
 

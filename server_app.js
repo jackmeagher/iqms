@@ -49,6 +49,14 @@ io.on('connection', function (socket) {
         io.emit('notify-update-filter' + data.id, interviews[data.id]);
     });
 
+    socket.on('update-all-tags', function(data) {
+        interviews[data.id].tags.forEach(function(tag) {
+           tag.checked = data.value;
+        });
+
+        io.emit('notify-update-filter' + data.id, interviews[data.id]);
+    });
+
     socket.on('update-diff', function(data) {
         interviews[data.id].difficulties[data.index].checked = !interviews[data.id].difficulties[data.index].checked;
         io.emit('notify-update-filter' + data.id, interviews[data.id]);
