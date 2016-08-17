@@ -12,7 +12,7 @@ io.on('connection', function (socket) {
     var interviewStates = {};
 
     socket.on('question-feedback', function(data) {
-        io.emit('notify-question-feedback' + data.interviewId, {});
+        io.emit('notify-question-feedback' + data.interviewId, data);
     });
   
     socket.on('question-reorder', function(data) {
