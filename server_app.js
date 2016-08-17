@@ -28,7 +28,7 @@ io.on('connection', function (socket) {
                 checked: true
             }];
         }
-        io.emit('notify-join' + data.id, interviews[data.id]);
+        io.emit('notify-join-interview' + data.id, interviews[data.id]);
     });
 
     socket.on('add-tag', function(data) {
