@@ -19,18 +19,9 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
                 $scope.orderBy = ["difficulty", "tags"];
                 break;
         }
-        filterService.setOrderBy($scope.orderBy);
-        emitRequest();
+        socket.emit('update-order', {id: filterService.getInterviewId(), orderBy: $scope.orderBy});
     };
-
-    var emitRequest = function() {
-        socket.emit('update-filter', {
-            tags: $scope.tags,
-            difficulties: $scope.difficulties,
-            order: $scope.orderBy,
-            id: filterService.getInterviewId()
-        });
-    };
+    
 
     $rootScope.$on('updateFilter', function() {
         $scope.difficulties = filterService.getDifficulties();
@@ -42,14 +33,12 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
         $scope.tagList = taggingService.getTags();
     });
 
-    $scope.changeDifficulty = function() {
-        filterService.setDifficulties($scope.difficulties);
-        emitRequest();
+    $scope.changeDifficulty = function(index) {
+        socket.emit('update-diff', {id: filterService.getInterviewId(), index: index});
     };
     
-    $scope.changeTag = function() {
-        filterService.setTags($scope.tags);
-        emitRequest();
+    $scope.changeTag = function(index) {
+        socket.emit('update-tags', {id: filterService.getInterviewId(), index: index});
     };
 
     $scope.alterAllTags = function(all) {
@@ -125,14 +114,13 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
     };
 
     $scope.addTheTag = function() {
-        $scope.tags.push({checked: false, label: $scope.selectedTag});
+        socket.emit('add-tag', {tag: {checked: true, label: $scope.selectedTag}, id: filterService.getInterviewId()});
         authService.getUserToken(function(idToken) {
             $http.post('/tag/' + $scope.selectedTag
                 + '/interview/' + $routeParams.id + "?idToken=" + idToken).success(function(created) {
             });
         });
         $mdDialog.hide();
-        emitRequest();
     };
 
     taggingService.resetTags();

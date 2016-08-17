@@ -26,10 +26,11 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
                 tagPromises = [];
             result.tags.forEach(function(tag) {
                 if (tag.name != "Intro" && tag.name != "Skills" && tag.name != "Close") {
-                    tags.push({
-                        label: tag.name,
-                        checked: true
-                    });
+                    var data = {
+                        tag: {label: tag.name, checked: true},
+                        id: interviewId
+                    };
+                    socket.emit('add-tag', data);
                 }
                 tagPromises.push(loadTagQuestions(idToken, tag.name));
             });
@@ -78,9 +79,9 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     };
 
     var triggerDoneLoading = function(tags, interview, idToken) {
-        filterService.setTags(tags);
+        //filterService.setTags(tags);
+        socket.emit('update-filter', {id: interviewId});
         $scope.$apply();
-        $rootScope.$emit('updateFilter');
         if(interview.started) {
             loadPreviousFeedbacks(idToken);
             socket.emit('request-interview', {id: interviewId, interviewerName: userService.getUserName()});
@@ -302,6 +303,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     socket.on('notify-change-state' + interviewId, function (data) {
         $scope.$apply(function () {
+            console.log(data);
             $scope.state = data.state;
             $rootScope.$emit('updateFilter');
         });
@@ -330,19 +332,28 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     socket.on('notify-update-filter' + interviewId, function (data) {
         $scope.$apply(function () {
-            filterService.setTags(data.tags);
             var tagPromises = [];
             authService.getUserToken(function(idToken) {
+                var prevTags = filterService.getTags();
                 data.tags.forEach(function(tag) {
-                    tagPromises.push(loadTagQuestions(idToken, tag.label));
+                    var have = false;
+                    prevTags.forEach(function(pTag) {
+                       if(tag.label == pTag.label) {
+                           have = true;
+                       }
+                    });
+                    if(!have) {
+                        tagPromises.push(loadTagQuestions(idToken, tag.label));
+                    }
                 });
-            });
-            Promise.all(tagPromises).then(function() {
-                filterService.setDifficulties(data.difficulties);
-                filterService.setOrderBy(data.order);
-                toast.info(data.message);
-                socket.emit('change-state', {interviewId: interviewId, state: 0});
-                $rootScope.$emit('updateFilter');
+                Promise.all(tagPromises).then(function() {
+                    filterService.setTags(data.tags);
+                    filterService.setDifficulties(data.difficulties);
+                    filterService.setOrderBy(data.orderBy);
+                    //toast.info(data.message);
+                    $scope.$apply();
+                    $rootScope.$emit('updateFilter');
+                });
             });
         });
     });
@@ -440,9 +451,15 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         $rootScope.$emit('updateFilter');
     });
 
+    socket.on('notify-join-interview' + interviewId, function(data) {
+        $scope.state = data.state;
+
+    });
+
     filterService.setInterviewId(interviewId);
     authService.getUserToken(function(idToken) {
         loadInterview(idToken);
+        socket.emit('join-interview', {id: interviewId});
     });
 }
 

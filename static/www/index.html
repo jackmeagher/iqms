@@ -300,7 +300,7 @@
                 }
             };
         }]);
-        
+
         app.factory('toast', function() {
             return {
                 info: function(text) {
@@ -441,7 +441,7 @@
                         <hr style="margin: 0px;">
                         <div class="checkbox" style="text-align: center">
                             <label class="checkbox-inline" ng-repeat="diff in difficulties">  
-                                <input type="checkbox" ng-model="diff.checked" ng-click="changeDifficulty()"> {{diff.label}}
+                                <input type="checkbox" ng-model="diff.checked" ng-click="changeDifficulty($index)"> {{diff.label}}
                             </label>
                         </div>
                     </div>
@@ -455,11 +455,12 @@
                         <a ng-click="alterAllTags(true);"> all</a>
                         <a ng-click="alterAllTags(false);" style+="text-align: right;"> none</a>
                         <hr style="margin: 0px;">
-                        <div class="checkbox" style="text-align: center">
+                        <div class="checkbox">
                             <label class="checkbox-inline" ng-model="tags" ng-repeat="tag in tags track by tag.label" ng-show="tag.label != 'Skills' && tag.label != 'Intro' && tag.label != 'Close'">
-                                <input type="checkbox" ng-model="tag.checked" ng-click="changeTag()"> {{tag.label}}
+                                <input type="checkbox" ng-model="tag.checked" ng-click="changeTag($index)"> {{tag.label}}
                             </label>
                         </div>
+
                     </div>
                 </li>
                 <div style="visibility: hidden">
