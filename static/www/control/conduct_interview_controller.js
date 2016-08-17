@@ -453,7 +453,6 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     socket.on('notify-join-interview' + interviewId, function(data) {
         $scope.state = data.state;
-        console.log($scope.state);
         $scope.$apply();
     });
 
