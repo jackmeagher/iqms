@@ -107,7 +107,7 @@ exports = module.exports = new Resource('interview', '/interview', {
                             if(req.body.started) {
                                 interview.started = req.body.started;
                             }
-                            var rec = {};
+                            var rec = interview.recommendation;
                             if (req.body.user) {
                                 rec[req.body.user] = {
                                     recommendation: req.body.recommendation ? req.body.recommendation : 0

@@ -19,8 +19,8 @@
                               <div google-chart chart="tagResultChart"></div>
                          </div>
                         <div ng-repeat="(key, value) in selectedTagNotes track by $index">
-                            <p><b>{{key}}</b></p>
-                            <p>{{value}}</p>
+                            <h4><b>{{key}}</b></h4>
+                            <h5 ng-bind-html="value"></h5>
                         </div>
                     </div>
                     <div class="row">

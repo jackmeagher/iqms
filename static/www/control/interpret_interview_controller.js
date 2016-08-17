@@ -302,7 +302,7 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
         if(!$scope.selectedTagNotes[questionText]) {
             $scope.selectedTagNotes[questionText] = "";
         }
-        $scope.selectedTagNotes[questionText] += user + ": " + note + "\n";
+        $scope.selectedTagNotes[questionText] += user + ": " + note + "<br>";
      };
 
     configureCharts();

@@ -75,7 +75,7 @@ exports = module.exports = new Resource('feedback', '/feedback', {
                         id: req.params.id
                     }
                 }).then(function(feedback) {
-                    var data = {};
+                    var data = feedback.data;
                     data[req.body.user] = {
                         rating: req.body.rating ? req.body.rating : feedback.data[req.body.user].rating,
                         note: req.body.note ? req.body.note : feedback.data[req.body.user].note

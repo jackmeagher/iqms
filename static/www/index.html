@@ -79,6 +79,7 @@
     <script src="assets/js/angular-dragdrop.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/slider.js"></script>
     <script src="assets/js/toastr.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
    
     <!-- CONTROLLERS -->
     <script src="control/create_interview_controller.js"></script>
@@ -202,7 +203,7 @@
             }, $scope.checkScreenSize);
         }
 
-        var app = angular.module('app', ['ngRoute', 'ngMaterial', 'ngDragDrop', 'googlechart']);
+        var app = angular.module('app', ['ngRoute', 'ngSanitize', 'ngMaterial', 'ngDragDrop', 'googlechart']);
 
         app.config(function ($routeProvider) {
             $routeProvider
