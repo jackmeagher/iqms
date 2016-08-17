@@ -207,7 +207,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         };
         var reference;
         if ($scope.currentQuestion.id == id) {
-            socket.emit('question-feedback', {interviewId: interviewId, user: userService.getUserName()});
+            socket.emit('question-feedback', {interviewId: interviewId, user: userService.getUserName(), qID: id});
             reference = $scope.currentQuestion;
         } else if ($scope.lastQuestion.id == id) {
             reference = $scope.lastQuestion;
@@ -361,13 +361,20 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             if ($scope.lastQuestion) {
                 $scope.previousQuestions.push($scope.lastQuestion);
             }
-            $scope.lastQuestion = $scope.currentQuestion;
+            if($scope.lastQuestion.id == data.qID) {
+                $scope.lastQuestion = $scope.currentQuestion;
+            } else {
+                $scope.lastQuestion = questionsByID[data.qID];
+                $scope.lastQuestion.queued = true;
+            }
+            
             if ($scope.queuedQuestions.length >= 1) {
                 $scope.currentQuestion = $scope.queuedQuestions.shift();
                 $scope.currentQuestion.response = null;
             } else {
                 $scope.currentQuestion = null;
             }
+
             pullQuestion();
         });
     });
