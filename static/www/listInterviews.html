@@ -138,9 +138,9 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <button class="btn btn-danger" ng-show="!interview.conducted"
-                                                    ng-click="deleteInterview($index, interview)">
-                                                Delete
+                                            <button class="btn btn-warning"
+                                                    ng-click="conductInterview(interview.id)" ng-show="interview.canSee">
+                                                Review
                                             </button>
                                         </td>
                                     </tr>
