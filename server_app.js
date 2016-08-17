@@ -9,6 +9,8 @@ server_app.set('web_socket_port', config.development.webSocketPort || 4041);
 
 io.on('connection', function (socket) {
 
+    var interviewStates = {};
+
     socket.on('question-feedback', function(data) {
         io.emit('notify-question-feedback' + data.interviewId, {
         });
@@ -31,14 +33,20 @@ io.on('connection', function (socket) {
     });
     
     socket.on('change-state', function(data) {
-       io.emit('notify-change-state' + data.interviewId, data); 
+        interviewStates[data.interviewId] += data.state;
+        data.state = interviewStates[data.interviewId];
+        io.emit('notify-change-state' + data.interviewId, data);
     });
 
     socket.on('request-interview', function(data) {
+        if(!interviewStates[data.id]) {
+            interviewStates[data.id] = 0;
+        }
         io.emit('notify-request-interview' + data.id, data);
     });
 
     socket.on('broadcast-interview', function(data) {
+        data.state = interviewStates[data.id];
         io.emit("notify-broadcast-interview" + data.id, data);
     });
 

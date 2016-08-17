@@ -127,6 +127,7 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
             });
         });
         $mdDialog.hide();
+        emitRequest();
     };
 
     taggingService.resetTags();
