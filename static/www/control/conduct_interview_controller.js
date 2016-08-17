@@ -309,6 +309,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     socket.on('notify-inline' + interviewId, function(question) {
         $scope.addQuestionToQueue(question);
+        $scope.$apply();
     });
 
     socket.on('notify-question-reorder' + interviewId, function (data) {
@@ -383,8 +384,8 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             });
             var interview = {
                 prev: prev,
-                last: $scope.lastQuestion.id,
-                cur: $scope.currentQuestion.id,
+                last: $scope.lastQuestion ? $scope.lastQuestion.id : null,
+                cur: $scope.currentQuestion ? $scope.currentQuestion.id : null,
                 queued: queued,
                 id: interviewId,
                 state: $scope.state
@@ -402,10 +403,17 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
                 questionsByID[num].queued = true;
                 $scope.previousQuestions.push(questionsByID[num]);
             });
-            questionsByID[data.last].queued = true;
-            $scope.lastQuestion = questionsByID[data.last];
-            questionsByID[data.cur].queued = true;
-            $scope.currentQuestion = questionsByID[data.cur];
+
+            if(data.last) {
+                questionsByID[data.last].queued = true;
+                $scope.lastQuestion = questionsByID[data.last];
+            }
+
+            if(data.cur) {
+                questionsByID[data.cur].queued = true;
+                $scope.currentQuestion = questionsByID[data.cur];
+            }
+
             data.queued.forEach(function(num) {
                 questionsByID[num].queued = true;
                 $scope.queuedQuestions.push(questionsByID[num]);
