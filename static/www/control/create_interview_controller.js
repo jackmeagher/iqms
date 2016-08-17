@@ -1,6 +1,6 @@
 function create_interview_controller($scope, $http, $mdDialog, $location,
                                      taggingService, popupService, flaggingService,
-                                     userService, authService) {
+                                     userService, authService, $rootScope) {
 
     $scope.positions = {};
     $scope.selectedPosition = null;
@@ -356,13 +356,13 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
         }
     };
 
-    $('#tagbox').on('beforeItemAdd', function(event) {
+    var beforeTagAdd = function(event) {
         event.itemValue = taggingService.countTag(event.item);
         event.itemText = event.item + " (" + event.itemValue + ")";
         $scope.taglist.push(event.item);
-    });
+    };
 
-    $('#tagbox').on('beforeItemRemove', function(event) {
+    var beforeTagRemove = function(event) {
         if(interviewID > 0) {
             authService.getUserToken(function(idToken) {
                 $http.delete('/tag/' + event.item
@@ -373,10 +373,19 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
         if($scope.taglist.indexOf(event.item) > -1) {
             $scope.taglist.splice($scope.taglist.indexOf(event.item), 1);
         }
+    };
+
+    $rootScope.$on('tagNotification', function() {
+        $('#tagbox').on('beforeItemAdd', beforeTagAdd);
+        $('#tagbox').on('beforeItemRemove', beforeTagRemove);
     });
 
     taggingService.resetTags();
     loadScreen();
+
+    $('#tagbox').on('beforeItemAdd', function(event) {});
+
+    $('#tagbox').on('beforeItemRemove', function(event) {});
 }
 
 function DialogController($scope, $mdDialog) {

@@ -152,7 +152,7 @@ function taggingService($http, $rootScope, authService) {
                 $rootScope.$emit('tagNotification');
             });
         });
-    }
+    };
     
     var countTag = function(name) {
         if (tags[name]) {
