@@ -23,8 +23,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     var loadInterviewTags = function(idToken, interview) {
         $http.get('/interview/' + interviewId + '/tags/?idToken=' + idToken).success(function (result) {
-            var tags = [],
-                tagPromises = [];
+            var tagPromises = [];
             result.tags.forEach(function(tag) {
                 if (tag.name != "intro" && tag.name != "skills" && tag.name != "close") {
                     var data = {
@@ -290,7 +289,9 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     $scope.addQuestionToQueue = function(question) {
         if(question.id) {
-            $scope.currentQuestion.queued = false;
+            if($scope.currentQuestion) {
+                $scope.currentQuestion.queued = false;
+            }
             $scope.currentQuestion = question;
             questionsByID[question.id] = question;
             questionsByID[question.id].queued = true;
