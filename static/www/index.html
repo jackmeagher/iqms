@@ -155,6 +155,7 @@
                                 userService.setUserName(user.email);
                                 if(currentPath != '/loading') {
                                     $route.reload();
+                                    currentPath = currentPath.startsWith('/conaction') ? '/' : currentPath;
                                     $location.path(currentPath);
                                 }
                             } else {

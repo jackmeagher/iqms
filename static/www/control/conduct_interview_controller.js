@@ -284,7 +284,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         };
         socket.emit('inline', obj);
     });
-
+    
     $scope.addQuestionToQueue = function(question) {
         if(question.id) {
             $scope.currentQuestion.queued = false;
