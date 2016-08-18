@@ -114,6 +114,8 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             question.note = data[user].note ? data[user].note : null;
             if(question.response == -1)
                 question.skipped = true;
+            else if(question.response == -2)
+                question.response = null;
         }
         if(!loaded)
             $scope.previousQuestions.push(question);
@@ -284,7 +286,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         };
         socket.emit('inline', obj);
     });
-    
+
     $scope.addQuestionToQueue = function(question) {
         if(question.id) {
             $scope.currentQuestion.queued = false;
