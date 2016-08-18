@@ -1,7 +1,9 @@
 function login_controller($scope, $http, userService, authService, $location) {
     $scope.create = false;
     $scope.emailReset = 0;
-    
+
+    $scope.error = null;
+
     $scope.user = {
         email: "",
         password: ""
@@ -10,6 +12,10 @@ function login_controller($scope, $http, userService, authService, $location) {
     $scope.loginUser = function() {
         firebase.auth().signInWithEmailAndPassword($scope.user.email, $scope.user.password).then(function() {
             $location.path("/");
+            $scope.$apply();
+        }, function(error) {
+            $scope.error = error.message;
+            $scope.$apply();
         });
     };
     
@@ -25,6 +31,9 @@ function login_controller($scope, $http, userService, authService, $location) {
                     $location.path("/");
                 });
             });
+        }, function(error) {
+            $scope.error = error.message;
+            $scope.$apply();
         });
     };
     
@@ -32,7 +41,8 @@ function login_controller($scope, $http, userService, authService, $location) {
         firebase.auth().sendPasswordResetEmail($scope.user.email).then(function() {
             $scope.emailReset = 2;
         }, function(error) {
-            console.error(error);
+            $scope.error = error.message;
+            $scope.$apply();
         });
     }
 }

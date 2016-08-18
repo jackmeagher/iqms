@@ -11,6 +11,7 @@
 
             <div class="panel-body">
                 <form role="form" ng-show="!create && emailReset == 0">
+                    <div class="alert alert-danger" role="alert" ng-show="error">{{error}}</div>
                     <hr/>
                     <h5>Enter Details to Login</h5>
                     <br/>
