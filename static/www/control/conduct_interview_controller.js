@@ -216,9 +216,10 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         } else if ($scope.lastQuestion && $scope.lastQuestion.id == id) {
             reference = $scope.lastQuestion;
         } else {
-            for(var i = 0; $scope.previousQuestions[i].id != id; i++) {
+            for(var i = 0; i < $scope.previousQuestions.length && $scope.previousQuestions[i].id != id; i++) {
                 reference = $scope.previousQuestions[i];
             }
+            reference = reference ? reference : $scope.previousQuestions[0];
         }
         reference.response = value ? value : (reference.response ? reference.response : null);
         feedback.rating = reference.response;
@@ -321,6 +322,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         if (data.user == userService.getUserName() && data.queue[0].test) {
             $scope.queuedQuestions = data.queue;
         } else if (data.user == userService.getUserName()) {
+            
             $scope.queuedQuestions[0].test = true;
             socket.emit('question-reorder', {
                 queue: $scope.queuedQuestions,
