@@ -322,7 +322,6 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         if (data.user == userService.getUserName() && data.queue[0].test) {
             $scope.queuedQuestions = data.queue;
         } else if (data.user == userService.getUserName()) {
-            
             $scope.queuedQuestions[0].test = true;
             socket.emit('question-reorder', {
                 queue: $scope.queuedQuestions,
