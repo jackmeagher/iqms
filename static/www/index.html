@@ -113,6 +113,7 @@
             $scope.interviewScreen = false;
             $scope.name = null;
             $scope.loginTime = null;
+            $scope.userRole = userService.getUserRole();
             
             var loc = "";
 
@@ -133,6 +134,7 @@
 
             $scope.$on('$routeChangeStart', function() {
                 var currentPath = $location.path();
+                $scope.userRole = userService.getUserRole();
                 if($scope.name) {
                     if($location.path() == '/loading')
                             $location.path('/');
@@ -157,6 +159,7 @@
                                     $route.reload();
                                     currentPath = currentPath.startsWith('/conaction') ? '/' : currentPath;
                                     $location.path(currentPath);
+                                    $scope.userRole = userService.getUserRole();
                                 }
                             } else {
                                 $location.path("/login");
@@ -400,7 +403,7 @@
                 <li>
                     <a href="#/"><i class="fa fa-dashboard "></i>Welcome to IQMS</a>
                 </li>
-                <li>
+                <li ng-show="userRole == 'Admin' || userRole == 'Manager'">
                     <a href="#ci"><i class="fa fa-plus"></i>Create Interview</a>
                 </li>
                 <li>
@@ -409,7 +412,7 @@
                 <li>
                     <a href="#qm"><i class="fa fa-question"></i>Question Manager</a>
                 </li>
-                <li>
+                <li ng-show="userRole == 'Admin' || userRole == 'Manager'">
                     <a href="#users"><i class="fa fa-users"></i>Manage Users</a>
                 </li>
             </ul>
