@@ -357,6 +357,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var beforeTagAdd = function(event) {
+        event.item = event.item.toLowerCase();
         event.itemValue = taggingService.countTag(event.item);
         event.itemText = event.item + " (" + event.itemValue + ")";
         $scope.taglist.push(event.item);

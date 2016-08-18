@@ -133,6 +133,7 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams,
     };
 
     var beforeTagAdd = function(event) {
+        event.item = event.item.toLowerCase();
         event.itemValue = taggingService.countTag(event.item);
         event.itemText = event.item + " (" + event.itemValue + ")";
         $scope.taglist.push(event.item);
