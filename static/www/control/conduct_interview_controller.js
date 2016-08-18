@@ -16,7 +16,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     var loadInterview = function(idToken) {
         $http.get('/interview/' + interviewId + "?idToken=" + idToken).success(function (data) {
-            $scope.recommendation = data.interview.recommendation[userService.getUserName()].recommendation;
+            $scope.recommendation = data.interview.recommendation[userService.getUserName()] ? data.interview.recommendation[userService.getUserName()].recommendation : null;
             loadInterviewTags(idToken, data.interview);
         });
     };
