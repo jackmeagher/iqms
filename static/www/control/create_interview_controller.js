@@ -376,6 +376,10 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
         }
     };
 
+    $scope.cancel = function() {
+        $location.path('/li');
+    };
+
     $rootScope.$on('tagNotification', function() {
         $('#tagbox').on('beforeItemAdd', beforeTagAdd);
         $('#tagbox').on('beforeItemRemove', beforeTagRemove);

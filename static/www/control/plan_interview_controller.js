@@ -157,6 +157,10 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams,
         $('#tagbox').on('beforeItemRemove', beforeTagRemove);
     });
 
+    $scope.cancel = function() {
+      $location.path('/li');
+    };
+
     taggingService.resetTags();
     loadScreen();
 

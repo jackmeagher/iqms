@@ -137,10 +137,20 @@
                         </div>
                     </form>
                     <br><br>
-                    <button type="button" class="btn btn-lg btn-success" ng-click="createInterview()"
-                            style="margin-left:43%; margin-bottom:2%;" id="submitInterviewButton">
-                        Submit Interview
-                    </button>
+                    <div clas="row">
+                        <div class="col-md-6" style="text-align: right">
+                            <button type="button" class="btn btn-lg btn-success" ng-click="createInterview()"
+                                    id="submitInterviewButton">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-lg btn-danger" ng-click="cancel()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    <br><br><br><br>
                     <br>
                 </div>
             </div>
