@@ -35,8 +35,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
                 tagPromises.push(loadTagQuestions(idToken, tag.name));
             });
             Promise.all(tagPromises).then(function() {
-                loadQuestionStates(idToken);
-                triggerDoneLoading(tags, interview, idToken);
+                loadQuestionStates(idToken, interview);
             });
 
         });
@@ -67,19 +66,23 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         return "Senior";
     };
 
-    var loadQuestionStates = function(idToken) {
+    var loadQuestionStates = function(idToken, interview) {
         $http.get('/interview/' + interviewId + '/questions?idToken=' + idToken).success(function(data) {
+            var statePromises = [];
             data.questions.forEach(function(question) {
-                $http.get('/interviewQuestion/' + interviewId + '/question/' + question.id + '?idToken=' + idToken).success(function(joined) {
+                var p = $http.get('/interviewQuestion/' + interviewId + '/question/' + question.id + '?idToken=' + idToken).success(function(joined) {
                     questionsByID[question.id].blacklisted = joined.interviewQuestion.state == "Blacklisted";
                     questionsByID[question.id].highlighted = joined.interviewQuestion.state == "Pinned";
                 });
+                statePromises.push(p);
+            });
+            Promise.all(statePromises).then(function() {
+                triggerDoneLoading(interview, idToken);
             });
         });
     };
 
-    var triggerDoneLoading = function(tags, interview, idToken) {
-        //filterService.setTags(tags);
+    var triggerDoneLoading = function(interview, idToken) {
         socket.emit('update-filter', {id: interviewId});
         $scope.$apply();
         if(interview.started) {
