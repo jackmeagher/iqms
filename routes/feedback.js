@@ -77,7 +77,7 @@ exports = module.exports = new Resource('feedback', '/feedback', {
                 }).then(function(feedback) {
                     var data = feedback.data;
                     data[req.body.user] = {
-                        rating: req.body.rating ? req.body.rating : feedback.data[req.body.user].rating,
+                        rating: req.body.rating ? req.body.rating : (feedback.data[req.body.user]? feedback.data[req.body.user].rating : -2),
                         note: req.body.note ? req.body.note : feedback.data[req.body.user].note
                     };
 

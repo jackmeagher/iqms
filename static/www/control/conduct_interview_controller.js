@@ -214,7 +214,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         var reference = questionsByID[id];
         if ($scope.currentQuestion && $scope.currentQuestion.id == id) {
             socket.emit('question-feedback', {interviewId: interviewId, user: userService.getUserName(), qID: id});
-        }   
+        }
         reference.response = value ? value : (reference.response ? reference.response : null);
         feedback.rating = reference.response;
         feedback.note = reference.note;
