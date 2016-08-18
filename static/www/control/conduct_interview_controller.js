@@ -12,10 +12,11 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     $scope.queuedQuestions = [];
 
     $scope.state = 0;
-    $scope.recommendation = 0;
+    $scope.recommendation = null;
 
     var loadInterview = function(idToken) {
         $http.get('/interview/' + interviewId + "?idToken=" + idToken).success(function (data) {
+            $scope.recommendation = data.interview.recommendation[userService.getUserName()].recommendation;
             loadInterviewTags(idToken, data.interview);
         });
     };
