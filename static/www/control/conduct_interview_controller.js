@@ -112,6 +112,8 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         if(data[user]) {
             question.response = data[user].rating;
             question.note = data[user].note ? data[user].note : null;
+            if(question.response == -1)
+                question.skipped = true;
         }
         if(!loaded)
             $scope.previousQuestions.push(question);
@@ -216,10 +218,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
         } else if ($scope.lastQuestion && $scope.lastQuestion.id == id) {
             reference = $scope.lastQuestion;
         } else {
-            for(var i = 0; i < $scope.previousQuestions.length && $scope.previousQuestions[i].id != id; i++) {
-                reference = $scope.previousQuestions[i];
-            }
-            reference = reference ? reference : $scope.previousQuestions[0];
+            reference = questionsByID[id];
         }
         reference.response = value ? value : (reference.response ? reference.response : null);
         feedback.rating = reference.response;
@@ -365,9 +364,9 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     socket.on('notify-question-skip' + interviewId, function (data) {
         $scope.$apply(function () {
             toast.info(data.message);
-            if ($scope.currentQuestion.id == data.id) {
+            if ($scope.currentQuestion && $scope.currentQuestion.id == data.id) {
                 $scope.currentQuestion.skipped = true;
-            } else if ($scope.lastQuestion.id == data.id) {
+            } else if ($scope.lastQuestion && $scope.lastQuestion.id == data.id) {
                 $scope.lastQuestion.skipped = true;
             } else {
                 for (var i = 0; i < $scope.previousQuestions.length; i++) {
@@ -398,11 +397,10 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             if ($scope.queuedQuestions.length >= 1) {
                 $scope.currentQuestion = $scope.queuedQuestions.shift();
                 $scope.currentQuestion.response = null;
+                pullQuestion();
             } else {
                 $scope.currentQuestion = null;
             }
-
-            pullQuestion();
         });
     });
 
