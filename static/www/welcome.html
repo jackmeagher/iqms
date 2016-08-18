@@ -5,8 +5,7 @@
 
     </div>
 </div>
-<!-- /. ROW  -->
-<div class="row">
+<div class="row" ng-show="userRole == 'Admin' || userRole == 'Manager'">
     <a href="#/ci">
         <div class="col-md-4">
             <button class="main-box mb-red" onclick="window.location.href='#ci'"
@@ -39,7 +38,28 @@
             </a>
         </button>
     </div>
-
+</div>
+<div class="row" ng-show="userRole == 'Interviewer'">
+    <div class="col-md-6">
+        <button class="main-box mb-dull" onclick="window.location.href='#li'"
+                style="width:100%; background-color:#3f729b">
+            <a href="#/li">
+                <img src="assets/img/white_pencil.png"
+                     style="height:50px; width:50px;">
+                <h5>List Interviews</h5>
+            </a>
+        </button>
+    </div>
+    <div class="col-md-6">
+        <button class="main-box mb-pink" onclick="window.location.href='#qm'"
+                style="width:100%; background-color:#ac2925">
+            <a href="#/qm">
+                <img src="assets/img/white_mic.png"
+                     style="height:50px; width:50px;">
+                <h5>Question Manager</h5></a>
+            </a>
+        </button>
+    </div>
 </div>
 <div class="row">
     <hr/>
