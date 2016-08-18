@@ -14,6 +14,8 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     $scope.locationText = "";
 
     $scope.taglist = [];
+    $scope.selectedTag = null;
+    $scope.tagText = "";
 
     $scope.userList = [];
     $scope.selectedUser = "";
@@ -356,6 +358,58 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
         }
     };
 
+    $scope.queryTag = function(query) {
+        var pos = $.map($scope.tagList, function(value, index) {
+            return value.name;
+        });
+        pos = removeMainTags(pos);
+        pos = removeSelectedTags(pos);
+        return $scope.queryFunction(query, pos);
+    };
+
+    $scope.queryFunction = function(query, data) {
+        if (query == null) {
+            query = "";
+        }
+
+        text = query.toLowerCase();
+        var ret = data.filter(function(d) {
+            var test = d.toLowerCase();
+            return test.startsWith(text);
+        });
+        return ret;
+    };
+
+    $scope.tagItemChange = function(item) {
+        if (item) {
+            $scope.selectedTag = item;
+            $('#tagbox').tagsinput('add', $scope.selectedTag);
+            $scope.selectedTag = null;
+            $scope.tagText = "";
+        }
+    };
+
+    var removeMainTags = function(t) {
+        var mainTags = ['intro', 'skills', 'close', 'inline'];
+        mainTags.forEach(function(tag) {
+            if(t) {
+                if(t.indexOf(tag) > -1) {
+                    t.splice(t.indexOf(tag), 1);
+                }
+            }
+        });
+        return t;
+    };
+
+    var removeSelectedTags = function(t) {
+        $scope.taglist.forEach(function(tag) {
+            if(t.indexOf(tag) > -1) {
+                t.splice(t.indexOf(tag), 1);
+            }
+        });
+        return t;
+    };
+
     var beforeTagAdd = function(event) {
         event.item = event.item.toLowerCase();
         event.itemValue = taggingService.countTag(event.item);
@@ -383,6 +437,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     $rootScope.$on('tagNotification', function() {
         $('#tagbox').on('beforeItemAdd', beforeTagAdd);
         $('#tagbox').on('beforeItemRemove', beforeTagRemove);
+        $scope.tagList = taggingService.getTags();
     });
 
     taggingService.resetTags();

@@ -124,7 +124,7 @@
                                 <div class="col-md-1"></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <label>Tags</label>
                                     <br>
                                     <small>Click a tag to manage questions</small>
@@ -133,7 +133,31 @@
 
                                     </select>
                                 </div>
+                                <div class="col-md-6" style="width:40%;">
+                                    <br>
+                                    <small>Search for tags</small>
+                                    <br>
+                                    <md-autocomplete
+                                            id="tagAdd-box"
+                                            md-no-cache="true"
+                                            md-selected-item="selectedTag"
+                                            md-search-text="tagText"
+                                            md-selected-item-change="tagItemChange(selectedTag)"
+                                            md-items="tag in queryTag(tagText)"
+                                            md-item-text="tag"
+                                            md-min-length="0"
+                                            placeholder="Search for Tag">
+                                        <md-item-template>
+                                                        <span md-highlight-text="tagText"
+                                                              md-highlight-flags="^i">{{tag}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            "{{tagText}}" is not found.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </div>
                             </div>
+                            <br><br>
                         </div>
                     </form>
                     <br><br>
