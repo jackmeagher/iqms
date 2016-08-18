@@ -144,7 +144,9 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
             return "No";
         else if(value == 0)
             return "Maybe";
-        return "Yes";
+        else if(value == 1)
+            return "Yes";
+        return "No Response Given";
     };
 
     var queryDatabaseForFeedback = function() {

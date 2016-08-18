@@ -110,8 +110,8 @@ exports = module.exports = new Resource('interview', '/interview', {
                             var rec = interview.recommendation;
                             if (req.body.user) {
                                 rec[req.body.user] = {
-                                    recommendation: req.body.recommendation ? req.body.recommendation : 0
-                                }
+                                    recommendation: req.body.recommendation ? req.body.recommendation : null
+                                };
                                 interview.set('recommendation', rec);
                             }
                             interview.save({fields: ['candidatePositionCId', 'conducted', 'recommendation', 'date', 'location', 'started']}).then(function(interview) {
