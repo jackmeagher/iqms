@@ -3,7 +3,7 @@ function question_manager_controller($scope, $http, $location, taggingService, a
     $scope.sortReverse  = false;  // set the default sort order
     $scope.searchQuestion   = '';     // set the default search/filter term
 
-    var mainTags = ['Intro', 'Skills', 'Close', 'Inline'];
+    var mainTags = ['intro', 'skills', 'close', 'inline'];
 
     $scope.loadQuestion = function(index) {
         $location.path('/ce')

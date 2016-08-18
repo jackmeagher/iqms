@@ -8,7 +8,7 @@ function filter_menu_controller ($scope, $rootScope, $http, $mdDialog, $routePar
     $scope.selectedTag = null;
     $scope.tagText = "";
 
-    var mainTags = ['Intro', 'Skills', 'Close', 'Inline'];
+    var mainTags = ['intro', 'skills', 'close', 'inline'];
 
     $scope.changeFilter = function(id) {
         switch (id) {

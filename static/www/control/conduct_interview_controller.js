@@ -25,7 +25,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             var tags = [],
                 tagPromises = [];
             result.tags.forEach(function(tag) {
-                if (tag.name != "Intro" && tag.name != "Skills" && tag.name != "Close") {
+                if (tag.name != "intro" && tag.name != "skills" && tag.name != "close") {
                     var data = {
                         tag: {label: tag.name, checked: true},
                         id: interviewId
@@ -157,9 +157,9 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             }
 
             if ($scope.state == 0) {
-                return !question.queued && question.tags["Intro"];
+                return !question.queued && question.tags["intro"];
             } else if ($scope.state == 1) {
-                if (question.tags["Intro"] || question.tags["Close"]) {
+                if (question.tags["intro"] || question.tags["close"]) {
                     return false;
                 }
 
@@ -175,7 +175,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
                 return !question.queued && fastIncludeFilter(question, tags);
             } else {
-                return !question.queued && question.tags["Close"];
+                return !question.queued && question.tags["close"];
             }
         });
 

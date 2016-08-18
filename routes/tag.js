@@ -25,6 +25,7 @@ exports = module.exports = new Resource('tag', '/tag', {
                 if (!req.query.name) {
                     req.query.name = 'Blank';
                 }
+                req.body.name = req.body.name.toLowerCase();
                 models.tag.create( {
                     name: req.body.name ? req.body.name : null
                 }).then(function(created) {
@@ -42,6 +43,7 @@ exports = module.exports = new Resource('tag', '/tag', {
         if(req.query.idToken) {
             firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
                 var uid = decodedToken.sub;
+                req.params.name = req.params.name.toLowerCase();
                 models.tag.find({
                     where: {
                         name: req.params.name
@@ -62,6 +64,7 @@ exports = module.exports = new Resource('tag', '/tag', {
         if(req.query.idToken) {
             firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
                 var uid = decodedToken.sub;
+                req.params.name = req.params.name.toLowerCase();
                 models.tag.find({
                     where: {
                         name: req.params.name
@@ -83,6 +86,7 @@ exports = module.exports = new Resource('tag', '/tag', {
     get: (req, res) => {
         if(req.query.idToken) {
             firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                req.params.name = req.params.name.toLowerCase();
                 var uid = decodedToken.sub;
                 models.tag.findOne({
                     where: {
@@ -106,6 +110,7 @@ exports = module.exports = new Resource('tag', '/tag', {
     post: (req, res) => {
         if(req.query.idToken) {
             firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                req.params.name = req.params.name.toLowerCase();
                 var uid = decodedToken.sub;
                 models.tag.findOne({
                     where: {
@@ -137,6 +142,7 @@ exports = module.exports = new Resource('tag', '/tag', {
     delete: (req, res) => {
         if(req.query.idToken) {
             firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                req.params.name = req.params.name.toLowerCase();
                 var uid = decodedToken.sub;
                 models.tag.findOne({
                     where: {

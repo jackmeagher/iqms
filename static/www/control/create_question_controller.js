@@ -6,7 +6,7 @@ function create_question_controller ($scope, $rootScope, $location, $http, taggi
         selectedTags: {},
         answers: [''],
         difficulty: 0,
-        category: 'Skills'
+        category: 'skills'
     };
 
     var loadQuestion = function() {
@@ -63,7 +63,7 @@ function create_question_controller ($scope, $rootScope, $location, $http, taggi
                 $http.post('/question?idToken=' + idToken,  questionData).success(function(created) {
                     $scope.questionData = created.question;
                     $rootScope.$broadcast('interviewQuestion', $scope.questionData);
-                    taggingService.addTag("Inline");
+                    taggingService.addTag("inline");
                     taggingService.persistQuestionTag(created.question.id);
                 });
             }

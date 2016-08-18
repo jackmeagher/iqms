@@ -7,11 +7,13 @@ function tag_auto_complete_controller (taggingService) {
     self.selectedItemChange = selectedItemChange;
     self.newTag = newTag;
 
-    var mainTags = ['Intro', 'Skills', 'Close', 'Inline'];
+    var mainTags = ['intro', 'skills', 'close', 'inline'];
 
     function newTag(tag) {
         if (tag) {
             taggingService.createNewTag(tag);
+            self.searchText = "";
+            self.selectedItem = null;
         }
     }
     

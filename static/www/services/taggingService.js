@@ -9,12 +9,12 @@ function taggingService($http, $rootScope, authService) {
     
     var clickedTag = "";
 
-    var category = 'Skills';
+    var category = 'skills';
 
     var setCategory = function(tag) {
-        removeTag('Intro');
-        removeTag('Skills');
-        removeTag('Close');
+        removeTag('intro');
+        removeTag('skills');
+        removeTag('close');
         addTag(tag);
         category = tag;
     };
@@ -27,7 +27,7 @@ function taggingService($http, $rootScope, authService) {
         $http.get('/question/' + questionId + '/tags/?idToken=' + idToken).success(function(data) {
             data.tags.forEach(function(tag, index) {
                 savedTags.push(tag.name);
-                if(tag.name == "Intro" || tag.name == "Skills" || tag.name == "Close") {
+                if(tag.name == "intro" || tag.name == "skills" || tag.name == "close") {
                     category = tag.name;
                 }
             });
@@ -77,6 +77,9 @@ function taggingService($http, $rootScope, authService) {
     //Creation Methods
     
     var createNewTag = function(name) {
+
+        name = name.toLowerCase();
+
         var shouldAdd = true;
         if (tags[name]) {
             shouldAdd = false;
@@ -89,6 +92,8 @@ function taggingService($http, $rootScope, authService) {
 
             authService.getUserToken(function(idToken) {
                 $http.post('/tag?idToken=' + idToken,  tagData).success(function(created) {
+                    if(!tags)
+                        tags = {};
                     tags[created.tag.name].count = 0;
                     selectedTags[created.tag.name] = tags[created.tag.name];
                     $rootScope.$emit('tagNotification');

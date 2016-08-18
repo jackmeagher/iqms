@@ -208,7 +208,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var checkForMainTags = function(interviewID, idToken) {
-        var mainTags = ['Intro', 'Skills', 'Close'];
+        var mainTags = ['intro', 'skills', 'close'];
         $scope.taglist.forEach(function(tag) {
             if (taggingService.countTag(tag) > 0) {
                 addTagToInterview(idToken, interviewID, tag);
