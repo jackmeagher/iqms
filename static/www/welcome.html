@@ -5,13 +5,12 @@
 
     </div>
 </div>
-<!-- /. ROW  -->
-<div class="row">
-    <a href="createInterview.html">
+<div class="row" ng-show="userRole == 'Admin' || userRole == 'Manager'">
+    <a href="#/ci">
         <div class="col-md-4">
             <button class="main-box mb-red" onclick="window.location.href='#ci'"
                     style="width:100%; background-color:#4cae4c">
-                <a href="#">
+                <a href="#/ci">
                     <img src="assets/img/white-plus-hi.png"
                          style="height:50px; width:50px;">
                     <h5>Create interview</h5>
@@ -22,7 +21,7 @@
     <div class="col-md-4">
         <button class="main-box mb-dull" onclick="window.location.href='#li'"
                 style="width:100%; background-color:#3f729b">
-            <a href="#">
+            <a href="#/li">
                 <img src="assets/img/white_pencil.png"
                      style="height:50px; width:50px;">
                 <h5>List Interviews</h5>
@@ -30,16 +29,37 @@
         </button>
     </div>
     <div class="col-md-4">
-        <button class="main-box mb-pink" onclick="window.location.href='#coni'"
+        <button class="main-box mb-pink" onclick="window.location.href='#qm'"
                 style="width:100%; background-color:#ac2925">
-            <a href="#">
+            <a href="#/qm">
                 <img src="assets/img/white_mic.png"
                      style="height:50px; width:50px;">
-                <h5>Conduct Interview</h5></a>
+                <h5>Question Manager</h5></a>
             </a>
         </button>
     </div>
-
+</div>
+<div class="row" ng-show="userRole == 'Interviewer'">
+    <div class="col-md-6">
+        <button class="main-box mb-dull" onclick="window.location.href='#li'"
+                style="width:100%; background-color:#3f729b">
+            <a href="#/li">
+                <img src="assets/img/white_pencil.png"
+                     style="height:50px; width:50px;">
+                <h5>List Interviews</h5>
+            </a>
+        </button>
+    </div>
+    <div class="col-md-6">
+        <button class="main-box mb-pink" onclick="window.location.href='#qm'"
+                style="width:100%; background-color:#ac2925">
+            <a href="#/qm">
+                <img src="assets/img/white_mic.png"
+                     style="height:50px; width:50px;">
+                <h5>Question Manager</h5></a>
+            </a>
+        </button>
+    </div>
 </div>
 <div class="row">
     <hr/>

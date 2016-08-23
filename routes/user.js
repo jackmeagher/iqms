@@ -1,167 +1,128 @@
-/**
- * Created by nick on 3/15/16.
- */
-
 var models = require('../models');
 var Resource = require('../lib/Resource');
 var exports = module.exports = {};
-const crypto = require('crypto');
-var jwt = require('jsonwebtoken');
-
-const secret = 'tg6bhr5dxddrtcx';
-
-
+var firebase = require('firebase');
 
 exports = module.exports = new Resource('user', '/user', {
-        // get all users
         get: (req, res) => {
-
-            //models.sequelize.query('SELECT * FROM "Users";')
-            models.user.findAll()
-                .then(function(users) {
-                    res.status(200).json({
-                        success: true,
-                        users: users,
-                        req_user: req.user
-                    });
-                })
-        },
-        // create new user
-        post: (req, res) => {
-            crypto.randomBytes(16, function(err, buffer) {
-                var salt = buffer.toString('hex');
-                crypto.pbkdf2(req.body.password, salt, 100000, 255, 'sha512', function(err, key) {
-                    if (err) throw err;
-                    models.user.create({
-                        first_name : req.body.first_name,
-                        last_name : req.body.last_name,
-                        email : req.body.email,
-                        pw_hash : key.toString(),
-                        salt : salt
-                    }).then(function(created) {
-                        res.status(201).json({
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.findAll().then(function(users) {
+                        res.status(200).json({
                             success: true,
-                            data: created.dataValues
-                        });
-                    });
-                });
-            });
-        }
-
-
-
-    }, [new Resource('get_user_by_id', '/:id', {
-        // get user by id
-        get: (req, res) => { //get answer by id
-            models.user.findAll({
-                where: {
-                    id: req.params.id
-                }
-            }).then(function(user) {
-                res.status(200).json({
-                    user: user
-                });
-            })
-        },
-        // delete user by id
-        delete: (req, res) => {
-            models.user.destroy({
-                where: {
-                    id: req.params.id
-                },
-                //truncate: true /* this will ignore where and truncate the table instead */
-            }).then(function(destroyed) {
-                res.status(204).json({
-                });
-            });
-
-        }
-
-
-
-
-    }),
-        new Resource('user_interviews', '/:id/interviews/', {
-                //TODO : make this work
-                // get all interviews by user
-                get: (req, res) => { //get answer by id
-                    models.userInterview.findAll(
-                        //where : {
-                        //    //userId : req.params.id
-                        //}
-                    ).then(function(gotten_interviews) {
-                        models.interview.findAll({
-                            where: {
-                                id : {in : gotten_interviews.dataValues.InterviewID}
-                            }
-                        }).then(function(ints){
-                            res.status(200).json({
-                                interviews: ints
-                            })
+                            users: users
                         });
                     })
-                },
-                // remove interview from user
-                // TODO: does this work
-                delete: (req, res) => {
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
+                });
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
+        },
+        post: (req, res) => {
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.create({
+                        name: req.body.name ? req.body.name : "NULL NAME",
+                        role: req.body.role ? req.body.role : "Interviewer"
+                    }).then(function(user) {
+                        res.status(201).json({
+                            user: user.dataValues
+                        })
+                    })
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
+                });
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
+        }
+    }, [new Resource('get_user_by_id', '/:user_name', {
+        get: (req, res) => { //get answer by id
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.find({
+                        where: {
+                            name: req.params.user_name
+                        }
+                    }).then(function(user) {
+                        res.status(200).json({
+                            user: user
+                        });
+                    })
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
+                });
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
+        },
+        put: (req, res) => {
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.find({
+                        where: {
+                            name: req.params.user_name
+                        }
+                    }).then(function (user) {
+                        user.role = req.body.role;
+                        user.save({fields: ['role']}).then(function() {
+                            res.status(200).json({});
+                        })
+                    })
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
+                });
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
+        },
+        delete: (req, res) => {
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
                     models.user.destroy({
                         where: {
-                            id: req.params.id
+                            name: req.params.user_name
                         }
-                        //,truncate: true /* this will ignore where and truncate the table instead */
                     }).then(function(destroyed) {
-                        res.status(200).json({
-                            answer: destroyed.dataValues
+                        res.status(204).json({
                         });
                     });
-
-                }
-
-
-
-
-            }
-
-        ),
-        new Resource('auth','/auth', {
-            post : (req, res) => {
-                models.user.findAll( {
-                    where: {
-                        email : req.body.email
-                    }
-                }).then( (data) => {
-                    var user = data[0];
-                    if (!req.body.password) {
-                        res.status(403).json({
-                            success: false,
-                            msg: "Died here"
-                        });
-                    }
-                    //req.body.password = String(req.body.password);
-                    else {
-                        crypto.pbkdf2(req.body.password, user.salt, 100000, 255, 'sha512', function (err, key) {
-                            if (err) throw err;
-                            var hash = key.toString();
-                            if (hash == user.pw_hash) {
-                                jwt.sign({user: user}, secret, {algorithm: 'HS256', expiresIn: 84400}, function (token) {
-                                    res.status(200).json({
-                                        success: true,
-                                        token: token
-                                    });
-                                });
-                            } else {
-                                res.status(403).json({
-                                    success: false,
-                                    msg: "Failed to auth."
-                                });
-                            }
-                        });
-                    }
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
                 });
+            } else {
+                res.status(401).json({error: "Forbidden"});
             }
-        })]
-
-
-
-
-);
+        }
+    }), new Resource('get_interviews_by_user', '/:user_name/interviews', {
+        get: (req, res) => {
+            if(req.query.idToken) {
+                firebase.auth().verifyIdToken(req.query.idToken).then(function(decodedToken) {
+                    var uid = decodedToken.sub;
+                    models.user.findOne({
+                        where: {
+                            name: req.params.user_name
+                        }
+                    }).then(function(user) {
+                        user.getInterviews().then(function(interviews) {
+                            res.status(200).json({
+                                interviews: interviews
+                            });
+                        })
+                    })
+                }).catch(function(error) {
+                    res.status(511).json({error: "Error"});
+                });
+            } else {
+                res.status(401).json({error: "Forbidden"});
+            }
+        }
+    })
+]);

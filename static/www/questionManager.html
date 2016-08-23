@@ -23,7 +23,7 @@
                                 <tr>
                                     <th>
                                         <a ng-click="sortType = 'id'; sortReverse = !sortReverse"
-                                           style="cursor:pointer;">
+                                           style="cursor:pointer;" id="byID">
                                             #
                                             <span ng-show="sortType == 'id' && !sortReverse"
                                                   class="fa fa-caret-down"></span>
@@ -64,12 +64,12 @@
                                     <td>{{question.difficulty}}</td>
                                     <td>{{question.taglist}}</td>
                                     <td>
-                                        <button class="btn btn-warning" ng-click="loadQuestion(question.id)">
+                                        <button class="btn btn-warning edit-question" ng-click="loadQuestion(question.id)">
                                             Edit
                                         </button>
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger" ng-click="DeleteQuestion($index,question)">
+                                        <button class="btn btn-danger delete-question" ng-click="deleteQuestion($index, question)">
                                             Delete
                                         </button>
                                     </td>

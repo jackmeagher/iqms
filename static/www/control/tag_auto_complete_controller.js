@@ -1,16 +1,19 @@
-function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingService) {
+function tag_auto_complete_controller (taggingService) {
     var self = this;
     self.tags = taggingService.getTags();
     self.searchText = "";
     self.selectedItem = null;
     self.querySearch = querySearch;
     self.selectedItemChange = selectedItemChange;
-    self.searchTextChange = searchTextChange;
     self.newTag = newTag;
-    
+
+    var mainTags = ['intro', 'skills', 'close', 'inline'];
+
     function newTag(tag) {
         if (tag) {
             taggingService.createNewTag(tag);
+            self.searchText = "";
+            self.selectedItem = null;
         }
     }
     
@@ -18,6 +21,9 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
         self.tags = $.map(taggingService.getTags(), function(value, index) {
             return value.name; 
         });
+
+        self.tags = removeMainTags(self.tags);
+
         if (query == null) {
             query = "";
         }
@@ -29,15 +35,22 @@ function tag_auto_complete_controller ($scope, $timeout, $q, $log, taggingServic
         return ret;
     }
     
-    function searchTextChange(text) {
-        self.tags = $.map(taggingService.getTags(), function(value, index) {
-            return value.name; 
-        });
-    }
-    
     function selectedItemChange(item) {
         if (item) {
             taggingService.addTag(item);
+            self.searchText = "";
+            self.selectedItem = null;
         }
+    }
+
+    function removeMainTags(t) {
+        mainTags.forEach(function(tag) {
+           if(t) {
+               if(t.indexOf(tag) > -1) {
+                   t.splice(t.indexOf(tag), 1);
+               }
+           }
+        });
+        return t;
     }
 }

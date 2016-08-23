@@ -16,13 +16,13 @@
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <label>Question</label>
                         <input id='question_text' class="form-control" type="text" style="width:95%;
-                                     text-align:left;" ng-model="questionText">
+                                     text-align:left;" ng-model="questionData.text">
                     </div>
                     <div class="form-group" style="margin-top:2%; text-align:left;">
                         <div class="row">
                             <div class="col-md-4" id="topic-box" ng-controller="tag_auto_complete_controller as ctrl">
                                 <label>Tags</label>
-                                <button class="btn btn-success btn-add btn-xs" type="button" ng-click="ctrl.newTag(ctrl.searchText);" style="margin-left:4px;">
+                                <button class="btn btn-success btn-add btn-xs" type="button" ng-click="ctrl.newTag(ctrl.searchText);" id="addTagButton" style="margin-left:4px;">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
                                 <br>
@@ -31,12 +31,12 @@
                                         style="width:90%;"
                                         md-no-cache="true"
                                         md-selected-item="ctrl.selectedItem"
-                                        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
                                         md-search-text="ctrl.searchText"
                                         md-selected-item-change="ctrl.selectedItemChange(ctrl.selectedItem)"
                                         md-items="tag in ctrl.querySearch(ctrl.searchText)"
                                         md-item-text="tag"
                                         md-min-length="0"
+                                        md-input-id="tagBox"
                                         placeholder="Search for Tag">
                                     <md-item-template>
                                                     <span md-highlight-text="ctrl.searchText"
@@ -50,16 +50,20 @@
                             <div class="col-md-8" id="subtopic-box">
                                 <label>Tag List</label>
                                 <br>
-                                <tag ng-repeat="(key, value) in selectedTags track by $index"></tag>
+                                <tag ng-repeat="(key, value) in questionData.selectedTags track by $index"></tag>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" ng-model="tech" ng-change="updateTech(tech);"> Technical
-                                    </label>
-                                </div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="intro" ng-model="questionData.category" ng-change="updateCategory()"> intro
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="skills" ng-model="questionData.category" ng-change="updateCategory()"> skills
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="close" ng-model="questionData.category" ng-change="updateCategory()"> close
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -71,21 +75,21 @@
                                     <p>
                                         Junior
                                         <br>
-                                        <input type="radio" name="level" ng-model="value" value="0" checked ng-click="updateLimits()">
+                                        <input id="juniorDiff" type="radio" name="level" ng-model="value" value="0" checked ng-click="updateLimits()">
                                     </p>
                                 </div>
                                 <div class='col-xs-4' style="text-align: center; padding: 0px !important;">
                                     <p>
                                         Mid
                                         <br>
-                                        <input type="radio" name="level" ng-model="value" value="5" ng-click="updateLimits()">
+                                        <input id="midDiff" type="radio" name="level" ng-model="value" value="5" ng-click="updateLimits()">
                                     </p>
                                 </div>
                                 <div class='col-xs-4' style="text-align: right; padding: 0px !important;">
                                     <p>
                                         Senior
                                         <br>
-                                        <input type="radio" name="level" ng-model="value" value="10" ng-click="updateLimits()">
+                                        <input id="seniorDiff" type="radio" name="level" ng-model="value" value="10" ng-click="updateLimits()">
                                     </p>
                                 </div>
                             </div>
@@ -107,13 +111,15 @@
                         <div class="form-group" style="margin-top:2%; text-align:left; width:95%">
                             <label>Answers</label>
                             <div>
-                                <input ng-repeat="answer in answers track by $index" ng-model="answers[$index]" id="answer{{$index}}"class="form-control answer-box" type="text" style="text-align:left; margin-bottom:1%;" value="{{answer}}">
+                                <input ng-repeat="answer in questionData.answers track by $index" ng-model="questionData.answers[$index]" id="questionDataanswer{{$index}}"class="form-control answer-box" type="text" style="text-align:left; margin-bottom:1%;" value="{{answer}}">
                             </div>
                      
-                            <button class="btn btn-success btn-add" type="button" ng-click="addAnswer()">
+                            <button class="btn btn-success btn-add" type="button" ng-click="addAnswer()"
+                                    id="addAnswerButton">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
-                            <button class="btn btn-danger btn-add" type="button" ng-click="removeAnswer()" style="float:right;">
+                            <button class="btn btn-danger btn-add" type="button" ng-click="removeAnswer()" style="float:right;"
+                                    id="removeAnswerButton">
                                 <span class="glyphicon glyphicon-minus"></span>
                             </button>
                         </div>
@@ -123,13 +129,14 @@
                 <div class='row'>
                     <div class='col-xs-6' style="text-align:right;">
                         <button type="button" class="btn btn-lg btn-success"
-                                ng-click="compileData()">
+                                ng-click="compileData(); answer(questionData);"
+                                id="submitQuestion">
                             Submit
                         </button>
                     </div>
                     <div class='col-xs-6'>
                         <button type="button" class="btn btn-lg btn-danger"
-                                onclick="window.location.href='#qm'">
+                                ng-click="cancelQuestion(); answer(' ');">
                             Cancel
                         </button>
                     </div>
@@ -139,4 +146,3 @@
         </div>
     </div>
 </div>
-

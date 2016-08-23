@@ -1,51 +1,39 @@
-<script>
-     google.charts.setOnLoadCallback(drawChart);
-    
-          // Callback that creates and populates a data table,
-          // instantiates the pie chart, passes in the data and
-          // draws it.
-          function drawChart() {
-    
-            // Create our data table.
-            var data = google.visualization.arrayToDataTable([
-                ['Score', 'Good', 'Poor', 'Skipped', { role: 'annotation' } ],
-                ['Java',        15, 4, 1, ''],
-                ['OOP',         8, 2, 0, ''],
-                ['Javascript',  24, 1, 2, '']
-              ]);
-    
-            // Set chart options
-             var options = {
-                isStacked: 'percent',
-                height: 600,
-                legend: {position: 'top', maxLines: 3},
-                hAxis: {
-                  minValue: 0,
-                  ticks: [0, .3, .6, .9, 1]
-                },
-                colors: ['#5cb85c', '#d9534f', '#f5f5f5']
-              };
-    
-            // Instantiate and draw our chart, passing in some options.
-            chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-            google.visualization.events.addListener(chart, 'select', selectHandler);
-            chart.draw(data, options);
-          }
-    
-          function selectHandler() {
-            var selectedItem = chart.getSelection()[0];
-            var value = data.getValue(selectedItem.row, 0);
-            alert('The user selected ' + value);
-          }
-</script>
-<div>
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="page-head-line">Interpret Interview Results</h1>
-            <h1 class="page-subhead-line">View how an interview candidate did</h1>
-            <div class="col-md-6" style="width:100%;">
-                <div id="chart_div"></div>
-            </div>
-        </div>
-    </div>
+<div ng-controller="interpret_interview_controller">
+     <div class="row">
+          <div class="col-md-12">
+               <h1 class="page-head-line">Interpret Interview Results</h1>
+               <h1 class="page-subhead-line">View how an interview candidate did</h1>
+               <div class="col-md-6" style="width:100%;">
+                    <div class="row">
+                         <h3 class="h3">Overall Results</h3>
+                         <div class="col-md-12">
+                              <div google-chart chart="overallResultsChart"></div>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <h3 class="h3">Breakdown by Tags</h3>
+                         <select class="form-control" ng-model="selectedTag" ng-change="updateTagResult()" style="width:25%">
+                              <option ng-repeat="(key, value) in savedTags track by $index" ng-value="{{value}}">{{value}}</option>
+                         </select>
+                         <div class="col-md-12">
+                              <div google-chart chart="tagResultChart"></div>
+                         </div>
+                        <div ng-repeat="(key, value) in selectedTagNotes track by $index">
+                            <h4><b>{{key}}</b></h4>
+                            <h5 ng-bind-html="value"></h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                         <h3 class="h3">Breakdown by Difficulty</h3>
+                         <div class="col-md-12">
+                              <div google-chart chart="diffResultsChart"></div>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <h3 class="h3">Recommendations: </h3>
+                         <h5 class="h5" ng-repeat="rec in recs">{{rec.name}}: {{rec.recommendation}}</h5>
+                    </div>
+               </div>
+          </div>
+     </div>
 </div>

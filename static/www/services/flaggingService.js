@@ -1,4 +1,4 @@
-function flaggingService($http, $rootScope) {
+function flaggingService($http, $rootScope, authService) {
     
     var questionList = {};
     var questionListById = {};
@@ -27,16 +27,17 @@ function flaggingService($http, $rootScope) {
     }
     
     var persistQuestions = function(interviewID) {
-        for (var key in questionListById) {
-            if (questionListById.hasOwnProperty(key)) {
-                if (questionListById[key].state == "Pinned" || questionListById[key].state == "Blacklisted") {
-                    $http.post('/question/' + key +
-                           '/interview/' + interviewID, questionListById[key]).success(function(created) {
-                        
-                    });
+        authService.getUserToken(function(idToken) {
+            for (var key in questionListById) {
+                if (questionListById.hasOwnProperty(key)) {
+                    if (questionListById[key].state == "Pinned" || questionListById[key].state == "Blacklisted") {
+                        $http.post('/question/' + key +
+                            '/interview/' + interviewID + "?idToken=" + idToken, questionListById[key]).success(function(created) {
+                        });
+                    }
                 }
             }
-          }
+        });
     }
     
     var clearQuestions = function() {
@@ -48,14 +49,16 @@ function flaggingService($http, $rootScope) {
     }
     
     var loadQuestionList = function(id) {
-        $http.get('/interview/' + id + '/questions/').success(function(data) {
-           data.questions.forEach(function(question, index) {
-            questionListById[question.id] = question;
-            $http.get('/interviewQuestion/' + question.id + '/interview/' + id).success(function(result) {
-               questionListById[question.id].state = result.result.state;
-               $rootScope.$emit('flagNotification');
+        authService.getUserToken(function(idToken) {
+            $http.get('/interview/' + id + '/questions/?idToken=' + idToken).success(function(data) {
+                data.questions.forEach(function(question, index) {
+                    questionListById[question.id] = question;
+                    $http.get('/interviewQuestion/' + question.id + '/interview/' + id + "?idToken=" + idToken).success(function(result) {
+                        questionListById[question.id].state = result.result.state;
+                        $rootScope.$emit('flagNotification');
+                    });
+                });
             });
-           });
         });
     }
     
