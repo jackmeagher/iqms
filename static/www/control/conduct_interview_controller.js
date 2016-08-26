@@ -15,14 +15,14 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     $scope.recommendation = null;
 
     var loadInterview = function(idToken) {
-        $http.get('/interview/' + interviewId + "?idToken=" + idToken).success(function (data) {
+        $http.get('../interview/' + interviewId + "?idToken=" + idToken).success(function (data) {
             $scope.recommendation = data.interview.recommendation[userService.getUserName()] ? data.interview.recommendation[userService.getUserName()].recommendation : null;
             loadInterviewTags(idToken, data.interview);
         });
     };
 
     var loadInterviewTags = function(idToken, interview) {
-        $http.get('/interview/' + interviewId + '/tags/?idToken=' + idToken).success(function (result) {
+        $http.get('../interview/' + interviewId + '/tags/?idToken=' + idToken).success(function (result) {
             var tagPromises = [];
             result.tags.forEach(function(tag) {
                 if (tag.name != "intro" && tag.name != "skills" && tag.name != "close") {
@@ -42,7 +42,7 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     };
 
     var loadTagQuestions = function(idToken, tagName) {
-        var tagPromise = $http.get('/tag/' + tagName + '/questions/?idToken=' + idToken).success(function (res) {
+        var tagPromise = $http.get('../tag/' + tagName + '/questions/?idToken=' + idToken).success(function (res) {
             var questionList = res.questions;
             questionList.forEach(function (q) {
                 if (!questionsByID[q.id]) {
@@ -67,10 +67,10 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     };
 
     var loadQuestionStates = function(idToken, interview) {
-        $http.get('/interview/' + interviewId + '/questions?idToken=' + idToken).success(function(data) {
+        $http.get('../interview/' + interviewId + '/questions?idToken=' + idToken).success(function(data) {
             var statePromises = [];
             data.questions.forEach(function(question) {
-                var p = $http.get('/interviewQuestion/' + interviewId + '/question/' + question.id + '?idToken=' + idToken).success(function(joined) {
+                var p = $http.get('../interviewQuestion/' + interviewId + '/question/' + question.id + '?idToken=' + idToken).success(function(joined) {
                     questionsByID[question.id].blacklisted = joined.interviewQuestion.state == "Blacklisted";
                     questionsByID[question.id].highlighted = joined.interviewQuestion.state == "Pinned";
                 });
@@ -90,12 +90,12 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
             socket.emit('request-interview', {id: interviewId, interviewerName: userService.getUserName()});
         } else {
             interview.started = true;
-            $http.put('/interview/' + interviewId + "?idToken=" + idToken, interview).success(function() {});
+            $http.put('../interview/' + interviewId + "?idToken=" + idToken, interview).success(function() {});
         }
     };
 
     var loadPreviousFeedbacks = function(idToken) {
-        $http.get('/interview/' + interviewId + '/feedback/?idToken=' + idToken).then(function(feedbacks) {
+        $http.get('../interview/' + interviewId + '/feedback/?idToken=' + idToken).then(function(feedbacks) {
             var savedFeedbacks = feedbacks.data.feedbacks;
             resetUnansweredQuestions();
             savedFeedbacks.forEach(function(f) {
@@ -226,12 +226,12 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
     $scope.recordFeedback = function (feedback, creating) {
         authService.getUserToken(function(idToken) {
             if (creating) {
-                $http.post('/feedback?idToken=' + idToken, feedback).then(function (created) {
-                    $http.post('/interview/' + interviewId + '/feedback/' + created.data.feedback.id + "?idToken=" + idToken).then(function (added) {});
+                $http.post('../feedback?idToken=' + idToken, feedback).then(function (created) {
+                    $http.post('../i$nterview/' + interviewId + '/feedback/' + created.data.feedback.id + "?idToken=" + idToken).then(function (added) {});
                 });
             } else {
-                $http.get('/interview/' + interviewId + '/feedback/' + feedback.question_id + "?idToken=" + idToken).then(function (feedbacks) {
-                    $http.put('/feedback/' + feedbacks.data.feedbacks[0].id + "?idToken=" + idToken, feedback).then(function (update) {});
+                $http.get('../interview/' + interviewId + '/feedback/' + feedback.question_id + "?idToken=" + idToken).then(function (feedbacks) {
+                    $http.put('../feedback/' + feedbacks.data.feedbacks[0].id + "?idToken=" + idToken, feedback).then(function (update) {});
                 });
             }
         });
@@ -257,11 +257,11 @@ function conduct_interview_controller ($scope, $rootScope, $http, $location, $md
 
     $scope.endInterview = function () {
         authService.getUserToken(function(idToken) {
-            $http.get('/interview/' + interviewId + "?idToken=" + idToken).success(function (data) {
+            $http.get('../interview/' + interviewId + "?idToken=" + idToken).success(function (data) {
                 data.interview.conducted = true;
                 data.interview.user = userService.getUserName();
                 data.interview.recommendation = $scope.recommendation;
-                $http.put('/interview/' + interviewId + "?idToken=" + idToken, data.interview).success(function (data) {
+                $http.put('../interview/' + interviewId + "?idToken=" + idToken, data.interview).success(function (data) {
                     $location.path('/li');
                 });
             });

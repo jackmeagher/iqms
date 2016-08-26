@@ -12,15 +12,15 @@ function question_manager_controller($scope, $http, $location, taggingService, a
 
     $scope.deleteQuestion = function (index, question) {
         authService.getUserToken(function(idToken) {
-            $http.delete('/question/' + question.id + '/tags/?idToken=' + idToken).success(function(){});
-            $http.delete('/question/' + question.id + "?idToken=" + idToken).success(function() {
+            $http.delete('../question/' + question.id + '/tags/?idToken=' + idToken).success(function(){});
+            $http.delete('../question/' + question.id + "?idToken=" + idToken).success(function() {
                 loadAllQuestions(idToken);
             });
         });
     };
 
     var loadAllQuestions = function(idToken) {
-        $http.get('/question?idToken=' + idToken).success(function(data){
+        $http.get('../question?idToken=' + idToken).success(function(data){
             $scope._question = data.questions;
             $scope._question.forEach(function(q) {
                 stringifyTags(q, idToken);
@@ -30,7 +30,7 @@ function question_manager_controller($scope, $http, $location, taggingService, a
 
     var stringifyTags = function(question, idToken) {
         question.taglist = "";
-        $http.get('/question/' + question.id + '/tags/?idToken=' + idToken).success(function(data) {
+        $http.get('../question/' + question.id + '/tags/?idToken=' + idToken).success(function(data) {
            data.tags.forEach(function(tag) {
                 question.taglist += tag.name + ", ";
            });
@@ -40,7 +40,7 @@ function question_manager_controller($scope, $http, $location, taggingService, a
 
     var loadAllTags = function(idToken) {
         var tags = {};
-        $http.get('/tag?idToken=' + idToken).success(function (data) {
+        $http.get('../tag?idToken=' + idToken).success(function (data) {
             data.tags.forEach(function(tag) {
                 tags[tag.name] = tag;
             });

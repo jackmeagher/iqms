@@ -19,7 +19,7 @@ function question_flagger_controller($scope, $http, $rootScope, $location, taggi
     });
 
     var loadTags = function(idToken) {
-        $http.get('/tag/' + $scope.tag + '/questions/?idToken=' + idToken).success(function (data) {
+        $http.get('../tag/' + $scope.tag + '/questions/?idToken=' + idToken).success(function (data) {
             $scope._question = data.questions;
             var flaggedQuestions = flaggingService.getQuestions();
             $scope._question.forEach(function(question) {

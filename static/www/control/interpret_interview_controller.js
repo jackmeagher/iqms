@@ -125,7 +125,7 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
 
     var queryInterview = function() {
         authService.getUserToken(function(idToken) {
-            $http.get('/interview/' + interviewId + "?idToken=" + idToken).then(function(interview) {
+            $http.get('../interview/' + interviewId + "?idToken=" + idToken).then(function(interview) {
                 updateInterview(interview.data.interview);
             });
         });
@@ -151,7 +151,7 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
 
     var queryDatabaseForFeedback = function() {
         authService.getUserToken(function(idToken) {
-            $http.get('/interview/' + interviewId + '/feedback/?idToken=' + idToken).then(function(feedbacks) {
+            $http.get('../interview/' + interviewId + '/feedback/?idToken=' + idToken).then(function(feedbacks) {
                 savedFeedbacks = feedbacks.data.feedbacks;
                 updateOverallResults();
                 queryDatabaseForQuestions(idToken);
@@ -197,7 +197,7 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
         var questionPromises = [];
         var tagPromises = [];
         savedFeedbacks.forEach(function(f) {
-            var questionPromise = $http.get('/question/' + f.question_id + "?idToken=" + idToken).then(function(question) {
+            var questionPromise = $http.get('../question/' + f.question_id + "?idToken=" + idToken).then(function(question) {
                 savedQuestions[f.question_id] = question.data.question;
                 if(savedQuestions[f.question_id]) {
                     tagPromises.push(queryDatabaseForTags(idToken, savedQuestions[f.question_id], f.question_id));
@@ -210,7 +210,7 @@ function interpret_interview_controller($scope, $http, $routeParams, authService
 
     var queryDatabaseForTags = function(idToken, question, id) {
         question.tags = {};
-        var tagPromise = $http.get('/question/' + id + '/tags/?idToken=' + idToken).then(function(tags) {
+        var tagPromise = $http.get('../question/' + id + '/tags/?idToken=' + idToken).then(function(tags) {
             tags.data.tags.forEach(function(tag) {
                 if (tag.name != "skills") {
                     question.tags[tag.name] = true;

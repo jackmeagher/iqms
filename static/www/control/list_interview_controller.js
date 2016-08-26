@@ -19,7 +19,7 @@ function list_interview_controller($scope, $http, $location, userService, authSe
     };
 
     var loadUserInterviews = function(idToken) {
-        $http.get('/user/' + $scope.name + '/interviews/?idToken=' + idToken).success(function(data) {
+        $http.get('../user/' + $scope.name + '/interviews/?idToken=' + idToken).success(function(data) {
             $scope.interviews = data.interviews;
             $scope.interviews.forEach(function(i) {
                 loadCandidatePosition(i, idToken);
@@ -29,7 +29,7 @@ function list_interview_controller($scope, $http, $location, userService, authSe
     };
 
     var loadAllInterviews = function(idToken) {
-        $http.get('/interview/?idToken=' + idToken).success(function(data) {
+        $http.get('../interview/?idToken=' + idToken).success(function(data) {
             $scope.interviews = data.interviews;
             $scope.interviews.forEach(function(i) {
                 loadCandidatePosition(i, idToken);
@@ -39,14 +39,14 @@ function list_interview_controller($scope, $http, $location, userService, authSe
     };
 
     var loadCandidatePosition = function(interview, idToken) {
-        $http.get('/candidatePosition/' + interview.candidatePositionCId + "?idToken=" + idToken).success(function(result) {
+        $http.get('../candidatePosition/' + interview.candidatePositionCId + "?idToken=" + idToken).success(function(result) {
             loadCandidate(idToken, result.result.candidateId, interview);
             loadPosition(idToken, result.result.positionId, interview);
         });
     };
 
     var loadCandidate = function(idToken, id, interview) {
-        $http.get('/candidate/' + id + "?idToken=" + idToken).success(function(result) {
+        $http.get('../candidate/' + id + "?idToken=" + idToken).success(function(result) {
             interview.candidate = result.candidate.name;
             interview.candidate += getCandidateID({type: "Internal", info: result.candidate});
         });
@@ -62,7 +62,7 @@ function list_interview_controller($scope, $http, $location, userService, authSe
     };
 
     var loadPosition = function(idToken, id, interview) {
-        $http.get('/position/' + id + "?idToken=" + idToken).success(function(result) {
+        $http.get('../position/' + id + "?idToken=" + idToken).success(function(result) {
             interview.position = result.position.name;
             interview.position += getPositionID({type: "Internal", info: result.position});
         });
@@ -94,7 +94,7 @@ function list_interview_controller($scope, $http, $location, userService, authSe
 
     var loadUsers = function(interview, idToken) {
         interview.canSee = false;
-        $http.get('/interview/' + interview.id + '/users/?idToken=' + idToken).success(function(data) {
+        $http.get('../interview/' + interview.id + '/users/?idToken=' + idToken).success(function(data) {
             data.users.forEach(function(user) {
                 if(user.name == $scope.name) {
                     interview.canSee = true;
@@ -122,9 +122,9 @@ function list_interview_controller($scope, $http, $location, userService, authSe
 
     $scope.deleteInterview = function (index, interview) {
         authService.getUserToken(function(idToken) {
-            $http.delete('/interview/' + interview.id + '/tags?idToken=' + idToken).success(function() {
-                $http.delete('/interview/' + interview.id + '/questions?idToken=' + idToken).success(function() {
-                    $http.delete('/interview/' + interview.id + "?idToken=" + idToken).success(function() {
+            $http.delete('../interview/' + interview.id + '/tags?idToken=' + idToken).success(function() {
+                $http.delete('../interview/' + interview.id + '/questions?idToken=' + idToken).success(function() {
+                    $http.delete('../interview/' + interview.id + "?idToken=" + idToken).success(function() {
                         loadScreen();
                     });
                 });

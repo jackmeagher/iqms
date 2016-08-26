@@ -20,7 +20,7 @@ function create_question_controller ($scope, $rootScope, $location, $http, taggi
 
     var instantiateOldQuestion = function() {
         authService.getUserToken(function(idToken) {
-            $http.get('/question/' + $location.hash() + "?idToken=" + idToken).success(function(data) {
+            $http.get('../question/' + $location.hash() + "?idToken=" + idToken).success(function(data) {
                 $scope.questionData.text = data.question.text;
                 taggingService.loadSavedTags(data.question.id, idToken);
                 refreshTags();
@@ -50,17 +50,17 @@ function create_question_controller ($scope, $rootScope, $location, $http, taggi
     var submitQuestion = function(questionData, id) {
         authService.getUserToken(function(idToken) {
             if(id > 0) {
-                $http.put('/question/' + id + "?idToken=" + idToken, questionData).success(function(created) {
+                $http.put('../question/' + id + "?idToken=" + idToken, questionData).success(function(created) {
                     $location.path('/qm');
                     taggingService.persistQuestionTag(id);
                 });
             } else if(id == -1) {
-                $http.post('/question?idToken=' + idToken,  questionData).success(function(created) {
+                $http.post('../question?idToken=' + idToken,  questionData).success(function(created) {
                     $location.path('/qm');
                     taggingService.persistQuestionTag(created.question.id);
                 });
             } else if(id == -2) {
-                $http.post('/question?idToken=' + idToken,  questionData).success(function(created) {
+                $http.post('../question?idToken=' + idToken,  questionData).success(function(created) {
                     $scope.questionData = created.question;
                     $rootScope.$broadcast('interviewQuestion', $scope.questionData);
                     taggingService.addTag("inline");
