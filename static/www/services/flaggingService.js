@@ -31,7 +31,7 @@ function flaggingService($http, $rootScope, authService) {
             for (var key in questionListById) {
                 if (questionListById.hasOwnProperty(key)) {
                     if (questionListById[key].state == "Pinned" || questionListById[key].state == "Blacklisted") {
-                        $http.post('../question/' + key +
+                        $http.post('.../question/' + key +
                             '/interview/' + interviewID + "?idToken=" + idToken, questionListById[key]).success(function(created) {
                         });
                     }
@@ -50,10 +50,10 @@ function flaggingService($http, $rootScope, authService) {
     
     var loadQuestionList = function(id) {
         authService.getUserToken(function(idToken) {
-            $http.get('../interview/' + id + '/questions/?idToken=' + idToken).success(function(data) {
+            $http.get('.../interview/' + id + '/questions/?idToken=' + idToken).success(function(data) {
                 data.questions.forEach(function(question, index) {
                     questionListById[question.id] = question;
-                    $http.get('../interviewQuestion/' + question.id + '/interview/' + id + "?idToken=" + idToken).success(function(result) {
+                    $http.get('.../interviewQuestion/' + question.id + '/interview/' + id + "?idToken=" + idToken).success(function(result) {
                         questionListById[question.id].state = result.result.state;
                         $rootScope.$emit('flagNotification');
                     });

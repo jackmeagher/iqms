@@ -24,7 +24,7 @@ function taggingService($http, $rootScope, authService) {
     }
 
     var loadSavedTags = function(questionId, idToken) {
-        $http.get('../question/' + questionId + '/tags/?idToken=' + idToken).success(function(data) {
+        $http.get('.../question/' + questionId + '/tags/?idToken=' + idToken).success(function(data) {
             data.tags.forEach(function(tag, index) {
                 savedTags.push(tag.name);
                 if(tag.name == "intro" || tag.name == "skills" || tag.name == "close") {
@@ -91,7 +91,7 @@ function taggingService($http, $rootScope, authService) {
             };
 
             authService.getUserToken(function(idToken) {
-                $http.post('../tag?idToken=' + idToken,  tagData).success(function(created) {
+                $http.post('.../tag?idToken=' + idToken,  tagData).success(function(created) {
                     if(!tags)
                         tags = {};
                     tags[created.tag.name].count = 0;
@@ -147,7 +147,7 @@ function taggingService($http, $rootScope, authService) {
         savedTags = [];
 
         authService.getUserToken(function(idToken) {
-            $http.get('../tag?idToken=' + idToken).success(function (data) {
+            $http.get('.../tag?idToken=' + idToken).success(function (data) {
                 data.tags.forEach(function(tag, index) {
                     tags[tag.name] = tag;
                 });
@@ -165,7 +165,7 @@ function taggingService($http, $rootScope, authService) {
                 return tags[name].count;
             } else {
                 authService.getUserToken(function(idToken) {
-                    $http.get('../tag/' + name + '/questions/?idToken=' + idToken).success(function (data) {
+                    $http.get('.../tag/' + name + '/questions/?idToken=' + idToken).success(function (data) {
                         tags[name].count = data.questions.length;
                         $rootScope.$emit('tagNotification');
                     });
@@ -182,7 +182,7 @@ function taggingService($http, $rootScope, authService) {
     var deleteQuestionTags = function(deletedTags) {
         authService.getUserToken(function(idToken) {
             deletedTags.forEach(function(tag, index) {
-                $http.put('../tag/' + tags[tag].name + "?idToken=" + idToken,  tags[tag]).success(function(created) {
+                $http.put('.../tag/' + tags[tag].name + "?idToken=" + idToken,  tags[tag]).success(function(created) {
 
                 });
             });
@@ -192,12 +192,12 @@ function taggingService($http, $rootScope, authService) {
     var persistQuestionTag = function(questionId) {
         authService.getUserToken(function(idToken) {
             addedTags.forEach(function(tag, index) {
-                $http.post('../question/' + questionId + '/tags/' + tag + "?idToken=" + idToken).success(function(created) {
+                $http.post('.../question/' + questionId + '/tags/' + tag + "?idToken=" + idToken).success(function(created) {
 
                 });
             });
             removedTags.forEach(function(tag, index) {
-                $http.delete('../question/' + questionId + '/tags/' + tag + "?idToken=" + idToken).success(function(created) {
+                $http.delete('.../question/' + questionId + '/tags/' + tag + "?idToken=" + idToken).success(function(created) {
                 });
             });
         });

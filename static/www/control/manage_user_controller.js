@@ -11,7 +11,7 @@ function manage_user_controller($scope, $http, authService, userService) {
     
     $scope.updateUser = function(user) {
         authService.getUserToken(function(idToken) {
-            $http.put('../user/' + user.name + "?idToken=" + idToken, user).success(function(user) {
+            $http.put('.../user/' + user.name + "?idToken=" + idToken, user).success(function(user) {
                 loadUserList(idToken);
             });
         });
@@ -19,7 +19,7 @@ function manage_user_controller($scope, $http, authService, userService) {
 
     $scope.deleteUser = function(user) {
         authService.getUserToken(function(idToken) {
-            $http.delete('../user/' + user + "?idToken=" + idToken).success(function() {
+            $http.delete('.../user/' + user + "?idToken=" + idToken).success(function() {
                 loadUserList(idToken);
             });
         });
@@ -30,7 +30,7 @@ function manage_user_controller($scope, $http, authService, userService) {
     };
 
     var loadUserList = function(idToken) {
-        $http.get('../user/?idToken=' + idToken).success(function(data) {
+        $http.get('.../user/?idToken=' + idToken).success(function(data) {
             $scope.users = data.users;
         });
     };

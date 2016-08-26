@@ -27,7 +27,7 @@ function login_controller($scope, $http, userService, authService, $location) {
             };
             userService.setUserRole(user.role);
             authService.getUserToken(function(idToken) {
-                $http.post('../user/?idToken=' + idToken, user).success(function(data) {
+                $http.post('.../user/?idToken=' + idToken, user).success(function(data) {
                     $location.path("/");
                 });
             });

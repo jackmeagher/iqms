@@ -18,7 +18,7 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams,
         authService.getUserToken(function(idToken) {
             flaggingService.clearQuestions();
             flaggingService.loadQuestionList(interviewID);
-            $http.get('../interview/' + interviewID + "?idToken=" + idToken).success(function(data) {
+            $http.get('.../interview/' + interviewID + "?idToken=" + idToken).success(function(data) {
                 loadCandidatePosition(idToken, data.interview.candidatePositionCId);
                 loadTags(idToken);
                 $scope.dateText = data.interview.date;
@@ -28,14 +28,14 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams,
     };
 
     var loadCandidatePosition = function(idToken, id) {
-        $http.get('../candidatePosition/' + id + "?idToken=" + idToken).success(function(result) {
+        $http.get('.../candidatePosition/' + id + "?idToken=" + idToken).success(function(result) {
             loadCandidate(idToken, result.result.candidateId);
             loadPosition(idToken, result.result.positionId);
         });
     };
 
     var loadCandidate = function(idToken, id) {
-        $http.get('../candidate/' + id + "?idToken=" + idToken).success(function(result) {
+        $http.get('.../candidate/' + id + "?idToken=" + idToken).success(function(result) {
             $scope.candidateText = result.candidate.name;
             $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});
         });
@@ -51,7 +51,7 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams,
     };
 
     var loadPosition = function(idToken, id) {
-        $http.get('../position/' + id + "?idToken=" + idToken).success(function(result) {
+        $http.get('.../position/' + id + "?idToken=" + idToken).success(function(result) {
             $scope.positionText = result.position.name;
             $scope.positionText += getPositionID({type: "Internal", info: result.position});
             $scope.positionDescription = result.position.description;
@@ -83,7 +83,7 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams,
     };
 
     var loadTags = function(idToken) {
-        $http.get('../interview/' + interviewID + '/tags?idToken=' + idToken).success(function(data) {
+        $http.get('.../interview/' + interviewID + '/tags?idToken=' + idToken).success(function(data) {
             data.tags.forEach(function(tag, index) {
                 $('#tagbox').tagsinput('add', tag.name);
             });
@@ -117,7 +117,7 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams,
     };
 
     var addTagToInterview = function(idToken, interviewID, tag) {
-        $http.post('../tag/' + tag + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {});
+        $http.post('.../tag/' + tag + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {});
     };
 
     $scope.showInterviewWithTag = function(ev, tag) {
@@ -196,7 +196,7 @@ function plan_interview_controller($scope, $http, $mdDialog, $routeParams,
     var beforeTagRemove = function(event) {
         if(interviewID > 0) {
             authService.getUserToken(function(idToken) {
-                $http.delete('../tag/' + event.item
+                $http.delete('.../tag/' + event.item
                     + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
                 });
             });

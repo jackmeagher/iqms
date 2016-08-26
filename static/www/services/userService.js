@@ -6,7 +6,7 @@ function userService($rootScope, $http, $route, authService) {
         userName = name;
         if(name) {
             authService.getUserToken(function(idToken) {
-                $http.get('../user/' + name + "?idToken=" + idToken).success(function (user) {
+                $http.get('.../user/' + name + "?idToken=" + idToken).success(function (user) {
                     if(user.user) {
                         setUserRole(user.user.role);
                     }
