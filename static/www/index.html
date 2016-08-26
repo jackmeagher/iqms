@@ -45,7 +45,7 @@
     <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
    <script>
         if(firebase.apps.length < 1) {
-            $.getJSON('/config/config.json', {format: "json"}).done(function(config) {
+            $.getJSON('../config/config.json', {format: "json"}).done(function(config) {
                 var apiConfig = {
                     apiKey: config.development.firebaseApiKey,
                     authDomain: config.development.firebaseAuthDomain,
@@ -56,7 +56,7 @@
             });
         } else {
             firebase.app().delete().then(function() {
-                $.getJSON('/config/config.json', {format: "json"}).done(function(config) {
+                $.getJSON('../config/config.json', {format: "json"}).done(function(config) {
                     var apiConfig = {
                         apiKey: config.development.firebaseApiKey,
                         authDomain: config.development.firebaseAuthDomain,
@@ -292,7 +292,7 @@
         app.factory('socket', ['$http', function($http) {
             var socket;
 
-            $http.get('/config/config.json').success(function(config) {
+            $http.get('../config/config.json').success(function(config) {
                 socket = io.connect(config.development.webSocketUrl);
             });
           
