@@ -38,7 +38,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var loadCandidates = function(idToken) {
-        $http.get('.../candidate?idToken=' + idToken).success(function(data) {
+        $http.get('../../candidate?idToken=' + idToken).success(function(data) {
             data.candidates.forEach(function(candidate) {
                 var fullName = candidate.name + getCandidateID({type: "Internal", info: candidate});
                 $scope.candidates[fullName] = candidate;
@@ -75,7 +75,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var loadPositions = function(idToken) {
-        $http.get('.../position?idToken=' + idToken).success(function(data) {
+        $http.get('../../position?idToken=' + idToken).success(function(data) {
             data.positions.forEach(function(position, index) {
                 var fullName = position.name + getPositionID({type: "Internal", info: position});
                 $scope.positions[fullName] = position;
@@ -94,7 +94,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var loadUsers = function(idToken) {
-        $http.get('.../user/?idToken=' + idToken).success(function(users) {
+        $http.get('../../user/?idToken=' + idToken).success(function(users) {
             users.users.forEach(function(user) {
                 $scope.userList.push(user.name);
             });
@@ -103,7 +103,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
 
     var loadInterview = function(idToken, id) {
         interviewID = id;
-        $http.get('.../interview/' + interviewID + "?idToken=" + idToken).success(function(data) {
+        $http.get('../../interview/' + interviewID + "?idToken=" + idToken).success(function(data) {
             loadCandidatePosition(idToken, data.interview.candidatePositionCId);
             loadTags(idToken);
             loadAddedUsers(idToken, id);
@@ -113,14 +113,14 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var loadCandidatePosition = function(idToken, id) {
-        $http.get('.../candidatePosition/' + id + "?idToken=" + idToken).success(function(result) {
+        $http.get('../../candidatePosition/' + id + "?idToken=" + idToken).success(function(result) {
             loadCandidate(idToken, result.result.candidateId);
             loadPosition(idToken, result.result.positionId);
         });
     };
 
     var loadCandidate = function(idToken, id) {
-        $http.get('.../candidate/' + id + "?idToken=" + idToken).success(function(result) {
+        $http.get('../../candidate/' + id + "?idToken=" + idToken).success(function(result) {
             $scope.candidateText = result.candidate.name;
             $scope.candidateText += getCandidateID({type: "Internal", info: result.candidate});
             $scope.selectedCandidate = $scope.candidateText;
@@ -128,7 +128,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var loadPosition = function(idToken, id) {
-        $http.get('.../position/' + id + "?idToken=" + idToken).success(function(result) {
+        $http.get('../../position/' + id + "?idToken=" + idToken).success(function(result) {
             $scope.positionText = result.position.name;
             $scope.positionText += getPositionID({type: "Internal", info: result.position});
             $scope.selectedPosition = $scope.positionText;
@@ -137,7 +137,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var loadTags = function(idToken) {
-        $http.get('.../interview/' + interviewID + '/tags?idToken=' + idToken).success(function(data) {
+        $http.get('../../interview/' + interviewID + '/tags?idToken=' + idToken).success(function(data) {
             data.tags.forEach(function(tag) {
                 $('#tagbox').tagsinput('add', tag.name);
             });
@@ -145,7 +145,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var loadAddedUsers = function(idToken, id) {
-        $http.get('.../interview/' + id + '/users/?idToken=' + idToken).success(function(data) {
+        $http.get('../../interview/' + id + '/users/?idToken=' + idToken).success(function(data) {
             data.users.forEach(function(user) {
                 $scope.addedList.push(user.name);
             });
@@ -155,7 +155,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     $scope.createInterview = function () {
         authService.getUserToken(function(idToken) {
             if(interviewID == 0 || !$location.hash()) {
-                $http.post('.../interview?idToken=' + idToken).success(function(created) {
+                $http.post('../../interview?idToken=' + idToken).success(function(created) {
                     saveInterview(created.interview.id, idToken);
                 });
             } else {
@@ -172,22 +172,22 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
 
     var addUsersToInterview = function(idToken, interviewID) {
         $scope.addedList.forEach(function(name) {
-            $http.post('.../interview/' + interviewID + '/user/' + name + "?idToken=" + idToken).success(function(added) {
+            $http.post('../../interview/' + interviewID + '/user/' + name + "?idToken=" + idToken).success(function(added) {
             });
         });
     };
 
     var createCandidatePosition = function(idToken, interviewID) {
-        $http.get('.../candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
+        $http.get('../../candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
             + '/position/' + $scope.positions[$scope.selectedPosition].id + "?idToken=" + idToken)
             .success(function(canPos) {
                 if(canPos.candidatePosition) {
                     updateInterviewDetails(idToken, canPos.candidatePosition.c_id, interviewID);
                 } else {
-                    $http.post('.../candidate/' + $scope.candidates[$scope.selectedCandidate].id
+                    $http.post('../../candidate/' + $scope.candidates[$scope.selectedCandidate].id
                         + '/position/' + $scope.positions[$scope.selectedPosition].id + "?idToken=" + idToken)
                         .success(function() {
-                            $http.get('.../candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
+                            $http.get('../../candidatePosition/' + $scope.candidates[$scope.selectedCandidate].id
                                 + '/position/' + $scope.positions[$scope.selectedPosition].id + "?idToken=" + idToken)
                                 .success(function(canPos) {
                                     updateInterviewDetails(idToken, canPos.candidatePosition.c_id, interviewID);
@@ -203,7 +203,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
             date: $scope.dateText,
             location: $scope.locationText
         };
-        $http.put('.../interview/' + interviewID + "?idToken=" + idToken, interviewData).success(function(updated) {
+        $http.put('../../interview/' + interviewID + "?idToken=" + idToken, interviewData).success(function(updated) {
             $location.path('/li');
             checkForMainTags(interviewID, idToken);
         });
@@ -224,7 +224,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     };
 
     var addTagToInterview = function(idToken, interviewID, tag) {
-        $http.post('.../tag/' + tag + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {});
+        $http.post('../../tag/' + tag + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {});
     };
     
     $scope.addPosition = function(position) {
@@ -241,7 +241,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
 
     var savePosition = function(position) {
         authService.getUserToken(function(idToken) {
-            $http.post('.../position?idToken=' + idToken, $scope.positions[position]).success(function(created) {
+            $http.post('../../position?idToken=' + idToken, $scope.positions[position]).success(function(created) {
                 var fullName = position + getPositionID({type: "Internal", info: created.data});
                 $scope.positions[fullName] = created.data;
                 $scope.positions[fullName].name = fullName;
@@ -288,7 +288,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
 
     var saveCandidate = function(candidate) {
         authService.getUserToken(function(idToken) {
-            $http.post('.../candidate?idToken=' + idToken, $scope.candidates[candidate]).success(function(created) {
+            $http.post('../../candidate?idToken=' + idToken, $scope.candidates[candidate]).success(function(created) {
                 var fullName = candidate + getCandidateID({type: "Internal", info: created.data});
                 $scope.candidates[fullName] = created.data;
                 $scope.candidates[fullName].name = fullName;
@@ -334,7 +334,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     $scope.removeUser = function(name) {
         if(interviewID > 0) {
             authService.getUserToken(function(idToken) {
-                $http.delete('.../interview/' + interviewID
+                $http.delete('../../interview/' + interviewID
                     + '/user/' + name + "?idToken=" + idToken).success(function(created) {
                 });
             });
@@ -420,7 +420,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     var beforeTagRemove = function(event) {
         if(interviewID > 0) {
             authService.getUserToken(function(idToken) {
-                $http.delete('.../tag/' + event.item
+                $http.delete('../../tag/' + event.item
                     + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {
                 });
             });
