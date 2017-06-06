@@ -4,11 +4,11 @@ var app = express();
 var Resource = require('./lib/Resource');
 var models = require('./models');
 var bodyParser  = require('body-parser');
-                   
+
 var http           = require('http').createServer(app);
 var io             = require('socket.io').listen(http);
 var config = require('./config/config.json');
-var firebase = require('firebase'); 
+var firebase = require('firebase');
 firebase.initializeApp({
     serviceAccount: config.development.firebaseServiceAccount,
     databaseURL: config.development.firebaseDatabaseURL
@@ -38,7 +38,7 @@ candidatePosition_routes.register(app, '');
 interviewQuestion_routes.register(app, '');
 feedback_routes.register(app, '');
 
-app.use('/static', express.static('../static'));
+app.use('/', express.static('../static'));
 app.use('/config', express.static('../config'))
 
 // middleware to add headers for cross origin requests
