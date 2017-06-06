@@ -99,10 +99,10 @@ Firebase should be operational at this point and all authentication (frontend an
 $ psql (starts PostgreSQL so that other commands can be run)
 DROP DATABASE <name> (deletes the database)
 CREATE DATABASE <name> (creates the database)
-/l (lists databases)
-/c <name> (connects to database <name>)
-/dt (lists all tables in connected database)
-/d <table> (displays columns of <table> in connected database)
+\l (lists databases)
+\c <name> (connects to database <name>)
+\dt (lists all tables in connected database)
+\d <table> (displays columns of <table> in connected database)
 ```
 Whenever any of the model files are modified, the database must be dropped and re-created, and the server must be restarted. Otherwise, the changes will not take place and errors can occur.
 
