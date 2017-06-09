@@ -3,10 +3,10 @@ var express = require('express');
 var app = express();
 var Resource = require('./lib/Resource');
 var models = require('./models');
-var bodyParser  = require('body-parser');
+var bodyParser = require('body-parser');
 
-var http           = require('http').createServer(app);
-var io             = require('socket.io').listen(http);
+var http = require('http').createServer(app);
+var io = require('socket.io').listen(http);
 var config = require('./config/config.json');
 var firebase = require('firebase');
 firebase.initializeApp({
@@ -28,11 +28,11 @@ var candidatePosition_routes = require('./routes/candidatePosition');
 var interviewQuestion_routes = require('./routes/interviewQuestion');
 var feedback_routes = require('./routes/feedback');
 
-question_routes.register(app,'');
-interview_routes.register(app,'');
-user_routes.register(app,'');
-tag_routes.register(app,'');
-position_routes.register(app,'');
+question_routes.register(app, '');
+interview_routes.register(app, '');
+user_routes.register(app, '');
+tag_routes.register(app, '');
+position_routes.register(app, '');
 candidate_routes.register(app, '');
 candidatePosition_routes.register(app, '');
 interviewQuestion_routes.register(app, '');
