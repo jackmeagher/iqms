@@ -1,0 +1,104 @@
+<div ng-controller="plan_interview_controller">
+    <div id="createInterviewDiv" class="row">
+        <div class="col-md-12">
+            <h1 class="page-head-line">Plan an interview</h1>
+            <h1 class="page-subhead-line">Review the candidate and position, and select your desired tags</h1>
+
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12" style="width:100%;">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Interview
+            </div>
+            <div class="control-group" id="fields">
+                <div class="controls">
+                    <form role="form" autocomplete="on" style="margin-left:5%;">
+                        <div class="form-group" style="margin-top:2%; text-align:left;">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Position</label>
+                                    <input type="text" class="form-control" placeholder="" ng-model="positionText" disabled>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-5">
+                                    <label>Candidate</label>
+                                    <input type="text" class="form-control" placeholder="" ng-model="candidateText" disabled>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Description</label>
+                                    <textarea class="form-control" rows="5" id="comment" disabled>{{positionDescription}}</textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Date</label>
+                                    <input type="text" class="form-control" placeholder="" ng-model="dateText" disabled>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-5">
+                                    <label>Location</label>
+                                    <input type="text" class="form-control" placeholder="" ng-model="locationText" disabled>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Tags</label>
+                                    <br>
+                                    <small>Click a tag to manage questions</small>
+                                    <br>
+                                    <select id="tagbox" multiple data-role="tagsinput">
+
+                                    </select>
+                                </div>
+                                <div class="col-md-6" style="width:40%;">
+                                    <br>
+                                    <small>Search for tags</small>
+                                    <br>
+                                    <md-autocomplete
+                                            id="tagAdd-box"
+                                            md-no-cache="true"
+                                            md-selected-item="selectedTag"
+                                            md-search-text="tagText"
+                                            md-selected-item-change="tagItemChange(selectedTag)"
+                                            md-items="tag in queryTag(tagText)"
+                                            md-item-text="tag"
+                                            md-min-length="0"
+                                            placeholder="Search for Tag">
+                                        <md-item-template>
+                                                        <span md-highlight-text="tagText"
+                                                              md-highlight-flags="^i">{{tag}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            "{{tagText}}" is not found.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <br><br>
+                    <div clas="row">
+                        <div class="col-xs-6" style="text-align: right">
+                            <button type="button" class="btn btn-lg btn-success" ng-click="createInterview()"
+                                    id="submitInterviewButton">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-lg btn-danger" ng-click="cancel()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    <br><br><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="assets/js/bootstrap-tagsinput.js"></script>

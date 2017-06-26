@@ -5,17 +5,18 @@
 
 module.exports = function(sequelize, DataTypes) {
     var position = sequelize.define("position", {
-            title: DataTypes.STRING,
+            name: DataTypes.STRING,
+            description: DataTypes.TEXT
         },
 
         {
             classMethods: {
                 associate: function(models) {
-                    position.belongsToMany(models.interview, {through : "interviewPosition", as : "Interviews"});
+                    position.belongsToMany(models.candidate, {through: models.candidatePosition});
+                    position.belongsToMany(models.tag, {through: "interviewTag"});
                 }
             }
         });
 
     return position;
 };
-

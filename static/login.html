@@ -1,0 +1,81 @@
+﻿<div class="container" style="width:100%;" ng-controller="login_controller">
+    <div class="row text-center " style="padding-top:100px;">
+        <div class="col-md-12">
+            <p style="font-weight:normal;color:#000000;letter-spacing:1pt;word-spacing:2pt;font-size:53px;font-family:times new roman, times, serif;line-height:1;">
+                IQMS</p>
+        </div>
+    </div>
+    <div class="row ">
+
+        <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+
+            <div class="panel-body">
+                <form role="form" ng-show="!create && emailReset == 0">
+                    <div class="alert alert-danger" role="alert" ng-show="error">{{error}}</div>
+                    <hr/>
+                    <h5>Enter Details to Login</h5>
+                    <br/>
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                        <input type="text" class="form-control" placeholder="Your email" ng-model="user.email" id="loginUser"/>
+                    </div>
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input type="password" class="form-control" placeholder="Your password" ng-model="user.password" id="loginPass"/>
+                    </div>
+                   <!-- <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox"/> Remember me
+                        </label>
+                        <span class="pull-right">
+                            <a href="#/">Forgot your password? </a>
+                        </span>
+                    </div>-->
+
+                    <a class="btn btn-primary " ng-click="loginUser()" id="loginButton">Login Now</a>
+                    <hr/>
+                    Not registered? <a ng-click="create = true">click here</a> to create account
+                    <br>
+                    Forgot password? <a ng-click="emailReset = 1">Reset here</a>
+                </form>
+                <form role="form" ng-show="create && emailReset == 0">
+                    <hr/>
+                    <h5>Enter Details to Create Account</h5>
+                    <br/>
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                        <input type="text" class="form-control" placeholder="Your email " ng-model="user.email"/>
+                    </div>
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input type="password" class="form-control" placeholder="Your password" ng-model="user.password"/>
+                    </div>
+
+                    <a class="btn btn-primary " ng-click="createUser()">Create Account</a>
+                    <hr/>
+                    Registered? <a ng-click="create = false">click here</a> to login
+                </form>
+                <form role="form" ng-show="emailReset == 1">
+                    <hr/>
+                    <h5>Enter Email to Reset Password</h5>
+                    <br/>
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                        <input type="text" class="form-control" placeholder="Your email " ng-model="user.email"/>
+                    </div>
+
+                    <a class="btn btn-primary " ng-click="resetPassword()">Reset password</a>
+                    <hr/>
+                    Registered? <a ng-click="create = false; emailReset = 0;">click here</a> to login
+                </form>
+                <form role="form" ng-show="emailReset == 2">
+                    Email sent to {{user.email}}.
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+

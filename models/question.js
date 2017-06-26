@@ -2,18 +2,18 @@
 
 module.exports = function(sequelize, DataTypes) {
     var question = sequelize.define("question", {
-        question_text: DataTypes.STRING,
-        sample_answer: DataTypes.STRING,
-        difficulty: DataTypes.INTEGER
+        text: DataTypes.STRING,
+        difficulty: DataTypes.INTEGER,
+        answers: DataTypes.ARRAY(DataTypes.STRING)
     }, {
         classMethods: {
             associate: function(models) {
-                question.belongsToMany(models.interview, {through : "interviewQuestion", as: "Interviews"});
                 question.belongsToMany(models.tag, {through : "questionTag", as: "Tags"});
+                question.belongsToMany(models.interview, {through: models.interviewQuestion});
             }
         }
     });
-
+    
     return question;
 };
 
