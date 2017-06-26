@@ -5,7 +5,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     $scope.positions = {};
     $scope.selectedPosition = null;
     $scope.positionText = "";
-    
+
     $scope.candidates = {};
     $scope.selectedCandidate = null;
     $scope.candidateText = "";
@@ -24,7 +24,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     $scope.userRole = userService.getUserRole();
 
     var interviewID = 0;
-    
+
     var loadScreen = function() {
         authService.getUserToken(function(idToken) {
             flaggingService.clearQuestions();
@@ -139,6 +139,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     var loadTags = function(idToken) {
         $http.get('../../interview/' + interviewID + '/tags?idToken=' + idToken).success(function(data) {
             data.tags.forEach(function(tag) {
+          
                 $('#tagbox').tagsinput('add', tag.name);
             });
         })
@@ -163,7 +164,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
             }
         });
     };
-    
+
     var saveInterview = function(interviewID, idToken) {
         flaggingService.persistQuestions(interviewID);
         addUsersToInterview(idToken, interviewID);
@@ -226,7 +227,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
     var addTagToInterview = function(idToken, interviewID, tag) {
         $http.post('../../tag/' + tag + '/interview/' + interviewID + "?idToken=" + idToken).success(function(created) {});
     };
-    
+
     $scope.addPosition = function(position) {
         if (position && !$scope.positions[position]) {
             $scope.positions[position] = {name: position, description: ""};
@@ -250,15 +251,15 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
             });
         });
     };
-    
+
     $scope.queryPosition = function(query) {
         var pos = $.map($scope.positions, function(value) {
-           return value.name; 
+           return value.name;
         });
 
         return $scope.queryFunction(query, pos);
     };
-    
+
     $scope.queryFunction = function(query, data) {
         if (query == null) {
             query = "";
@@ -271,7 +272,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
         });
         return ret;
     };
-    
+
     $scope.positionItemChange = function(item) {
         if (item) {
             $scope.selectedPosition = item;
@@ -343,7 +344,7 @@ function create_interview_controller($scope, $http, $mdDialog, $location,
             $scope.addedList.splice($scope.addedList.indexOf(name), 1);
         }
     };
-    
+
     $scope.showInterviewWithTag = function(ev, tag) {
         taggingService.setClickedTag(tag);
         flaggingService.setSelectedTag(tag);

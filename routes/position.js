@@ -41,7 +41,7 @@ exports = module.exports = new Resource('position', '/position', {
         if (!req.body.name){
             req.body.name = 'Job';
         }
-        
+
         if (!req.body.description) {
             req.body.description = 'Job description';
         }

@@ -31,7 +31,7 @@
     <!-- Angular -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
     <link rel="stylesheet" href="assets/css/angular-material.min.css">
-    
+
     <link rel="stylesheet" href="assets/css/toastr.min.css">
 
     <style>
@@ -41,7 +41,7 @@
     </style>
 
     <!-- Firebase -->
-    
+
     <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
    <script>
         if(firebase.apps.length < 1) {
@@ -68,7 +68,7 @@
             });
         }
     </script>
-    
+
 
     <script src="assets/js/angularjs/1.5.0/angular.min.js"></script>
     <script src="assets/js/angularjs/1.5.0/angular-animate.min.js"></script>
@@ -80,8 +80,8 @@
     <script src="assets/js/angularjs/1.5.0/slider.js"></script>
     <script src="assets/js/toastr.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
-   
-    <!-- CONTROLLERS -->
+
+    CONTROLLERS
     <script src="control/create_interview_controller.js"></script>
     <script src="control/list_interview_controller.js"></script>
     <script src="control/create_question_controller.js"></script>
@@ -95,7 +95,9 @@
     <script src="control/interpret_interview_controller.js"></script>
     <script src="control/plan_interview_controller.js"></script>
     <script src="control/manage_user_controller.js"></script>
-    
+    <script src="control/list_position_controller.js"></script>
+    <script src="control/create_position_controller.js"></script>
+
     <!-- SERVICES -->
     <script src="services/authService.js"></script>
     <script src="services/taggingService.js"></script>
@@ -109,12 +111,12 @@
 
     <script>
         function index_controller($scope, $rootScope, $window, $location, $route, userService, $mdMedia) {
-            
+
             $scope.interviewScreen = false;
             $scope.name = null;
             $scope.loginTime = null;
             $scope.userRole = userService.getUserRole();
-            
+
             var loc = "";
 
             $scope.logout = function() {
@@ -185,7 +187,7 @@
                     $scope.$apply();
                }
             });
-            
+
             $scope.hide_side = function () {
                 angular.element('#hidethis').css('visibility', 'hidden');
             };
@@ -222,7 +224,7 @@
                     .when('/ie', {
                         templateUrl: 'createInterview.html'
                     })
-                    
+
                     .when('/li', {
                         templateUrl: 'listInterviews.html'
                     })
@@ -234,19 +236,27 @@
                     .when('/cq', {
                         templateUrl: 'createQuestion.html'
                     })
-                    
+
                     .when('/ce', {
                         templateUrl: 'createQuestion.html'
+                    })
+
+                    .when('/cp', {
+                      templateUrl: 'createPosition.html'
                     })
 
                     .when('/qm', {
                         templateUrl: 'questionManager.html'
                     })
 
+                    .when('/lp',{
+                      templateUrl: 'listPositions.html'
+                    })
+
                     .when('/conaction/:id/', {
                         templateUrl: 'conductInterviewAction.html'
                     })
-                    
+
                     .when('/view/:id', {
                         templateUrl: 'interpretInterview.html'
                     })
@@ -262,7 +272,7 @@
                     .when('/loading', {
                         templateUrl: 'loading.html'
                     })
-                    
+
                     .otherwise({redirectTo: '/'});
 
         });
@@ -281,6 +291,8 @@
         app.controller("interpret_interview_controller", interpret_interview_controller);
         app.controller("plan_interview_controller", plan_interview_controller);
         app.controller("manage_user_controller", manage_user_controller);
+        app.controller("list_position_controller", list_position_controller);
+        app.controller("create_position_controller", create_position_controller);
 
         app.service('authService', [authService]);
         app.service("taggingService", ['$http', '$rootScope', 'authService', taggingService]);
@@ -313,18 +325,18 @@
                 }
             }
         });
-        
+
         app.directive("tag", function() {
             return {
                         restrict: "E",
                         templateUrl: 'directives/tag.html'
                     };
         });
-        
+
         app.filter('orderTechnicalQuestions', function() {
             return function(items, order, tags, reverse) {
                 var filtered = [];
-                if (order[0] == "tags") {   
+                if (order[0] == "tags") {
                     tags.forEach(function(tag, index) {
                         var temp = [];
                          for (var i = 0; i < items.length; i++) {
@@ -339,12 +351,12 @@
                         });
                         filtered = $.merge(filtered, temp);
                     });
-                    
+
                 } else if (order[0] == "difficulty") {
                     var jun = [];
                     var mid = [];
                     var sen = [];
-                    
+
                     tags.forEach(function(tag, index) {
                         for (var i = 0; i < items.length; i++) {
                             if (items[i].tags[tag.label]) {
@@ -358,7 +370,7 @@
                             }
                         }
                     });
-                    
+
                     filtered = $.merge(jun, mid);
                     filtered = $.merge(filtered, sen);
                 }
@@ -369,7 +381,7 @@
         });
 
     </script>
-    
+
 </head>
 <body>
 <div id="wrapper" ng-controller="index_controller as index">
@@ -406,8 +418,14 @@
                 <li ng-show="userRole == 'Admin' || userRole == 'Manager'">
                     <a href="#ci"><i class="fa fa-plus"></i>Create Interview</a>
                 </li>
+                <li ng-show="userRole == 'Admin' || userRole == 'Manager'">
+                    <a href="#cp"><i class="fa fa-plus"></i>Create Position</a>
+                </li>
                 <li>
                     <a href="#li"><i class="fa fa-edit "></i>List Interviews</a>
+                </li>
+                <li>
+                    <a href="#lp"><i class="fa fa-edit "></i>List Positions</a>
                 </li>
                 <li>
                     <a href="#qm"><i class="fa fa-question"></i>Question Manager</a>
@@ -417,7 +435,7 @@
                 </li>
             </ul>
         </div>
-        
+
         <div class="" ng-show="interviewScreen">
             <ul class="nav" id="main-menu2" ng-controller="filter_menu_controller" style="padding: 10px">
                 <li>
@@ -445,7 +463,7 @@
                         </h4>
                         <hr style="margin: 0px;">
                         <div class="checkbox" style="text-align: center">
-                            <label class="checkbox-inline" ng-repeat="diff in difficulties">  
+                            <label class="checkbox-inline" ng-repeat="diff in difficulties">
                                 <input type="checkbox" ng-model="diff.checked" ng-click="changeDifficulty($index)"> {{diff.label}}
                             </label>
                         </div>
@@ -516,7 +534,7 @@
             <script src="socket.io/socket.io.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-            
+
             <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
             <!-- JQUERY SCRIPTS -->
            <!-- <script src="assets/js/jquery-1.10.2.js"></script>-->

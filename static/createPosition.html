@@ -1,0 +1,127 @@
+<div ng-controller="create_interview_controller as cic">
+    <div id="createInterviewDiv" class="row">
+        <div class="col-md-12">
+            <h1 class="page-head-line">Create a position</h1>
+            <h1 class="page-subhead-line">Add an open position to be filled</h1>
+
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12" style="width:100%;">
+        <div class="panel panel-info">
+            <div class="panel-heading" ng-click="showInterviewWithTag($event);">
+                Position
+            </div>
+            <div class="control-group" id="fields" ng-show="userRole == 'Admin' || userRole == 'Manager'">
+                <div class="controls">
+                    <form role="form" autocomplete="on" style="margin-left:5%;">
+                        <div class="form-group" style="margin-top:2%; text-align:left;">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Position</label>
+                              
+                                    <md-autocomplete
+                                        id="position-box"
+                                        md-no-cache="true"
+                                        md-selected-item="selectedPosition"
+                                        md-search-text="positionText"
+                                        md-selected-item-change="positionItemChange(selectedPosition)"
+                                        md-items="position in queryPosition(positionText)"
+                                        md-item-text="position"
+                                        md-min-length="0"
+                                        md-input-id="positionBox"
+                                        placeholder="Search for Position">
+                                    <md-item-template>
+                                                    <span md-highlight-text="positionText"
+                                                          md-highlight-flags="^i">{{position}}</span>
+                                    </md-item-template>
+                                    <md-not-found>
+                                        Click the plus to create "{{positionText}}"
+                                    </md-not-found>
+                                </md-autocomplete>
+                                </div>
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Description</label>
+                                    <textarea class="form-control" rows="5" id="comment" disabled>{{positions[selectedPosition].description}}</textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+
+                                </div>
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Tags</label>
+                                    <br>
+                                    <small>Click a tag to manage questions</small>
+                                    <br>
+                                    <select id="tagbox" multiple data-role="tagsinput">
+
+                                    </select>
+                                </div>
+                                <div class="col-md-6" style="width:40%;">
+                                    <br>
+                                    <small>Search for tags</small>
+                                    <br>
+                                    <md-autocomplete
+                                            id="tagAdd-box"
+                                            md-no-cache="true"
+                                            md-selected-item="selectedTag"
+                                            md-search-text="tagText"
+                                            md-selected-item-change="tagItemChange(selectedTag)"
+                                            md-items="tag in queryTag(tagText)"
+                                            md-item-text="tag"
+                                            md-min-length="0"
+                                            placeholder="Search for Tag">
+                                        <md-item-template>
+                                                        <span md-highlight-text="tagText"
+                                                              md-highlight-flags="^i">{{tag}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            "{{tagText}}" is not found.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </div>
+                            </div>
+                            <br><br>
+                        </div>
+                    </form>
+                    <br><br>
+                    <div clas="row">
+                        <div class="col-xs-6" style="text-align: right">
+                            <button type="button" class="btn btn-lg btn-success" ng-click="addPosition(positionText)"
+                                    id="submitPositionButton">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-lg btn-danger" ng-click="cancel()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    <br><br><br><br>
+                    <br>
+                </div>
+            </div>
+            <div class="row" ng-show="userRole != 'Admin' && userRole != 'Manager'">
+                <div class="col-md-12">
+                    <h4 class="h4" style="text-align: center">I'm sorry, but you do not have permission to create an position at this time.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="assets/js/bootstrap-tagsinput.js"></script>
