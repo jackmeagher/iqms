@@ -1,0 +1,78 @@
+<div ng-controller="question_flagger_controller" class="row">
+    <div class="col-md-12">
+        <h1 class="page-head-line">Question Manager</h1>
+        <h1 class="page-subhead-line">Flag interview questions</h1>
+            <div class="col-md-6" style="width:100%;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <form>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                    <input type="text" class="form-control" placeholder="Search Question"
+                                           ng-model="searchQuestion">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        <a ng-click="sortType = 'id'; sortReverse = !sortReverse"
+                                           style="cursor:pointer;">
+                                            #
+                                            <span ng-show="sortType == 'id' && !sortReverse"
+                                                  class="fa fa-caret-down"></span>
+                                            <span ng-show="sortType == 'id' && sortReverse"
+                                                  class="fa fa-caret-up"></span></th>
+
+                                    </th>
+                                    <th>
+                                        <a ng-click="sortType = 'question_text'; sortReverse = !sortReverse"
+                                           style="cursor:pointer;">
+                                            Question
+                                            <span ng-show="sortType == 'question_text' && !sortReverse"
+                                                  class="fa fa-caret-down"></span>
+                                            <span ng-show="sortType == 'question_text' && sortReverse"
+                                                  class="fa fa-caret-up"></span></th>
+
+                                    </th>
+                                    <th>
+                                        <a ng-click="sortType = 'difficulty'; sortReverse = !sortReverse">
+                                            Difficulty
+                                            <span ng-show="sortType == 'difficulty' && !sortReverse"
+                                                  class="fa fa-caret-down"></span>
+                                            <span ng-show="sortType == 'difficulty' && sortReverse"
+                                                  class="fa fa-caret-up"></span>
+                                        </a>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody ng-repeat="question in _question | orderBy:sortType:sortReverse | filter:searchQuestion">
+                                <tr class="success">
+                                    <td>
+                                        <select ng-model="question.state" id="questionselect{{$index}}" class="form-control">
+                                            <option value="Neither">-----</option>
+                                            <option value="Pinned">Pinned</option>
+                                            <option value="Blacklisted">Blacklisted</option>
+                                        </select>
+                                    </td>
+                                    <td>{{question.id}}</td>
+                                    <td>{{question.text}}</td>
+                                    <td>{{question.difficulty}}</td>
+                                </tr>
+                            </table>
+                           <button type="button" class="btn-lg btn-success" ng-click="saveQuestions(); answer('close');"
+                                    style="margin-left:auto; margin-right:auto;">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
