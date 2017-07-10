@@ -6,7 +6,7 @@ function taggingService($http, $rootScope, authService) {
     var addedTags = [];
     var removedTags = [];
     var savedTags = [];
-    
+
     var clickedTag = "";
 
     var category = 'skills';
@@ -35,47 +35,40 @@ function taggingService($http, $rootScope, authService) {
         });
 
     };
-    
+
     var getTags = function() {
         return tags;
     };
-    
+
     var getSelectedTags = function() {
-        
+
         selectedTags = {};
-        
+
         addedTags.forEach(function(tag, index) {
             if (tags[tag]) {
-                selectedTags[tag] = tags[tag]; 
+                selectedTags[tag] = tags[tag];
             }
         });
-        
+
         savedTags.forEach(function(tag, index) {
             if (tags[tag]) {
                 selectedTags[tag] = tags[tag];
             }
         });
-    
-        var showTags = $.merge([], addedTags);
-        showTags = $.merge(showTags, savedTags);
-        
+
         return selectedTags;
     }
-    
+
     //TEMP FUNCTION
     var getSelectedTagsAsArray = function() {
         var showTags = $.merge([], addedTags);
         showTags = $.merge(showTags, savedTags);
-        
+
         return showTags;
     }
-    
-    var getTech = function() {
-        return isTech;
-    }
-    
+
     //Creation Methods
-    
+
     var createNewTag = function(name) {
 
         name = name.toLowerCase();
@@ -84,7 +77,7 @@ function taggingService($http, $rootScope, authService) {
         if (tags[name]) {
             shouldAdd = false;
         }
-        
+
         if (shouldAdd) {
             var tagData = {
                 name: name
@@ -100,22 +93,22 @@ function taggingService($http, $rootScope, authService) {
                 });
             });
 
-            
+
             tags[tagData.name] = tagData;
-           
+
             addTag(tagData.name);
         }
     };
-    
+
     var addTag = function(newTag) {
         var shouldAdd = true;
-        
+
         getSelectedTags();
-        
+
         if (selectedTags[newTag]) {
             shouldAdd = false;
         }
-        
+
         if (shouldAdd) {
             if (removedTags.indexOf(newTag) > -1) {
                 removedTags.splice(removedTags.indexOf(newTag), 1);
@@ -124,12 +117,12 @@ function taggingService($http, $rootScope, authService) {
                 addedTags.push(newTag);
             }
         }
-        
+
         $rootScope.$emit('tagNotification');
     }
-    
+
     var removeTag = function(oldTag) {
-        
+
         if(savedTags.indexOf(oldTag) > -1) {
             savedTags.splice(savedTags.indexOf(oldTag), 1);
             removedTags.push(oldTag);
@@ -137,11 +130,11 @@ function taggingService($http, $rootScope, authService) {
             addedTags.splice(addedTags.indexOf(oldTag), 1);
         }
     }
-    
+
     var resetTags = function() {
         tags = {};
         selectedTags = {};
-        
+
         addedTags = [];
         removedTags = [];
         savedTags = [];
@@ -158,7 +151,7 @@ function taggingService($http, $rootScope, authService) {
             });
         });
     };
-    
+
     var countTag = function(name) {
         if (tags[name]) {
             if (tags[name].count) {
@@ -172,13 +165,13 @@ function taggingService($http, $rootScope, authService) {
                 });
                 return 0;
             }
-            
+
         } else {
             return 0;
         }
-        
+
     }
-    
+
     var deleteQuestionTags = function(deletedTags) {
         authService.getUserToken(function(idToken) {
             deletedTags.forEach(function(tag, index) {
@@ -188,7 +181,7 @@ function taggingService($http, $rootScope, authService) {
             });
         });
     }
-    
+
     var persistQuestionTag = function(questionId) {
         authService.getUserToken(function(idToken) {
             addedTags.forEach(function(tag, index) {
@@ -202,15 +195,15 @@ function taggingService($http, $rootScope, authService) {
             });
         });
     }
-    
+
     var getClickedTag = function() {
         return clickedTag;
     }
-    
+
     var setClickedTag = function(tag) {
         clickedTag = tag;
     }
-    
+
     return {
         setCategory: setCategory,
         getCategory: getCategory,
