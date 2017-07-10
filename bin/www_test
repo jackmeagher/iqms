@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 "use strict";
 var app = require('../app');
-var server_app = require('../server_app');
 var models = require('../models');
 var config = require('../config/config.json');
 app.set('view engine', 'jade');
